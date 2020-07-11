@@ -1,0 +1,42 @@
+{
+	"name": "lemuria-pbem/renderer-text",
+	"description": "This library is part of the PbeM Lemuria. It creates human-readable game reports in text formats.",
+	"type": "library",
+	"keywords": [
+		"eressea",
+		"fantasya",
+		"game",
+		"lemuria",
+		"pbem"
+	],
+	"time": "2020-07-11",
+	"license": "GPL-3.0",
+	"authors": [
+		{
+			"name": "Sascha Ternes",
+			"email": "lemuria@online.de"
+		}
+	],
+
+	"require": {
+		"php": "~7.4",
+		"lemuria-pbem/lemuria": "dev-master",
+		"lemuria-pbem/model-lemuria": "dev-master"
+	},
+	"repositories": [
+		{
+			"type": "vcs",
+			"url": "git@github.com:lemuria-pbem/lemuria.git"
+		},
+		{
+			"type": "vcs",
+			"url": "git@github.com:lemuria-pbem/model-lemuria.git"
+		}
+	],
+
+	"autoload": {
+		"psr-4": {
+			"Lemuria\\Renderer\\Text\\": "src/"
+		}
+	}
+}
