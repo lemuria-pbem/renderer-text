@@ -6,6 +6,7 @@ use function Lemuria\getClass;
 use Lemuria\Entity;
 use Lemuria\ItemSet;
 use Lemuria\Lemuria;
+use Lemuria\Model\Dictionary;
 use Lemuria\Model\Lemuria\Party;
 use Lemuria\Model\Lemuria\Party\Census;
 use Lemuria\Model\Lemuria\Region;
@@ -98,19 +99,16 @@ abstract class View
 	 */
 	public World $world;
 
-	/**
-	 * @var array
-	 */
-	public array $string;
+	protected Dictionary $dictionary;
 
 	/**
 	 * @param Party $party
 	 */
 	public function __construct(Party $party) {
-		$this->party  = $party;
-		$this->census = new Census($party);
-		$this->world  = Lemuria::World();
-		$this->string = Lemuria::Game()->getStrings();
+		$this->party      = $party;
+		$this->census     = new Census($party);
+		$this->world      = Lemuria::World();
+		$this->dictionary = new Dictionary();
 	}
 
 	/**
@@ -121,47 +119,7 @@ abstract class View
 	 * @return string
 	 */
 	public function get(string $keyPath, $index = null): string {
-		if ($index instanceof Singleton) {
-			$index = getClass($index);
-		}
-		$strings =& $this->string;
-		$default = $index === null ? $keyPath : $keyPath . '.' . $index;
-
-		foreach (explode('.', $keyPath) as $key) {
-			if (is_array($strings) && array_key_exists($key, $strings)) {
-				$strings =& $strings[$key];
-			} else {
-				return $default;
-			}
-		}
-		if ($index === null) {
-			if (is_array($strings)) {
-				if (array_key_exists(0, $strings)) {
-					return (string)$strings[0];
-				}
-				return $default;
-			}
-			return (string)$strings;
-		} else {
-			if (is_array($strings)) {
-				if (array_key_exists($index, $strings)) {
-					$strings =& $strings[$index];
-					if (is_array($strings)) {
-						if (array_key_exists(0, $strings)) {
-							return (string)$strings[0];
-						} else {
-							return $default;
-						}
-					}
-					return (string)$strings;
-				}
-				if (is_int($index) && $index > 1 && count($strings) === 2 &&
-					array_key_exists(0, $strings) && array_key_exists(1, $strings)) {
-					return (string)$strings[1];
-				}
-			}
-			return $default;
-		}
+		return $this->dictionary->get($keyPath, $index);
 	}
 
 	/**
@@ -169,11 +127,11 @@ abstract class View
 	 *
 	 * @param int|float $number
 	 * @param string|null $keyPath
-	 * @param Singleton $singleton
+	 * @param Singleton|null $singleton
 	 * @param string $delimiter
 	 * @return string
 	 */
-	public function number($number, string $keyPath = null, Singleton $singleton = null, string $delimiter = ' '): string {
+	public function number($number, ?string $keyPath = null, ?Singleton $singleton = null, string $delimiter = ' '): string {
 		$formattedNumber = $number < 0 ? '-' : '';
 		$integer         = (int)abs($number);
 		$string          = (string)$integer;
@@ -183,7 +141,7 @@ abstract class View
 			if ($c-- % 3 === 0 && $i > 0) {
 				$formattedNumber .= '.';
 			}
-			$formattedNumber .= $string{$i};
+			$formattedNumber .= $string[$i];
 		}
 		if (is_float($number)) {
 			$string   = (string)$number;
@@ -244,7 +202,7 @@ abstract class View
 	 */
 	public function generate(): string {
 		if (!ob_start()) {
-			throw new RuntimeException('Could not start output buffering.');
+			throw new \RuntimeException('Could not start output buffering.');
 		}
 		return $this->generateContent();
 	}

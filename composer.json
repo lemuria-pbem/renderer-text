@@ -20,6 +20,8 @@
 
 	"require": {
 		"php": "~7.4",
+		"ext-mbstring": "*",
+
 		"lemuria-pbem/lemuria": "dev-master",
 		"lemuria-pbem/model-lemuria": "dev-master"
 	},
