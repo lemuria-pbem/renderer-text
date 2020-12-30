@@ -2,6 +2,8 @@
 declare (strict_types = 1);
 namespace Lemuria\Renderer\Text;
 
+use JetBrains\PhpStorm\Pure;
+
 use function Lemuria\getClass;
 use Lemuria\Entity;
 use Lemuria\ItemSet;
@@ -15,11 +17,8 @@ use Lemuria\Singleton;
 
 /**
  * Create a description line.
- *
- * @param Entity $entity
- * @return string
  */
-function description(Entity $entity): string {
+#[Pure] function description(Entity $entity): string {
 	if ($entity->Description()) {
 		$description = ' ' . trim($entity->Description());
 		if (substr($description, strlen($description) - 1) !== '.') {
@@ -32,11 +31,8 @@ function description(Entity $entity): string {
 
 /**
  * Create a centered line.
- *
- * @param string $output
- * @return string
  */
-function center(string $output): string {
+#[Pure] function center(string $output): string {
 	$columns = 80;
 	$length  = mb_strlen($output);
 	if ($length >= $columns) {
@@ -48,32 +44,24 @@ function center(string $output): string {
 
 /**
  * Create a horizontal line.
- *
- * @return string
  */
-function hr(): string {
+#[Pure] function hr(): string {
 	return line(str_pad('', 80, '-'));
 }
 
 /**
  * Create an output line terminated by EOL.
- *
- * @param string $output
- * @return string
  */
-function line(string $output): string {
+#[Pure] function line(string $output): string {
 	return $output . PHP_EOL;
 }
 
 /**
  * Take text and wrap lines that are too long.
- *
- * @param string $output
- * @return string
  */
-function wrap(string $output): string {
+#[Pure] function wrap(string $output): string {
 	$wrapped = '';
-	foreach (explode('\n', $output) as $line) {
+	foreach (explode(PHP_EOL, $output) as $line) {
 		$wrapped .= wordwrap($line, 80);
 	}
 	return $wrapped;
@@ -84,28 +72,13 @@ function wrap(string $output): string {
  */
 abstract class View
 {
-	/**
-	 * @var Party
-	 */
-	public Party $party;
-
-	/**
-	 * @var Census
-	 */
 	public Census $census;
 
-	/**
-	 * @var World
-	 */
 	public World $world;
 
 	protected Dictionary $dictionary;
 
-	/**
-	 * @param Party $party
-	 */
-	public function __construct(Party $party) {
-		$this->party      = $party;
+	public function __construct(public Party $party) {
 		$this->census     = new Census($party);
 		$this->world      = Lemuria::World();
 		$this->dictionary = new Dictionary();
@@ -113,25 +86,17 @@ abstract class View
 
 	/**
 	 * Get a string.
-	 *
-	 * @param string $keyPath
-	 * @param mixed|null $index
-	 * @return string
 	 */
-	public function get(string $keyPath, $index = null): string {
+	#[Pure] public function get(string $keyPath, $index = null): string {
 		return $this->dictionary->get($keyPath, $index);
 	}
 
 	/**
 	 * Format a number with optional string.
 	 *
-	 * @param int|float $number
-	 * @param string|null $keyPath
-	 * @param Singleton|null $singleton
-	 * @param string $delimiter
-	 * @return string
+	 * @noinspection PhpPureFunctionMayProduceSideEffectsInspection
 	 */
-	public function number($number, ?string $keyPath = null, ?Singleton $singleton = null, string $delimiter = ' '): string {
+	#[Pure] public function number(int|float $number, ?string $keyPath = null, ?Singleton $singleton = null, string $delimiter = ' '): string {
 		$formattedNumber = $number < 0 ? '-' : '';
 		$integer         = (int)abs($number);
 		$string          = (string)$integer;
@@ -166,23 +131,17 @@ abstract class View
 	/**
 	 * Get an Item from a set.
 	 *
-	 * @param string $keyPath
-	 * @param string $class
-	 * @param ItemSet $set
-	 * @return string
+	 * @noinspection PhpPureFunctionMayProduceSideEffectsInspection
 	 */
-	public function item(string $class, ItemSet $set, string $keyPath = 'resource'): string {
+	#[Pure] public function item(string $class, ItemSet $set, string $keyPath = 'resource'): string {
 		$item = $set[$class];
 		return $this->number($item->Count(), $keyPath, $item->getObject());
 	}
 
 	/**
 	 * Get a neighbour description.
-	 *
-	 * @param Region|null $region
-	 * @return string
 	 */
-	public function neighbour(Region $region = null): string {
+	#[Pure] public function neighbour(?Region $region = null): string {
 		if ($region) {
 			$landscape = $region->Landscape();
 			$text      = $this->get('article', $landscape) . ' ' . $this->get('landscape', $landscape);
@@ -197,8 +156,6 @@ abstract class View
 
 	/**
 	 * Generate the template output.
-	 *
-	 * @return string
 	 */
 	public function generate(): string {
 		if (!ob_start()) {
@@ -207,8 +164,5 @@ abstract class View
 		return $this->generateContent();
 	}
 
-	/**
-	 * @return string
-	 */
 	abstract protected function generateContent(): string;
 }

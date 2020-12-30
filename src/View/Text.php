@@ -9,8 +9,6 @@ class Text extends View
 {
 	/**
 	 * Generate text output.
-	 *
-	 * @return string
 	 */
 	protected function generateContent(): string {
 		ob_start();

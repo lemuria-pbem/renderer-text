@@ -9,7 +9,7 @@
 		"lemuria",
 		"pbem"
 	],
-	"time": "2020-07-11",
+	"time": "2020-12-30",
 	"license": "GPL-3.0",
 	"authors": [
 		{
@@ -19,11 +19,13 @@
 	],
 
 	"require": {
-		"php": "~7.4",
+		"php": "~8.0",
 		"ext-mbstring": "*",
-
 		"lemuria-pbem/lemuria": "dev-master",
 		"lemuria-pbem/model-lemuria": "dev-master"
+	},
+	"require-dev": {
+		"jetbrains/phpstorm-attributes": "~1.0"
 	},
 	"repositories": [
 		{

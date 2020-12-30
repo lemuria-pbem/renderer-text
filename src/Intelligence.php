@@ -2,6 +2,8 @@
 declare (strict_types = 1);
 namespace Lemuria\Renderer\Text;
 
+use JetBrains\PhpStorm\Pure;
+
 use Lemuria\Model\Lemuria\People;
 use Lemuria\Model\Lemuria\Region;
 use Lemuria\Model\Lemuria\Unit;
@@ -11,24 +13,11 @@ use Lemuria\Model\Lemuria\Unit;
  */
 final class Intelligence
 {
-	/**
-	 * @var Region
-	 */
-	private Region $region;
-
-	/**
-	 * Create new intelligence.
-	 *
-	 * @param Region $region
-	 */
-	public function __construct(Region $region) {
-		$this->region = $region;
+	#[Pure] public function __construct(private Region $region) {
 	}
 
 	/**
 	 * Get the guards of the region.
-	 *
-	 * @return People
 	 */
 	public function getGuards(): People {
 		$guards = new People();

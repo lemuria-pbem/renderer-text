@@ -8,8 +8,7 @@ use Lemuria\Renderer\Text\View\Text;
 final class TextWriter extends FileWriter
 {
 	/**
-	 * @param Party $party
-	 * @return View
+	 * @noinspection PhpPureAttributeCanBeAddedInspection
 	 */
 	protected function getView(Party $party): View {
 		return new Text($party);

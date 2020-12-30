@@ -8,8 +8,7 @@ use Lemuria\Renderer\Text\View\Html;
 final class HtmlWriter extends FileWriter
 {
 	/**
-	 * @param Party $party
-	 * @return View
+	 * @noinspection PhpPureAttributeCanBeAddedInspection
 	 */
 	protected function getView(Party $party): View {
 		return new Html($party);

@@ -8,8 +8,6 @@ class Html extends View
 {
 	/**
 	 * Generate HTML output.
-	 *
-	 * @return string
 	 */
 	protected function generateContent(): string {
 		ob_start();
