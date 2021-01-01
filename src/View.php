@@ -5,6 +5,7 @@ namespace Lemuria\Renderer\Text;
 use JetBrains\PhpStorm\Pure;
 
 use function Lemuria\getClass;
+use function Lemuria\number as formatNumber;
 use Lemuria\Entity;
 use Lemuria\ItemSet;
 use Lemuria\Lemuria;
@@ -97,35 +98,14 @@ abstract class View
 	 * @noinspection PhpPureFunctionMayProduceSideEffectsInspection
 	 */
 	#[Pure] public function number(int|float $number, ?string $keyPath = null, ?Singleton $singleton = null, string $delimiter = ' '): string {
-		$formattedNumber = $number < 0 ? '-' : '';
-		$integer         = (int)abs($number);
-		$string          = (string)$integer;
-		$n               = strlen($string);
-		$c               = $n;
-		for ($i = 0; $i < $n; $i++) {
-			if ($c-- % 3 === 0 && $i > 0) {
-				$formattedNumber .= '.';
-			}
-			$formattedNumber .= $string[$i];
-		}
-		if (is_float($number)) {
-			$string   = (string)$number;
-			$i        = strpos($string, '.');
-			$n        = strlen($string);
-			$decimals = '0';
-			if ($i !== false && ++$i < $n) {
-				$decimals = substr($string, $i);
-			}
-			$formattedNumber .= ',' . $decimals;
-		}
 		if ($keyPath) {
 			if ($singleton) {
 				$keyPath .= '.' . getClass($singleton);
 			}
 			$index = $number == 1 ? 0 : 1;
-			return $formattedNumber . $delimiter . $this->get($keyPath, $index);
+			return formatNumber($number) . $delimiter . $this->get($keyPath, $index);
 		}
-		return $formattedNumber;
+		return formatNumber($number);
 	}
 
 	/**
