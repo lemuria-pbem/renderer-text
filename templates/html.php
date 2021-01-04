@@ -53,9 +53,9 @@ $week	  = $calendar->Week();
 	<li><?= $party->Name() ?> <span class="badge badge-primary"><?= $party->Id() ?></span></li>
 </ul>
 
-<h3>Thalians Insel <span class="badge badge-primary">beth</span></h3>
+<h3>Kontinent Lemuria<span class="badge badge-primary"><?= $party->Id() ?></span></h3>
 
-<blockquote class="blockquote">Auf dieser Insel wandern Thalians Truppen umher und probieren alles aus.</blockquote>
+<blockquote class="blockquote">Dies ist der Hauptkontinent Lemuria.</blockquote>
 
 <?php
 foreach ($census->getAtlas() as $region /* @var Region $region */):

@@ -58,8 +58,8 @@ Dein Volk zählt <?= $this->number(1872, 'race', $party->Race()) ?> in <?= $this
 
 <?= hr() ?>
 
-<?= center('Thalians Insel [beth]') ?>
-Auf dieser Insel wandern Thalians Truppen umher und probieren alles aus.
+<?= center('Kontinent Lemuria [' . $party->Id() . ']') ?>
+Dies ist der Hauptkontinent Lemuria.
 
 <?php
 foreach ($census->getAtlas() as $region /* @var Region $region */):
