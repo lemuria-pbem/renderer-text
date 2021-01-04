@@ -53,7 +53,7 @@ $week	  = $calendar->Week();
 	<li><?= $party->Name() ?> <span class="badge badge-primary"><?= $party->Id() ?></span></li>
 </ul>
 
-<h3>Kontinent Lemuria<span class="badge badge-primary"><?= $party->Id() ?></span></h3>
+<h3>Kontinent Lemuria <span class="badge badge-primary"><?= $party->Id() ?></span></h3>
 
 <blockquote class="blockquote">Dies ist der Hauptkontinent Lemuria.</blockquote>
 
