@@ -144,11 +144,11 @@ Talente: <?= empty($talents) ? 'keine' : implode(', ', $talents) ?>
 <?php endforeach ?>
 
 <?php foreach ($region->Fleet() as $vessel /* @var Vessel $vessel */): ?>
->> <?= $vessel ?>, <?= $this->get('ship', $vessel->Ship()) ?>, freier Platz <?= $this->number((int)ceil($vessel->Space() / 100)) ?> GE
-. Kapitän ist <?= count($vessel->Passengers()) ? $vessel->Passengers()->Owner() : 'niemand' ?>
+  >> <?= $vessel ?>, <?= $this->get('ship', $vessel->Ship()) ?>, freier Platz <?= $this->number((int)ceil($vessel->Space() / 100)) ?>
+ GE. Kapitän ist <?= count($vessel->Passengers()) ? $vessel->Passengers()->Owner() : 'niemand' ?>
 .<?= line(description($vessel)) ?>
 <?php foreach ($vessel->Passengers() as $unit /* @var Unit $unit */): ?>
-* <?= (string)$unit ?>, <?= $this->number($unit->Size(), 'race', $unit->Race()) ?>.<?= description($unit) ?>
+    * <?= (string)$unit ?>, <?= $this->number($unit->Size(), 'race', $unit->Race()) ?>.<?= description($unit) ?>
 <?php
 $talents = [];
 foreach ($unit->Knowledge() as $ability /* @var Ability $ability */) {
