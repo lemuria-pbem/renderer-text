@@ -63,7 +63,7 @@ use Lemuria\Singleton;
 #[Pure] function wrap(string $output): string {
 	$wrapped = '';
 	foreach (explode(PHP_EOL, $output) as $line) {
-		$wrapped .= wordwrap($line, 80);
+		$wrapped .= wordwrap($line, 80) . PHP_EOL;
 	}
 	return $wrapped;
 }
