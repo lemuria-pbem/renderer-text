@@ -30,7 +30,7 @@ use Lemuria\Renderer\Text\View;
 $party         = $this->party;
 $acquaintances = $party->Diplomacy()->Acquaintances();
 $census        = $this->census;
-$world	       = $this->world;
+$map	       = $this->map;
 $race	       = getClass($party->Race());
 $calendar      = Lemuria::Calendar();
 $season        = $this->get('calendar.season', $calendar->Season());
@@ -86,7 +86,7 @@ foreach ($census->getAtlas() as $region /* @var Region $region */):
 		$mining = $ore;
 	endif;
 	$neighbours = [];
-	foreach ($world->getNeighbours($region)->getAll() as $direction => $neighbour):
+	foreach ($map->getNeighbours($region)->getAll() as $direction => $neighbour):
 		$neighbours[] = 'im ' . $this->get('world', $direction) . ' liegt ' . $this->neighbour($neighbour);
 	endforeach;
 	$n = count($neighbours);
@@ -108,7 +108,7 @@ foreach ($census->getAtlas() as $region /* @var Region $region */):
 		endif;
 	endif;
 ?>
->> <?= $region->Name() ?> <?= $world->getCoordinates($region) ?>, <?= $this->get('landscape', $region->Landscape()) ?>, <?= $this->item(Peasant::class, $resources) ?>, <?= $this->item(Silver::class, $resources) ?>. <?php if ($t && $m): ?>
+>> <?= $region->Name() ?> <?= $map->getCoordinates($region) ?>, <?= $this->get('landscape', $region->Landscape()) ?>, <?= $this->item(Peasant::class, $resources) ?>, <?= $this->item(Silver::class, $resources) ?>. <?php if ($t && $m): ?>
 Hier <?= $t === 1 ? 'kann' : 'können' ?> <?= $trees ?> gefällt sowie <?= $mining ?> abgebaut werden. <?php
 elseif ($t): ?>
 Hier <?= $t === 1 ? 'kann' : 'können' ?> <?= $trees ?> gefällt werden. <?php

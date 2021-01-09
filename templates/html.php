@@ -27,7 +27,7 @@ use Lemuria\Renderer\Text\View;
 $party         = $this->party;
 $acquaintances = $party->Diplomacy()->Acquaintances();
 $census        = $this->census;
-$world	       = $this->world;
+$map           = $this->map;
 $race	       = getClass($party->Race());
 $calendar      = Lemuria::Calendar();
 $season        = $this->get('calendar.season', $calendar->Season());
@@ -82,10 +82,10 @@ foreach ($census->getAtlas() as $region /* @var Region $region */):
 	endif;
 	?>
 
-	<h4><?= $region->Name() ?> <span class="badge badge-light"><?= $world->getCoordinates($region) ?></span></h4>
+	<h4><?= $region->Name() ?> <span class="badge badge-light"><?= $map->getCoordinates($region) ?></span></h4>
 	<?php
 	$neighbours = [];
-	foreach ($world->getNeighbours($region)->getAll() as $direction => $neighbour):
+	foreach ($map->getNeighbours($region)->getAll() as $direction => $neighbour):
 		$neighbours[] = 'im ' . $this->get('world', $direction) . ' liegt ' . $this->neighbour($neighbour);
 	endforeach;
 	$n = count($neighbours);

@@ -13,7 +13,7 @@ use Lemuria\Model\Dictionary;
 use Lemuria\Model\Lemuria\Party;
 use Lemuria\Model\Lemuria\Party\Census;
 use Lemuria\Model\Lemuria\Region;
-use Lemuria\Model\World;
+use Lemuria\Model\Lemuria\World\PartyMap;
 use Lemuria\Singleton;
 
 /**
@@ -75,13 +75,13 @@ abstract class View
 {
 	public Census $census;
 
-	public World $world;
+	public PartyMap $map;
 
 	protected Dictionary $dictionary;
 
 	public function __construct(public Party $party) {
-		$this->census     = new Census($party);
-		$this->world      = Lemuria::World();
+		$this->census     = new Census($this->party);
+		$this->map        = new PartyMap(Lemuria::World(), $this->party);
 		$this->dictionary = new Dictionary();
 	}
 
