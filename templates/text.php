@@ -27,14 +27,15 @@ use Lemuria\Renderer\Text\View;
 
 /* @var View $this */
 
-$party    = $this->party;
-$census   = $this->census;
-$world    = $this->world;
-$race     = getClass($party->Race());
-$calendar = Lemuria::Calendar();
-$season   = $this->get('calendar.season', $calendar->Season());
-$month    = $this->get('calendar.month', $calendar->Month());
-$week     = $calendar->Week();
+$party         = $this->party;
+$acquaintances = $party->Diplomacy()->Acquaintances();
+$census        = $this->census;
+$world	       = $this->world;
+$race	       = getClass($party->Race());
+$calendar      = Lemuria::Calendar();
+$season        = $this->get('calendar.season', $calendar->Season());
+$month	       = $this->get('calendar.month', $calendar->Month());
+$week	       = $calendar->Week();
 
 ?>
 <?= center('Lemuria-Auswertung') ?>
@@ -48,13 +49,16 @@ Dein Volk: <?= $party->Name() ?> [<?= $party->Id() ?>]
 
 <?= line($party->Description()) ?>
 
-Dein Volk zählt <?= $this->number(1872, 'race', $party->Race()) ?> in <?= $this->number(96) ?> Einheiten.
+Dein Volk zählt <?= $this->number($census->count(), 'race', $party->Race()) ?> in <?= $this->number($party->People()->count()) ?> Einheiten.
 
 <?= hr() ?>
 
 <?= center('Alle bekannten Völker') ?>
 
-<?= $party ?>
+<?php foreach ($acquaintances as $acquaintance): ?>
+<?= $acquaintance ?>
+
+<?php endforeach ?>
 
 <?= hr() ?>
 

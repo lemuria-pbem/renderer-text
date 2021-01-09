@@ -24,14 +24,15 @@ use Lemuria\Renderer\Text\View;
 
 /* @var View $this */
 
-$party	  = $this->party;
-$census   = $this->census;
-$world	  = $this->world;
-$race	  = getClass($party->Race());
-$calendar = Lemuria::Calendar();
-$season   = $this->get('calendar.season', $calendar->Season());
-$month	  = $this->get('calendar.month', $calendar->Month());
-$week	  = $calendar->Week();
+$party         = $this->party;
+$acquaintances = $party->Diplomacy()->Acquaintances();
+$census        = $this->census;
+$world	       = $this->world;
+$race	       = getClass($party->Race());
+$calendar      = Lemuria::Calendar();
+$season        = $this->get('calendar.season', $calendar->Season());
+$month	       = $this->get('calendar.month', $calendar->Month());
+$week	       = $calendar->Week();
 
 ?>
 <h1 class="text-center">Lemuria-Auswertung</h1>
@@ -45,13 +46,17 @@ $week	  = $calendar->Week();
 
 <blockquote class="blockquote"><?= $party->Description() ?></blockquote>
 
-<p>Dein Volk zählt <?= $this->number(1872, 'race', $party->Race()) ?> in <?= $this->number(96) ?> Einheiten.</p>
+<p>Dein Volk zählt <?= $this->number($census->count(), 'race', $party->Race()) ?> in <?= $this->number($party->People()->count()) ?> Einheiten.</p>
 
 <h3>Alle bekannten Völker</h3>
 
-<ul>
-	<li><?= $party->Name() ?> <span class="badge badge-primary"><?= $party->Id() ?></span></li>
-</ul>
+<?php if ($acquaintances->count()): ?>
+	<ul>
+		<?php foreach ($acquaintances as $acquaintance): ?>
+			<li><?= $acquaintance->Name() ?> <span class="badge badge-primary"><?= $acquaintance->Id() ?></span></li>
+		<?php endforeach ?>
+	</ul>
+<?php endif ?>
 
 <h3>Kontinent Lemuria <span class="badge badge-primary"><?= $party->Id() ?></span></h3>
 
