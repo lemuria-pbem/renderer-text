@@ -60,8 +60,8 @@ Dein Volk zählt <?= $this->number($census->count(), 'race', $party->Race()) ?> 
 <?= $acquaintance ?>
 
 <?php endforeach ?>
-<?php endif ?>
 
+<?php endif ?>
 <?= hr() ?>
 
 <?= center('Kontinent Lemuria [' . $party->Id() . ']') ?>
