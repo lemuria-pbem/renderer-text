@@ -55,10 +55,12 @@ Dein Volk zählt <?= $this->number($census->count(), 'race', $party->Race()) ?> 
 
 <?= center('Alle bekannten Völker') ?>
 
+<?php if ($acquaintances->count()): ?>
 <?php foreach ($acquaintances as $acquaintance): ?>
 <?= $acquaintance ?>
 
 <?php endforeach ?>
+<?php endif ?>
 
 <?= hr() ?>
 
