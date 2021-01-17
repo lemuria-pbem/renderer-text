@@ -25,6 +25,7 @@ use Lemuria\Renderer\Text\View;
 /* @var View $this */
 
 $party         = $this->party;
+$report        = Lemuria::Report()->getAll($party);
 $acquaintances = $party->Diplomacy()->Acquaintances();
 $census        = $this->census;
 $map           = $this->map;
@@ -48,6 +49,16 @@ $week	       = $calendar->Week();
 
 <p>Dein Volk zählt <?= $this->number($census->count(), 'race', $party->Race()) ?> in <?= $this->number($party->People()->count()) ?> Einheiten.</p>
 
+<h3>Ereignisse</h3>
+
+<?php if (count($report)): ?>
+	<ul>
+		<?php foreach ($report as $message): ?>
+			<li><?= $message ?></li>
+		<?php endforeach ?>
+	</ul>
+<?php endif ?>
+
 <h3>Alle bekannten Völker</h3>
 
 <?php if ($acquaintances->count()): ?>
@@ -64,15 +75,16 @@ $week	       = $calendar->Week();
 
 <?php
 foreach ($census->getAtlas() as $region /* @var Region $region */):
+	$report    = Lemuria::Report()->getAll($region);
 	$resources = $region->Resources();
-	$t		 = $resources[Tree::class]->Count();
-	$g		 = $resources[Granite::class]->Count();
-	$o		 = $resources[Ore::class]->Count();
-	$m		 = $g && $o;
-	$trees	 = $this->item(Tree::class, $resources);
+	$t         = $resources[Tree::class]->Count();
+	$g         = $resources[Granite::class]->Count();
+	$o         = $resources[Ore::class]->Count();
+	$m         = $g && $o;
+	$trees     = $this->item(Tree::class, $resources);
 	$granite   = $this->item(Granite::class, $resources);
-	$ore	   = $this->item(Ore::class, $resources);
-	$mining	= null;
+	$ore       = $this->item(Ore::class, $resources);
+	$mining	   = null;
 	if ($m):
 		$mining = $granite . ' und ' . $ore;
 	elseif ($g):
@@ -127,6 +139,15 @@ foreach ($census->getAtlas() as $region /* @var Region $region */):
 		<?= $region->Description() ?>
 	</p>
 
+	<?php if (count($report)): ?>
+	<h5>Ereignisse</h5>
+	<ul>
+		<?php foreach ($report as $message): ?>
+			<li><?= $message ?></li>
+		<?php endforeach ?>
+	</ul>
+	<?php endif ?>
+
 	<?php foreach ($region->Estate() as $construction /* @var Construction $construction */): ?>
 		<h5><?= $construction->Name() ?> <span class="badge badge-secondary"><?= $construction->Id() ?></span></h5>
 		<p>
@@ -139,6 +160,16 @@ foreach ($census->getAtlas() as $region /* @var Region $region */):
 			<?php endif ?>
 			<?= $construction->Description() ?>
 		</p>
+
+		<?php if (count($report = Lemuria::Report()->getAll($construction))): ?>
+			<h6>Ereignisse</h6>
+			<ul>
+				<?php foreach ($report as $message): ?>
+					<li><?= $message ?></li>
+				<?php endforeach ?>
+			</ul>
+		<?php endif ?>
+
 		<?php foreach ($construction->Inhabitants() as $unit /* @var Unit $unit */): ?>
 			<h6><?= $unit->Name() ?> <span class="badge badge-primary"><?= $unit->Id() ?></span></h6>
 			<p>
@@ -166,6 +197,13 @@ foreach ($census->getAtlas() as $region /* @var Region $region */):
 				Talente: <?= empty($talents) ? 'keine' : implode(', ', $talents) ?>.
 				Hat <?= empty($inventory) ? 'nichts' : implode(', ', $inventory) ?>,
 				Last <?= $this->number($weight) ?> GE, zusammen <?= $this->number($total) ?> GE.
+				<?php if (count($report = Lemuria::Report()->getAll($unit))): ?>
+					<span class="report">
+						<?php foreach ($report as $message): ?>
+							<span><?= $message ?></span>
+						<?php endforeach ?>
+					</span>
+				<?php endif ?>
 			</p>
 		<?php endforeach ?>
 	<?php endforeach ?>
@@ -182,6 +220,25 @@ foreach ($census->getAtlas() as $region /* @var Region $region */):
 			<?php endif ?>
 			<?= $vessel->Description() ?>
 		</p>
+
+		<?php if (count($report = Lemuria::Report()->getAll($vessel))): ?>
+			<h6>Ereignisse</h6>
+			<ul>
+				<?php foreach ($report as $message): ?>
+					<li><?= $message ?></li>
+				<?php endforeach ?>
+			</ul>
+		<?php endif ?>
+
+		<?php if (count($report = Lemuria::Report()->getAll($vessel))): ?>
+			<h6>Ereignisse</h6>
+			<ul>
+				<?php foreach ($report as $message): ?>
+					<li><?= $message ?></li>
+				<?php endforeach ?>
+			</ul>
+		<?php endif ?>
+
 		<?php foreach ($vessel->Passengers() as $unit /* @var Unit $unit */): ?>
 			<h6><?= $unit->Name() ?> <span class="badge badge-primary"><?= $unit->Id() ?></span></h6>
 			<p>
@@ -209,6 +266,13 @@ foreach ($census->getAtlas() as $region /* @var Region $region */):
 				Talente: <?= empty($talents) ? 'keine' : implode(', ', $talents) ?>.
 				Hat <?= empty($inventory) ? 'nichts' : implode(', ', $inventory) ?>,
 				Last <?= $this->number($weight) ?> GE, zusammen <?= $this->number($total) ?> GE.
+				<?php if (count($report = Lemuria::Report()->getAll($unit))): ?>
+					<span class="report">
+						<?php foreach ($report as $message): ?>
+							<span><?= $message ?></span>
+						<?php endforeach ?>
+					</span>
+				<?php endif ?>
 			</p>
 		<?php endforeach ?>
 	<?php endforeach ?>
@@ -245,6 +309,13 @@ foreach ($census->getAtlas() as $region /* @var Region $region */):
 				Talente: <?= empty($talents) ? 'keine' : implode(', ', $talents) ?>.
 				Hat <?= empty($inventory) ? 'nichts' : implode(', ', $inventory) ?>,
 				Last <?= $this->number($weight) ?> GE, zusammen <?= $this->number($total) ?> GE.
+				<?php if (count($report = Lemuria::Report()->getAll($unit))): ?>
+					<span class="report">
+						<?php foreach ($report as $message): ?>
+							<span><?= $message ?></span>
+						<?php endforeach ?>
+					</span>
+				<?php endif ?>
 			</p>
 		<?php endif ?>
 	<?php endforeach ?>
