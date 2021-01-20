@@ -7,4 +7,4 @@ inspiriert durch Eressea und Fantasya.
 
 Der Programmcode ist in Bibliotheken aufgeteilt. Diese Bibliothek beinhaltet den
 Code zur Erstellung von Spielauswertungen in Textform (HTML oder einfacher
-Text).
+Text) und einer Befehlsvorlage.
