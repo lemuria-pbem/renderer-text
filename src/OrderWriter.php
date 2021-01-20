@@ -1,6 +1,6 @@
 <?php
 declare(strict_types = 1);
-namespace Lemuria\Renderer\Orders\Lemuria;
+namespace Lemuria\Renderer\Text;
 
 use JetBrains\PhpStorm\Pure;
 
@@ -56,7 +56,7 @@ class OrderWriter implements Writer
 		return 'NÄCHSTER' . PHP_EOL;
 	}
 
-	private function createBlock(array $lines): string {
+	#[Pure] private function createBlock(array $lines): string {
 		return implode(PHP_EOL, $lines) . PHP_EOL . PHP_EOL;
 	}
 }

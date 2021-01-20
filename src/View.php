@@ -94,8 +94,6 @@ abstract class View
 
 	/**
 	 * Format a number with optional string.
-	 *
-	 * @noinspection PhpPureFunctionMayProduceSideEffectsInspection
 	 */
 	#[Pure] public function number(int|float $number, ?string $keyPath = null, ?Singleton $singleton = null, string $delimiter = ' '): string {
 		if ($keyPath) {
