@@ -4,6 +4,7 @@ namespace Lemuria\Renderer\Text;
 
 use JetBrains\PhpStorm\Pure;
 
+use Lemuria\Engine\Message;
 use function Lemuria\getClass;
 use function Lemuria\number as formatNumber;
 use Lemuria\Entity;
@@ -131,6 +132,11 @@ abstract class View
 			return $this->get('world.null');
 		}
 	}
+
+	/**
+	 * Render a report message.
+	 */
+	abstract public function message(Message $message): string;
 
 	/**
 	 * Generate the template output.

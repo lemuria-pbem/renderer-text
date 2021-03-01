@@ -52,9 +52,9 @@ $week	       = $calendar->Week();
 <h3>Ereignisse</h3>
 
 <?php if (count($report)): ?>
-	<ul>
+	<ul class="report">
 		<?php foreach ($report as $message): ?>
-			<li><?= $message ?></li>
+			<li><?= $this->message($message) ?></li>
 		<?php endforeach ?>
 	</ul>
 <?php endif ?>
@@ -62,7 +62,7 @@ $week	       = $calendar->Week();
 <h3>Alle bekannten Völker</h3>
 
 <?php if ($acquaintances->count()): ?>
-	<ul>
+	<ul class="diplomacy">
 		<?php foreach ($acquaintances as $acquaintance): ?>
 			<li><?= $acquaintance->Name() ?> <span class="badge badge-primary"><?= $acquaintance->Id() ?></span></li>
 		<?php endforeach ?>
@@ -141,9 +141,9 @@ foreach ($census->getAtlas() as $region /* @var Region $region */):
 
 	<?php if (count($report)): ?>
 	<h5>Ereignisse</h5>
-	<ul>
+	<ul class="report">
 		<?php foreach ($report as $message): ?>
-			<li><?= $message ?></li>
+			<li><?= $this->message($message) ?></li>
 		<?php endforeach ?>
 	</ul>
 	<?php endif ?>
@@ -163,48 +163,50 @@ foreach ($census->getAtlas() as $region /* @var Region $region */):
 
 		<?php if (count($report = Lemuria::Report()->getAll($construction))): ?>
 			<h6>Ereignisse</h6>
-			<ul>
+			<ul class="report">
 				<?php foreach ($report as $message): ?>
-					<li><?= $message ?></li>
+					<li><?= $this->message($message) ?></li>
 				<?php endforeach ?>
 			</ul>
 		<?php endif ?>
 
 		<?php foreach ($construction->Inhabitants() as $unit /* @var Unit $unit */): ?>
-			<h6><?= $unit->Name() ?> <span class="badge badge-primary"><?= $unit->Id() ?></span></h6>
-			<p>
-				<?= $this->number($unit->Size(), 'race', $unit->Race()) ?><?php if ($unit->IsGuarding()) echo ', bewacht die Region'; ?>.
-				<?= $unit->Description() ?><br>
-				<?php
-				$talents = [];
-				foreach ($unit->Knowledge() as $ability /* @var Ability $ability */) {
-					$talents[] = $this->get('talent', $ability->Talent()) . ' ' . $ability->Level() . ' (' . $this->number($ability->Experience()) . ')';
-				}
-				$inventory = [];
-				$payload   = 0;
-				foreach ($unit->Inventory() as $quantity /* @var Quantity $quantity */) {
-					$inventory[] = $this->number($quantity->Count(), 'resource', $quantity->Commodity());
-					$payload += $quantity->Weight();
-				}
-				$n = count($inventory);
-				if ($n > 1) {
-					$inventory[$n - 2] .= ' und ' . $inventory[$n - 1];
-					unset($inventory[$n - 1]);
-				}
-				$weight = (int)ceil($payload / 100);
-				$total  = (int)ceil(($payload + $unit->Size() * $unit->Race()->Weight()) / 100);
-				?>
-				Talente: <?= empty($talents) ? 'keine' : implode(', ', $talents) ?>.
-				Hat <?= empty($inventory) ? 'nichts' : implode(', ', $inventory) ?>,
-				Last <?= $this->number($weight) ?> GE, zusammen <?= $this->number($total) ?> GE.
+			<div class="unit">
+				<h6><?= $unit->Name() ?> <span class="badge badge-primary"><?= $unit->Id() ?></span></h6>
+				<p>
+					<?= $this->number($unit->Size(), 'race', $unit->Race()) ?><?php if ($unit->IsGuarding()) echo ', bewacht die Region'; ?>.
+					<?= $unit->Description() ?><br>
+					<?php
+					$talents = [];
+					foreach ($unit->Knowledge() as $ability /* @var Ability $ability */) {
+						$talents[] = $this->get('talent', $ability->Talent()) . ' ' . $ability->Level() . ' (' . $this->number($ability->Experience()) . ')';
+					}
+					$inventory = [];
+					$payload   = 0;
+					foreach ($unit->Inventory() as $quantity /* @var Quantity $quantity */) {
+						$inventory[] = $this->number($quantity->Count(), 'resource', $quantity->Commodity());
+						$payload += $quantity->Weight();
+					}
+					$n = count($inventory);
+					if ($n > 1) {
+						$inventory[$n - 2] .= ' und ' . $inventory[$n - 1];
+						unset($inventory[$n - 1]);
+					}
+					$weight = (int)ceil($payload / 100);
+					$total  = (int)ceil(($payload + $unit->Size() * $unit->Race()->Weight()) / 100);
+					?>
+					Talente: <?= empty($talents) ? 'keine' : implode(', ', $talents) ?>.
+					Hat <?= empty($inventory) ? 'nichts' : implode(', ', $inventory) ?>,
+					Last <?= $this->number($weight) ?> GE, zusammen <?= $this->number($total) ?> GE.
+				</p>
 				<?php if (count($report = Lemuria::Report()->getAll($unit))): ?>
-					<span class="report">
+					<ul class="report">
 						<?php foreach ($report as $message): ?>
-							<span><?= $message ?></span>
+							<li><?= $this->message($message) ?></li>
 						<?php endforeach ?>
-					</span>
+					</ul>
 				<?php endif ?>
-			</p>
+			</div>
 		<?php endforeach ?>
 	<?php endforeach ?>
 
@@ -223,57 +225,59 @@ foreach ($census->getAtlas() as $region /* @var Region $region */):
 
 		<?php if (count($report = Lemuria::Report()->getAll($vessel))): ?>
 			<h6>Ereignisse</h6>
-			<ul>
+			<ul class="report">
 				<?php foreach ($report as $message): ?>
-					<li><?= $message ?></li>
+					<li><?= $this->message($message) ?></li>
 				<?php endforeach ?>
 			</ul>
 		<?php endif ?>
 
 		<?php if (count($report = Lemuria::Report()->getAll($vessel))): ?>
 			<h6>Ereignisse</h6>
-			<ul>
+			<ul class="report">
 				<?php foreach ($report as $message): ?>
-					<li><?= $message ?></li>
+					<li><?= $this->message($message) ?></li>
 				<?php endforeach ?>
 			</ul>
 		<?php endif ?>
 
 		<?php foreach ($vessel->Passengers() as $unit /* @var Unit $unit */): ?>
-			<h6><?= $unit->Name() ?> <span class="badge badge-primary"><?= $unit->Id() ?></span></h6>
-			<p>
-				<?= $this->number($unit->Size(), 'race', $unit->Race()) ?>.
-				<?= $unit->Description() ?><br>
-				<?php
-				$talents = [];
-				foreach ($unit->Knowledge() as $ability /* @var Ability $ability */) {
-					$talents[] = $this->get('talent', $ability->Talent()) . ' ' . $ability->Level() . ' (' . $this->number($ability->Experience()) . ')';
-				}
-				$inventory = [];
-				$payload   = 0;
-				foreach ($unit->Inventory() as $quantity /* @var Quantity $quantity */) {
-					$inventory[] = $this->number($quantity->Count(), 'resource', $quantity->Commodity());
-					$payload += $quantity->Weight();
-				}
-				$n = count($inventory);
-				if ($n > 1) {
-					$inventory[$n - 2] .= ' und ' . $inventory[$n - 1];
-					unset($inventory[$n - 1]);
-				}
-				$weight = (int)ceil($payload / 100);
-				$total  = (int)ceil(($payload + $unit->Size() * $unit->Race()->Weight()) / 100);
-				?>
-				Talente: <?= empty($talents) ? 'keine' : implode(', ', $talents) ?>.
-				Hat <?= empty($inventory) ? 'nichts' : implode(', ', $inventory) ?>,
-				Last <?= $this->number($weight) ?> GE, zusammen <?= $this->number($total) ?> GE.
+			<div class="unit">
+				<h6><?= $unit->Name() ?> <span class="badge badge-primary"><?= $unit->Id() ?></span></h6>
+				<p>
+					<?= $this->number($unit->Size(), 'race', $unit->Race()) ?>.
+					<?= $unit->Description() ?><br>
+					<?php
+					$talents = [];
+					foreach ($unit->Knowledge() as $ability /* @var Ability $ability */) {
+						$talents[] = $this->get('talent', $ability->Talent()) . ' ' . $ability->Level() . ' (' . $this->number($ability->Experience()) . ')';
+					}
+					$inventory = [];
+					$payload   = 0;
+					foreach ($unit->Inventory() as $quantity /* @var Quantity $quantity */) {
+						$inventory[] = $this->number($quantity->Count(), 'resource', $quantity->Commodity());
+						$payload += $quantity->Weight();
+					}
+					$n = count($inventory);
+					if ($n > 1) {
+						$inventory[$n - 2] .= ' und ' . $inventory[$n - 1];
+						unset($inventory[$n - 1]);
+					}
+					$weight = (int)ceil($payload / 100);
+					$total  = (int)ceil(($payload + $unit->Size() * $unit->Race()->Weight()) / 100);
+					?>
+					Talente: <?= empty($talents) ? 'keine' : implode(', ', $talents) ?>.
+					Hat <?= empty($inventory) ? 'nichts' : implode(', ', $inventory) ?>,
+					Last <?= $this->number($weight) ?> GE, zusammen <?= $this->number($total) ?> GE.
+				</p>
 				<?php if (count($report = Lemuria::Report()->getAll($unit))): ?>
-					<span class="report">
+					<ul class="report">
 						<?php foreach ($report as $message): ?>
-							<span><?= $message ?></span>
+							<li><?= $this->message($message) ?></li>
 						<?php endforeach ?>
-					</span>
+					</ul>
 				<?php endif ?>
-			</p>
+			</div>
 		<?php endforeach ?>
 	<?php endforeach ?>
 
@@ -283,40 +287,42 @@ foreach ($census->getAtlas() as $region /* @var Region $region */):
 			<?php if ($unitsInRegions++ === 0): ?>
 				<h5>Weitere Einheiten</h5>
 			<?php endif ?>
-			<h6><?= $unit->Name() ?> <span class="badge badge-primary"><?= $unit->Id() ?></span></h6>
-			<p>
-				<?= $this->number($unit->Size(), 'race', $unit->Race()) ?><?php if ($unit->IsGuarding()) echo ', bewacht die Region'; ?>.
-				<?= $unit->Description() ?><br>
-				<?php
-				$talents = [];
-				foreach ($unit->Knowledge() as $ability /* @var Ability $ability */) {
-					$talents[] = $this->get('talent', $ability->Talent()) . ' ' . $ability->Level() . ' (' . $this->number($ability->Experience()) . ')';
-				}
-				$inventory = [];
-				$payload   = 0;
-				foreach ($unit->Inventory() as $quantity /* @var Quantity $quantity */) {
-					$inventory[] = $this->number($quantity->Count(), 'resource', $quantity->Commodity());
-					$payload += $quantity->Weight();
-				}
-				$n = count($inventory);
-				if ($n > 1) {
-					$inventory[$n - 2] .= ' und ' . $inventory[$n - 1];
-					unset($inventory[$n - 1]);
-				}
-				$weight = (int)ceil($payload / 100);
-				$total  = (int)ceil(($payload + $unit->Size() * $unit->Race()->Weight()) / 100);
-				?>
-				Talente: <?= empty($talents) ? 'keine' : implode(', ', $talents) ?>.
-				Hat <?= empty($inventory) ? 'nichts' : implode(', ', $inventory) ?>,
-				Last <?= $this->number($weight) ?> GE, zusammen <?= $this->number($total) ?> GE.
+			<div class="unit">
+				<h6><?= $unit->Name() ?> <span class="badge badge-primary"><?= $unit->Id() ?></span></h6>
+				<p>
+					<?= $this->number($unit->Size(), 'race', $unit->Race()) ?><?php if ($unit->IsGuarding()) echo ', bewacht die Region'; ?>.
+					<?= $unit->Description() ?><br>
+					<?php
+					$talents = [];
+					foreach ($unit->Knowledge() as $ability /* @var Ability $ability */) {
+						$talents[] = $this->get('talent', $ability->Talent()) . ' ' . $ability->Level() . ' (' . $this->number($ability->Experience()) . ')';
+					}
+					$inventory = [];
+					$payload   = 0;
+					foreach ($unit->Inventory() as $quantity /* @var Quantity $quantity */) {
+						$inventory[] = $this->number($quantity->Count(), 'resource', $quantity->Commodity());
+						$payload += $quantity->Weight();
+					}
+					$n = count($inventory);
+					if ($n > 1) {
+						$inventory[$n - 2] .= ' und ' . $inventory[$n - 1];
+						unset($inventory[$n - 1]);
+					}
+					$weight = (int)ceil($payload / 100);
+					$total  = (int)ceil(($payload + $unit->Size() * $unit->Race()->Weight()) / 100);
+					?>
+					Talente: <?= empty($talents) ? 'keine' : implode(', ', $talents) ?>.
+					Hat <?= empty($inventory) ? 'nichts' : implode(', ', $inventory) ?>,
+					Last <?= $this->number($weight) ?> GE, zusammen <?= $this->number($total) ?> GE.
+				</p>
 				<?php if (count($report = Lemuria::Report()->getAll($unit))): ?>
-					<span class="report">
+					<ul class="report">
 						<?php foreach ($report as $message): ?>
-							<span><?= $message ?></span>
+							<li><?= $this->message($message) ?></li>
 						<?php endforeach ?>
-					</span>
+					</ul>
 				<?php endif ?>
-			</p>
+			</div>
 		<?php endif ?>
 	<?php endforeach ?>
 <?php endforeach ?>
