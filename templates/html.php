@@ -5,7 +5,12 @@ use function Lemuria\getClass;
 
 use Lemuria\Lemuria;
 use Lemuria\Model\Lemuria\Ability;
+use Lemuria\Model\Lemuria\Commodity\Camel;
+use Lemuria\Model\Lemuria\Commodity\Elephant;
 use Lemuria\Model\Lemuria\Commodity\Granite;
+use Lemuria\Model\Lemuria\Commodity\Griffin;
+use Lemuria\Model\Lemuria\Commodity\Griffinegg;
+use Lemuria\Model\Lemuria\Commodity\Horse;
 use Lemuria\Model\Lemuria\Commodity\Ore;
 use Lemuria\Model\Lemuria\Commodity\Peasant;
 use Lemuria\Model\Lemuria\Commodity\Silver;
@@ -92,6 +97,17 @@ foreach ($census->getAtlas() as $region /* @var Region $region */):
 	elseif ($o):
 		$mining = $ore;
 	endif;
+	$a       = $resources[Horse::class]->Count() + $resources[Camel::class]->Count() + $resources[Elephant::class]->Count();
+	$animals = $this->items([Horse::class, Camel::class, Elephant::class], $resources);
+	$gr      = $resources[Griffin::class]->Count();
+	$egg     = $resources[Griffinegg::class]->Count();
+	$griffin = null;
+	if ($gr):
+		$griffin = $this->item(Griffin::class, $resources);
+		if ($egg):
+			$griffin .= ' mit ' . $this->item(Griffinegg::class, $resources);
+		endif;
+	endif;
 	?>
 
 	<h4><?= $region->Name() ?> <span class="badge badge-light"><?= $map->getCoordinates($region) ?></span></h4>
@@ -129,6 +145,12 @@ foreach ($census->getAtlas() as $region /* @var Region $region */):
 			Hier <?= $t === 1 ? 'kann' : 'können' ?> <?= $trees ?> gefällt werden.
 		<?php elseif ($g || $o): ?>
 			Hier <?= $g + $o === 1 ? 'kann' : 'können' ?> <?= $mining ?> abgebaut werden.
+		<?php endif ?>
+		<?php if ($a): ?>
+			<?= $animals ?> <?= $a === 1 ? 'streift' : 'streifen' ?> durch die Wildnis.
+		<?php endif ?>
+		<?php if ($gr): ?>
+			<?= $griffin ?> <?= $gr === 1 ? ' nistet ' : 'nisten' ?> in den Bergen.
 		<?php endif ?>
 		<?php if ($g > 0): ?>
 			Die Region wird bewacht von <?= ucfirst(implode(', ', $guardNames)) ?>.

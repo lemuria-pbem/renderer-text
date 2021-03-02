@@ -118,6 +118,27 @@ abstract class View
 	}
 
 	/**
+	 * Get a list of items from a set.
+	 */
+	#[Pure] public function items(array $classes, ItemSet $set, string $keyPath = 'resource'): string {
+		$items = [];
+		foreach ($classes as $class) {
+			if (isset($set[$class])) {
+				$items[] = $this->item($class, $set, $keyPath);
+			}
+		}
+		switch (count($items)) {
+			case 0 :
+				return '';
+			case 1 :
+				return $items[0];
+			default :
+				$last = array_pop($items);
+				return implode(', ', $items) . ' und ' . $last;
+		}
+	}
+
+	/**
 	 * Get a neighbour description.
 	 */
 	#[Pure] public function neighbour(?Region $region = null): string {
