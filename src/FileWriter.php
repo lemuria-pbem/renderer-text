@@ -5,7 +5,7 @@ namespace Lemuria\Renderer\Text;
 use JetBrains\PhpStorm\Pure;
 
 use Lemuria\Id;
-use Lemuria\Model\Lemuria\Party;
+use Lemuria\Model\Fantasya\Party;
 use Lemuria\Renderer\Writer;
 
 abstract class FileWriter implements Writer

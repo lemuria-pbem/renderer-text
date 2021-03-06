@@ -6,8 +6,8 @@ use JetBrains\PhpStorm\Pure;
 
 use Lemuria\Id;
 use Lemuria\Lemuria;
-use Lemuria\Model\Lemuria\Party;
-use Lemuria\Model\Lemuria\Unit;
+use Lemuria\Model\Fantasya\Party;
+use Lemuria\Model\Fantasya\Unit;
 use Lemuria\Renderer\Writer;
 
 class OrderWriter implements Writer

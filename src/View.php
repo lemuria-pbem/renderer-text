@@ -11,10 +11,10 @@ use Lemuria\Entity;
 use Lemuria\ItemSet;
 use Lemuria\Lemuria;
 use Lemuria\Model\Dictionary;
-use Lemuria\Model\Lemuria\Party;
-use Lemuria\Model\Lemuria\Party\Census;
-use Lemuria\Model\Lemuria\Region;
-use Lemuria\Model\Lemuria\World\PartyMap;
+use Lemuria\Model\Fantasya\Party;
+use Lemuria\Model\Fantasya\Party\Census;
+use Lemuria\Model\Fantasya\Region;
+use Lemuria\Model\Fantasya\World\PartyMap;
 use Lemuria\Singleton;
 
 /**
@@ -120,7 +120,7 @@ abstract class View
 	/**
 	 * Get a list of items from a set.
 	 */
-	#[Pure] public function items(array $classes, ItemSet $set, string $keyPath = 'resource'): string {
+	public function items(array $classes, ItemSet $set, string $keyPath = 'resource'): string {
 		$items = [];
 		foreach ($classes as $class) {
 			if (isset($set[$class])) {

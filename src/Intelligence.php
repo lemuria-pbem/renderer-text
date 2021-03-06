@@ -4,9 +4,9 @@ namespace Lemuria\Renderer\Text;
 
 use JetBrains\PhpStorm\Pure;
 
-use Lemuria\Model\Lemuria\People;
-use Lemuria\Model\Lemuria\Region;
-use Lemuria\Model\Lemuria\Unit;
+use Lemuria\Model\Fantasya\People;
+use Lemuria\Model\Fantasya\Region;
+use Lemuria\Model\Fantasya\Unit;
 
 /**
  * Helper class for region information.

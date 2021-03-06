@@ -4,22 +4,22 @@ declare (strict_types = 1);
 use function Lemuria\getClass;
 
 use Lemuria\Lemuria;
-use Lemuria\Model\Lemuria\Ability;
-use Lemuria\Model\Lemuria\Commodity\Camel;
-use Lemuria\Model\Lemuria\Commodity\Elephant;
-use Lemuria\Model\Lemuria\Commodity\Granite;
-use Lemuria\Model\Lemuria\Commodity\Griffin;
-use Lemuria\Model\Lemuria\Commodity\Griffinegg;
-use Lemuria\Model\Lemuria\Commodity\Horse;
-use Lemuria\Model\Lemuria\Commodity\Ore;
-use Lemuria\Model\Lemuria\Commodity\Peasant;
-use Lemuria\Model\Lemuria\Commodity\Silver;
-use Lemuria\Model\Lemuria\Commodity\Tree;
-use Lemuria\Model\Lemuria\Construction;
-use Lemuria\Model\Lemuria\Quantity;
-use Lemuria\Model\Lemuria\Region;
-use Lemuria\Model\Lemuria\Unit;
-use Lemuria\Model\Lemuria\Vessel;
+use Lemuria\Model\Fantasya\Ability;
+use Lemuria\Model\Fantasya\Commodity\Camel;
+use Lemuria\Model\Fantasya\Commodity\Elephant;
+use Lemuria\Model\Fantasya\Commodity\Griffin;
+use Lemuria\Model\Fantasya\Commodity\Griffinegg;
+use Lemuria\Model\Fantasya\Commodity\Horse;
+use Lemuria\Model\Fantasya\Commodity\Iron;
+use Lemuria\Model\Fantasya\Commodity\Peasant;
+use Lemuria\Model\Fantasya\Commodity\Silver;
+use Lemuria\Model\Fantasya\Commodity\Stone;
+use Lemuria\Model\Fantasya\Commodity\Wood;
+use Lemuria\Model\Fantasya\Construction;
+use Lemuria\Model\Fantasya\Quantity;
+use Lemuria\Model\Fantasya\Region;
+use Lemuria\Model\Fantasya\Unit;
+use Lemuria\Model\Fantasya\Vessel;
 use Lemuria\Renderer\Text\Intelligence;
 use Lemuria\Renderer\Text\View;
 
@@ -82,13 +82,13 @@ $week	       = $calendar->Week();
 foreach ($census->getAtlas() as $region /* @var Region $region */):
 	$report    = Lemuria::Report()->getAll($region);
 	$resources = $region->Resources();
-	$t         = $resources[Tree::class]->Count();
-	$g         = $resources[Granite::class]->Count();
-	$o         = $resources[Ore::class]->Count();
+	$t         = $resources[Wood::class]->Count();
+	$g         = $resources[Stone::class]->Count();
+	$o         = $resources[Iron::class]->Count();
 	$m         = $g && $o;
-	$trees     = $this->item(Tree::class, $resources);
-	$granite   = $this->item(Granite::class, $resources);
-	$ore       = $this->item(Ore::class, $resources);
+	$trees     = $this->item(Wood::class, $resources);
+	$granite   = $this->item(Stone::class, $resources);
+	$ore       = $this->item(Iron::class, $resources);
 	$mining	   = null;
 	if ($m):
 		$mining = $granite . ' und ' . $ore;
@@ -140,9 +140,9 @@ foreach ($census->getAtlas() as $region /* @var Region $region */):
 		<?= $this->item(Peasant::class, $resources) ?>,
 		<?= $this->item(Silver::class, $resources) ?>.
 		<?php if ($t && $m): ?>
-			Hier <?= $t === 1 ? 'kann' : 'können' ?> <?= $trees ?> gefällt sowie <?= $mining ?> abgebaut werden.
+			Hier <?= $t === 1 ? 'kann' : 'können' ?> <?= $trees ?> geerntet sowie <?= $mining ?> abgebaut werden.
 		<?php elseif ($t): ?>
-			Hier <?= $t === 1 ? 'kann' : 'können' ?> <?= $trees ?> gefällt werden.
+			Hier <?= $t === 1 ? 'kann' : 'können' ?> <?= $trees ?> geerntet werden.
 		<?php elseif ($g || $o): ?>
 			Hier <?= $g + $o === 1 ? 'kann' : 'können' ?> <?= $mining ?> abgebaut werden.
 		<?php endif ?>

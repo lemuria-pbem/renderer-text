@@ -2,7 +2,7 @@
 declare(strict_types = 1);
 namespace Lemuria\Renderer\Text;
 
-use Lemuria\Model\Lemuria\Party;
+use Lemuria\Model\Fantasya\Party;
 use Lemuria\Renderer\Text\View\Html;
 
 final class HtmlWriter extends FileWriter
