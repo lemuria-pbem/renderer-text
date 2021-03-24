@@ -33,7 +33,7 @@ use Lemuria\Renderer\Text\View;
 /* @var View $this */
 
 $party         = $this->party;
-$report        = Lemuria::Report()->getAll($party);
+$report        = $this->messages($party);
 $acquaintances = $party->Diplomacy()->Acquaintances();
 $census        = $this->census;
 $map	       = $this->map;
@@ -84,7 +84,7 @@ Dies ist der Hauptkontinent Lemuria.
 
 <?php
 foreach ($census->getAtlas() as $region /* @var Region $region */):
-	$report    = Lemuria::Report()->getAll($region);
+	$report    = $this->messages($region);
 	$resources = $region->Resources();
 	$t         = $resources[Wood::class]->Count();
 	$g         = $resources[Stone::class]->Count();
@@ -156,7 +156,7 @@ endif ?><?php if ($g > 0): ?> Die Region wird bewacht von <?= ucfirst(implode(',
   >> <?= $construction ?>, <?= $this->get('building', $construction->Building()) ?> der Größe <?= $this->number($construction->Size()) ?>
 . Besitzer ist <?= count($construction->Inhabitants()) ? $construction->Inhabitants()->Owner() : 'niemand' ?>
 .<?= line(description($construction)) ?>
-<?php foreach ($report = Lemuria::Report()->getAll($construction) as $message): ?>
+<?php foreach ($report = $this->messages($construction) as $message): ?>
   <?= $message ?>
 
 <?php endforeach ?>
@@ -184,7 +184,7 @@ $total  = (int)ceil(($payload + $unit->Size() * $unit->Race()->Weight()) / 100);
  Talente: <?= empty($talents) ? 'keine' : implode(', ', $talents) ?>
 . Hat <?= empty($inventory) ? 'nichts' : implode(', ', $inventory) ?>
 , Last <?= $this->number($weight) ?> GE, zusammen <?= $this->number($total) ?> GE.
-<?php foreach ($report = Lemuria::Report()->getAll($unit) as $message): ?>
+<?php foreach ($report = $this->messages($unit) as $message): ?>
 <?= $message ?>
 
 <?php endforeach ?>
@@ -195,7 +195,7 @@ $total  = (int)ceil(($payload + $unit->Size() * $unit->Race()->Weight()) / 100);
   >> <?= $vessel ?>, <?= $this->get('ship', $vessel->Ship()) ?>, freier Platz <?= $this->number((int)ceil($vessel->Space() / 100)) ?>
  GE. Kapitän ist <?= count($vessel->Passengers()) ? $vessel->Passengers()->Owner() : 'niemand' ?>
 .<?= line(description($vessel)) ?>
-<?php foreach ($report = Lemuria::Report()->getAll($construction) as $message): ?>
+<?php foreach ($report = $this->messages($vessel) as $message): ?>
 <?= $message ?>
 
 <?php endforeach ?>
@@ -223,7 +223,7 @@ $total  = (int)ceil(($payload + $unit->Size() * $unit->Race()->Weight()) / 100);
 Talente: <?= empty($talents) ? 'keine' : implode(', ', $talents) ?>
 . Hat <?= empty($inventory) ? 'nichts' : implode(', ', $inventory) ?>
 , Last <?= $this->number($weight) ?> GE, zusammen <?= $this->number($total) ?> GE.
-<?php foreach ($report = Lemuria::Report()->getAll($unit) as $message): ?>
+<?php foreach ($report = $this->messages($unit) as $message): ?>
 <?= $message ?>
 
 <?php endforeach ?>
@@ -256,7 +256,7 @@ $total  = (int)ceil(($payload + $unit->Size() * $unit->Race()->Weight()) / 100);
  Talente: <?= empty($talents) ? 'keine' : implode(', ', $talents) ?>
 . Hat <?= empty($inventory) ? 'nichts' : implode(', ', $inventory) ?>
 , Last <?= $this->number($weight) ?> GE, zusammen <?= $this->number($total) ?> GE.
-<?php foreach ($report = Lemuria::Report()->getAll($unit) as $message): ?>
+<?php foreach ($report = $this->messages($unit) as $message): ?>
 <?= $message ?>
 
 <?php endforeach ?>

@@ -4,10 +4,12 @@ namespace Lemuria\Renderer\Text;
 
 use JetBrains\PhpStorm\Pure;
 
-use Lemuria\Engine\Message;
 use function Lemuria\getClass;
 use function Lemuria\number as formatNumber;
+use Lemuria\Engine\Message;
+use Lemuria\Engine\Message\Filter;
 use Lemuria\Entity;
+use Lemuria\Identifiable;
 use Lemuria\ItemSet;
 use Lemuria\Lemuria;
 use Lemuria\Model\Dictionary;
@@ -80,7 +82,7 @@ abstract class View
 
 	protected Dictionary $dictionary;
 
-	public function __construct(public Party $party) {
+	public function __construct(public Party $party, private Filter $messageFilter) {
 		$this->census     = new Census($this->party);
 		$this->map        = new PartyMap(Lemuria::World(), $this->party);
 		$this->dictionary = new Dictionary();
@@ -152,6 +154,19 @@ abstract class View
 		} else {
 			return $this->get('world.null');
 		}
+	}
+
+	/**
+	 * @return Message[]
+	 */
+	public function messages(Identifiable $entity): array {
+		$messages = [];
+		foreach (Lemuria::Report()->getAll($entity) as $message) {
+			if (!$this->messageFilter->retains($message)) {
+				$messages[] = $message;
+			}
+		}
+		return $messages;
 	}
 
 	/**

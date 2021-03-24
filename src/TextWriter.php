@@ -11,6 +11,6 @@ final class TextWriter extends FileWriter
 	 * @noinspection PhpPureAttributeCanBeAddedInspection
 	 */
 	protected function getView(Party $party): View {
-		return new Text($party);
+		return new Text($party, $this->messageFilter);
 	}
 }

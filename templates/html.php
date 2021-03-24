@@ -30,7 +30,7 @@ use Lemuria\Renderer\Text\View;
 /* @var View $this */
 
 $party         = $this->party;
-$report        = Lemuria::Report()->getAll($party);
+$report        = $this->messages($party);
 $acquaintances = $party->Diplomacy()->Acquaintances();
 $census        = $this->census;
 $map           = $this->map;
@@ -80,7 +80,7 @@ $week	       = $calendar->Week();
 
 <?php
 foreach ($census->getAtlas() as $region /* @var Region $region */):
-	$report    = Lemuria::Report()->getAll($region);
+	$report    = $this->messages($region);
 	$resources = $region->Resources();
 	$t         = $resources[Wood::class]->Count();
 	$g         = $resources[Stone::class]->Count();
@@ -183,7 +183,7 @@ foreach ($census->getAtlas() as $region /* @var Region $region */):
 			<?= $construction->Description() ?>
 		</p>
 
-		<?php if (count($report = Lemuria::Report()->getAll($construction))): ?>
+		<?php if (count($report = $this->messages($construction))): ?>
 			<h6>Ereignisse</h6>
 			<ul class="report">
 				<?php foreach ($report as $message): ?>
@@ -221,7 +221,7 @@ foreach ($census->getAtlas() as $region /* @var Region $region */):
 					Hat <?= empty($inventory) ? 'nichts' : implode(', ', $inventory) ?>,
 					Last <?= $this->number($weight) ?> GE, zusammen <?= $this->number($total) ?> GE.
 				</p>
-				<?php if (count($report = Lemuria::Report()->getAll($unit))): ?>
+				<?php if (count($report = $this->messages($unit))): ?>
 					<ul class="report">
 						<?php foreach ($report as $message): ?>
 							<li><?= $this->message($message) ?></li>
@@ -245,16 +245,7 @@ foreach ($census->getAtlas() as $region /* @var Region $region */):
 			<?= $vessel->Description() ?>
 		</p>
 
-		<?php if (count($report = Lemuria::Report()->getAll($vessel))): ?>
-			<h6>Ereignisse</h6>
-			<ul class="report">
-				<?php foreach ($report as $message): ?>
-					<li><?= $this->message($message) ?></li>
-				<?php endforeach ?>
-			</ul>
-		<?php endif ?>
-
-		<?php if (count($report = Lemuria::Report()->getAll($vessel))): ?>
+		<?php if (count($report = $this->messages($vessel))): ?>
 			<h6>Ereignisse</h6>
 			<ul class="report">
 				<?php foreach ($report as $message): ?>
@@ -292,7 +283,7 @@ foreach ($census->getAtlas() as $region /* @var Region $region */):
 					Hat <?= empty($inventory) ? 'nichts' : implode(', ', $inventory) ?>,
 					Last <?= $this->number($weight) ?> GE, zusammen <?= $this->number($total) ?> GE.
 				</p>
-				<?php if (count($report = Lemuria::Report()->getAll($unit))): ?>
+				<?php if (count($report = $this->messages($unit))): ?>
 					<ul class="report">
 						<?php foreach ($report as $message): ?>
 							<li><?= $this->message($message) ?></li>
@@ -337,7 +328,7 @@ foreach ($census->getAtlas() as $region /* @var Region $region */):
 					Hat <?= empty($inventory) ? 'nichts' : implode(', ', $inventory) ?>,
 					Last <?= $this->number($weight) ?> GE, zusammen <?= $this->number($total) ?> GE.
 				</p>
-				<?php if (count($report = Lemuria::Report()->getAll($unit))): ?>
+				<?php if (count($report = $this->messages($unit))): ?>
 					<ul class="report">
 						<?php foreach ($report as $message): ?>
 							<li><?= $this->message($message) ?></li>

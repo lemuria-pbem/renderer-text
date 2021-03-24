@@ -4,6 +4,8 @@ namespace Lemuria\Renderer\Text;
 
 use JetBrains\PhpStorm\Pure;
 
+use Lemuria\Engine\Message\Filter;
+use Lemuria\Engine\Message\Filter\NullFilter;
 use Lemuria\Id;
 use Lemuria\Model\Fantasya\Party;
 use Lemuria\Renderer\Writer;
@@ -15,7 +17,15 @@ abstract class FileWriter implements Writer
 	 */
 	protected array $wrapper = [];
 
+	protected Filter $messageFilter;
+
 	#[Pure] public function __construct(private string $path) {
+		$this->messageFilter = new NullFilter();
+	}
+
+	public function setFilter(Filter $filter): Writer {
+		$this->messageFilter = $filter;
+		return $this;
 	}
 
 	public function render(Id $party): Writer {

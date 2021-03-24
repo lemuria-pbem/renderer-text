@@ -4,6 +4,7 @@ namespace Lemuria\Renderer\Text;
 
 use JetBrains\PhpStorm\Pure;
 
+use Lemuria\Engine\Message\Filter;
 use Lemuria\Id;
 use Lemuria\Lemuria;
 use Lemuria\Model\Fantasya\Party;
@@ -13,6 +14,10 @@ use Lemuria\Renderer\Writer;
 class OrderWriter implements Writer
 {
 	#[Pure] public function __construct(private string $path) {
+	}
+
+	public function setFilter(Filter $filter): Writer {
+		return $this;
 	}
 
 	public function render(Id $party): Writer {
