@@ -36,8 +36,8 @@ $census        = $this->census;
 $map           = $this->map;
 $race	       = getClass($party->Race());
 $calendar      = Lemuria::Calendar();
-$season        = $this->get('calendar.season', $calendar->Season());
-$month	       = $this->get('calendar.month', $calendar->Month());
+$season        = $this->get('calendar.season', $calendar->Season() - 1);
+$month	       = $this->get('calendar.month', $calendar->Month() - 1);
 $week	       = $calendar->Week();
 
 ?>
