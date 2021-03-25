@@ -72,6 +72,13 @@ use Lemuria\Singleton;
 }
 
 /**
+ * Create the footer.
+ */
+#[Pure] function footer(): string {
+    return str_pad('', 80, '-');
+}
+
+/**
  * A view object that contains variables and helper functions for view scripts.
  */
 abstract class View

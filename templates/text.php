@@ -4,6 +4,7 @@ declare (strict_types = 1);
 use function Lemuria\getClass;
 use function Lemuria\Renderer\Text\center;
 use function Lemuria\Renderer\Text\description;
+use function Lemuria\Renderer\Text\footer;
 use function Lemuria\Renderer\Text\hr;
 use function Lemuria\Renderer\Text\line;
 use Lemuria\Lemuria;
@@ -27,7 +28,7 @@ use Lemuria\Renderer\Text\Intelligence;
 use Lemuria\Renderer\Text\View;
 
 /**
- * A parties' report in plain text.
+ * A party's report in plain text.
  */
 
 /* @var View $this */
@@ -61,11 +62,13 @@ Dein Volk zählt <?= $this->number($census->count(), 'race', $party->Race()) ?> 
 
 <?= center('Ereignisse') ?>
 
+<?php if ($report): ?>
 <?php foreach ($report as $message): ?>
 <?= $message ?>
 
 <?php endforeach ?>
 
+<?php endif ?>
 <?= hr() ?>
 
 <?= center('Alle bekannten Völker') ?>
@@ -80,8 +83,8 @@ Dein Volk zählt <?= $this->number($census->count(), 'race', $party->Race()) ?> 
 <?= hr() ?>
 
 <?= center('Kontinent Lemuria [' . $party->Id() . ']') ?>
-Dies ist der Hauptkontinent Lemuria.
 
+Dies ist der Hauptkontinent Lemuria.
 <?php
 foreach ($census->getAtlas() as $region /* @var Region $region */):
 	$report    = $this->messages($region);
@@ -135,6 +138,7 @@ foreach ($census->getAtlas() as $region /* @var Region $region */):
 		endif;
 	endif;
 ?>
+
 >> <?= $region->Name() ?> <?= $map->getCoordinates($region) ?>, <?= $this->get('landscape', $region->Landscape()) ?>, <?= $this->item(Peasant::class, $resources) ?>, <?= $this->item(Silver::class, $resources) ?>. <?php if ($t && $m): ?>
 Hier <?= $t === 1 ? 'kann' : 'können' ?> <?= $trees ?> geerntet sowie <?= $mining ?> abgebaut werden.<?php
 elseif ($t): ?>
@@ -151,8 +155,8 @@ endif ?><?php if ($g > 0): ?> Die Region wird bewacht von <?= ucfirst(implode(',
 <?= $message ?>
 
 <?php endforeach ?>
-
 <?php foreach ($region->Estate() as $construction /* @var Construction $construction */): ?>
+
   >> <?= $construction ?>, <?= $this->get('building', $construction->Building()) ?> der Größe <?= $this->number($construction->Size()) ?>
 . Besitzer ist <?= count($construction->Inhabitants()) ? $construction->Inhabitants()->Owner() : 'niemand' ?>
 .<?= line(description($construction)) ?>
@@ -161,6 +165,7 @@ endif ?><?php if ($g > 0): ?> Die Region wird bewacht von <?= ucfirst(implode(',
 
 <?php endforeach ?>
 <?php foreach ($construction->Inhabitants() as $unit /* @var Unit $unit */): ?>
+
     * <?= (string)$unit ?>, <?= $this->number($unit->Size(), 'race', $unit->Race()) ?><?php if ($unit->IsGuarding()): echo ', bewacht die Region' ?><?php endif ?>.<?= description($unit) ?>
 <?php
 $talents = [];
@@ -190,8 +195,8 @@ $total  = (int)ceil(($payload + $unit->Size() * $unit->Race()->Weight()) / 100);
 <?php endforeach ?>
 <?php endforeach ?>
 <?php endforeach ?>
-
 <?php foreach ($region->Fleet() as $vessel /* @var Vessel $vessel */): ?>
+
   >> <?= $vessel ?>, <?= $this->get('ship', $vessel->Ship()) ?>, freier Platz <?= $this->number((int)ceil($vessel->Space() / 100)) ?>
  GE. Kapitän ist <?= count($vessel->Passengers()) ? $vessel->Passengers()->Owner() : 'niemand' ?>
 .<?= line(description($vessel)) ?>
@@ -229,10 +234,9 @@ Talente: <?= empty($talents) ? 'keine' : implode(', ', $talents) ?>
 <?php endforeach ?>
 <?php endforeach ?>
 <?php endforeach ?>
-
-<?php $unitsInRegions = 0 ?>
 <?php foreach ($census->getPeople($region) as $unit /* @var Unit $unit */): ?>
 <?php if (!$unit->Construction() && !$unit->Vessel()): ?>
+
   -- <?= (string)$unit ?>, <?= $this->number($unit->Size(), 'race', $unit->Race()) ?><?php if ($unit->IsGuarding()): echo ', bewacht die Region' ?><?php endif ?>.<?= description($unit) ?>
 <?php
 $talents = [];
@@ -260,8 +264,8 @@ $total  = (int)ceil(($payload + $unit->Size() * $unit->Race()->Weight()) / 100);
 <?= $message ?>
 
 <?php endforeach ?>
-<?php $unitsInRegions++ ?>
 <?php endif ?>
 <?php endforeach ?>
-<?= $unitsInRegions ? PHP_EOL : '' ?>
 <?php endforeach ?>
+
+<?= footer() ?>
