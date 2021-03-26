@@ -6,6 +6,7 @@ use JetBrains\PhpStorm\Pure;
 
 use function Lemuria\getClass;
 use function Lemuria\number as formatNumber;
+use Lemuria\Engine\Fantasya\Outlook;
 use Lemuria\Engine\Message;
 use Lemuria\Engine\Message\Filter;
 use Lemuria\Entity;
@@ -85,12 +86,15 @@ abstract class View
 {
 	public Census $census;
 
+	public Outlook $outlook;
+
 	public PartyMap $map;
 
 	protected Dictionary $dictionary;
 
 	public function __construct(public Party $party, private Filter $messageFilter) {
 		$this->census     = new Census($this->party);
+		$this->outlook    = new Outlook($this->census);
 		$this->map        = new PartyMap(Lemuria::World(), $this->party);
 		$this->dictionary = new Dictionary();
 	}

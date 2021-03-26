@@ -37,6 +37,7 @@ $party         = $this->party;
 $report        = $this->messages($party);
 $acquaintances = $party->Diplomacy()->Acquaintances();
 $census        = $this->census;
+$outlook       = $this->outlook;
 $map	       = $this->map;
 $race	       = getClass($party->Race());
 $calendar      = Lemuria::Calendar();
@@ -234,8 +235,7 @@ Talente: <?= empty($talents) ? 'keine' : implode(', ', $talents) ?>
 <?php endforeach ?>
 <?php endforeach ?>
 <?php endforeach ?>
-<?php foreach ($census->getPeople($region) as $unit /* @var Unit $unit */): ?>
-<?php if (!$unit->Construction() && !$unit->Vessel()): ?>
+<?php foreach ($outlook->Apparitions($region) as $unit /* @var Unit $unit */): ?>
 
   -- <?= (string)$unit ?>, <?= $this->number($unit->Size(), 'race', $unit->Race()) ?><?php if ($unit->IsGuarding()): echo ', bewacht die Region' ?><?php endif ?>.<?= description($unit) ?>
 <?php
@@ -265,7 +265,6 @@ if ($unit->Party() === $party):
 <?= $message ?>
 
 <?php endforeach ?>
-<?php endif ?>
 <?php endif ?>
 <?php endforeach ?>
 <?php endforeach ?>
