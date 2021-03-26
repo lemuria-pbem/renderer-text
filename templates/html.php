@@ -304,31 +304,34 @@ foreach ($census->getAtlas() as $region /* @var Region $region */):
 				<h6><?= $unit->Name() ?> <span class="badge badge-primary"><?= $unit->Id() ?></span></h6>
 				<p>
 					<?= $this->number($unit->Size(), 'race', $unit->Race()) ?><?php if ($unit->IsGuarding()) echo ', bewacht die Region'; ?>.
-					<?= $unit->Description() ?><br>
-					<?php
-					$talents = [];
-					foreach ($unit->Knowledge() as $ability /* @var Ability $ability */) {
-						$talents[] = $this->get('talent', $ability->Talent()) . ' ' . $ability->Level() . ' (' . $this->number($ability->Experience()) . ')';
-					}
-					$inventory = [];
-					$payload   = 0;
-					foreach ($unit->Inventory() as $quantity /* @var Quantity $quantity */) {
-						$inventory[] = $this->number($quantity->Count(), 'resource', $quantity->Commodity());
-						$payload += $quantity->Weight();
-					}
-					$n = count($inventory);
-					if ($n > 1) {
-						$inventory[$n - 2] .= ' und ' . $inventory[$n - 1];
-						unset($inventory[$n - 1]);
-					}
-					$weight = (int)ceil($payload / 100);
-					$total  = (int)ceil(($payload + $unit->Size() * $unit->Race()->Weight()) / 100);
-					?>
-					Talente: <?= empty($talents) ? 'keine' : implode(', ', $talents) ?>.
-					Hat <?= empty($inventory) ? 'nichts' : implode(', ', $inventory) ?>,
-					Last <?= $this->number($weight) ?> GE, zusammen <?= $this->number($total) ?> GE.
+					<?= $unit->Description() ?>
+					<?php if ($unit->Party() === $party): ?>
+						<br>
+						<?php
+						$talents = [];
+						foreach ($unit->Knowledge() as $ability /* @var Ability $ability */) {
+							$talents[] = $this->get('talent', $ability->Talent()) . ' ' . $ability->Level() . ' (' . $this->number($ability->Experience()) . ')';
+						}
+						$inventory = [];
+						$payload   = 0;
+						foreach ($unit->Inventory() as $quantity /* @var Quantity $quantity */) {
+							$inventory[] = $this->number($quantity->Count(), 'resource', $quantity->Commodity());
+							$payload += $quantity->Weight();
+						}
+						$n = count($inventory);
+						if ($n > 1) {
+							$inventory[$n - 2] .= ' und ' . $inventory[$n - 1];
+							unset($inventory[$n - 1]);
+						}
+						$weight = (int)ceil($payload / 100);
+						$total  = (int)ceil(($payload + $unit->Size() * $unit->Race()->Weight()) / 100);
+						?>
+						Talente: <?= empty($talents) ? 'keine' : implode(', ', $talents) ?>.
+						Hat <?= empty($inventory) ? 'nichts' : implode(', ', $inventory) ?>,
+						Last <?= $this->number($weight) ?> GE, zusammen <?= $this->number($total) ?> GE.
+					<?php endif ?>
 				</p>
-				<?php if (count($report = $this->messages($unit))): ?>
+				<?php if ($unit->Party() === $party && count($report = $this->messages($unit))): ?>
 					<ul class="report">
 						<?php foreach ($report as $message): ?>
 							<li><?= $this->message($message) ?></li>

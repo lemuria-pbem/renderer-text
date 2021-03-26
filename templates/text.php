@@ -239,23 +239,24 @@ Talente: <?= empty($talents) ? 'keine' : implode(', ', $talents) ?>
 
   -- <?= (string)$unit ?>, <?= $this->number($unit->Size(), 'race', $unit->Race()) ?><?php if ($unit->IsGuarding()): echo ', bewacht die Region' ?><?php endif ?>.<?= description($unit) ?>
 <?php
-$talents = [];
-foreach ($unit->Knowledge() as $ability /* @var Ability $ability */) {
-	$talents[] = $this->get('talent', $ability->Talent()) . ' ' . $ability->Level() . ' (' . $this->number($ability->Experience()) . ')';
-}
-$inventory = [];
-$payload   = 0;
-foreach ($unit->Inventory() as $quantity /* @var Quantity $quantity */) {
-	$inventory[] = $this->number($quantity->Count(), 'resource', $quantity->Commodity());
-	$payload += $quantity->Weight();
-}
-$n = count($inventory);
-if ($n > 1) {
-	$inventory[$n - 2] .= ' und ' . $inventory[$n - 1];
-	unset($inventory[$n - 1]);
-}
-$weight = (int)ceil($payload / 100);
-$total  = (int)ceil(($payload + $unit->Size() * $unit->Race()->Weight()) / 100);
+if ($unit->Party() === $party):
+	$talents = [];
+	foreach ($unit->Knowledge() as $ability /* @var Ability $ability */) {
+		$talents[] = $this->get('talent', $ability->Talent()) . ' ' . $ability->Level() . ' (' . $this->number($ability->Experience()) . ')';
+	}
+	$inventory = [];
+	$payload   = 0;
+	foreach ($unit->Inventory() as $quantity /* @var Quantity $quantity */) {
+		$inventory[] = $this->number($quantity->Count(), 'resource', $quantity->Commodity());
+		$payload += $quantity->Weight();
+	}
+	$n = count($inventory);
+	if ($n > 1) {
+		$inventory[$n - 2] .= ' und ' . $inventory[$n - 1];
+		unset($inventory[$n - 1]);
+	}
+	$weight = (int)ceil($payload / 100);
+	$total  = (int)ceil(($payload + $unit->Size() * $unit->Race()->Weight()) / 100);
 ?>
  Talente: <?= empty($talents) ? 'keine' : implode(', ', $talents) ?>
 . Hat <?= empty($inventory) ? 'nichts' : implode(', ', $inventory) ?>
@@ -264,6 +265,7 @@ $total  = (int)ceil(($payload + $unit->Size() * $unit->Race()->Weight()) / 100);
 <?= $message ?>
 
 <?php endforeach ?>
+<?php endif ?>
 <?php endif ?>
 <?php endforeach ?>
 <?php endforeach ?>
