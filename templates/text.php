@@ -7,6 +7,7 @@ use function Lemuria\Renderer\Text\description;
 use function Lemuria\Renderer\Text\footer;
 use function Lemuria\Renderer\Text\hr;
 use function Lemuria\Renderer\Text\line;
+use Lemuria\Engine\Fantasya\Factory\Model\TravelAtlas;
 use Lemuria\Lemuria;
 use Lemuria\Model\Fantasya\Ability;
 use Lemuria\Model\Fantasya\Commodity\Camel;
@@ -38,6 +39,7 @@ $report        = $this->messages($party);
 $acquaintances = $party->Diplomacy()->Acquaintances();
 $census        = $this->census;
 $outlook       = $this->outlook;
+$atlas         = $this->atlas;
 $map	       = $this->map;
 $race	       = getClass($party->Race());
 $calendar      = Lemuria::Calendar();
@@ -87,35 +89,9 @@ Dein Volk zählt <?= $this->number($census->count(), 'race', $party->Race()) ?> 
 
 Dies ist der Hauptkontinent Lemuria.
 <?php
-foreach ($census->getAtlas() as $region /* @var Region $region */):
-	$report    = $this->messages($region);
-	$resources = $region->Resources();
-	$t         = $resources[Wood::class]->Count();
-	$g         = $resources[Stone::class]->Count();
-	$o         = $resources[Iron::class]->Count();
-	$m         = $g && $o;
-	$trees     = $this->item(Wood::class, $resources);
-	$granite   = $this->item(Stone::class, $resources);
-	$ore       = $this->item(Iron::class, $resources);
-	$mining    = null;
-	if ($m):
-		$mining = $granite . ' und ' . $ore;
-	elseif ($g):
-		$mining = $granite;
-	elseif ($o):
-		$mining = $ore;
-	endif;
-	$a       = $resources[Horse::class]->Count() + $resources[Camel::class]->Count() + $resources[Elephant::class]->Count();
-	$animals = $this->items([Horse::class, Camel::class, Elephant::class], $resources);
-	$gr      = $resources[Griffin::class]->Count();
-	$egg     = $resources[Griffinegg::class]->Count();
-	$griffin = null;
-	if ($gr):
-		$griffin = $this->item(Griffin::class, $resources);
-		if ($egg):
-			$griffin .= ' mit ' . $this->item(Griffinegg::class, $resources);
-		endif;
-	endif;
+foreach ($atlas as $region /* @var Region $region */):
+	$hasUnits   = $atlas->getVisibility($region) === TravelAtlas::WITH_UNIT;
+	$resources  = $region->Resources();
 	$neighbours = [];
 	foreach ($map->getNeighbours($region)->getAll() as $direction => $neighbour):
 		$neighbours[] = 'im ' . $this->get('world', $direction) . ' liegt ' . $this->neighbour($neighbour);
@@ -125,22 +101,55 @@ foreach ($census->getAtlas() as $region /* @var Region $region */):
 		$neighbours[$n - 2] .= ' und ' . $neighbours[$n - 1];
 		unset($neighbours[$n - 1]);
 	endif;
-	$intelligence = new Intelligence($region);
-	$guards       = $intelligence->getGuards();
-	$g            = count($guards);
-	if ($g > 0):
-		$guardNames = [];
-		foreach ($guards as $unit /* @var Unit $unit */):
-			$guardNames[] = $unit->Name();
-		endforeach;
-		if ($g > 1):
-			$guardNames[$g - 2] .= ' und ' . $guardNames[$g - 1];
-			unset ($guardNames[$g - 1]);
+
+	if ($hasUnits):
+		$report  = $this->messages($region);
+		$t       = $resources[Wood::class]->Count();
+		$g       = $resources[Stone::class]->Count();
+		$o       = $resources[Iron::class]->Count();
+		$m       = $g && $o;
+		$trees   = $this->item(Wood::class, $resources);
+		$granite = $this->item(Stone::class, $resources);
+		$ore     = $this->item(Iron::class, $resources);
+		$mining  = null;
+		if ($m):
+			$mining = $granite . ' und ' . $ore;
+		elseif ($g):
+			$mining = $granite;
+		elseif ($o):
+			$mining = $ore;
+		endif;
+
+		$a       = $resources[Horse::class]->Count() + $resources[Camel::class]->Count() + $resources[Elephant::class]->Count();
+		$animals = $this->items([Horse::class, Camel::class, Elephant::class], $resources);
+		$gr      = $resources[Griffin::class]->Count();
+		$egg     = $resources[Griffinegg::class]->Count();
+		$griffin = null;
+		if ($gr):
+			$griffin = $this->item(Griffin::class, $resources);
+			if ($egg):
+				$griffin .= ' mit ' . $this->item(Griffinegg::class, $resources);
+			endif;
+		endif;
+
+		$intelligence = new Intelligence($region);
+		$guards       = $intelligence->getGuards();
+		$g            = count($guards);
+		if ($g > 0):
+			$guardNames = [];
+			foreach ($guards as $unit /* @var Unit $unit */):
+				$guardNames[] = $unit->Name();
+			endforeach;
+			if ($g > 1):
+				$guardNames[$g - 2] .= ' und ' . $guardNames[$g - 1];
+				unset ($guardNames[$g - 1]);
+			endif;
 		endif;
 	endif;
 ?>
 
->> <?= $region->Name() ?> <?= $map->getCoordinates($region) ?>, <?= $this->get('landscape', $region->Landscape()) ?>, <?= $this->item(Peasant::class, $resources) ?>, <?= $this->item(Silver::class, $resources) ?>. <?php if ($t && $m): ?>
+<?php if ($hasUnits): ?>
+>> <?= $region ?> <?= $map->getCoordinates($region) ?>, <?= $this->get('landscape', $region->Landscape()) ?>, <?= $this->item(Peasant::class, $resources) ?>, <?= $this->item(Silver::class, $resources) ?>. <?php if ($t && $m): ?>
 Hier <?= $t === 1 ? 'kann' : 'können' ?> <?= $trees ?> geerntet sowie <?= $mining ?> abgebaut werden.<?php
 elseif ($t): ?>
 Hier <?= $t === 1 ? 'kann' : 'können' ?> <?= $trees ?> geerntet werden.<?php
@@ -156,6 +165,13 @@ endif ?><?php if ($g > 0): ?> Die Region wird bewacht von <?= ucfirst(implode(',
 <?= $message ?>
 
 <?php endforeach ?>
+<?php else: ?>
+>> <?= $region ?> <?= $map->getCoordinates($region) ?>, <?= $this->get('landscape', $region->Landscape()) ?>.
+
+<?= ucfirst(implode(', ', $neighbours)) ?>
+.<?= line(description($region)) ?>
+<?php endif ?>
+<?php if ($hasUnits): ?>
 <?php foreach ($region->Estate() as $construction /* @var Construction $construction */): ?>
 
   >> <?= $construction ?>, <?= $this->get('building', $construction->Building()) ?> der Größe <?= $this->number($construction->Size()) ?>
@@ -267,6 +283,7 @@ if ($unit->Party() === $party):
 <?php endforeach ?>
 <?php endif ?>
 <?php endforeach ?>
+<?php endif ?>
 <?php endforeach ?>
 
 <?= footer() ?>

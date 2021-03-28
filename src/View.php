@@ -4,6 +4,7 @@ namespace Lemuria\Renderer\Text;
 
 use JetBrains\PhpStorm\Pure;
 
+use Lemuria\Engine\Fantasya\Factory\Model\TravelAtlas;
 use function Lemuria\getClass;
 use function Lemuria\number as formatNumber;
 use Lemuria\Engine\Fantasya\Outlook;
@@ -88,13 +89,17 @@ abstract class View
 
 	public Outlook $outlook;
 
+	public TravelAtlas $atlas;
+
 	public PartyMap $map;
 
 	protected Dictionary $dictionary;
 
 	public function __construct(public Party $party, private Filter $messageFilter) {
-		$this->census     = new Census($this->party);
-		$this->outlook    = new Outlook($this->census);
+		$this->census  = new Census($this->party);
+		$this->outlook = new Outlook($this->census);
+		$this->atlas   = new TravelAtlas($this->party);
+		$this->atlas->forRound(Lemuria::Calendar()->Round() - 1);
 		$this->map        = new PartyMap(Lemuria::World(), $this->party);
 		$this->dictionary = new Dictionary();
 	}
