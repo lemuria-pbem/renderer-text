@@ -189,7 +189,9 @@ foreach ($atlas as $region /* @var Region $region */):
 				<li><?= $this->message($message) ?></li>
 			<?php endforeach ?>
 		</ul>
+	<?php endif ?>
 
+	<?php if ($hasUnits): ?>
 		<h5>Materialpool</h5>
 
 		<?php if (count($materialPool) > 0): ?>
@@ -197,9 +199,7 @@ foreach ($atlas as $region /* @var Region $region */):
 		<?php else: ?>
 			<p>Der Materialpool ist leer.</p>
 		<?php endif ?>
-	<?php endif ?>
 
-	<?php if ($hasUnits): ?>
 		<?php foreach ($region->Estate() as $construction /* @var Construction $construction */): ?>
 			<h5><?= $construction->Name() ?> <span class="badge badge-secondary"><?= $construction->Id() ?></span></h5>
 			<p>
