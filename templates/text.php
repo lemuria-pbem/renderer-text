@@ -21,11 +21,11 @@ use Lemuria\Model\Fantasya\Commodity\Silver;
 use Lemuria\Model\Fantasya\Commodity\Stone;
 use Lemuria\Model\Fantasya\Commodity\Wood;
 use Lemuria\Model\Fantasya\Construction;
+use Lemuria\Model\Fantasya\Intelligence;
 use Lemuria\Model\Fantasya\Quantity;
 use Lemuria\Model\Fantasya\Region;
 use Lemuria\Model\Fantasya\Unit;
 use Lemuria\Model\Fantasya\Vessel;
-use Lemuria\Renderer\Text\Intelligence;
 use Lemuria\Renderer\Text\View;
 
 /**
@@ -145,6 +145,10 @@ foreach ($atlas as $region /* @var Region $region */):
 				unset ($guardNames[$g - 1]);
 			endif;
 		endif;
+		$materialPool = [];
+		foreach ($intelligence->getMaterialPool($party) as $quantity /* @var Quantity $quantity */):
+			$materialPool[] = $this->number($quantity->Count(), 'resource', $quantity->Commodity());
+		endforeach;
 	endif;
 ?>
 
@@ -165,6 +169,7 @@ endif ?><?php if ($g > 0): ?> Die Region wird bewacht von <?= ucfirst(implode(',
 <?= $message ?>
 
 <?php endforeach ?>
+Materialpool: <?= implode(', ', $materialPool) ?>.
 <?php else: ?>
 >> <?= $region ?> <?= $map->getCoordinates($region) ?>, <?= $this->get('landscape', $region->Landscape()) ?>.
 
@@ -174,8 +179,8 @@ endif ?><?php if ($g > 0): ?> Die Region wird bewacht von <?= ucfirst(implode(',
 <?php if ($hasUnits): ?>
 <?php foreach ($region->Estate() as $construction /* @var Construction $construction */): ?>
 
-  >> <?= $construction ?>, <?= $this->get('building', $construction->Building()) ?> der Größe <?= $this->number($construction->Size()) ?>
-. Besitzer ist <?= count($construction->Inhabitants()) ? $construction->Inhabitants()->Owner() : 'niemand' ?>
+  >> <?= $construction ?>, <?= $this->get('building', $construction->Building()) ?> der Größe <?= $this->number($construction->Size()) ?> mit <?= $this->number($this->people($construction)) ?>
+ Bewohnern. Besitzer ist <?= count($construction->Inhabitants()) ? $construction->Inhabitants()->Owner() : 'niemand' ?>
 .<?= line(description($construction)) ?>
 <?php foreach ($report = $this->messages($construction) as $message): ?>
   <?= $message ?>
@@ -214,7 +219,7 @@ $total  = (int)ceil(($payload + $unit->Size() * $unit->Race()->Weight()) / 100);
 <?php endforeach ?>
 <?php foreach ($region->Fleet() as $vessel /* @var Vessel $vessel */): ?>
 
-  >> <?= $vessel ?>, <?= $this->get('ship', $vessel->Ship()) ?>, freier Platz <?= $this->number((int)ceil($vessel->Space() / 100)) ?>
+  >> <?= $vessel ?>, <?= $this->get('ship', $vessel->Ship()) ?> mit <?= $this->number($this->people($vessel)) ?> Passagieren, freier Platz <?= $this->number((int)ceil($vessel->Space() / 100)) ?>
  GE. Kapitän ist <?= count($vessel->Passengers()) ? $vessel->Passengers()->Owner() : 'niemand' ?>
 .<?= line(description($vessel)) ?>
 <?php foreach ($report = $this->messages($vessel) as $message): ?>

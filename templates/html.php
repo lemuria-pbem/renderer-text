@@ -16,11 +16,11 @@ use Lemuria\Model\Fantasya\Commodity\Silver;
 use Lemuria\Model\Fantasya\Commodity\Stone;
 use Lemuria\Model\Fantasya\Commodity\Wood;
 use Lemuria\Model\Fantasya\Construction;
+use Lemuria\Model\Fantasya\Intelligence;
 use Lemuria\Model\Fantasya\Quantity;
 use Lemuria\Model\Fantasya\Region;
 use Lemuria\Model\Fantasya\Unit;
 use Lemuria\Model\Fantasya\Vessel;
-use Lemuria\Renderer\Text\Intelligence;
 use Lemuria\Renderer\Text\View;
 
 /**
@@ -137,6 +137,10 @@ foreach ($atlas as $region /* @var Region $region */):
 				unset ($guardNames[$g - 1]);
 			endif;
 		endif;
+		$materialPool = [];
+		foreach ($intelligence->getMaterialPool($party) as $quantity /* @var Quantity $quantity */):
+			$materialPool[] = $this->number($quantity->Count(), 'resource', $quantity->Commodity());
+		endforeach;
 	endif;
 	?>
 
@@ -179,19 +183,27 @@ foreach ($atlas as $region /* @var Region $region */):
 	<?php endif ?>
 
 	<?php if ($hasUnits && count($report)): ?>
-	<h5>Ereignisse</h5>
-	<ul class="report">
-		<?php foreach ($report as $message): ?>
-			<li><?= $this->message($message) ?></li>
-		<?php endforeach ?>
-	</ul>
+		<h5>Ereignisse</h5>
+		<ul class="report">
+			<?php foreach ($report as $message): ?>
+				<li><?= $this->message($message) ?></li>
+			<?php endforeach ?>
+		</ul>
+
+		<h5>Materialpool</h5>
+
+		<?php if (count($materialPool) > 0): ?>
+			<p><?= implode(', ', $materialPool) ?>.</p>
+		<?php else: ?>
+			<p>Der Materialpool ist leer.</p>
+		<?php endif ?>
 	<?php endif ?>
 
 	<?php if ($hasUnits): ?>
 		<?php foreach ($region->Estate() as $construction /* @var Construction $construction */): ?>
 			<h5><?= $construction->Name() ?> <span class="badge badge-secondary"><?= $construction->Id() ?></span></h5>
 			<p>
-				<?= $this->get('building', $construction->Building()) ?> der Größe <?= $this->number($construction->Size()) ?>.
+				<?= $this->get('building', $construction->Building()) ?> der Größe <?= $this->number($construction->Size()) ?> mit <?= $this->number($this->people($construction)) ?> Bewohnern.
 				Besitzer ist
 				<?php if (count($construction->Inhabitants())): ?>
 					<?= $construction->Inhabitants()->Owner()->Name() ?> <span class="badge badge-primary"><?= $construction->Inhabitants()->Owner()->Id() ?></span>.
@@ -253,7 +265,7 @@ foreach ($atlas as $region /* @var Region $region */):
 		<?php foreach ($region->Fleet() as $vessel /* @var Vessel $vessel */): ?>
 			<h5><?= $vessel->Name() ?> <span class="badge badge-info"><?= $vessel->Id() ?></span></h5>
 			<p>
-				<?= $this->get('ship', $vessel->Ship()) ?>, freier Platz <?= $this->number((int)ceil($vessel->Space() / 100)) ?> GE.
+				<?= $this->get('ship', $vessel->Ship()) ?> mit <?= $this->number($this->people($vessel)) ?> Passagieren, freier Platz <?= $this->number((int)ceil($vessel->Space() / 100)) ?> GE.
 				Kapitän ist
 				<?php if (count($vessel->Passengers())): ?>
 					<?= $vessel->Passengers()->Owner()->Name() ?> <span class="badge badge-primary"><?= $vessel->Passengers()->Owner()->Id() ?></span>.

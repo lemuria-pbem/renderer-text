@@ -4,9 +4,10 @@ namespace Lemuria\Renderer\Text;
 
 use JetBrains\PhpStorm\Pure;
 
-use Lemuria\Engine\Fantasya\Factory\Model\TravelAtlas;
+use Lemuria\Model\Fantasya\Construction;
 use function Lemuria\getClass;
 use function Lemuria\number as formatNumber;
+use Lemuria\Engine\Fantasya\Factory\Model\TravelAtlas;
 use Lemuria\Engine\Fantasya\Outlook;
 use Lemuria\Engine\Message;
 use Lemuria\Engine\Message\Filter;
@@ -18,6 +19,8 @@ use Lemuria\Model\Dictionary;
 use Lemuria\Model\Fantasya\Party;
 use Lemuria\Model\Fantasya\Party\Census;
 use Lemuria\Model\Fantasya\Region;
+use Lemuria\Model\Fantasya\Unit;
+use Lemuria\Model\Fantasya\Vessel;
 use Lemuria\Model\Fantasya\World\PartyMap;
 use Lemuria\Singleton;
 
@@ -170,6 +173,15 @@ abstract class View
 		} else {
 			return $this->get('world.null');
 		}
+	}
+
+	#[Pure] public function people(Construction|Vessel $entity): int {
+		$count  = 0;
+		$people = $entity instanceof Construction ? $entity->Inhabitants() : $entity->Passengers();
+		foreach ($people as $unit /* @var Unit $unit */) {
+			$count += $unit->Size();
+		}
+		return $count;
 	}
 
 	/**
