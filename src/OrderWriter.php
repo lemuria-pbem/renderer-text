@@ -7,10 +7,12 @@ use JetBrains\PhpStorm\Pure;
 use Lemuria\Engine\Message\Filter;
 use Lemuria\Id;
 use Lemuria\Lemuria;
+use Lemuria\Model\Fantasya\Construction;
 use Lemuria\Model\Fantasya\Party;
 use Lemuria\Model\Fantasya\Party\Census;
 use Lemuria\Model\Fantasya\Region;
 use Lemuria\Model\Fantasya\Unit;
+use Lemuria\Model\Fantasya\Vessel;
 use Lemuria\Renderer\Writer;
 
 class OrderWriter implements Writer
@@ -34,11 +36,27 @@ class OrderWriter implements Writer
 		$census   = new Census($party);
 		$template = $this->createHeader($party);
 		foreach ($census->getAtlas() as $region /* @var Region $region */) {
+			foreach ($region->Estate() as $construction /* @var Construction $construction */) {
+				foreach ($construction->Inhabitants() as $unit /* @var Unit $unit */) {
+					if ($unit->Party() === $party) {
+						$template .= $this->createUnit($unit, $region);
+					}
+				}
+			}
+			foreach ($region->Fleet() as $vessel /* @var Vessel $vessel */) {
+				foreach ($vessel->Passengers() as $unit /* @var Unit $unit */) {
+					if ($unit->Party() === $party) {
+						$template .= $this->createUnit($unit, $region);
+					}
+				}
+			}
 			foreach ($census->getPeople($region) as $unit /* @var Unit $unit */) {
-				$template .= $this->createUnit($unit, $region);
-				$template .= $this->createFooter();
+				if (!$unit->Construction() && !$unit->Vessel()) {
+					$template .= $this->createUnit($unit, $region);
+				}
 			}
 		}
+		$template .= $this->createFooter();
 		return $template;
 	}
 
