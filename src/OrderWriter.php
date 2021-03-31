@@ -8,6 +8,8 @@ use Lemuria\Engine\Message\Filter;
 use Lemuria\Id;
 use Lemuria\Lemuria;
 use Lemuria\Model\Fantasya\Party;
+use Lemuria\Model\Fantasya\Party\Census;
+use Lemuria\Model\Fantasya\Region;
 use Lemuria\Model\Fantasya\Unit;
 use Lemuria\Renderer\Writer;
 
@@ -29,11 +31,14 @@ class OrderWriter implements Writer
 
 	protected function generate(Id $id): string {
 		$party    = Party::get($id);
+		$census   = new Census($party);
 		$template = $this->createHeader($party);
-		foreach ($party->People() as $unit /* @var Unit $unit */) {
-			$template .= $this->createUnit($unit);
+		foreach ($census->getAtlas() as $region /* @var Region $region */) {
+			foreach ($census->getPeople($region) as $unit /* @var Unit $unit */) {
+				$template .= $this->createUnit($unit, $region);
+				$template .= $this->createFooter();
+			}
 		}
-		$template .= $this->createFooter();
 		return $template;
 	}
 
@@ -43,9 +48,9 @@ class OrderWriter implements Writer
 		]);
 	}
 
-	private function createUnit(Unit $unit): string {
+	private function createUnit(Unit $unit, Region $region): string {
 		$id     = $unit->Id();
-		$lines  = ['EINHEIT ' . $id . '; ' . $unit->Name() . ' in ' . $unit->Region()->Name()];
+		$lines  = ['EINHEIT ' . $id . '; ' . $unit->Name() . ' in ' . $region->Name()];
 		$orders = Lemuria::Orders()->getDefault($id);
 		if (count($orders)) {
 			foreach ($orders as $order) {
