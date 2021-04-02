@@ -7,6 +7,7 @@ use function Lemuria\Renderer\Text\description;
 use function Lemuria\Renderer\Text\footer;
 use function Lemuria\Renderer\Text\hr;
 use function Lemuria\Renderer\Text\line;
+use Lemuria\Engine\Fantasya\Availability;
 use Lemuria\Engine\Fantasya\Factory\Model\TravelAtlas;
 use Lemuria\Lemuria;
 use Lemuria\Model\Fantasya\Ability;
@@ -132,6 +133,11 @@ foreach ($atlas as $region /* @var Region $region */):
 			endif;
 		endif;
 
+		$availability = new Availability($region);
+		$peasants     = $availability->getResource(Peasant::class);
+		$recruits     = $this->resource($peasants);
+		$r            = $peasants->Count();
+
 		$intelligence = new Intelligence($region);
 		$guards       = $intelligence->getGuards();
 		$g            = count($guards);
@@ -153,12 +159,14 @@ foreach ($atlas as $region /* @var Region $region */):
 ?>
 
 <?php if ($hasUnits): ?>
->> <?= $region ?> <?= $map->getCoordinates($region) ?>, <?= $this->get('landscape', $region->Landscape()) ?>, <?= $this->item(Peasant::class, $resources) ?>, <?= $this->item(Silver::class, $resources) ?>. <?php if ($t && $m): ?>
-Hier <?= $t === 1 ? 'kann' : 'können' ?> <?= $trees ?> geerntet sowie <?= $mining ?> abgebaut werden.<?php
+>> <?= $region ?> <?= $map->getCoordinates($region) ?>, <?= $this->get('landscape', $region->Landscape()) ?>, <?= $this->item(Peasant::class, $resources) ?>, <?= $this->item(Silver::class, $resources) ?>
+.<?php if ($r > 0): ?> <?= $recruits ?> <?= $r === 1 ? 'kann' : 'können' ?> rekrutiert werden.<?php endif ?>
+<?php if ($t && $m): ?>
+ Hier <?= $t === 1 ? 'kann' : 'können' ?> <?= $trees ?> geerntet sowie <?= $mining ?> abgebaut werden.<?php
 elseif ($t): ?>
-Hier <?= $t === 1 ? 'kann' : 'können' ?> <?= $trees ?> geerntet werden.<?php
+ Hier <?= $t === 1 ? 'kann' : 'können' ?> <?= $trees ?> geerntet werden.<?php
 elseif ($g || $o): ?>
-Hier <?= $g + $o === 1 ? 'kann' : 'können' ?> <?= $mining ?> abgebaut werden.<?php
+ Hier <?= $g + $o === 1 ? 'kann' : 'können' ?> <?= $mining ?> abgebaut werden.<?php
 endif ?><?php if ($a): ?> <?= $animals ?> <?= $a === 1 ? 'streift' : 'streifen' ?> durch die Wildnis.<?php
 endif ?><?php if ($gr): ?> <?= $griffin ?> <?= $gr === 1 ? ' nistet ' : 'nisten' ?> in den Bergen.<?php
 endif ?><?php if ($g > 0): ?> Die Region wird bewacht von <?= ucfirst(implode(', ', $guardNames)) ?>.<?php endif ?>
