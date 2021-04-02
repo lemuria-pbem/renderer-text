@@ -2,6 +2,7 @@
 declare (strict_types = 1);
 
 use function Lemuria\getClass;
+use Lemuria\Engine\Fantasya\Availability;
 use Lemuria\Engine\Fantasya\Factory\Model\TravelAtlas;
 use Lemuria\Lemuria;
 use Lemuria\Model\Fantasya\Ability;
@@ -124,6 +125,11 @@ foreach ($atlas as $region /* @var Region $region */):
 			endif;
 		endif;
 
+		$availability = new Availability($region);
+		$peasants     = $availability->getResource(Peasant::class);
+		$recruits     = $this->resource($peasants);
+		$r            = $peasants->Count();
+
 		$intelligence = new Intelligence($region);
 		$guards       = $intelligence->getGuards();
 		$g            = count($guards);
@@ -151,6 +157,9 @@ foreach ($atlas as $region /* @var Region $region */):
 			<?= $this->get('landscape', $region->Landscape()) ?>,
 			<?= $this->item(Peasant::class, $resources) ?>,
 			<?= $this->item(Silver::class, $resources) ?>.
+			<?php if ($r > 0): ?>
+				<?= $recruits ?> <?= $r === 1 ? 'kann' : 'können' ?> rekrutiert werden.
+			<?php endif ?>
 			<?php if ($t && $m): ?>
 				Hier <?= $t === 1 ? 'kann' : 'können' ?> <?= $trees ?> geerntet sowie <?= $mining ?> abgebaut werden.
 			<?php elseif ($t): ?>

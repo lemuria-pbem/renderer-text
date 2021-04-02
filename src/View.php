@@ -4,7 +4,6 @@ namespace Lemuria\Renderer\Text;
 
 use JetBrains\PhpStorm\Pure;
 
-use Lemuria\Model\Fantasya\Construction;
 use function Lemuria\getClass;
 use function Lemuria\number as formatNumber;
 use Lemuria\Engine\Fantasya\Factory\Model\TravelAtlas;
@@ -16,6 +15,8 @@ use Lemuria\Identifiable;
 use Lemuria\ItemSet;
 use Lemuria\Lemuria;
 use Lemuria\Model\Dictionary;
+use Lemuria\Model\Fantasya\Construction;
+use Lemuria\Model\Fantasya\Quantity;
 use Lemuria\Model\Fantasya\Party;
 use Lemuria\Model\Fantasya\Party\Census;
 use Lemuria\Model\Fantasya\Region;
@@ -126,6 +127,13 @@ abstract class View
 			return formatNumber($number) . $delimiter . $this->get($keyPath, $index);
 		}
 		return formatNumber($number);
+	}
+
+	/**
+	 * Format a Quantity.
+	 */
+	#[Pure] public function resource(Quantity $item, string $keyPath = 'resource'): string {
+		return $this->number($item->Count(), $keyPath, $item->getObject());
 	}
 
 	/**
