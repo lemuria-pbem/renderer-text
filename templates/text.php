@@ -270,31 +270,32 @@ Talente: <?= empty($talents) ? 'keine' : implode(', ', $talents) ?>
 <?php
 if ($unit->Party() === $party):
 	$talents = [];
-	foreach ($unit->Knowledge() as $ability /* @var Ability $ability */) {
+	foreach ($unit->Knowledge() as $ability /* @var Ability $ability */):
 		$talents[] = $this->get('talent', $ability->Talent()) . ' ' . $ability->Level() . ' (' . $this->number($ability->Experience()) . ')';
-	}
+	endforeach;
 	$inventory = [];
 	$payload   = 0;
-	foreach ($unit->Inventory() as $quantity /* @var Quantity $quantity */) {
+	foreach ($unit->Inventory() as $quantity /* @var Quantity $quantity */):
 		$inventory[] = $this->number($quantity->Count(), 'resource', $quantity->Commodity());
 		$payload += $quantity->Weight();
-	}
+	endforeach;
 	$n = count($inventory);
-	if ($n > 1) {
+	if ($n > 1):
 		$inventory[$n - 2] .= ' und ' . $inventory[$n - 1];
 		unset($inventory[$n - 1]);
-	}
+	endif;
 	$weight = (int)ceil($payload / 100);
 	$total  = (int)ceil(($payload + $unit->Size() * $unit->Race()->Weight()) / 100);
 ?>
  Talente: <?= empty($talents) ? 'keine' : implode(', ', $talents) ?>
 . Hat <?= empty($inventory) ? 'nichts' : implode(', ', $inventory) ?>
-, Last <?= $this->number($weight) ?> GE, zusammen <?= $this->number($total) ?> GE.
-<?php foreach ($report = $this->messages($unit) as $message): ?>
-<?= $message ?>
+, Last <?= $this->number($weight) ?> GE, zusammen <?= $this->number($total) ?>
+ GE.<?php foreach ($report = $this->messages($unit) as $message): ?>
 
+<?= $message ?>
 <?php endforeach ?>
 <?php endif ?>
+
 <?php endforeach ?>
 <?php endif ?>
 <?php endforeach ?>
