@@ -93,6 +93,8 @@ Dein Volk zählt <?= $this->number($census->count(), 'race', $party->Race()) ?> 
 Dies ist der Hauptkontinent Lemuria.
 <?php
 foreach ($atlas as $region /* @var Region $region */):
+	$landscape  = $region->Landscape();
+	$isOcean    = $landscape instanceof Ocean;
 	$hasUnits   = $atlas->getVisibility($region) === TravelAtlas::WITH_UNIT;
 	$resources  = $region->Resources();
 	$neighbours = [];
@@ -161,6 +163,11 @@ foreach ($atlas as $region /* @var Region $region */):
 ?>
 
 <?php if ($hasUnits): ?>
+<?php if ($isOcean): ?>
+<?php if ($region->Name() !== 'Ozean'): ?>
+>> <?= $region ?> <?= $map->getCoordinates($region) ?>.
+<?php endif ?>
+<?php else: ?>
 >> <?= $region ?> <?= $map->getCoordinates($region) ?>, <?= $this->get('landscape', $region->Landscape()) ?>, <?= $this->item(Peasant::class, $resources) ?>, <?= $this->item(Silver::class, $resources) ?>
 .<?php if ($r > 0): ?> <?= $recruits ?> <?= $r === 1 ? 'kann' : 'können' ?> rekrutiert werden.<?php endif ?>
 <?php if ($t && $m): ?>
@@ -172,6 +179,7 @@ elseif ($g || $o): ?>
 endif ?><?php if ($a): ?> <?= $animals ?> <?= $a === 1 ? 'streift' : 'streifen' ?> durch die Wildnis.<?php
 endif ?><?php if ($gr): ?> <?= $griffin ?> <?= $gr === 1 ? ' nistet ' : 'nisten' ?> in den Bergen.<?php
 endif ?><?php if ($g > 0): ?> Die Region wird bewacht von <?= ucfirst(implode(', ', $guardNames)) ?>.<?php endif ?>
+<?php endif ?>
 
 <?= ucfirst(implode(', ', $neighbours)) ?>
 .<?= line(description($region)) ?>
@@ -181,7 +189,11 @@ endif ?><?php if ($g > 0): ?> Die Region wird bewacht von <?= ucfirst(implode(',
 <?php endforeach ?>
 Materialpool: <?= implode(', ', $materialPool) ?>.
 <?php else: ?>
+<?php if ($isOcean && $region->Name() === 'Ozean'): ?>
+>> <?= $region ?> <?= $map->getCoordinates($region) ?>.
+<?php else: ?>
 >> <?= $region ?> <?= $map->getCoordinates($region) ?>, <?= $this->get('landscape', $region->Landscape()) ?>.
+<?php endif ?>
 
 <?= ucfirst(implode(', ', $neighbours)) ?>
 .<?= line(description($region)) ?>

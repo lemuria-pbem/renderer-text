@@ -85,6 +85,8 @@ $week	       = $calendar->Week();
 
 <?php
 foreach ($atlas as $region /* @var Region $region */):
+	$landscape  = $region->Landscape();
+	$isOcean    = $landscape instanceof Ocean;
 	$hasUnits   = $atlas->getVisibility($region) === TravelAtlas::WITH_UNIT;
 	$resources  = $region->Resources();
 	$neighbours = [];
@@ -156,37 +158,51 @@ foreach ($atlas as $region /* @var Region $region */):
 
 	<?php if ($hasUnits): ?>
 		<p>
-			<?= $this->get('landscape', $region->Landscape()) ?>,
-			<?= $this->item(Peasant::class, $resources) ?>,
-			<?= $this->item(Silver::class, $resources) ?>.
-			<?php if ($r > 0): ?>
-				<?= $recruits ?> <?= $r === 1 ? 'kann' : 'können' ?> rekrutiert werden.
+			<?php if ($isOcean): ?>
+				<?php if ($region->Name() !== 'Ozean'): ?>
+					<?= $this->get('landscape', $region->Landscape()) ?>.
+					<br>
+				<?php endif ?>
+			<?php else: ?>
+				<?= $this->get('landscape', $region->Landscape()) ?>,
+				<?= $this->item(Peasant::class, $resources) ?>,
+				<?= $this->item(Silver::class, $resources) ?>.
+				<?php if ($r > 0): ?>
+					<?= $recruits ?> <?= $r === 1 ? 'kann' : 'können' ?> rekrutiert werden.
+				<?php endif ?>
+				<?php if ($t && $m): ?>
+					Hier <?= $t === 1 ? 'kann' : 'können' ?> <?= $trees ?> geerntet sowie <?= $mining ?> abgebaut werden.
+				<?php elseif ($t): ?>
+					Hier <?= $t === 1 ? 'kann' : 'können' ?> <?= $trees ?> geerntet werden.
+				<?php elseif ($g || $o): ?>
+					Hier <?= $g + $o === 1 ? 'kann' : 'können' ?> <?= $mining ?> abgebaut werden.
+				<?php endif ?>
+				<?php if ($a): ?>
+					<?= $animals ?> <?= $a === 1 ? 'streift' : 'streifen' ?> durch die Wildnis.
+				<?php endif ?>
+				<?php if ($gr): ?>
+					<?= $griffin ?> <?= $gr === 1 ? ' nistet ' : 'nisten' ?> in den Bergen.
+				<?php endif ?>
+				<?php if ($g > 0): ?>
+					Die Region wird bewacht von <?= ucfirst(implode(', ', $guardNames)) ?>.
+				<?php endif ?>
+				<br>
 			<?php endif ?>
-			<?php if ($t && $m): ?>
-				Hier <?= $t === 1 ? 'kann' : 'können' ?> <?= $trees ?> geerntet sowie <?= $mining ?> abgebaut werden.
-			<?php elseif ($t): ?>
-				Hier <?= $t === 1 ? 'kann' : 'können' ?> <?= $trees ?> geerntet werden.
-			<?php elseif ($g || $o): ?>
-				Hier <?= $g + $o === 1 ? 'kann' : 'können' ?> <?= $mining ?> abgebaut werden.
-			<?php endif ?>
-			<?php if ($a): ?>
-				<?= $animals ?> <?= $a === 1 ? 'streift' : 'streifen' ?> durch die Wildnis.
-			<?php endif ?>
-			<?php if ($gr): ?>
-				<?= $griffin ?> <?= $gr === 1 ? ' nistet ' : 'nisten' ?> in den Bergen.
-			<?php endif ?>
-			<?php if ($g > 0): ?>
-				Die Region wird bewacht von <?= ucfirst(implode(', ', $guardNames)) ?>.
-			<?php endif ?>
-			<br>
 			<?= ucfirst(implode(', ', $neighbours)) ?>.
 			<br>
 			<?= $region->Description() ?>
 		</p>
 	<?php else: ?>
 		<p>
-			<?= $this->get('landscape', $region->Landscape()) ?>.
-			<br>
+			<?php if ($isOcean): ?>
+				<?php if ($region->Name() !== 'Ozean'): ?>
+					<?= $this->get('landscape', $region->Landscape()) ?>.
+					<br>
+				<?php endif ?>
+			<?php else: ?>
+				<?= $this->get('landscape', $region->Landscape()) ?>.
+				<br>
+			<?php endif ?>
 			<?= ucfirst(implode(', ', $neighbours)) ?>.
 			<br>
 			<?= $region->Description() ?>
