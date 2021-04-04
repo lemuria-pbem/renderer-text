@@ -195,27 +195,38 @@ Materialpool: <?= implode(', ', $materialPool) ?>.
 
 <?php endforeach ?>
 <?php foreach ($construction->Inhabitants() as $unit /* @var Unit $unit */): ?>
-
-    * <?= (string)$unit ?>, <?= $this->number($unit->Size(), 'race', $unit->Race()) ?><?php if ($unit->IsGuarding()): echo ', bewacht die Region' ?><?php endif ?>.<?= description($unit) ?>
 <?php
+$isForeign = $unit->Party() !== $party;
+if ($isForeign):
+	$foreign = $census->getParty($unit);
+	if (!$foreign):
+		$foreign = 'unbekannte Partei';
+	endif;
+endif;
 $talents = [];
-foreach ($unit->Knowledge() as $ability /* @var Ability $ability */) {
+foreach ($unit->Knowledge() as $ability /* @var Ability $ability */):
 	$talents[] = $this->get('talent', $ability->Talent()) . ' ' . $ability->Level() . ' (' . $this->number($ability->Experience()) . ')';
-}
+endforeach;
 $inventory = [];
 $payload   = 0;
-foreach ($unit->Inventory() as $quantity /* @var Quantity $quantity */) {
+foreach ($unit->Inventory() as $quantity /* @var Quantity $quantity */):
 	$inventory[] = $this->number($quantity->Count(), 'resource', $quantity->Commodity());
 	$payload += $quantity->Weight();
-}
+endforeach;
 $n = count($inventory);
-if ($n > 1) {
+if ($n > 1):
 	$inventory[$n - 2] .= ' und ' . $inventory[$n - 1];
 	unset($inventory[$n - 1]);
-}
+endif;
 $weight = (int)ceil($payload / 100);
 $total  = (int)ceil(($payload + $unit->Size() * $unit->Race()->Weight()) / 100);
 ?>
+
+<?php if ($isForeign): ?>
+    * <?= (string)$unit ?> (<?= $foreign ?>), <?= $this->number($unit->Size(), 'race', $unit->Race()) ?><?php if ($unit->IsGuarding()): echo ', bewacht die Region' ?><?php endif ?>.<?= description($unit) ?>
+<?php else: ?>
+    * <?= (string)$unit ?>, <?= $this->number($unit->Size(), 'race', $unit->Race()) ?><?php if ($unit->IsGuarding()): echo ', bewacht die Region' ?><?php endif ?>.<?= description($unit) ?>
+<?php endif ?>
  Talente: <?= empty($talents) ? 'keine' : implode(', ', $talents) ?>
 . Hat <?= empty($inventory) ? 'nichts' : implode(', ', $inventory) ?>
 , Last <?= $this->number($weight) ?> GE, zusammen <?= $this->number($total) ?> GE.
@@ -235,8 +246,14 @@ $total  = (int)ceil(($payload + $unit->Size() * $unit->Race()->Weight()) / 100);
 
 <?php endforeach ?>
 <?php foreach ($vessel->Passengers() as $unit /* @var Unit $unit */): ?>
-    * <?= (string)$unit ?>, <?= $this->number($unit->Size(), 'race', $unit->Race()) ?>.<?= description($unit) ?>
 <?php
+$isForeign = $unit->Party() !== $party;
+if ($isForeign):
+	$foreign = $census->getParty($unit);
+	if (!$foreign):
+		$foreign = 'unbekannte Partei';
+	endif;
+endif;
 $talents = [];
 foreach ($unit->Knowledge() as $ability /* @var Ability $ability */) {
 	$talents[] = $this->get('talent', $ability->Talent()) . ' ' . $ability->Level() . ' (' . $this->number($ability->Experience()) . ')';
@@ -255,6 +272,12 @@ if ($n > 1) {
 $weight = (int)ceil($payload / 100);
 $total  = (int)ceil(($payload + $unit->Size() * $unit->Race()->Weight()) / 100);
 ?>
+
+<?php if ($isForeign): ?>
+    * <?= (string)$unit ?> (<?= $foreign ?>), <?= $this->number($unit->Size(), 'race', $unit->Race()) ?><?php if ($unit->IsGuarding()): echo ', bewacht die Region' ?><?php endif ?>.<?= description($unit) ?>
+<?php else: ?>
+    * <?= (string)$unit ?>, <?= $this->number($unit->Size(), 'race', $unit->Race()) ?><?php if ($unit->IsGuarding()): echo ', bewacht die Region' ?><?php endif ?>.<?= description($unit) ?>
+<?php endif ?>
 Talente: <?= empty($talents) ? 'keine' : implode(', ', $talents) ?>
 . Hat <?= empty($inventory) ? 'nichts' : implode(', ', $inventory) ?>
 , Last <?= $this->number($weight) ?> GE, zusammen <?= $this->number($total) ?> GE.
@@ -265,36 +288,49 @@ Talente: <?= empty($talents) ? 'keine' : implode(', ', $talents) ?>
 <?php endforeach ?>
 <?php endforeach ?>
 <?php foreach ($outlook->Apparitions($region) as $unit /* @var Unit $unit */): ?>
-
-  -- <?= (string)$unit ?>, <?= $this->number($unit->Size(), 'race', $unit->Race()) ?><?php if ($unit->IsGuarding()): echo ', bewacht die Region' ?><?php endif ?>.<?= description($unit) ?>
 <?php
-if ($unit->Party() === $party):
+$isOwn = $unit->Party() === $party;
+if ($isOwn):
 	$talents = [];
-	foreach ($unit->Knowledge() as $ability /* @var Ability $ability */) {
+	foreach ($unit->Knowledge() as $ability /* @var Ability $ability */):
 		$talents[] = $this->get('talent', $ability->Talent()) . ' ' . $ability->Level() . ' (' . $this->number($ability->Experience()) . ')';
-	}
+	endforeach;
 	$inventory = [];
 	$payload   = 0;
-	foreach ($unit->Inventory() as $quantity /* @var Quantity $quantity */) {
+	foreach ($unit->Inventory() as $quantity /* @var Quantity $quantity */):
 		$inventory[] = $this->number($quantity->Count(), 'resource', $quantity->Commodity());
 		$payload += $quantity->Weight();
-	}
+	endforeach;
 	$n = count($inventory);
-	if ($n > 1) {
+	if ($n > 1):
 		$inventory[$n - 2] .= ' und ' . $inventory[$n - 1];
 		unset($inventory[$n - 1]);
-	}
+	endif;
 	$weight = (int)ceil($payload / 100);
 	$total  = (int)ceil(($payload + $unit->Size() * $unit->Race()->Weight()) / 100);
+else:
+	$foreign = $census->getParty($unit);
+	if (!$foreign):
+		$foreign = 'unbekannte Partei';
+	endif;
+endif;
 ?>
+
+<?php if ($isOwn): ?>
+  -- <?= (string)$unit ?>, <?= $this->number($unit->Size(), 'race', $unit->Race()) ?><?php if ($unit->IsGuarding()): echo ', bewacht die Region' ?><?php endif ?>.<?= description($unit) ?>
+<?php else: ?>
+  -- <?= (string)$unit ?> (<?= $foreign ?>), <?= $this->number($unit->Size(), 'race', $unit->Race()) ?><?php if ($unit->IsGuarding()): echo ', bewacht die Region' ?><?php endif ?>.<?= description($unit) ?>
+<?php endif ?>
+<?php if ($isOwn): ?>
  Talente: <?= empty($talents) ? 'keine' : implode(', ', $talents) ?>
 . Hat <?= empty($inventory) ? 'nichts' : implode(', ', $inventory) ?>
-, Last <?= $this->number($weight) ?> GE, zusammen <?= $this->number($total) ?> GE.
-<?php foreach ($report = $this->messages($unit) as $message): ?>
-<?= $message ?>
+, Last <?= $this->number($weight) ?> GE, zusammen <?= $this->number($total) ?>
+ GE.<?php foreach ($report = $this->messages($unit) as $message): ?>
 
+<?= $message ?>
 <?php endforeach ?>
 <?php endif ?>
+
 <?php endforeach ?>
 <?php endif ?>
 <?php endforeach ?>
