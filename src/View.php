@@ -4,6 +4,7 @@ namespace Lemuria\Renderer\Text;
 
 use JetBrains\PhpStorm\Pure;
 
+use Lemuria\Model\Fantasya\Landscape\Ocean;
 use function Lemuria\getClass;
 use function Lemuria\number as formatNumber;
 use Lemuria\Engine\Fantasya\Factory\Model\TravelAtlas;
@@ -174,7 +175,7 @@ abstract class View
 		if ($region) {
 			$landscape = $region->Landscape();
 			$text      = $this->get('article', $landscape) . ' ' . $this->get('landscape', $landscape);
-			if ($region->Name()) {
+			if ($region->Name() && !($landscape instanceof Ocean && $region->Name() === 'Ozean')) {
 				$text .= ' ' . $region->Name();
 			}
 			return $text;
