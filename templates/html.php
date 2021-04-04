@@ -233,29 +233,42 @@ foreach ($atlas as $region /* @var Region $region */):
 
 			<?php foreach ($construction->Inhabitants() as $unit /* @var Unit $unit */): ?>
 				<div class="unit">
-					<h6><?= $unit->Name() ?> <span class="badge badge-primary"><?= $unit->Id() ?></span></h6>
+					<?php
+					$isForeign = $unit->Party() !== $party;
+					if ($isForeign):
+						$foreign = $census->getParty($unit);
+					endif;
+					$talents = [];
+					foreach ($unit->Knowledge() as $ability /* @var Ability $ability */):
+						$talents[] = $this->get('talent', $ability->Talent()) . ' ' . $ability->Level() . ' (' . $this->number($ability->Experience()) . ')';
+					endforeach;
+					$inventory = [];
+					$payload   = 0;
+					foreach ($unit->Inventory() as $quantity /* @var Quantity $quantity */):
+						$inventory[] = $this->number($quantity->Count(), 'resource', $quantity->Commodity());
+						$payload += $quantity->Weight();
+					endforeach;
+					$n = count($inventory);
+					if ($n > 1):
+						$inventory[$n - 2] .= ' und ' . $inventory[$n - 1];
+						unset($inventory[$n - 1]);
+					endif;
+					$weight = (int)ceil($payload / 100);
+					$total  = (int)ceil(($payload + $unit->Size() * $unit->Race()->Weight()) / 100);
+					?>
+					<h6>
+						<?= $unit->Name() ?> <span class="badge badge-primary"><?= $unit->Id() ?></span>
+						<?php if ($isForeign): ?>
+							<?php if ($foreign): ?>
+								(<?= $foreign->Name() ?> <span class="badge badge-secondary"><?= $foreign->Id() ?></span>)
+							<?php else: ?>
+								(unbekannte Partei)
+							<?php endif ?>
+						<?php endif ?>
+					</h6>
 					<p>
 						<?= $this->number($unit->Size(), 'race', $unit->Race()) ?><?php if ($unit->IsGuarding()) echo ', bewacht die Region'; ?>.
 						<?= $unit->Description() ?><br>
-						<?php
-						$talents = [];
-						foreach ($unit->Knowledge() as $ability /* @var Ability $ability */) {
-							$talents[] = $this->get('talent', $ability->Talent()) . ' ' . $ability->Level() . ' (' . $this->number($ability->Experience()) . ')';
-						}
-						$inventory = [];
-						$payload   = 0;
-						foreach ($unit->Inventory() as $quantity /* @var Quantity $quantity */) {
-							$inventory[] = $this->number($quantity->Count(), 'resource', $quantity->Commodity());
-							$payload += $quantity->Weight();
-						}
-						$n = count($inventory);
-						if ($n > 1) {
-							$inventory[$n - 2] .= ' und ' . $inventory[$n - 1];
-							unset($inventory[$n - 1]);
-						}
-						$weight = (int)ceil($payload / 100);
-						$total  = (int)ceil(($payload + $unit->Size() * $unit->Race()->Weight()) / 100);
-						?>
 						Talente: <?= empty($talents) ? 'keine' : implode(', ', $talents) ?>.
 						Hat <?= empty($inventory) ? 'nichts' : implode(', ', $inventory) ?>,
 						Last <?= $this->number($weight) ?> GE, zusammen <?= $this->number($total) ?> GE.
@@ -295,29 +308,42 @@ foreach ($atlas as $region /* @var Region $region */):
 
 			<?php foreach ($vessel->Passengers() as $unit /* @var Unit $unit */): ?>
 				<div class="unit">
-					<h6><?= $unit->Name() ?> <span class="badge badge-primary"><?= $unit->Id() ?></span></h6>
+					<?php
+					$isForeign = $unit->Party() !== $party;
+					if ($isForeign):
+						$foreign = $census->getParty($unit);
+					endif;
+					$talents = [];
+					foreach ($unit->Knowledge() as $ability /* @var Ability $ability */):
+						$talents[] = $this->get('talent', $ability->Talent()) . ' ' . $ability->Level() . ' (' . $this->number($ability->Experience()) . ')';
+					endforeach;
+					$inventory = [];
+					$payload   = 0;
+					foreach ($unit->Inventory() as $quantity /* @var Quantity $quantity */):
+						$inventory[] = $this->number($quantity->Count(), 'resource', $quantity->Commodity());
+						$payload += $quantity->Weight();
+					endforeach;
+					$n = count($inventory);
+					if ($n > 1):
+						$inventory[$n - 2] .= ' und ' . $inventory[$n - 1];
+						unset($inventory[$n - 1]);
+					endif;
+					$weight = (int)ceil($payload / 100);
+					$total  = (int)ceil(($payload + $unit->Size() * $unit->Race()->Weight()) / 100);
+					?>
+					<h6>
+						<?= $unit->Name() ?> <span class="badge badge-primary"><?= $unit->Id() ?></span>
+						<?php if ($isForeign): ?>
+							<?php if ($foreign): ?>
+								(<?= $foreign->Name() ?> <span class="badge badge-secondary"><?= $foreign->Id() ?></span>)
+							<?php else: ?>
+								(unbekannte Partei)
+							<?php endif ?>
+						<?php endif ?>
+					</h6>
 					<p>
 						<?= $this->number($unit->Size(), 'race', $unit->Race()) ?>.
 						<?= $unit->Description() ?><br>
-						<?php
-						$talents = [];
-						foreach ($unit->Knowledge() as $ability /* @var Ability $ability */) {
-							$talents[] = $this->get('talent', $ability->Talent()) . ' ' . $ability->Level() . ' (' . $this->number($ability->Experience()) . ')';
-						}
-						$inventory = [];
-						$payload   = 0;
-						foreach ($unit->Inventory() as $quantity /* @var Quantity $quantity */) {
-							$inventory[] = $this->number($quantity->Count(), 'resource', $quantity->Commodity());
-							$payload += $quantity->Weight();
-						}
-						$n = count($inventory);
-						if ($n > 1) {
-							$inventory[$n - 2] .= ' und ' . $inventory[$n - 1];
-							unset($inventory[$n - 1]);
-						}
-						$weight = (int)ceil($payload / 100);
-						$total  = (int)ceil(($payload + $unit->Size() * $unit->Race()->Weight()) / 100);
-						?>
 						Talente: <?= empty($talents) ? 'keine' : implode(', ', $talents) ?>.
 						Hat <?= empty($inventory) ? 'nichts' : implode(', ', $inventory) ?>,
 						Last <?= $this->number($weight) ?> GE, zusammen <?= $this->number($total) ?> GE.
@@ -337,39 +363,53 @@ foreach ($atlas as $region /* @var Region $region */):
 		<?php foreach ($outlook->Apparitions($region) as $unit /* @var Unit $unit */): ?>
 			<?php if ($unitsInRegions++ === 0): ?>
 				<h5>Weitere Einheiten</h5>
+				<br>
 			<?php endif ?>
 			<div class="unit">
-				<h6><?= $unit->Name() ?> <span class="badge badge-primary"><?= $unit->Id() ?></span></h6>
+				<?php
+				$isOwn = $unit->Party() === $party;
+				if ($isOwn):
+					$talents = [];
+					foreach ($unit->Knowledge() as $ability/* @var Ability $ability */):
+						$talents[] = $this->get('talent', $ability->Talent()) . ' ' . $ability->Level() . ' (' . $this->number($ability->Experience()) . ')';
+					endforeach;
+					$inventory = [];
+					$payload   = 0;
+					foreach ($unit->Inventory() as $quantity/* @var Quantity $quantity */):
+						$inventory[] = $this->number($quantity->Count(), 'resource', $quantity->Commodity());
+						$payload     += $quantity->Weight();
+					endforeach;
+					$n = count($inventory);
+					if ($n > 1):
+						$inventory[$n - 2] .= ' und ' . $inventory[$n - 1];
+						unset($inventory[$n - 1]);
+					endif;
+					$weight = (int)ceil($payload / 100);
+					$total  = (int)ceil(($payload + $unit->Size() * $unit->Race()->Weight()) / 100);
+				else:
+					$foreign = $census->getParty($unit);
+				endif;
+				?>
+				<h6>
+					<?= $unit->Name() ?> <span class="badge badge-primary"><?= $unit->Id() ?></span>
+					<?php if (!$isOwn): ?>
+						<?php if ($foreign): ?>
+							(<?= $foreign->Name() ?> <span class="badge badge-secondary"><?= $foreign->Id() ?></span>)
+						<?php else: ?>
+							(unbekannte Partei)
+						<?php endif ?>
+					<?php endif ?>
+				</h6>
 				<p>
 					<?= $this->number($unit->Size(), 'race', $unit->Race()) ?><?php if ($unit->IsGuarding()) echo ', bewacht die Region'; ?>.
 					<?= $unit->Description() ?>
-					<?php if ($unit->Party() === $party): ?>
-						<br>
-						<?php
-						$talents = [];
-						foreach ($unit->Knowledge() as $ability /* @var Ability $ability */) {
-							$talents[] = $this->get('talent', $ability->Talent()) . ' ' . $ability->Level() . ' (' . $this->number($ability->Experience()) . ')';
-						}
-						$inventory = [];
-						$payload   = 0;
-						foreach ($unit->Inventory() as $quantity /* @var Quantity $quantity */) {
-							$inventory[] = $this->number($quantity->Count(), 'resource', $quantity->Commodity());
-							$payload += $quantity->Weight();
-						}
-						$n = count($inventory);
-						if ($n > 1) {
-							$inventory[$n - 2] .= ' und ' . $inventory[$n - 1];
-							unset($inventory[$n - 1]);
-						}
-						$weight = (int)ceil($payload / 100);
-						$total  = (int)ceil(($payload + $unit->Size() * $unit->Race()->Weight()) / 100);
-						?>
+					<?php if ($isOwn): ?>
 						Talente: <?= empty($talents) ? 'keine' : implode(', ', $talents) ?>.
 						Hat <?= empty($inventory) ? 'nichts' : implode(', ', $inventory) ?>,
 						Last <?= $this->number($weight) ?> GE, zusammen <?= $this->number($total) ?> GE.
 					<?php endif ?>
 				</p>
-				<?php if ($unit->Party() === $party && count($report = $this->messages($unit))): ?>
+				<?php if ($isOwn && count($report = $this->messages($unit))): ?>
 					<ul class="report">
 						<?php foreach ($report as $message): ?>
 							<li><?= $this->message($message) ?></li>
