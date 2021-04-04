@@ -3,6 +3,7 @@ declare (strict_types = 1);
 
 use function Lemuria\getClass;
 use Lemuria\Engine\Fantasya\Availability;
+use Lemuria\Engine\Fantasya\Calculus;
 use Lemuria\Engine\Fantasya\Factory\Model\TravelAtlas;
 use Lemuria\Lemuria;
 use Lemuria\Model\Fantasya\Ability;
@@ -239,9 +240,12 @@ foreach ($atlas as $region /* @var Region $region */):
 					if ($isForeign):
 						$foreign = $census->getParty($unit);
 					endif;
-					$talents = [];
+					$calculus = new Calculus($unit);
+					$talents  = [];
 					foreach ($unit->Knowledge() as $ability /* @var Ability $ability */):
-						$talents[] = $this->get('talent', $ability->Talent()) . ' ' . $ability->Level() . ' (' . $this->number($ability->Experience()) . ')';
+						$experience = $ability->Experience();
+						$ability    = $calculus->knowledge($ability->Talent());
+						$talents[]  = $this->get('talent', $ability->Talent()) . ' ' . $ability->Level() . ' (' . $this->number($experience) . ')';
 					endforeach;
 					$inventory = [];
 					$payload   = 0;
@@ -321,9 +325,12 @@ foreach ($atlas as $region /* @var Region $region */):
 					if ($isForeign):
 						$foreign = $census->getParty($unit);
 					endif;
-					$talents = [];
+					$calculus = new Calculus($unit);
+					$talents  = [];
 					foreach ($unit->Knowledge() as $ability /* @var Ability $ability */):
-						$talents[] = $this->get('talent', $ability->Talent()) . ' ' . $ability->Level() . ' (' . $this->number($ability->Experience()) . ')';
+						$experience = $ability->Experience();
+						$ability    = $calculus->knowledge($ability->Talent());
+						$talents[]  = $this->get('talent', $ability->Talent()) . ' ' . $ability->Level() . ' (' . $this->number($experience) . ')';
 					endforeach;
 					$inventory = [];
 					$payload   = 0;
@@ -377,9 +384,12 @@ foreach ($atlas as $region /* @var Region $region */):
 				<?php
 				$isOwn = $unit->Party() === $party;
 				if ($isOwn):
-					$talents = [];
+					$calculus = new Calculus($unit);
+					$talents  = [];
 					foreach ($unit->Knowledge() as $ability/* @var Ability $ability */):
-						$talents[] = $this->get('talent', $ability->Talent()) . ' ' . $ability->Level() . ' (' . $this->number($ability->Experience()) . ')';
+						$experience = $ability->Experience();
+						$ability    = $calculus->knowledge($ability->Talent());
+						$talents[]  = $this->get('talent', $ability->Talent()) . ' ' . $ability->Level() . ' (' . $this->number($experience) . ')';
 					endforeach;
 					$inventory = [];
 					$payload   = 0;

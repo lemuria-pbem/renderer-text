@@ -8,6 +8,7 @@ use function Lemuria\Renderer\Text\footer;
 use function Lemuria\Renderer\Text\hr;
 use function Lemuria\Renderer\Text\line;
 use Lemuria\Engine\Fantasya\Availability;
+use Lemuria\Engine\Fantasya\Calculus;
 use Lemuria\Engine\Fantasya\Factory\Model\TravelAtlas;
 use Lemuria\Lemuria;
 use Lemuria\Model\Fantasya\Ability;
@@ -204,9 +205,12 @@ if ($isForeign):
 		$foreign = 'unbekannte Partei';
 	endif;
 endif;
-$talents = [];
+$calculus = new Calculus($unit);
+$talents  = [];
 foreach ($unit->Knowledge() as $ability /* @var Ability $ability */):
-	$talents[] = $this->get('talent', $ability->Talent()) . ' ' . $ability->Level() . ' (' . $this->number($ability->Experience()) . ')';
+	$experience = $ability->Experience();
+	$ability    = $calculus->knowledge($ability->Talent());
+	$talents[]  = $this->get('talent', $ability->Talent()) . ' ' . $ability->Level() . ' (' . $this->number($experience) . ')';
 endforeach;
 $inventory = [];
 $payload   = 0;
@@ -261,9 +265,12 @@ if ($isForeign):
 		$foreign = 'unbekannte Partei';
 	endif;
 endif;
-$talents = [];
+$calculus = new Calculus($unit);
+$talents  = [];
 foreach ($unit->Knowledge() as $ability /* @var Ability $ability */) {
-	$talents[] = $this->get('talent', $ability->Talent()) . ' ' . $ability->Level() . ' (' . $this->number($ability->Experience()) . ')';
+	$experience = $ability->Experience();
+	$ability    = $calculus->knowledge($ability->Talent());
+	$talents[]  = $this->get('talent', $ability->Talent()) . ' ' . $ability->Level() . ' (' . $this->number($experience) . ')';
 }
 $inventory = [];
 $payload   = 0;
@@ -298,9 +305,12 @@ Talente: <?= empty($talents) ? 'keine' : implode(', ', $talents) ?>
 <?php
 $isOwn = $unit->Party() === $party;
 if ($isOwn):
-	$talents = [];
+	$calculus = new Calculus($unit);
+	$talents  = [];
 	foreach ($unit->Knowledge() as $ability /* @var Ability $ability */):
-		$talents[] = $this->get('talent', $ability->Talent()) . ' ' . $ability->Level() . ' (' . $this->number($ability->Experience()) . ')';
+		$experience = $ability->Experience();
+		$ability    = $calculus->knowledge($ability->Talent());
+		$talents[]  = $this->get('talent', $ability->Talent()) . ' ' . $ability->Level() . ' (' . $this->number($experience) . ')';
 	endforeach;
 	$inventory = [];
 	$payload   = 0;
