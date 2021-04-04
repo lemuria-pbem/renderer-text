@@ -23,6 +23,7 @@ use Lemuria\Model\Fantasya\Commodity\Stone;
 use Lemuria\Model\Fantasya\Commodity\Wood;
 use Lemuria\Model\Fantasya\Construction;
 use Lemuria\Model\Fantasya\Intelligence;
+use Lemuria\Model\Fantasya\Landscape\Ocean;
 use Lemuria\Model\Fantasya\Quantity;
 use Lemuria\Model\Fantasya\Region;
 use Lemuria\Model\Fantasya\Unit;
@@ -223,9 +224,9 @@ $total  = (int)ceil(($payload + $unit->Size() * $unit->Race()->Weight()) / 100);
 ?>
 
 <?php if ($isForeign): ?>
-    * <?= (string)$unit ?> (<?= $foreign ?>), <?= $this->number($unit->Size(), 'race', $unit->Race()) ?><?php if ($unit->IsGuarding()): echo ', bewacht die Region' ?><?php endif ?>.<?= description($unit) ?>
+   * <?= (string)$unit ?> (<?= $foreign ?>), <?= $this->number($unit->Size(), 'race', $unit->Race()) ?><?php if ($unit->IsGuarding()): echo ', bewacht die Region' ?><?php endif ?>.<?= description($unit) ?>
 <?php else: ?>
-    * <?= (string)$unit ?>, <?= $this->number($unit->Size(), 'race', $unit->Race()) ?><?php if ($unit->IsGuarding()): echo ', bewacht die Region' ?><?php endif ?>.<?= description($unit) ?>
+   * <?= (string)$unit ?>, <?= $this->number($unit->Size(), 'race', $unit->Race()) ?><?php if ($unit->IsGuarding()): echo ', bewacht die Region' ?><?php endif ?>.<?= description($unit) ?>
 <?php endif ?>
  Talente: <?= empty($talents) ? 'keine' : implode(', ', $talents) ?>
 . Hat <?= empty($inventory) ? 'nichts' : implode(', ', $inventory) ?>
@@ -240,6 +241,12 @@ $total  = (int)ceil(($payload + $unit->Size() * $unit->Race()->Weight()) / 100);
 
   >> <?= $vessel ?>, <?= $this->get('ship', $vessel->Ship()) ?> mit <?= $this->number($this->people($vessel)) ?> Passagieren, freier Platz <?= $this->number((int)ceil($vessel->Space() / 100)) ?>
  GE. Kapitän ist <?= count($vessel->Passengers()) ? $vessel->Passengers()->Owner() : 'niemand' ?>
+<?php if (!($vessel->Region()->Landscape() instanceof Ocean)): ?>
+<?php if ($vessel->Anchor() === Vessel::IN_DOCK): ?>
+. Das Schiff liegt im Dock<?php else: ?>
+. Das Schiff ankert im <?= $this->get('world', $vessel->Anchor()) ?>
+<?php endif ?>
+<?php endif ?>
 .<?= line(description($vessel)) ?>
 <?php foreach ($report = $this->messages($vessel) as $message): ?>
 <?= $message ?>
@@ -274,9 +281,9 @@ $total  = (int)ceil(($payload + $unit->Size() * $unit->Race()->Weight()) / 100);
 ?>
 
 <?php if ($isForeign): ?>
-    * <?= (string)$unit ?> (<?= $foreign ?>), <?= $this->number($unit->Size(), 'race', $unit->Race()) ?><?php if ($unit->IsGuarding()): echo ', bewacht die Region' ?><?php endif ?>.<?= description($unit) ?>
+   * <?= (string)$unit ?> (<?= $foreign ?>), <?= $this->number($unit->Size(), 'race', $unit->Race()) ?><?php if ($unit->IsGuarding()): echo ', bewacht die Region' ?><?php endif ?>.<?= description($unit) ?>
 <?php else: ?>
-    * <?= (string)$unit ?>, <?= $this->number($unit->Size(), 'race', $unit->Race()) ?><?php if ($unit->IsGuarding()): echo ', bewacht die Region' ?><?php endif ?>.<?= description($unit) ?>
+   * <?= (string)$unit ?>, <?= $this->number($unit->Size(), 'race', $unit->Race()) ?><?php if ($unit->IsGuarding()): echo ', bewacht die Region' ?><?php endif ?>.<?= description($unit) ?>
 <?php endif ?>
 Talente: <?= empty($talents) ? 'keine' : implode(', ', $talents) ?>
 . Hat <?= empty($inventory) ? 'nichts' : implode(', ', $inventory) ?>

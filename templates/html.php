@@ -18,6 +18,7 @@ use Lemuria\Model\Fantasya\Commodity\Stone;
 use Lemuria\Model\Fantasya\Commodity\Wood;
 use Lemuria\Model\Fantasya\Construction;
 use Lemuria\Model\Fantasya\Intelligence;
+use Lemuria\Model\Fantasya\Landscape\Ocean;
 use Lemuria\Model\Fantasya\Quantity;
 use Lemuria\Model\Fantasya\Region;
 use Lemuria\Model\Fantasya\Unit;
@@ -293,6 +294,13 @@ foreach ($atlas as $region /* @var Region $region */):
 					<?= $vessel->Passengers()->Owner()->Name() ?> <span class="badge badge-primary"><?= $vessel->Passengers()->Owner()->Id() ?></span>.
 				<?php else: ?>
 					niemand.
+				<?php endif ?>
+				<?php if (!($vessel->Region()->Landscape() instanceof Ocean)): ?>
+					<?php if ($vessel->Anchor() === Vessel::IN_DOCK): ?>
+						Das Schiff liegt im Dock.
+					<?php else: ?>
+						Das Schiff ankert im <?= $this->get('world', $vessel->Anchor()) ?>.
+					<?php endif ?>
 				<?php endif ?>
 				<?= $vessel->Description() ?>
 			</p>
