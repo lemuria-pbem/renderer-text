@@ -39,11 +39,11 @@ $census        = $this->census;
 $outlook       = $this->outlook;
 $atlas         = $this->atlas;
 $map           = $this->map;
-$race	       = getClass($party->Race());
+$race          = getClass($party->Race());
 $calendar      = Lemuria::Calendar();
 $season        = $this->get('calendar.season', $calendar->Season() - 1);
-$month	       = $this->get('calendar.month', $calendar->Month() - 1);
-$week	       = $calendar->Week();
+$month         = $this->get('calendar.month', $calendar->Month() - 1);
+$week          = $calendar->Week();
 
 ?>
 <h1 class="text-center">Lemuria-Auswertung</h1>
