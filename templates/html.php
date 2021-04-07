@@ -252,34 +252,36 @@ foreach ($atlas as $region /* @var Region $region */):
 			<?php foreach ($construction->Inhabitants() as $unit /* @var Unit $unit */): ?>
 				<div class="unit">
 					<?php
-					$isForeign = $unit->Party() !== $party;
-					if ($isForeign):
+					$isOwn = $unit->Party() === $party;
+					if ($isOwn):
+						$disguised = $unit->Disguise();
+						$calculus  = new Calculus($unit);
+						$talents   = [];
+						foreach ($unit->Knowledge() as $ability /* @var Ability $ability */):
+							$experience = $ability->Experience();
+							$ability    = $calculus->knowledge($ability->Talent());
+							$talents[]  = $this->get('talent', $ability->Talent()) . ' ' . $ability->Level() . ' (' . $this->number($experience) . ')';
+						endforeach;
+						$inventory = [];
+						$payload   = 0;
+						foreach ($unit->Inventory() as $quantity /* @var Quantity $quantity */):
+							$inventory[] = $this->number($quantity->Count(), 'resource', $quantity->Commodity());
+							$payload += $quantity->Weight();
+						endforeach;
+						$n = count($inventory);
+						if ($n > 1):
+							$inventory[$n - 2] .= ' und ' . $inventory[$n - 1];
+							unset($inventory[$n - 1]);
+						endif;
+						$weight = (int)ceil($payload / 100);
+						$total  = (int)ceil(($payload + $unit->Size() * $unit->Race()->Weight()) / 100);
+					else:
 						$foreign = $census->getParty($unit);
 					endif;
-					$calculus = new Calculus($unit);
-					$talents  = [];
-					foreach ($unit->Knowledge() as $ability /* @var Ability $ability */):
-						$experience = $ability->Experience();
-						$ability    = $calculus->knowledge($ability->Talent());
-						$talents[]  = $this->get('talent', $ability->Talent()) . ' ' . $ability->Level() . ' (' . $this->number($experience) . ')';
-					endforeach;
-					$inventory = [];
-					$payload   = 0;
-					foreach ($unit->Inventory() as $quantity /* @var Quantity $quantity */):
-						$inventory[] = $this->number($quantity->Count(), 'resource', $quantity->Commodity());
-						$payload += $quantity->Weight();
-					endforeach;
-					$n = count($inventory);
-					if ($n > 1):
-						$inventory[$n - 2] .= ' und ' . $inventory[$n - 1];
-						unset($inventory[$n - 1]);
-					endif;
-					$weight = (int)ceil($payload / 100);
-					$total  = (int)ceil(($payload + $unit->Size() * $unit->Race()->Weight()) / 100);
 					?>
 					<h6>
 						<?= $unit->Name() ?> <span class="badge badge-primary"><?= $unit->Id() ?></span>
-						<?php if ($isForeign): ?>
+						<?php if (!$isOwn): ?>
 							<?php if ($foreign): ?>
 								(<?= $foreign->Name() ?> <span class="badge badge-secondary"><?= $foreign->Id() ?></span>)
 							<?php else: ?>
@@ -288,13 +290,17 @@ foreach ($atlas as $region /* @var Region $region */):
 						<?php endif ?>
 					</h6>
 					<p>
-						<?= $this->number($unit->Size(), 'race', $unit->Race()) ?><?php if ($unit->IsGuarding()) echo ', bewacht die Region'; ?>.
-						<?= $unit->Description() ?><br>
-						Talente: <?= empty($talents) ? 'keine' : implode(', ', $talents) ?>.
-						Hat <?= empty($inventory) ? 'nichts' : implode(', ', $inventory) ?>,
-						Last <?= $this->number($weight) ?> GE, zusammen <?= $this->number($total) ?> GE.
+						<?= $this->number($unit->Size(), 'race', $unit->Race()) ?><?php if ($unit->IsHiding()): ?>, getarnt<?php if ($disguised): ?>, gibt sich als Angehöriger der Partei <?= $disguised->Name() ?> aus<?php endif ?><?php if ($disguised === null): ?>, verheimlicht die Parteizugehörigkeit<?php endif ?><?php endif ?><?php if ($unit->IsGuarding()): ?>, bewacht die Region<?php endif ?>.
+						<?= $unit->Description() ?>
+						<?php if ($isOwn): ?>
+							<br>
+							Talente: <?= empty($talents) ? 'keine' : implode(', ', $talents) ?>.
+							<br>
+							Hat <?= empty($inventory) ? 'nichts' : implode(', ', $inventory) ?>,
+							Last <?= $this->number($weight) ?> GE, zusammen <?= $this->number($total) ?> GE.
+						<?php endif ?>
 					</p>
-					<?php if (count($report = $this->messages($unit))): ?>
+					<?php if ($isOwn && count($report = $this->messages($unit))): ?>
 						<ul class="report">
 							<?php foreach ($report as $message): ?>
 								<li><?= $this->message($message) ?></li>
@@ -337,34 +343,36 @@ foreach ($atlas as $region /* @var Region $region */):
 			<?php foreach ($vessel->Passengers() as $unit /* @var Unit $unit */): ?>
 				<div class="unit">
 					<?php
-					$isForeign = $unit->Party() !== $party;
-					if ($isForeign):
+					$isOwn = $unit->Party() === $party;
+					if ($isOwn):
+						$disguised = $unit->Disguise();
+						$calculus  = new Calculus($unit);
+						$talents   = [];
+						foreach ($unit->Knowledge() as $ability /* @var Ability $ability */):
+							$experience = $ability->Experience();
+							$ability    = $calculus->knowledge($ability->Talent());
+							$talents[]  = $this->get('talent', $ability->Talent()) . ' ' . $ability->Level() . ' (' . $this->number($experience) . ')';
+						endforeach;
+						$inventory = [];
+						$payload   = 0;
+						foreach ($unit->Inventory() as $quantity /* @var Quantity $quantity */):
+							$inventory[] = $this->number($quantity->Count(), 'resource', $quantity->Commodity());
+							$payload += $quantity->Weight();
+						endforeach;
+						$n = count($inventory);
+						if ($n > 1):
+							$inventory[$n - 2] .= ' und ' . $inventory[$n - 1];
+							unset($inventory[$n - 1]);
+						endif;
+						$weight = (int)ceil($payload / 100);
+						$total  = (int)ceil(($payload + $unit->Size() * $unit->Race()->Weight()) / 100);
+					else:
 						$foreign = $census->getParty($unit);
 					endif;
-					$calculus = new Calculus($unit);
-					$talents  = [];
-					foreach ($unit->Knowledge() as $ability /* @var Ability $ability */):
-						$experience = $ability->Experience();
-						$ability    = $calculus->knowledge($ability->Talent());
-						$talents[]  = $this->get('talent', $ability->Talent()) . ' ' . $ability->Level() . ' (' . $this->number($experience) . ')';
-					endforeach;
-					$inventory = [];
-					$payload   = 0;
-					foreach ($unit->Inventory() as $quantity /* @var Quantity $quantity */):
-						$inventory[] = $this->number($quantity->Count(), 'resource', $quantity->Commodity());
-						$payload += $quantity->Weight();
-					endforeach;
-					$n = count($inventory);
-					if ($n > 1):
-						$inventory[$n - 2] .= ' und ' . $inventory[$n - 1];
-						unset($inventory[$n - 1]);
-					endif;
-					$weight = (int)ceil($payload / 100);
-					$total  = (int)ceil(($payload + $unit->Size() * $unit->Race()->Weight()) / 100);
 					?>
 					<h6>
 						<?= $unit->Name() ?> <span class="badge badge-primary"><?= $unit->Id() ?></span>
-						<?php if ($isForeign): ?>
+						<?php if (!$isOwn): ?>
 							<?php if ($foreign): ?>
 								(<?= $foreign->Name() ?> <span class="badge badge-secondary"><?= $foreign->Id() ?></span>)
 							<?php else: ?>
@@ -373,13 +381,17 @@ foreach ($atlas as $region /* @var Region $region */):
 						<?php endif ?>
 					</h6>
 					<p>
-						<?= $this->number($unit->Size(), 'race', $unit->Race()) ?>.
-						<?= $unit->Description() ?><br>
-						Talente: <?= empty($talents) ? 'keine' : implode(', ', $talents) ?>.
-						Hat <?= empty($inventory) ? 'nichts' : implode(', ', $inventory) ?>,
-						Last <?= $this->number($weight) ?> GE, zusammen <?= $this->number($total) ?> GE.
+						<?= $this->number($unit->Size(), 'race', $unit->Race()) ?><?php if ($unit->IsHiding()): ?>, getarnt<?php if ($disguised): ?>, gibt sich als Angehöriger der Partei <?= $disguised->Name() ?> aus<?php endif ?><?php if ($disguised === null): ?>, verheimlicht die Parteizugehörigkeit<?php endif ?><?php endif ?><?php if ($unit->IsGuarding()): ?>, bewacht die Region<?php endif ?>.
+						<?= $unit->Description() ?>
+						<?php if ($isOwn): ?>
+							<br>
+							Talente: <?= empty($talents) ? 'keine' : implode(', ', $talents) ?>.
+							<br>
+							Hat <?= empty($inventory) ? 'nichts' : implode(', ', $inventory) ?>,
+							Last <?= $this->number($weight) ?> GE, zusammen <?= $this->number($total) ?> GE.
+						<?php endif ?>
 					</p>
-					<?php if (count($report = $this->messages($unit))): ?>
+					<?php if ($isOwn && count($report = $this->messages($unit))): ?>
 						<ul class="report">
 							<?php foreach ($report as $message): ?>
 								<li><?= $this->message($message) ?></li>
@@ -393,15 +405,16 @@ foreach ($atlas as $region /* @var Region $region */):
 		<?php $unitsInRegions = 0 ?>
 		<?php foreach ($outlook->Apparitions($region) as $unit /* @var Unit $unit */): ?>
 			<?php if ($unitsInRegions++ === 0): ?>
-				<h5>Weitere Einheiten</h5>
+				<h5>Einheiten in der Region</h5>
 				<br>
 			<?php endif ?>
 			<div class="unit">
 				<?php
 				$isOwn = $unit->Party() === $party;
 				if ($isOwn):
-					$calculus = new Calculus($unit);
-					$talents  = [];
+					$disguised = $unit->Disguise();
+					$calculus  = new Calculus($unit);
+					$talents   = [];
 					foreach ($unit->Knowledge() as $ability/* @var Ability $ability */):
 						$experience = $ability->Experience();
 						$ability    = $calculus->knowledge($ability->Talent());
@@ -435,10 +448,12 @@ foreach ($atlas as $region /* @var Region $region */):
 					<?php endif ?>
 				</h6>
 				<p>
-					<?= $this->number($unit->Size(), 'race', $unit->Race()) ?><?php if ($unit->IsGuarding()) echo ', bewacht die Region'; ?>.
+					<?= $this->number($unit->Size(), 'race', $unit->Race()) ?><?php if ($unit->IsHiding()): ?>, getarnt<?php if ($disguised): ?>, gibt sich als Angehöriger der Partei <?= $disguised->Name() ?> aus<?php endif ?><?php if ($disguised === null): ?>, verheimlicht die Parteizugehörigkeit<?php endif ?><?php endif ?><?php if ($unit->IsGuarding()): ?>, bewacht die Region<?php endif ?>.
 					<?= $unit->Description() ?>
 					<?php if ($isOwn): ?>
+						<br>
 						Talente: <?= empty($talents) ? 'keine' : implode(', ', $talents) ?>.
+						<br>
 						Hat <?= empty($inventory) ? 'nichts' : implode(', ', $inventory) ?>,
 						Last <?= $this->number($weight) ?> GE, zusammen <?= $this->number($total) ?> GE.
 					<?php endif ?>

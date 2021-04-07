@@ -187,6 +187,7 @@ endif ?><?php if ($g > 0): ?> Die Region wird bewacht von <?= ucfirst(implode(',
 <?= $message ?>
 
 <?php endforeach ?>
+
 Materialpool: <?= implode(', ', $materialPool) ?>.
 <?php else: ?>
 <?php if ($isOcean && $region->Name() === 'Ozean'): ?>
@@ -210,115 +211,11 @@ Materialpool: <?= implode(', ', $materialPool) ?>.
 <?php endforeach ?>
 <?php foreach ($construction->Inhabitants() as $unit /* @var Unit $unit */): ?>
 <?php
-$isForeign = $unit->Party() !== $party;
-if ($isForeign):
-	$foreign = $census->getParty($unit);
-	if (!$foreign):
-		$foreign = 'unbekannte Partei';
-	endif;
-endif;
-$calculus = new Calculus($unit);
-$talents  = [];
-foreach ($unit->Knowledge() as $ability /* @var Ability $ability */):
-	$experience = $ability->Experience();
-	$ability    = $calculus->knowledge($ability->Talent());
-	$talents[]  = $this->get('talent', $ability->Talent()) . ' ' . $ability->Level() . ' (' . $this->number($experience) . ')';
-endforeach;
-$inventory = [];
-$payload   = 0;
-foreach ($unit->Inventory() as $quantity /* @var Quantity $quantity */):
-	$inventory[] = $this->number($quantity->Count(), 'resource', $quantity->Commodity());
-	$payload += $quantity->Weight();
-endforeach;
-$n = count($inventory);
-if ($n > 1):
-	$inventory[$n - 2] .= ' und ' . $inventory[$n - 1];
-	unset($inventory[$n - 1]);
-endif;
-$weight = (int)ceil($payload / 100);
-$total  = (int)ceil(($payload + $unit->Size() * $unit->Race()->Weight()) / 100);
-?>
-
-<?php if ($isForeign): ?>
-   * <?= (string)$unit ?> (<?= $foreign ?>), <?= $this->number($unit->Size(), 'race', $unit->Race()) ?><?php if ($unit->IsGuarding()): echo ', bewacht die Region' ?><?php endif ?>.<?= description($unit) ?>
-<?php else: ?>
-   * <?= (string)$unit ?>, <?= $this->number($unit->Size(), 'race', $unit->Race()) ?><?php if ($unit->IsGuarding()): echo ', bewacht die Region' ?><?php endif ?>.<?= description($unit) ?>
-<?php endif ?>
- Talente: <?= empty($talents) ? 'keine' : implode(', ', $talents) ?>
-. Hat <?= empty($inventory) ? 'nichts' : implode(', ', $inventory) ?>
-, Last <?= $this->number($weight) ?> GE, zusammen <?= $this->number($total) ?> GE.
-<?php foreach ($report = $this->messages($unit) as $message): ?>
-<?= $message ?>
-
-<?php endforeach ?>
-<?php endforeach ?>
-<?php endforeach ?>
-<?php foreach ($region->Fleet() as $vessel /* @var Vessel $vessel */): ?>
-
-  >> <?= $vessel ?>, <?= $this->get('ship', $vessel->Ship()) ?> mit <?= $this->number($this->people($vessel)) ?> Passagieren, freier Platz <?= $this->number((int)ceil($vessel->Space() / 100)) ?>
- GE. Kapitän ist <?= count($vessel->Passengers()) ? $vessel->Passengers()->Owner() : 'niemand' ?>
-<?php if (!($vessel->Region()->Landscape() instanceof Ocean)): ?>
-<?php if ($vessel->Anchor() === Vessel::IN_DOCK): ?>
-. Das Schiff liegt im Dock<?php else: ?>
-. Das Schiff ankert im <?= $this->get('world', $vessel->Anchor()) ?>
-<?php endif ?>
-<?php endif ?>
-.<?= line(description($vessel)) ?>
-<?php foreach ($report = $this->messages($vessel) as $message): ?>
-<?= $message ?>
-
-<?php endforeach ?>
-<?php foreach ($vessel->Passengers() as $unit /* @var Unit $unit */): ?>
-<?php
-$isForeign = $unit->Party() !== $party;
-if ($isForeign):
-	$foreign = $census->getParty($unit);
-	if (!$foreign):
-		$foreign = 'unbekannte Partei';
-	endif;
-endif;
-$calculus = new Calculus($unit);
-$talents  = [];
-foreach ($unit->Knowledge() as $ability /* @var Ability $ability */) {
-	$experience = $ability->Experience();
-	$ability    = $calculus->knowledge($ability->Talent());
-	$talents[]  = $this->get('talent', $ability->Talent()) . ' ' . $ability->Level() . ' (' . $this->number($experience) . ')';
-}
-$inventory = [];
-$payload   = 0;
-foreach ($unit->Inventory() as $quantity /* @var Quantity $quantity */) {
-	$inventory[] = $this->number($quantity->Count(), 'resource', $quantity->Commodity());
-	$payload += $quantity->Weight();
-}
-$n = count($inventory);
-if ($n > 1) {
-	$inventory[$n - 2] .= ' und ' . $inventory[$n - 1];
-	unset($inventory[$n - 1]);
-}
-$weight = (int)ceil($payload / 100);
-$total  = (int)ceil(($payload + $unit->Size() * $unit->Race()->Weight()) / 100);
-?>
-
-<?php if ($isForeign): ?>
-   * <?= (string)$unit ?> (<?= $foreign ?>), <?= $this->number($unit->Size(), 'race', $unit->Race()) ?><?php if ($unit->IsGuarding()): echo ', bewacht die Region' ?><?php endif ?>.<?= description($unit) ?>
-<?php else: ?>
-   * <?= (string)$unit ?>, <?= $this->number($unit->Size(), 'race', $unit->Race()) ?><?php if ($unit->IsGuarding()): echo ', bewacht die Region' ?><?php endif ?>.<?= description($unit) ?>
-<?php endif ?>
-Talente: <?= empty($talents) ? 'keine' : implode(', ', $talents) ?>
-. Hat <?= empty($inventory) ? 'nichts' : implode(', ', $inventory) ?>
-, Last <?= $this->number($weight) ?> GE, zusammen <?= $this->number($total) ?> GE.
-<?php foreach ($report = $this->messages($unit) as $message): ?>
-<?= $message ?>
-
-<?php endforeach ?>
-<?php endforeach ?>
-<?php endforeach ?>
-<?php foreach ($outlook->Apparitions($region) as $unit /* @var Unit $unit */): ?>
-<?php
 $isOwn = $unit->Party() === $party;
 if ($isOwn):
-	$calculus = new Calculus($unit);
-	$talents  = [];
+	$disguised = $unit->Disguise();
+	$calculus  = new Calculus($unit);
+	$talents   = [];
 	foreach ($unit->Knowledge() as $ability /* @var Ability $ability */):
 		$experience = $ability->Experience();
 		$ability    = $calculus->knowledge($ability->Talent());
@@ -345,13 +242,144 @@ else:
 endif;
 ?>
 
-<?php if ($isOwn): ?>
-  -- <?= (string)$unit ?>, <?= $this->number($unit->Size(), 'race', $unit->Race()) ?><?php if ($unit->IsGuarding()): echo ', bewacht die Region' ?><?php endif ?>.<?= description($unit) ?>
+<?php if (!$isOwn): ?>
+   * <?= (string)$unit ?> (<?= $foreign ?>), <?= $this->number($unit->Size(), 'race', $unit->Race()) ?>
+<?php if ($unit->IsGuarding()): ?>, bewacht die Region<?php endif ?>
+.<?= description($unit) ?>
 <?php else: ?>
-  -- <?= (string)$unit ?> (<?= $foreign ?>), <?= $this->number($unit->Size(), 'race', $unit->Race()) ?><?php if ($unit->IsGuarding()): echo ', bewacht die Region' ?><?php endif ?>.<?= description($unit) ?>
+   * <?= (string)$unit ?>, <?= $this->number($unit->Size(), 'race', $unit->Race()) ?>
+<?php if ($unit->IsHiding()): ?>, getarnt<?php endif ?>
+<?php if ($disguised): ?>, gibt sich als Angehöriger der Partei <?= $disguised->Name() ?> aus<?php endif ?>
+<?php if ($disguised === null): ?>, verheimlicht die Parteizugehörigkeit<?php endif ?>
+<?php if ($unit->IsGuarding()): ?>, bewacht die Region<?php endif ?>
+.<?= description($unit) ?>
+
+Talente: <?= empty($talents) ? 'keine' : implode(', ', $talents) ?>
+. Hat <?= empty($inventory) ? 'nichts' : implode(', ', $inventory) ?>
+, Last <?= $this->number($weight) ?> GE, zusammen <?= $this->number($total) ?> GE.
+<?php foreach ($report = $this->messages($unit) as $message): ?>
+<?= $message ?>
+
+<?php endforeach ?>
 <?php endif ?>
-<?php if ($isOwn): ?>
- Talente: <?= empty($talents) ? 'keine' : implode(', ', $talents) ?>
+<?php endforeach ?>
+<?php endforeach ?>
+<?php foreach ($region->Fleet() as $vessel /* @var Vessel $vessel */): ?>
+
+  >> <?= $vessel ?>, <?= $this->get('ship', $vessel->Ship()) ?> mit <?= $this->number($this->people($vessel)) ?> Passagieren, freier Platz <?= $this->number((int)ceil($vessel->Space() / 100)) ?>
+ GE. Kapitän ist <?= count($vessel->Passengers()) ? $vessel->Passengers()->Owner() : 'niemand' ?>
+<?php if (!($vessel->Region()->Landscape() instanceof Ocean)): ?>
+<?php if ($vessel->Anchor() === Vessel::IN_DOCK): ?>
+. Das Schiff liegt im Dock<?php else: ?>
+. Das Schiff ankert im <?= $this->get('world', $vessel->Anchor()) ?>
+<?php endif ?>
+<?php endif ?>
+.<?= line(description($vessel)) ?>
+<?php foreach ($report = $this->messages($vessel) as $message): ?>
+<?= $message ?>
+
+<?php endforeach ?>
+<?php foreach ($vessel->Passengers() as $unit /* @var Unit $unit */): ?>
+<?php
+$isOwn = $unit->Party() === $party;
+if ($isOwn):
+	$disguised = $unit->Disguise();
+	$calculus  = new Calculus($unit);
+	$talents   = [];
+	foreach ($unit->Knowledge() as $ability /* @var Ability $ability */) {
+		$experience = $ability->Experience();
+		$ability    = $calculus->knowledge($ability->Talent());
+		$talents[]  = $this->get('talent', $ability->Talent()) . ' ' . $ability->Level() . ' (' . $this->number($experience) . ')';
+	}
+	$inventory = [];
+	$payload   = 0;
+	foreach ($unit->Inventory() as $quantity /* @var Quantity $quantity */) {
+		$inventory[] = $this->number($quantity->Count(), 'resource', $quantity->Commodity());
+		$payload += $quantity->Weight();
+	}
+	$n = count($inventory);
+	if ($n > 1) {
+		$inventory[$n - 2] .= ' und ' . $inventory[$n - 1];
+		unset($inventory[$n - 1]);
+	}
+	$weight = (int)ceil($payload / 100);
+	$total  = (int)ceil(($payload + $unit->Size() * $unit->Race()->Weight()) / 100);
+else:
+	$foreign = $census->getParty($unit);
+	if (!$foreign):
+		$foreign = 'unbekannte Partei';
+	endif;
+endif;
+?>
+
+<?php if (!$isOwn): ?>
+   * <?= (string)$unit ?> (<?= $foreign ?>), <?= $this->number($unit->Size(), 'race', $unit->Race()) ?>
+<?php if ($unit->IsGuarding()): ?>, bewacht die Region<?php endif ?>
+.<?= description($unit) ?>
+<?php else: ?>
+   * <?= (string)$unit ?>, <?= $this->number($unit->Size(), 'race', $unit->Race()) ?>
+<?php if ($unit->IsHiding()): ?>, getarnt<?php endif ?>
+<?php if ($disguised): ?>, gibt sich als Angehöriger der Partei <?= $disguised->Name() ?> aus<?php endif ?>
+<?php if ($disguised === null): ?>, verheimlicht die Parteizugehörigkeit<?php endif ?>
+<?php if ($unit->IsGuarding()): ?>, bewacht die Region<?php endif ?>
+.<?= description($unit) ?>
+
+Talente: <?= empty($talents) ? 'keine' : implode(', ', $talents) ?>
+. Hat <?= empty($inventory) ? 'nichts' : implode(', ', $inventory) ?>
+, Last <?= $this->number($weight) ?> GE, zusammen <?= $this->number($total) ?> GE.
+<?php foreach ($report = $this->messages($unit) as $message): ?>
+<?= $message ?>
+
+<?php endforeach ?>
+<?php endif ?>
+<?php endforeach ?>
+<?php endforeach ?>
+<?php foreach ($outlook->Apparitions($region) as $unit /* @var Unit $unit */): ?>
+<?php
+$isOwn = $unit->Party() === $party;
+if ($isOwn):
+	$disguised = $unit->Disguise();
+	$calculus  = new Calculus($unit);
+	$talents   = [];
+	foreach ($unit->Knowledge() as $ability /* @var Ability $ability */):
+		$experience = $ability->Experience();
+		$ability    = $calculus->knowledge($ability->Talent());
+		$talents[]  = $this->get('talent', $ability->Talent()) . ' ' . $ability->Level() . ' (' . $this->number($experience) . ')';
+	endforeach;
+	$inventory = [];
+	$payload   = 0;
+	foreach ($unit->Inventory() as $quantity /* @var Quantity $quantity */):
+		$inventory[] = $this->number($quantity->Count(), 'resource', $quantity->Commodity());
+		$payload += $quantity->Weight();
+	endforeach;
+	$n = count($inventory);
+	if ($n > 1):
+		$inventory[$n - 2] .= ' und ' . $inventory[$n - 1];
+		unset($inventory[$n - 1]);
+	endif;
+	$weight = (int)ceil($payload / 100);
+	$total  = (int)ceil(($payload + $unit->Size() * $unit->Race()->Weight()) / 100);
+else:
+	$foreign = $census->getParty($unit);
+	if (!$foreign):
+		$foreign = 'unbekannte Partei';
+	endif;
+endif;
+?>
+
+<?php if (!$isOwn): ?>
+  -- <?= (string)$unit ?> (<?= $foreign ?>), <?= $this->number($unit->Size(), 'race', $unit->Race()) ?>
+<?php if ($unit->IsGuarding()): ?>, bewacht die Region<?php endif ?>
+.<?= description($unit) ?>
+<?php else: ?>
+  -- <?= (string)$unit ?>, <?= $this->number($unit->Size(), 'race', $unit->Race()) ?>
+<?php if ($unit->IsHiding()): ?>, getarnt<?php endif ?>
+<?php if ($disguised): ?>, gibt sich als Angehöriger der Partei <?= $disguised->Name() ?> aus<?php endif ?>
+<?php if ($disguised === null): ?>, verheimlicht die Parteizugehörigkeit<?php endif ?>
+<?php if ($unit->IsGuarding()): ?>, bewacht die Region<?php endif ?>
+.<?= description($unit) ?>
+
+Talente: <?= empty($talents) ? 'keine' : implode(', ', $talents) ?>
 . Hat <?= empty($inventory) ? 'nichts' : implode(', ', $inventory) ?>
 , Last <?= $this->number($weight) ?> GE, zusammen <?= $this->number($total) ?>
  GE.<?php foreach ($report = $this->messages($unit) as $message): ?>
