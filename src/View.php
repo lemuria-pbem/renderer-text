@@ -4,9 +4,9 @@ namespace Lemuria\Renderer\Text;
 
 use JetBrains\PhpStorm\Pure;
 
-use Lemuria\Model\Fantasya\Landscape\Ocean;
 use function Lemuria\getClass;
 use function Lemuria\number as formatNumber;
+use Lemuria\Engine\Fantasya\Census;
 use Lemuria\Engine\Fantasya\Factory\Model\TravelAtlas;
 use Lemuria\Engine\Fantasya\Outlook;
 use Lemuria\Engine\Message;
@@ -17,9 +17,9 @@ use Lemuria\ItemSet;
 use Lemuria\Lemuria;
 use Lemuria\Model\Dictionary;
 use Lemuria\Model\Fantasya\Construction;
+use Lemuria\Model\Fantasya\Landscape\Ocean;
 use Lemuria\Model\Fantasya\Quantity;
 use Lemuria\Model\Fantasya\Party;
-use Lemuria\Model\Fantasya\Party\Census;
 use Lemuria\Model\Fantasya\Region;
 use Lemuria\Model\Fantasya\Unit;
 use Lemuria\Model\Fantasya\Vessel;

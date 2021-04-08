@@ -4,12 +4,12 @@ namespace Lemuria\Renderer\Text;
 
 use JetBrains\PhpStorm\Pure;
 
+use Lemuria\Engine\Fantasya\Census;
 use Lemuria\Engine\Message\Filter;
 use Lemuria\Id;
 use Lemuria\Lemuria;
 use Lemuria\Model\Fantasya\Construction;
 use Lemuria\Model\Fantasya\Party;
-use Lemuria\Model\Fantasya\Party\Census;
 use Lemuria\Model\Fantasya\Region;
 use Lemuria\Model\Fantasya\Unit;
 use Lemuria\Model\Fantasya\Vessel;
