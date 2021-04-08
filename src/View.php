@@ -21,6 +21,7 @@ use Lemuria\Model\Fantasya\Landscape\Ocean;
 use Lemuria\Model\Fantasya\Quantity;
 use Lemuria\Model\Fantasya\Party;
 use Lemuria\Model\Fantasya\Region;
+use Lemuria\Model\Fantasya\Relation;
 use Lemuria\Model\Fantasya\Unit;
 use Lemuria\Model\Fantasya\Vessel;
 use Lemuria\Model\Fantasya\World\PartyMap;
@@ -204,6 +205,25 @@ abstract class View
 			}
 		}
 		return $messages;
+	}
+
+	public function relation(Relation $relation): string {
+		$agreement = $relation->Agreement();
+		if ($agreement === Relation::NONE || $agreement === Relation::ALL) {
+			$agreement = 'agreement_' . $agreement;
+			return $this->dictionary->get('diplomacy.relation', $agreement);
+		}
+
+		$agreements = [];
+		$i = 1;
+		while ($i < Relation::ALL) {
+			if ($relation->has($i)) {
+				$agreement   = 'agreement_' . $i;
+				$agreements[] = $this->dictionary->get('diplomacy.relation', $agreement);
+			}
+			$i *= 2;
+		}
+		return implode(', ', $agreements);
 	}
 
 	/**

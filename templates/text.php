@@ -25,8 +25,10 @@ use Lemuria\Model\Fantasya\Commodity\Wood;
 use Lemuria\Model\Fantasya\Construction;
 use Lemuria\Model\Fantasya\Intelligence;
 use Lemuria\Model\Fantasya\Landscape\Ocean;
+use Lemuria\Model\Fantasya\Party;
 use Lemuria\Model\Fantasya\Quantity;
 use Lemuria\Model\Fantasya\Region;
+use Lemuria\Model\Fantasya\Relation;
 use Lemuria\Model\Fantasya\Unit;
 use Lemuria\Model\Fantasya\Vessel;
 use Lemuria\Renderer\Text\View;
@@ -37,18 +39,20 @@ use Lemuria\Renderer\Text\View;
 
 /* @var View $this */
 
-$party         = $this->party;
-$report        = $this->messages($party);
-$acquaintances = $party->Diplomacy()->Acquaintances();
-$census        = $this->census;
-$outlook       = $this->outlook;
-$atlas         = $this->atlas;
-$map           = $this->map;
-$race          = getClass($party->Race());
-$calendar      = Lemuria::Calendar();
-$season        = $this->get('calendar.season', $calendar->Season() - 1);
-$month         = $this->get('calendar.month', $calendar->Month() - 1);
-$week          = $calendar->Week();
+$party            = $this->party;
+$report           = $this->messages($party);
+$diplomacy        = $party->Diplomacy();
+$acquaintances    = $diplomacy->Acquaintances();
+$generalRelations = $diplomacy->search($party);
+$census           = $this->census;
+$outlook          = $this->outlook;
+$atlas            = $this->atlas;
+$map              = $this->map;
+$race             = getClass($party->Race());
+$calendar         = Lemuria::Calendar();
+$season           = $this->get('calendar.season', $calendar->Season() - 1);
+$month            = $this->get('calendar.month', $calendar->Month() - 1);
+$week             = $calendar->Week();
 
 ?>
 <?= center('Lemuria-Auswertung') ?>
@@ -80,12 +84,32 @@ Dein Volk zählt <?= $this->number($census->count(), 'race', $party->Race()) ?> 
 <?= center('Alle bekannten Völker') ?>
 
 <?php if ($acquaintances->count()): ?>
-<?php foreach ($acquaintances as $acquaintance): ?>
+<?php foreach ($acquaintances as $acquaintance /* @var Party $acquaintance */): ?>
 <?= $acquaintance ?>
 
+<?php $relations = $diplomacy->search($acquaintance) ?>
+<?php if ($relations): ?>
+<?php foreach ($relations as $relation /* @var Relation $relation */): ?>
+<?php if ($relation->Region()): ?>
+   Beziehungen in Region <?= $relation->Region() ?>: <?= $this->relation($relation) ?>
+<?php else: ?>
+   Beziehungen: <?= $this->relation($relation) ?>
+<?php endif ?>
+
+<?php endforeach ?>
+<?php endif ?>
+<?php endforeach ?>
+<?php endif ?>
+<?php foreach ($generalRelations as $relation /* @var Relation $relation */): ?>
+
+<?php if ($relation->Region()): ?>
+Allgemeine Beziehungen in Region <?= $relation->Region() ?>: <?= $this->relation($relation) ?>
+<?php else: ?>
+Allgemeine Beziehungen: <?= $this->relation($relation) ?>
+<?php endif ?>
 <?php endforeach ?>
 
-<?php endif ?>
+
 <?= hr() ?>
 
 <?= center('Kontinent Lemuria [' . $party->Id() . ']') ?>
