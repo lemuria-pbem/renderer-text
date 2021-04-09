@@ -82,8 +82,8 @@ Dein Volk zählt <?= $this->number($census->count(), 'race', $party->Race()) ?> 
 <?= hr() ?>
 
 <?= center('Alle bekannten Völker') ?>
-
 <?php if ($acquaintances->count()): ?>
+
 <?php foreach ($acquaintances as $acquaintance /* @var Party $acquaintance */): ?>
 <?= $acquaintance ?>
 
@@ -100,6 +100,7 @@ Dein Volk zählt <?= $this->number($census->count(), 'race', $party->Race()) ?> 
 <?php endif ?>
 <?php endforeach ?>
 <?php endif ?>
+<?php if ($generalRelations): ?>
 <?php foreach ($generalRelations as $relation /* @var Relation $relation */): ?>
 
 <?php if ($relation->Region()): ?>
@@ -109,6 +110,7 @@ Allgemeine Beziehungen: <?= $this->relation($relation) ?>
 <?php endif ?>
 <?php endforeach ?>
 
+<?php endif ?>
 
 <?= hr() ?>
 
