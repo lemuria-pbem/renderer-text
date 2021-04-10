@@ -269,7 +269,7 @@ endif;
 ?>
 
 <?php if (!$isOwn): ?>
-   * <?= (string)$unit ?> (<?= $foreign ?>), <?= $this->number($unit->Size(), 'race', $unit->Race()) ?>
+   * <?= (string)$unit ?> von <?= $foreign ?>, <?= $this->number($unit->Size(), 'race', $unit->Race()) ?>
 <?php if ($unit->IsGuarding()): ?>, bewacht die Region<?php endif ?>
 .<?= description($unit) ?>
 <?php else: ?>
@@ -291,8 +291,9 @@ Talente: <?= empty($talents) ? 'keine' : implode(', ', $talents) ?>
 <?php endforeach ?>
 <?php endforeach ?>
 <?php foreach ($region->Fleet() as $vessel /* @var Vessel $vessel */): ?>
+<?php $passengers = $this->people($vessel) ?>
 
-  >> <?= $vessel ?>, <?= $this->get('ship', $vessel->Ship()) ?> mit <?= $this->number($this->people($vessel)) ?> Passagieren, freier Platz <?= $this->number((int)ceil($vessel->Space() / 100)) ?>
+  >> <?= $vessel ?>, <?= $this->get('ship', $vessel->Ship()) ?> mit <?= $this->number($passengers) ?> <?php if ($passengers === 1): ?>Passagier<?php else: ?>Passagieren<?php endif ?>, Zustand <?= $this->number((int)round(100.0 * $vessel->Completion())) ?>%, <?php if ($vessel->Space() < 0): ?>überladen mit<?php else: ?>freier Platz<?php endif ?> <?= $this->number((int)ceil(abs($vessel->Space()) / 100)) ?>
  GE. Kapitän ist <?= count($vessel->Passengers()) ? $vessel->Passengers()->Owner() : 'niemand' ?>
 <?php if (!($vessel->Region()->Landscape() instanceof Ocean)): ?>
 <?php if ($vessel->Anchor() === Vessel::IN_DOCK): ?>
@@ -339,7 +340,7 @@ endif;
 ?>
 
 <?php if (!$isOwn): ?>
-   * <?= (string)$unit ?> (<?= $foreign ?>), <?= $this->number($unit->Size(), 'race', $unit->Race()) ?>
+   * <?= (string)$unit ?> von <?= $foreign ?>, <?= $this->number($unit->Size(), 'race', $unit->Race()) ?>
 <?php if ($unit->IsGuarding()): ?>, bewacht die Region<?php endif ?>
 .<?= description($unit) ?>
 <?php else: ?>
@@ -394,7 +395,7 @@ endif;
 ?>
 
 <?php if (!$isOwn): ?>
-  -- <?= (string)$unit ?> (<?= $foreign ?>), <?= $this->number($unit->Size(), 'race', $unit->Race()) ?>
+  -- <?= (string)$unit ?> von <?= $foreign ?>, <?= $this->number($unit->Size(), 'race', $unit->Race()) ?>
 <?php if ($unit->IsGuarding()): ?>, bewacht die Region<?php endif ?>
 .<?= description($unit) ?>
 <?php else: ?>
