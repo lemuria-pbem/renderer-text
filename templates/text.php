@@ -40,6 +40,7 @@ use Lemuria\Renderer\Text\View;
 /* @var View $this */
 
 $party            = $this->party;
+$banner           = $this->party->Banner() ? 'Unser Banner: ' . $this->party->Banner() : '(kein Banner gesetzt)';
 $report           = $this->messages($party);
 $diplomacy        = $party->Diplomacy();
 $acquaintances    = $diplomacy->Acquaintances();
@@ -66,6 +67,8 @@ Dein Volk: <?= $party->Name() ?> [<?= $party->Id() ?>]
 
 <?= line($party->Description()) ?>
 
+<?= line($banner) ?>
+
 Dein Volk zählt <?= $this->number($census->count(), 'race', $party->Race()) ?> in <?= $this->number($party->People()->count()) ?> Einheiten.
 
 <?= hr() ?>
@@ -85,31 +88,35 @@ Dein Volk zählt <?= $this->number($census->count(), 'race', $party->Race()) ?> 
 <?php if ($acquaintances->count()): ?>
 
 <?php foreach ($acquaintances as $acquaintance /* @var Party $acquaintance */): ?>
-<?= $acquaintance ?>
+<?= $acquaintance ?><?php if ($acquaintance->Banner()): ?> - <?= $acquaintance->Banner() ?><?php endif ?>
+
+<?= $acquaintance->Description() ?>
 
 <?php $relations = $diplomacy->search($acquaintance) ?>
 <?php if ($relations): ?>
 <?php foreach ($relations as $relation /* @var Relation $relation */): ?>
 <?php if ($relation->Region()): ?>
-   Beziehungen in Region <?= $relation->Region() ?>: <?= $this->relation($relation) ?>
+   Allianzrechte in Region <?= $relation->Region() ?>: <?= $this->relation($relation) ?>
 <?php else: ?>
-   Beziehungen: <?= $this->relation($relation) ?>
+   Allianzrechte: <?= $this->relation($relation) ?>
 <?php endif ?>
 
 <?php endforeach ?>
+<?php else: ?>
+   Allianzrechte: keine
 <?php endif ?>
+
 <?php endforeach ?>
 <?php endif ?>
 <?php if ($generalRelations): ?>
 <?php foreach ($generalRelations as $relation /* @var Relation $relation */): ?>
-
 <?php if ($relation->Region()): ?>
-Allgemeine Beziehungen in Region <?= $relation->Region() ?>: <?= $this->relation($relation) ?>
+Allgemein vergebene Rechte in Region <?= $relation->Region() ?>: <?= $this->relation($relation) ?>
 <?php else: ?>
-Allgemeine Beziehungen: <?= $this->relation($relation) ?>
+Allgemein vergebene Rechte: <?= $this->relation($relation) ?>
 <?php endif ?>
-<?php endforeach ?>
 
+<?php endforeach ?>
 <?php endif ?>
 
 <?= hr() ?>

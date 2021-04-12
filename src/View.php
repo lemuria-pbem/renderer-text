@@ -80,6 +80,20 @@ use Lemuria\Singleton;
 }
 
 /**
+ * Replace email address with a mailto link.
+ */
+#[Pure] function linkEmail(string $input): string {
+	if (preg_match('/\b([A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,})\b/i', $input, $matches) === 1) {
+		$n = count($matches);
+		for ($i = 1; $i < $n; $i++) {
+			$e     = $matches[$i];
+			$input = str_replace($e, '<a href="mailto:' . $e . '">' . $e . '</a>', $input);
+		}
+	}
+	return $input;
+}
+
+/**
  * Create the footer.
  */
 #[Pure] function footer(): string {
