@@ -16,6 +16,7 @@ use Lemuria\Identifiable;
 use Lemuria\ItemSet;
 use Lemuria\Lemuria;
 use Lemuria\Model\Dictionary;
+use Lemuria\Model\Fantasya\Commodity;
 use Lemuria\Model\Fantasya\Construction;
 use Lemuria\Model\Fantasya\Landscape\Ocean;
 use Lemuria\Model\Fantasya\Quantity;
@@ -143,6 +144,11 @@ abstract class View
 			return formatNumber($number) . $delimiter . $this->get($keyPath, $index);
 		}
 		return formatNumber($number);
+	}
+
+	#[Pure] public function things(Commodity $commodity): string {
+		$keyPath = 'resource.' . getClass($commodity);
+		return $this->get($keyPath, 1);
 	}
 
 	/**

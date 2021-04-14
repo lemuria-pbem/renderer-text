@@ -21,6 +21,7 @@ use Lemuria\Model\Fantasya\Commodity\Wood;
 use Lemuria\Model\Fantasya\Construction;
 use Lemuria\Model\Fantasya\Intelligence;
 use Lemuria\Model\Fantasya\Landscape\Ocean;
+use Lemuria\Model\Fantasya\Offer;
 use Lemuria\Model\Fantasya\Party;
 use Lemuria\Model\Fantasya\Quantity;
 use Lemuria\Model\Fantasya\Region;
@@ -173,6 +174,15 @@ foreach ($atlas as $region /* @var Region $region */):
 			endif;
 		endif;
 
+		$luxuries = $region->Luxuries();
+		if ($luxuries):
+			$offer  = $luxuries->Offer();
+			$demand = [];
+			foreach ($luxuries as $luxury /* @var Offer $luxury */):
+				$demand[] = $this->get('resource', $luxury->Commodity()) . ' $' . $this->number($luxury->Price());
+			endforeach;
+		endif;
+
 		$availability = new Availability($region);
 		$peasants     = $availability->getResource(Peasant::class);
 		$recruits     = $this->resource($peasants);
@@ -233,8 +243,15 @@ foreach ($atlas as $region /* @var Region $region */):
 				<br>
 			<?php endif ?>
 			<?= ucfirst(implode(', ', $neighbours)) ?>.
-			<br>
-			<?= $region->Description() ?>
+			<?php if ($region->Description()): ?>
+				<br>
+				<?= $region->Description() ?>
+			<?php endif ?>
+			<?php if ($luxuries): ?>
+				<br>
+				Die Bauern produzieren <?= $this->things($offer->Commodity()) ?> und verlangen pro Stück $<?= $this->number($offer->Price()) ?>.
+				Marktpreise für andere Waren: <?= implode(', ', $demand) ?>.
+			<?php endif ?>
 		</p>
 	<?php else: ?>
 		<p>
