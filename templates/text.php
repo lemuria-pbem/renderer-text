@@ -25,6 +25,7 @@ use Lemuria\Model\Fantasya\Commodity\Wood;
 use Lemuria\Model\Fantasya\Construction;
 use Lemuria\Model\Fantasya\Intelligence;
 use Lemuria\Model\Fantasya\Landscape\Ocean;
+use Lemuria\Model\Fantasya\Offer;
 use Lemuria\Model\Fantasya\Party;
 use Lemuria\Model\Fantasya\Quantity;
 use Lemuria\Model\Fantasya\Region;
@@ -40,6 +41,7 @@ use Lemuria\Renderer\Text\View;
 /* @var View $this */
 
 $party            = $this->party;
+$banner           = $this->party->Banner() ? 'Unser Banner: ' . $this->party->Banner() : '(kein Banner gesetzt)';
 $report           = $this->messages($party);
 $diplomacy        = $party->Diplomacy();
 $acquaintances    = $diplomacy->Acquaintances();
@@ -66,6 +68,8 @@ Dein Volk: <?= $party->Name() ?> [<?= $party->Id() ?>]
 
 <?= line($party->Description()) ?>
 
+<?= line($banner) ?>
+
 Dein Volk zählt <?= $this->number($census->count(), 'race', $party->Race()) ?> in <?= $this->number($party->People()->count()) ?> Einheiten.
 
 <?= hr() ?>
@@ -85,31 +89,35 @@ Dein Volk zählt <?= $this->number($census->count(), 'race', $party->Race()) ?> 
 <?php if ($acquaintances->count()): ?>
 
 <?php foreach ($acquaintances as $acquaintance /* @var Party $acquaintance */): ?>
-<?= $acquaintance ?>
+<?= $acquaintance ?><?php if ($acquaintance->Banner()): ?> - <?= $acquaintance->Banner() ?><?php endif ?>
+
+<?= $acquaintance->Description() ?>
 
 <?php $relations = $diplomacy->search($acquaintance) ?>
 <?php if ($relations): ?>
 <?php foreach ($relations as $relation /* @var Relation $relation */): ?>
 <?php if ($relation->Region()): ?>
-   Beziehungen in Region <?= $relation->Region() ?>: <?= $this->relation($relation) ?>
+   Allianzrechte in Region <?= $relation->Region() ?>: <?= $this->relation($relation) ?>
 <?php else: ?>
-   Beziehungen: <?= $this->relation($relation) ?>
+   Allianzrechte: <?= $this->relation($relation) ?>
 <?php endif ?>
 
 <?php endforeach ?>
+<?php else: ?>
+   Allianzrechte: keine
 <?php endif ?>
+
 <?php endforeach ?>
 <?php endif ?>
 <?php if ($generalRelations): ?>
 <?php foreach ($generalRelations as $relation /* @var Relation $relation */): ?>
-
 <?php if ($relation->Region()): ?>
-Allgemeine Beziehungen in Region <?= $relation->Region() ?>: <?= $this->relation($relation) ?>
+Allgemein vergebene Rechte in Region <?= $relation->Region() ?>: <?= $this->relation($relation) ?>
 <?php else: ?>
-Allgemeine Beziehungen: <?= $this->relation($relation) ?>
+Allgemein vergebene Rechte: <?= $this->relation($relation) ?>
 <?php endif ?>
-<?php endforeach ?>
 
+<?php endforeach ?>
 <?php endif ?>
 
 <?= hr() ?>
@@ -163,6 +171,15 @@ foreach ($atlas as $region /* @var Region $region */):
 			endif;
 		endif;
 
+		$luxuries = $region->Luxuries();
+		if ($luxuries):
+			$offer  = $luxuries->Offer();
+			$demand = [];
+			foreach ($luxuries as $luxury /* @var Offer $luxury */):
+				$demand[] = $this->get('resource', $luxury->Commodity()) . ' $' . $this->number($luxury->Price());
+			endforeach;
+		endif;
+
 		$availability = new Availability($region);
 		$peasants     = $availability->getResource(Peasant::class);
 		$recruits     = $this->resource($peasants);
@@ -209,6 +226,10 @@ endif ?><?php if ($g > 0): ?> Die Region wird bewacht von <?= ucfirst(implode(',
 
 <?= ucfirst(implode(', ', $neighbours)) ?>
 .<?= line(description($region)) ?>
+<?php if ($luxuries): ?>
+Die Bauern produzieren <?= $this->things($offer->Commodity()) ?> und verlangen pro Stück $<?= $this->number($offer->Price()) ?>
+. Marktpreise für andere Waren: <?= implode(', ', $demand) ?>.
+<?php endif ?>
 <?php foreach ($report as $message): ?>
 <?= $message ?>
 
