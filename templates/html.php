@@ -8,6 +8,7 @@ use Lemuria\Engine\Fantasya\Calculus;
 use Lemuria\Engine\Fantasya\Factory\Model\TravelAtlas;
 use Lemuria\Lemuria;
 use Lemuria\Model\Fantasya\Ability;
+use Lemuria\Model\Fantasya\Building\Site;
 use Lemuria\Model\Fantasya\Commodity\Camel;
 use Lemuria\Model\Fantasya\Commodity\Elephant;
 use Lemuria\Model\Fantasya\Commodity\Griffin;
@@ -174,15 +175,6 @@ foreach ($atlas as $region /* @var Region $region */):
 			endif;
 		endif;
 
-		$luxuries = $region->Luxuries();
-		if ($luxuries):
-			$offer  = $luxuries->Offer();
-			$demand = [];
-			foreach ($luxuries as $luxury /* @var Offer $luxury */):
-				$demand[] = $this->get('resource', $luxury->Commodity()) . ' $' . $this->number($luxury->Price());
-			endforeach;
-		endif;
-
 		$availability = new Availability($region);
 		$peasants     = $availability->getResource(Peasant::class);
 		$recruits     = $this->resource($peasants);
@@ -205,6 +197,19 @@ foreach ($atlas as $region /* @var Region $region */):
 		foreach ($intelligence->getMaterialPool($party) as $quantity /* @var Quantity $quantity */):
 			$materialPool[] = $this->number($quantity->Count(), 'resource', $quantity->Commodity());
 		endforeach;
+
+		$luxuries = null;
+		$castle   = $intelligence->getGovernment();
+		if ($castle?->Size() > Site::MAX_SIZE):
+			$luxuries = $region->Luxuries();
+			if ($luxuries):
+				$offer  = $luxuries->Offer();
+				$demand = [];
+				foreach ($luxuries as $luxury /* @var Offer $luxury */):
+					$demand[] = $this->get('resource', $luxury->Commodity()) . ' $' . $this->number($luxury->Price());
+				endforeach;
+			endif;
+		endif;
 	endif;
 	?>
 
