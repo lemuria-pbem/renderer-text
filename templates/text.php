@@ -298,6 +298,7 @@ endif;
    * <?= (string)$unit ?> von <?= $foreign ?>, <?= $this->number($unit->Size(), 'race', $unit->Race()) ?>
 <?php if ($unit->IsGuarding()): ?>, bewacht die Region<?php endif ?>
 .<?= description($unit) ?>
+
 <?php else: ?>
    * <?= (string)$unit ?>, <?= $this->number($unit->Size(), 'race', $unit->Race()) ?>
 <?php if ($unit->IsHiding()): ?>, getarnt<?php endif ?>
@@ -369,6 +370,7 @@ endif;
    * <?= (string)$unit ?> von <?= $foreign ?>, <?= $this->number($unit->Size(), 'race', $unit->Race()) ?>
 <?php if ($unit->IsGuarding()): ?>, bewacht die Region<?php endif ?>
 .<?= description($unit) ?>
+
 <?php else: ?>
    * <?= (string)$unit ?>, <?= $this->number($unit->Size(), 'race', $unit->Race()) ?>
 <?php if ($unit->IsHiding()): ?>, getarnt<?php endif ?>
