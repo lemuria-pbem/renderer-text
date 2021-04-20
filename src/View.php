@@ -11,7 +11,6 @@ use Lemuria\Engine\Fantasya\Factory\Model\TravelAtlas;
 use Lemuria\Engine\Fantasya\Outlook;
 use Lemuria\Engine\Message;
 use Lemuria\Engine\Message\Filter;
-use Lemuria\Entity;
 use Lemuria\Identifiable;
 use Lemuria\ItemSet;
 use Lemuria\Lemuria;
@@ -29,79 +28,6 @@ use Lemuria\Model\Fantasya\World\PartyMap;
 use Lemuria\Singleton;
 
 /**
- * Create a description line.
- */
-#[Pure] function description(Entity $entity): string {
-	if ($entity->Description()) {
-		$description = ' ' . trim($entity->Description());
-		if (substr($description, strlen($description) - 1) !== '.') {
-			$description .= '.';
-		}
-		return $description;
-	}
-	return '';
-}
-
-/**
- * Create a centered line.
- */
-#[Pure] function center(string $output): string {
-	$columns = 80;
-	$length  = mb_strlen($output);
-	if ($length >= $columns) {
-		return line($output);
-	}
-	$padding = (int)(($columns - $length) / 2);
-	return line(str_repeat(' ', $padding) . $output);
-}
-
-/**
- * Create a horizontal line.
- */
-#[Pure] function hr(): string {
-	return line(str_pad('', 80, '-'));
-}
-
-/**
- * Create an output line terminated by EOL.
- */
-#[Pure] function line(string $output): string {
-	return $output . PHP_EOL;
-}
-
-/**
- * Take text and wrap lines that are too long.
- */
-#[Pure] function wrap(string $output): string {
-	$wrapped = '';
-	foreach (explode(PHP_EOL, $output) as $line) {
-		$wrapped .= wordwrap($line, 80) . PHP_EOL;
-	}
-	return $wrapped;
-}
-
-/**
- * Replace email address with a mailto link.
- */
-#[Pure] function linkEmail(string $input): string {
-	if (preg_match('/\b([A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,})\b/i', $input, $matches) === 1) {
-		$n = count($matches);
-		for ($i = 1; $i < $n; $i++) {
-			$e     = $matches[$i];
-			$input = str_replace($e, '<a href="mailto:' . $e . '">' . $e . '</a>', $input);
-		}
-	}
-	return $input;
-}
-
-/**
- * Create the footer.
- */
-#[Pure] function footer(): string {
-    return str_pad('', 80, '-');
-}
-
-/**
  * A view object that contains variables and helper functions for view scripts.
  */
 abstract class View
@@ -115,6 +41,8 @@ abstract class View
 	public PartyMap $map;
 
 	protected Dictionary $dictionary;
+
+	protected ?array $variables = null;
 
 	public function __construct(public Party $party, private Filter $messageFilter) {
 		$this->census  = new Census($this->party);
@@ -227,7 +155,7 @@ abstract class View
 		return $messages;
 	}
 
-	public function relation(Relation $relation): string {
+	#[Pure] public function relation(Relation $relation): string {
 		$agreement = $relation->Agreement();
 		if ($agreement === Relation::NONE || $agreement === Relation::ALL) {
 			$agreement = 'agreement_' . $agreement;
@@ -247,6 +175,11 @@ abstract class View
 	}
 
 	/**
+	 * Render a template.
+	 */
+	abstract public function template(string $name, ...$variables): string;
+
+	/**
 	 * Render a report message.
 	 */
 	abstract public function message(Message $message): string;
@@ -258,8 +191,8 @@ abstract class View
 		if (!ob_start()) {
 			throw new \RuntimeException('Could not start output buffering.');
 		}
-		return $this->generateContent();
+		return $this->generateContent('main');
 	}
 
-	abstract protected function generateContent(): string;
+	abstract protected function generateContent(string $template): string;
 }

@@ -2,11 +2,11 @@
 declare (strict_types = 1);
 
 use function Lemuria\getClass;
-use function Lemuria\Renderer\Text\center;
-use function Lemuria\Renderer\Text\description;
-use function Lemuria\Renderer\Text\footer;
-use function Lemuria\Renderer\Text\hr;
-use function Lemuria\Renderer\Text\line;
+use function Lemuria\Renderer\Text\View\center;
+use function Lemuria\Renderer\Text\View\description;
+use function Lemuria\Renderer\Text\View\footer;
+use function Lemuria\Renderer\Text\View\hr;
+use function Lemuria\Renderer\Text\View\line;
 use Lemuria\Engine\Fantasya\Availability;
 use Lemuria\Engine\Fantasya\Calculus;
 use Lemuria\Engine\Fantasya\Factory\Model\TravelAtlas;
@@ -27,19 +27,13 @@ use Lemuria\Model\Fantasya\Construction;
 use Lemuria\Model\Fantasya\Intelligence;
 use Lemuria\Model\Fantasya\Landscape\Ocean;
 use Lemuria\Model\Fantasya\Offer;
-use Lemuria\Model\Fantasya\Party;
 use Lemuria\Model\Fantasya\Quantity;
 use Lemuria\Model\Fantasya\Region;
-use Lemuria\Model\Fantasya\Relation;
 use Lemuria\Model\Fantasya\Unit;
 use Lemuria\Model\Fantasya\Vessel;
-use Lemuria\Renderer\Text\View;
+use Lemuria\Renderer\Text\View\Text;
 
-/**
- * A party's report in plain text.
- */
-
-/* @var View $this */
+/* @var Text $this */
 
 $party            = $this->party;
 $banner           = $this->party->Banner() ? 'Unser Banner: ' . $this->party->Banner() : '(kein Banner gesetzt)';
@@ -77,49 +71,13 @@ Dein Volk zählt <?= $this->number($census->count(), 'race', $party->Race()) ?> 
 
 <?= center('Ereignisse') ?>
 
-<?php if ($report): ?>
-<?php foreach ($report as $message): ?>
-<?= $message ?>
+<?= $this->template('report', $party) ?>
 
-<?php endforeach ?>
-
-<?php endif ?>
 <?= hr() ?>
 
 <?= center('Alle bekannten Völker') ?>
-<?php if ($acquaintances->count()): ?>
 
-<?php foreach ($acquaintances as $acquaintance /* @var Party $acquaintance */): ?>
-<?= $acquaintance ?><?php if ($acquaintance->Banner()): ?> - <?= $acquaintance->Banner() ?><?php endif ?>
-
-<?= $acquaintance->Description() ?>
-
-<?php $relations = $diplomacy->search($acquaintance) ?>
-<?php if ($relations): ?>
-<?php foreach ($relations as $relation /* @var Relation $relation */): ?>
-<?php if ($relation->Region()): ?>
-   Allianzrechte in Region <?= $relation->Region() ?>: <?= $this->relation($relation) ?>
-<?php else: ?>
-   Allianzrechte: <?= $this->relation($relation) ?>
-<?php endif ?>
-
-<?php endforeach ?>
-<?php else: ?>
-   Allianzrechte: keine
-<?php endif ?>
-
-<?php endforeach ?>
-<?php endif ?>
-<?php if ($generalRelations): ?>
-<?php foreach ($generalRelations as $relation /* @var Relation $relation */): ?>
-<?php if ($relation->Region()): ?>
-Allgemein vergebene Rechte in Region <?= $relation->Region() ?>: <?= $this->relation($relation) ?>
-<?php else: ?>
-Allgemein vergebene Rechte: <?= $this->relation($relation) ?>
-<?php endif ?>
-
-<?php endforeach ?>
-<?php endif ?>
+<?= $this->wrappedTemplate('acquaintances', $party) ?>
 
 <?= hr() ?>
 
@@ -257,10 +215,7 @@ Materialpool: <?= implode(', ', $materialPool) ?>.
   >> <?= $construction ?>, <?= $this->get('building', $construction->Building()) ?> der Größe <?= $this->number($construction->Size()) ?> mit <?= $this->number($this->people($construction)) ?>
  Bewohnern. Besitzer ist <?= count($construction->Inhabitants()) ? $construction->Inhabitants()->Owner() : 'niemand' ?>
 .<?= line(description($construction)) ?>
-<?php foreach ($report = $this->messages($construction) as $message): ?>
-  <?= $message ?>
-
-<?php endforeach ?>
+<?= $this->template('report', $construction) ?>
 <?php foreach ($construction->Inhabitants() as $unit /* @var Unit $unit */): ?>
 <?php
 $isOwn = $unit->Party() === $party;
@@ -295,12 +250,12 @@ endif;
 ?>
 
 <?php if (!$isOwn): ?>
-   * <?= (string)$unit ?> von <?= $foreign ?>, <?= $this->number($unit->Size(), 'race', $unit->Race()) ?>
+   * <?= $unit ?> von <?= $foreign ?>, <?= $this->number($unit->Size(), 'race', $unit->Race()) ?>
 <?php if ($unit->IsGuarding()): ?>, bewacht die Region<?php endif ?>
 .<?= description($unit) ?>
 
 <?php else: ?>
-   * <?= (string)$unit ?>, <?= $this->number($unit->Size(), 'race', $unit->Race()) ?>
+   * <?= $unit ?>, <?= $this->number($unit->Size(), 'race', $unit->Race()) ?>
 <?php if ($unit->IsHiding()): ?>, getarnt<?php endif ?>
 <?php if ($disguised): ?>, gibt sich als Angehöriger der Partei <?= $disguised->Name() ?> aus<?php endif ?>
 <?php if ($disguised === null): ?>, verheimlicht die Parteizugehörigkeit<?php endif ?>
@@ -310,10 +265,7 @@ endif;
 Talente: <?= empty($talents) ? 'keine' : implode(', ', $talents) ?>
 . Hat <?= empty($inventory) ? 'nichts' : implode(', ', $inventory) ?>
 , Last <?= $this->number($weight) ?> GE, zusammen <?= $this->number($total) ?> GE.
-<?php foreach ($report = $this->messages($unit) as $message): ?>
-<?= $message ?>
-
-<?php endforeach ?>
+<?= $this->template('report', $unit) ?>
 <?php endif ?>
 <?php endforeach ?>
 <?php endforeach ?>
@@ -329,10 +281,7 @@ Talente: <?= empty($talents) ? 'keine' : implode(', ', $talents) ?>
 <?php endif ?>
 <?php endif ?>
 .<?= line(description($vessel)) ?>
-<?php foreach ($report = $this->messages($vessel) as $message): ?>
-<?= $message ?>
-
-<?php endforeach ?>
+<?= $this->template('report', $vessel) ?>
 <?php foreach ($vessel->Passengers() as $unit /* @var Unit $unit */): ?>
 <?php
 $isOwn = $unit->Party() === $party;
@@ -367,12 +316,12 @@ endif;
 ?>
 
 <?php if (!$isOwn): ?>
-   * <?= (string)$unit ?> von <?= $foreign ?>, <?= $this->number($unit->Size(), 'race', $unit->Race()) ?>
+   * <?= $unit ?> von <?= $foreign ?>, <?= $this->number($unit->Size(), 'race', $unit->Race()) ?>
 <?php if ($unit->IsGuarding()): ?>, bewacht die Region<?php endif ?>
 .<?= description($unit) ?>
 
 <?php else: ?>
-   * <?= (string)$unit ?>, <?= $this->number($unit->Size(), 'race', $unit->Race()) ?>
+   * <?= $unit ?>, <?= $this->number($unit->Size(), 'race', $unit->Race()) ?>
 <?php if ($unit->IsHiding()): ?>, getarnt<?php endif ?>
 <?php if ($disguised): ?>, gibt sich als Angehöriger der Partei <?= $disguised->Name() ?> aus<?php endif ?>
 <?php if ($disguised === null): ?>, verheimlicht die Parteizugehörigkeit<?php endif ?>
@@ -382,10 +331,7 @@ endif;
 Talente: <?= empty($talents) ? 'keine' : implode(', ', $talents) ?>
 . Hat <?= empty($inventory) ? 'nichts' : implode(', ', $inventory) ?>
 , Last <?= $this->number($weight) ?> GE, zusammen <?= $this->number($total) ?> GE.
-<?php foreach ($report = $this->messages($unit) as $message): ?>
-<?= $message ?>
-
-<?php endforeach ?>
+<?= $this->template('report', $unit) ?>
 <?php endif ?>
 <?php endforeach ?>
 <?php endforeach ?>
@@ -423,11 +369,11 @@ endif;
 ?>
 
 <?php if (!$isOwn): ?>
-  -- <?= (string)$unit ?> von <?= $foreign ?>, <?= $this->number($unit->Size(), 'race', $unit->Race()) ?>
+  -- <?= $unit ?> von <?= $foreign ?>, <?= $this->number($unit->Size(), 'race', $unit->Race()) ?>
 <?php if ($unit->IsGuarding()): ?>, bewacht die Region<?php endif ?>
 .<?= description($unit) ?>
 <?php else: ?>
-  -- <?= (string)$unit ?>, <?= $this->number($unit->Size(), 'race', $unit->Race()) ?>
+  -- <?= $unit ?>, <?= $this->number($unit->Size(), 'race', $unit->Race()) ?>
 <?php if ($unit->IsHiding()): ?>, getarnt<?php endif ?>
 <?php if ($disguised): ?>, gibt sich als Angehöriger der Partei <?= $disguised->Name() ?> aus<?php endif ?>
 <?php if ($disguised === null): ?>, verheimlicht die Parteizugehörigkeit<?php endif ?>
@@ -437,10 +383,7 @@ endif;
 Talente: <?= empty($talents) ? 'keine' : implode(', ', $talents) ?>
 . Hat <?= empty($inventory) ? 'nichts' : implode(', ', $inventory) ?>
 , Last <?= $this->number($weight) ?> GE, zusammen <?= $this->number($total) ?>
- GE.<?php foreach ($report = $this->messages($unit) as $message): ?>
-
-<?= $message ?>
-<?php endforeach ?>
+ GE.<?= $this->template('report', $unit) ?>
 <?php endif ?>
 
 <?php endforeach ?>

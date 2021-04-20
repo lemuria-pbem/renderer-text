@@ -2,7 +2,7 @@
 declare (strict_types = 1);
 
 use function Lemuria\getClass;
-use function Lemuria\Renderer\Text\linkEmail;
+use function Lemuria\Renderer\Text\View\linkEmail;
 use Lemuria\Engine\Fantasya\Availability;
 use Lemuria\Engine\Fantasya\Calculus;
 use Lemuria\Engine\Fantasya\Factory\Model\TravelAtlas;
@@ -23,19 +23,13 @@ use Lemuria\Model\Fantasya\Construction;
 use Lemuria\Model\Fantasya\Intelligence;
 use Lemuria\Model\Fantasya\Landscape\Ocean;
 use Lemuria\Model\Fantasya\Offer;
-use Lemuria\Model\Fantasya\Party;
 use Lemuria\Model\Fantasya\Quantity;
 use Lemuria\Model\Fantasya\Region;
-use Lemuria\Model\Fantasya\Relation;
 use Lemuria\Model\Fantasya\Unit;
 use Lemuria\Model\Fantasya\Vessel;
-use Lemuria\Renderer\Text\View;
+use Lemuria\Renderer\Text\View\Html;
 
-/**
- * A parties' report in HTML.
- */
-
-/* @var View $this */
+/** @var Html $this */
 
 $party            = $this->party;
 $banner           = $this->party->Banner() ? 'Unser Banner: ' . linkEmail($this->party->Banner()) : '(kein Banner gesetzt)';
@@ -71,59 +65,11 @@ $week             = $calendar->Week();
 
 <h3>Ereignisse</h3>
 
-<?php if (count($report)): ?>
-	<ul class="report">
-		<?php foreach ($report as $message): ?>
-			<li><?= $this->message($message) ?></li>
-		<?php endforeach ?>
-	</ul>
-<?php endif ?>
+<?= $this->template('report', $party) ?>
 
 <h3>Alle bekannten Völker</h3>
 
-<?php if ($acquaintances->count()): ?>
-	<ul class="diplomacy">
-		<?php foreach ($acquaintances as $acquaintance /* @var Party $acquaintance */): ?>
-			<li>
-				<?= $acquaintance->Name() ?> <span class="badge badge-primary"><?= $acquaintance->Id() ?></span>
-				<?php if ($acquaintance->Banner()): ?> - <?= linkEmail($acquaintance->Banner()) ?><?php endif ?>
-				<br>
-				<small><?= $acquaintance->Description() ?></small>
-				<?php $relations = $diplomacy->search($acquaintance) ?>
-				<?php if ($relations): ?>
-					<ul>
-						<?php foreach ($relations as $relation /* @var Relation $relation */): ?>
-						<li>
-							<?php if ($relation->Region()): ?>
-								Allianzrechte in Region <?= $relation->Region() ?>:
-								<?= $this->relation($relation) ?>
-							<?php else: ?>
-								Allianzrechte:
-								<?= $this->relation($relation) ?>
-							<?php endif ?>
-						</li>
-						<?php endforeach ?>
-					</ul>
-				<?php else: ?>
-					<ul>
-						<li>Allianzrechte: keine</li>
-					</ul>
-				<?php endif ?>
-			</li>
-		<?php endforeach ?>
-		<?php foreach ($generalRelations as $relation /* @var Relation $relation */): ?>
-			<li>
-				<?php if ($relation->Region()): ?>
-					Allgemein vergebene Rechte in Region <?= $relation->Region() ?>:
-					<?= $this->relation($relation) ?>
-				<?php else: ?>
-					Allgemein vergebene Rechte:
-					<?= $this->relation($relation) ?>
-				<?php endif ?>
-			</li>
-		<?php endforeach ?>
-	</ul>
-<?php endif ?>
+<?= $this->template('acquaintances', $party) ?>
 
 <h3>Kontinent Lemuria <span class="badge badge-primary"><?= $party->Id() ?></span></h3>
 
@@ -277,11 +223,7 @@ foreach ($atlas as $region /* @var Region $region */):
 
 	<?php if ($hasUnits && count($report)): ?>
 		<h5>Ereignisse</h5>
-		<ul class="report">
-			<?php foreach ($report as $message): ?>
-				<li><?= $this->message($message) ?></li>
-			<?php endforeach ?>
-		</ul>
+		<?= $this->template('report', $region) ?>
 	<?php endif ?>
 
 	<?php if ($hasUnits): ?>
@@ -308,11 +250,7 @@ foreach ($atlas as $region /* @var Region $region */):
 
 			<?php if (count($report = $this->messages($construction))): ?>
 				<h6>Ereignisse</h6>
-				<ul class="report">
-					<?php foreach ($report as $message): ?>
-						<li><?= $this->message($message) ?></li>
-					<?php endforeach ?>
-				</ul>
+				<?= $this->template('report', $construction) ?>
 			<?php endif ?>
 
 			<?php foreach ($construction->Inhabitants() as $unit /* @var Unit $unit */): ?>
@@ -367,11 +305,7 @@ foreach ($atlas as $region /* @var Region $region */):
 						<?php endif ?>
 					</p>
 					<?php if ($isOwn && count($report = $this->messages($unit))): ?>
-						<ul class="report">
-							<?php foreach ($report as $message): ?>
-								<li><?= $this->message($message) ?></li>
-							<?php endforeach ?>
-						</ul>
+						<?= $this->template('report', $unit) ?>
 					<?php endif ?>
 				</div>
 			<?php endforeach ?>
@@ -400,11 +334,7 @@ foreach ($atlas as $region /* @var Region $region */):
 
 			<?php if (count($report = $this->messages($vessel))): ?>
 				<h6>Ereignisse</h6>
-				<ul class="report">
-					<?php foreach ($report as $message): ?>
-						<li><?= $this->message($message) ?></li>
-					<?php endforeach ?>
-				</ul>
+				<?= $this->template('report', $vessel) ?>
 			<?php endif ?>
 
 			<?php foreach ($vessel->Passengers() as $unit /* @var Unit $unit */): ?>
@@ -459,11 +389,7 @@ foreach ($atlas as $region /* @var Region $region */):
 						<?php endif ?>
 					</p>
 					<?php if ($isOwn && count($report = $this->messages($unit))): ?>
-						<ul class="report">
-							<?php foreach ($report as $message): ?>
-								<li><?= $this->message($message) ?></li>
-							<?php endforeach ?>
-						</ul>
+						<?= $this->template('report', $unit) ?>
 					<?php endif ?>
 				</div>
 			<?php endforeach ?>
@@ -526,11 +452,7 @@ foreach ($atlas as $region /* @var Region $region */):
 					<?php endif ?>
 				</p>
 				<?php if ($isOwn && count($report = $this->messages($unit))): ?>
-					<ul class="report">
-						<?php foreach ($report as $message): ?>
-							<li><?= $this->message($message) ?></li>
-						<?php endforeach ?>
-					</ul>
+					<?= $this->template('report', $unit) ?>
 				<?php endif ?>
 			</div>
 		<?php endforeach ?>
