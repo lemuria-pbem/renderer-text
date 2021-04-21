@@ -3,7 +3,6 @@ declare (strict_types = 1);
 
 use function Lemuria\Renderer\Text\View\linkEmail;
 use Lemuria\Lemuria;
-use Lemuria\Model\Fantasya\Region;
 use Lemuria\Renderer\Text\View\Html;
 
 /** @var Html $this */
@@ -11,7 +10,6 @@ use Lemuria\Renderer\Text\View\Html;
 $party    = $this->party;
 $census   = $this->census;
 $atlas    = $this->atlas;
-$map      = $this->map;
 $calendar = Lemuria::Calendar();
 $season   = $this->get('calendar.season', $calendar->Season() - 1);
 $month    = $this->get('calendar.month', $calendar->Month() - 1);
@@ -45,6 +43,6 @@ $banner   = $party->Banner() ? 'Unser Banner: ' . linkEmail($party->Banner()) : 
 
 <blockquote class="blockquote">Dies ist der Hauptkontinent Lemuria.</blockquote>
 
-<?php foreach ($atlas as $region /* @var Region $region */): ?>
+<?php foreach ($atlas as $region): ?>
 	<?= $this->template('region', $region) ?>
 <?php endforeach ?>

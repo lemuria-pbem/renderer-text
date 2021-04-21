@@ -177,7 +177,7 @@ abstract class View
 	/**
 	 * Render a template.
 	 */
-	abstract public function template(string $name, ...$variables): string;
+	abstract public function template(string $name, mixed ...$variables): string;
 
 	/**
 	 * Render a report message.

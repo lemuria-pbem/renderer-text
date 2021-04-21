@@ -40,7 +40,7 @@ class Html extends View
 	/**
 	 * Render a template.
 	 */
-	public function template(string $name, ...$variables): string {
+	public function template(string $name, mixed ...$variables): string {
 		$this->variables = $variables;
 		return $this->generateContent($name);
 	}

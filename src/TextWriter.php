@@ -7,9 +7,6 @@ use Lemuria\Renderer\Text\View\Text;
 
 final class TextWriter extends FileWriter
 {
-	/**
-	 * @noinspection PhpPureAttributeCanBeAddedInspection
-	 */
 	protected function getView(Party $party): View {
 		return new Text($party, $this->messageFilter);
 	}
