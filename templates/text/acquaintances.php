@@ -12,9 +12,12 @@ $diplomacy        = $party->Diplomacy();
 $acquaintances    = $diplomacy->Acquaintances();
 $generalRelations = $diplomacy->search($party);
 
+$i = 0
+
 ?>
 <?php if ($acquaintances->count()): ?>
 <?php foreach ($acquaintances as $acquaintance /* @var Party $acquaintance */): ?>
+
 <?= $acquaintance ?><?php if ($acquaintance->Banner()): ?> - <?= $acquaintance->Banner() ?><?php endif ?>
 
 <?= $acquaintance->Description() ?>
@@ -23,18 +26,19 @@ $generalRelations = $diplomacy->search($party);
 <?php if ($relations): ?>
 <?php foreach ($relations as $relation /* @var Relation $relation */): ?>
 <?php if ($relation->Region()): ?>
-   Allianzrechte in Region <?= $relation->Region() ?>: <?= $this->relation($relation) ?>
+Allianzrechte in Region <?= $relation->Region() ?>: <?= $this->relation($relation) ?>
 <?php else: ?>
-   Allianzrechte: <?= $this->relation($relation) ?>
+Allianzrechte: <?= $this->relation($relation) ?>
 <?php endif ?>
 
 <?php endforeach ?>
-<?php else: ?>   Allianzrechte: keine<?php endif ?>
+<?php else: ?>Allianzrechte: keine<?php endif ?>
 
 <?php endforeach ?>
 <?php endif ?>
 <?php if ($generalRelations): ?>
 <?php foreach ($generalRelations as $relation /* @var Relation $relation */): ?>
+
 <?php if ($relation->Region()): ?>
 Allgemein vergebene Rechte in Region <?= $relation->Region() ?>: <?= $this->relation($relation) ?>
 <?php else: ?>
