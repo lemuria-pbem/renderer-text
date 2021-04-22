@@ -60,7 +60,7 @@ class OrderWriter implements Writer
 		return $template;
 	}
 
-	private function createHeader(Party $party): string {
+	#[Pure] private function createHeader(Party $party): string {
 		return $this->createBlock([
 			'PARTEI ' . $party->Id()
 		]);
