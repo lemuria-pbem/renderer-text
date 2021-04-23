@@ -130,7 +130,7 @@ abstract class View
 				if ($region->hasRoad($direction)) {
 					$predicate = ' führt eine Straße ';
 					$neighbour = $this->neighbour($neighbour, true);
-				} elseif ($roads[$direction] > 0.0) {
+				} elseif ($roads && $roads[$direction] > 0.0) {
 					$percent   = (int)round(100.0 * $roads[$direction]);
 					$predicate = ' führt eine Straße (' . $percent . '% fertig) ';
 					$neighbour = $this->neighbour($neighbour, true);
