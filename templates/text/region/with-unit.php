@@ -26,24 +26,15 @@ use Lemuria\Renderer\Text\View\Text;
 /* @var Text $this */
 
 /** @var Region $region */
-$region    = $this->variables[0];
-$party     = $this->party;
-$census    = $this->census;
-$outlook   = $this->outlook;
-$atlas     = $this->atlas;
-$map       = $this->map;
-$landscape = $region->Landscape();
-$resources = $region->Resources();
-
-$neighbours = [];
-foreach ($map->getNeighbours($region)->getAll() as $direction => $neighbour):
-	$neighbours[] = 'im ' . $this->get('world', $direction) . ' liegt ' . $this->neighbour($neighbour);
-endforeach;
-$n = count($neighbours);
-if ($n > 1):
-	$neighbours[$n - 2] .= ' und ' . $neighbours[$n - 1];
-	unset($neighbours[$n - 1]);
-endif;
+$region     = $this->variables[0];
+$party      = $this->party;
+$census     = $this->census;
+$outlook    = $this->outlook;
+$atlas      = $this->atlas;
+$map        = $this->map;
+$landscape  = $region->Landscape();
+$resources  = $region->Resources();
+$neighbours = $this->neighbours($region);
 
 $t       = $resources[Wood::class]->Count();
 $g       = $resources[Stone::class]->Count();

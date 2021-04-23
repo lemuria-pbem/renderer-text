@@ -118,19 +118,53 @@ abstract class View
 	}
 
 	/**
+	 * Get all neighbours of a region.
+	 *
+	 * @return string[]
+	 */
+	public function neighbours(?Region $region): array {
+		$neighbours = [];
+		$roads      = $region->Roads();
+		foreach ($this->map->getNeighbours($region)->getAll() as $direction => $neighbour) {
+			if ($neighbour) {
+				if ($region->hasRoad($direction)) {
+					$predicate = ' führt eine Straße ';
+					$neighbour = $this->neighbour($neighbour, true);
+				} elseif ($roads[$direction] > 0.0) {
+					$percent   = (int)round(100.0 * $roads[$direction]);
+					$predicate = ' führt eine Straße (' . $percent . '% fertig) ';
+					$neighbour = $this->neighbour($neighbour, true);
+				} else {
+					$predicate = ' liegt ';
+					$neighbour = $this->neighbour($neighbour);
+				}
+				$neighbours[] = 'im ' . $this->get('world', $direction) . $predicate . $neighbour;
+			}
+		}
+		$n = count($neighbours);
+		if ($n > 1) {
+			$neighbours[$n - 2] .= ' und ' . $neighbours[$n - 1];
+			unset($neighbours[$n - 1]);
+		}
+		return $neighbours;
+	}
+
+	/**
 	 * Get a neighbour description.
 	 */
-	#[Pure] public function neighbour(?Region $region = null): string {
-		if ($region) {
-			$landscape = $region->Landscape();
-			$text      = $this->get('article', $landscape) . ' ' . $this->get('landscape', $landscape);
-			if ($region->Name() && !($landscape instanceof Ocean && $region->Name() === 'Ozean')) {
-				$text .= ' ' . $region->Name();
-			}
-			return $text;
+	#[Pure] public function neighbour(Region $region = null, bool $hasRoad = false): string {
+		$landscape = $region->Landscape();
+		$article   = $this->get('article', $landscape);
+		if ($hasRoad) {
+			$preposition = $this->get('preposition.zu', $article);
+			$text        = $preposition . ' ' . $this->get('landscape', $landscape);
 		} else {
-			return $this->get('world.null');
+			$text = $article . ' ' . $this->get('landscape', $landscape);
 		}
+		if ($region->Name() && !($landscape instanceof Ocean && $region->Name() === 'Ozean')) {
+			$text .= ' ' . $region->Name();
+		}
+		return $text;
 	}
 
 	#[Pure] public function people(Construction|Vessel $entity): int {
