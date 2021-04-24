@@ -5,19 +5,22 @@ use function Lemuria\Renderer\Text\View\center;
 use function Lemuria\Renderer\Text\View\footer;
 use function Lemuria\Renderer\Text\View\hr;
 use function Lemuria\Renderer\Text\View\line;
+use Lemuria\Id;
 use Lemuria\Lemuria;
+use Lemuria\Model\Fantasya\Continent;
 use Lemuria\Renderer\Text\View\Text;
 
 /* @var Text $this */
 
-$party    = $this->party;
-$banner   = $this->party->Banner() ? 'Unser Banner: ' . $this->party->Banner() : '(kein Banner gesetzt)';
-$census   = $this->census;
-$atlas    = $this->atlas;
-$calendar = Lemuria::Calendar();
-$season   = $this->get('calendar.season', $calendar->Season() - 1);
-$month    = $this->get('calendar.month', $calendar->Month() - 1);
-$week     = $calendar->Week();
+$party     = $this->party;
+$banner    = $this->party->Banner() ? 'Unser Banner: ' . $this->party->Banner() : '(kein Banner gesetzt)';
+$census    = $this->census;
+$atlas     = $this->atlas;
+$calendar  = Lemuria::Calendar();
+$season    = $this->get('calendar.season', $calendar->Season() - 1);
+$month     = $this->get('calendar.month', $calendar->Month() - 1);
+$week      = $calendar->Week();
+$continent = Continent::get(new Id(1));
 
 ?>
 <?= center('Lemuria-Auswertung') ?>
@@ -47,9 +50,7 @@ Dein Volk zählt <?= $this->number($census->count(), 'race', $party->Race()) ?> 
 <?= $this->wrappedTemplate('acquaintances', $party) ?>
 <?= hr() ?>
 
-<?= center('Kontinent Lemuria [' . $party->Id() . ']') ?>
-
-Dies ist der Hauptkontinent Lemuria.
+<?= $this->template('continent', $continent) ?>
 
 <?php foreach ($atlas as $region): ?>
 <?= $this->wrappedTemplate('region', $region) ?>

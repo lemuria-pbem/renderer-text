@@ -2,18 +2,21 @@
 declare (strict_types = 1);
 
 use function Lemuria\Renderer\Text\View\linkEmail;
+use Lemuria\Id;
 use Lemuria\Lemuria;
+use Lemuria\Model\Fantasya\Continent;
 use Lemuria\Renderer\Text\View\Html;
 
 /** @var Html $this */
 
-$party    = $this->party;
-$census   = $this->census;
-$atlas    = $this->atlas;
-$calendar = Lemuria::Calendar();
-$season   = $this->get('calendar.season', $calendar->Season() - 1);
-$month    = $this->get('calendar.month', $calendar->Month() - 1);
-$banner   = $party->Banner() ? 'Unser Banner: ' . linkEmail($party->Banner()) : '(kein Banner gesetzt)';
+$party     = $this->party;
+$census    = $this->census;
+$atlas     = $this->atlas;
+$calendar  = Lemuria::Calendar();
+$season    = $this->get('calendar.season', $calendar->Season() - 1);
+$month     = $this->get('calendar.month', $calendar->Month() - 1);
+$banner    = $party->Banner() ? 'Unser Banner: ' . linkEmail($party->Banner()) : '(kein Banner gesetzt)';
+$continent = Continent::get(new Id(1));
 
 ?>
 <h1 class="text-center">Lemuria-Auswertung</h1>
@@ -39,9 +42,7 @@ $banner   = $party->Banner() ? 'Unser Banner: ' . linkEmail($party->Banner()) : 
 
 <?= $this->template('acquaintances', $party) ?>
 
-<h3>Kontinent Lemuria <span class="badge badge-primary"><?= $party->Id() ?></span></h3>
-
-<blockquote class="blockquote">Dies ist der Hauptkontinent Lemuria.</blockquote>
+<?= $this->template('continent', $continent) ?>
 
 <?php foreach ($atlas as $region): ?>
 	<?= $this->template('region', $region) ?>
