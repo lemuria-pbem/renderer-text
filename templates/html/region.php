@@ -9,11 +9,11 @@ use Lemuria\Renderer\Text\View\Html;
 /** @var Html $this */
 
 /** @var Region $region */
-$region   = $this->variables[0];
-$outlook  = $this->outlook;
-$atlas    = $this->atlas;
-$map      = $this->map;
-$hasUnits = $atlas->getVisibility($region) === TravelAtlas::WITH_UNIT;
+$region     = $this->variables[0];
+$outlook    = $this->outlook;
+$atlas      = $this->atlas;
+$map        = $this->map;
+$visibility = $atlas->getVisibility($region);
 
 ?>
 <h4>
@@ -22,7 +22,7 @@ $hasUnits = $atlas->getVisibility($region) === TravelAtlas::WITH_UNIT;
 	<span class="badge badge-secondary"><?= $region->Id() ?></span>
 </h4>
 
-<?php if ($hasUnits): ?>
+<?php if ($visibility === TravelAtlas::WITH_UNIT): ?>
 	<?= $this->template('region/with-unit', $region) ?>
 
 	<?php if (count($this->messages($region))): ?>
@@ -33,11 +33,11 @@ $hasUnits = $atlas->getVisibility($region) === TravelAtlas::WITH_UNIT;
 	<?= $this->template('material-pool', $region) ?>
 
 	<?php foreach ($region->Estate() as $construction): ?>
-		<?= $this->template('construction', $construction) ?>
+		<?= $this->template('construction/with-unit', $construction) ?>
 	<?php endforeach ?>
 
 	<?php foreach ($region->Fleet() as $vessel): ?>
-		<?= $this->template('vessel', $vessel) ?>
+		<?= $this->template('vessel/with-unit', $vessel) ?>
 	<?php endforeach ?>
 
 	<?php $unitsInRegions = 0 ?>
@@ -47,6 +47,21 @@ $hasUnits = $atlas->getVisibility($region) === TravelAtlas::WITH_UNIT;
 			<br>
 		<?php endif ?>
 		<?= $this->template('unit', $unit) ?>
+	<?php endforeach ?>
+<?php elseif ($visibility === TravelAtlas::TRAVELLED): ?>
+	<?= $this->template('region/with-unit', $region) ?>
+
+	<?php if (count($this->messages($region))): ?>
+		<h5>Ereignisse</h5>
+		<?= $this->template('report', $region) ?>
+	<?php endif ?>
+
+	<?php foreach ($region->Estate() as $construction): ?>
+		<?= $this->template('construction/travelled', $construction) ?>
+	<?php endforeach ?>
+
+	<?php foreach ($region->Fleet() as $vessel): ?>
+		<?= $this->template('vessel/travelled', $vessel) ?>
 	<?php endforeach ?>
 <?php else: ?>
 	<?= $this->template('region/neighbour', $region) ?>

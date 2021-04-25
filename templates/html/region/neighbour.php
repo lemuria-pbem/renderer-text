@@ -11,15 +11,7 @@ use Lemuria\Renderer\Text\View\Html;
 $region     = $this->variables[0];
 $map        = $this->map;
 $landscape  = $region->Landscape();
-$neighbours = [];
-foreach ($map->getNeighbours($region)->getAll() as $direction => $neighbour):
-	$neighbours[] = 'im ' . $this->get('world', $direction) . ' liegt ' . $this->neighbour($neighbour);
-endforeach;
-$n = count($neighbours);
-if ($n > 1):
-	$neighbours[$n - 2] .= ' und ' . $neighbours[$n - 1];
-	unset($neighbours[$n - 1]);
-endif;
+$neighbours = $this->neighbours($region);
 
 ?>
 <p>

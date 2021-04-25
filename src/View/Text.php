@@ -107,6 +107,6 @@ class Text extends View
 		if ($result) {
 			return $output;
 		}
-		throw new \RuntimeException('Template error.');
+		throw new \RuntimeException('Template error.' . ($output ? PHP_EOL . $output : ''));
 	}
 }
