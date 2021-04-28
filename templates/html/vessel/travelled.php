@@ -17,7 +17,7 @@ $captain = $vessel->Passengers()->Owner()?->Party();
 	<?= $this->get('ship', $vessel->Ship()) ?>, Zustand <?= $this->number((int)round(100.0 * $vessel->Completion())) ?>%.
 	Kapitän ist
 	<?php if ($captain): ?>
-		<?= $captain->Name() ?> <span class="badge badge-primary"><?= $captain->Id() ?></span>.
+		die Partei <?= $captain->Name() ?> <span class="badge badge-primary"><?= $captain->Id() ?></span>.
 	<?php else: ?>
 		niemand.
 	<?php endif ?>
