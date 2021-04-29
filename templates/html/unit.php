@@ -13,6 +13,8 @@ $unit = $this->variables[0];
 <div class="unit">
 	<?php if ($unit->Party() === $this->party): ?>
 		<?= $this->template('unit/own', $unit) ?>
+	<?php elseif ($this->spyLevel($unit)): ?>
+		<?= $this->template('unit/spied', $unit) ?>
 	<?php else: ?>
 		<?= $this->template('unit/foreign', $unit) ?>
 	<?php endif ?>

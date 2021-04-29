@@ -7,8 +7,10 @@ use JetBrains\PhpStorm\Pure;
 use function Lemuria\getClass;
 use function Lemuria\number as formatNumber;
 use Lemuria\Engine\Fantasya\Census;
+use Lemuria\Engine\Fantasya\Effect\SpyEffect;
 use Lemuria\Engine\Fantasya\Factory\Model\TravelAtlas;
 use Lemuria\Engine\Fantasya\Outlook;
+use Lemuria\Engine\Fantasya\State;
 use Lemuria\Engine\Message;
 use Lemuria\Engine\Message\Filter;
 use Lemuria\Identifiable;
@@ -42,6 +44,8 @@ abstract class View
 
 	protected Dictionary $dictionary;
 
+	protected array $spyEffect;
+
 	protected ?array $variables = null;
 
 	public function __construct(public Party $party, private Filter $messageFilter) {
@@ -51,6 +55,7 @@ abstract class View
 		$this->atlas->forRound(Lemuria::Calendar()->Round() - 1);
 		$this->map        = new PartyMap(Lemuria::World(), $this->party);
 		$this->dictionary = new Dictionary();
+		$this->spyEffect  = $this->getSpyEffect();
 	}
 
 	/**
@@ -208,6 +213,10 @@ abstract class View
 		return implode(', ', $agreements);
 	}
 
+	#[Pure] public function spyLevel(Unit $unit): int {
+		return $this->spyEffect[$unit->Id()->Id()] ?? 0;
+	}
+
 	/**
 	 * Render a template.
 	 */
@@ -229,4 +238,11 @@ abstract class View
 	}
 
 	abstract protected function generateContent(string $template): string;
+
+	private function getSpyEffect(): array {
+		$effect = new SpyEffect(State::getInstance());
+		/** @var SpyEffect $effect */
+		$effect = Lemuria::Score()->find($effect->setParty($this->party));
+		return $effect?->Targets() ?? [];
+	}
 }
