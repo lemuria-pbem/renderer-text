@@ -45,7 +45,7 @@ $total  = (int)ceil(($payload + $unit->Size() * $unit->Race()->Weight()) / 100);
 	<?php endif ?>
 </h6>
 <p>
-	<?= $this->number($unit->Size(), 'race', $unit->Race()) ?><?php if ($unit->IsHiding()): ?>, getarnt<?php if ($disguised): ?>, gibt sich als Angehöriger der Partei <?= $disguised->Name() ?> aus<?php endif ?><?php if ($disguised === null): ?>, verheimlicht die Parteizugehörigkeit<?php endif ?><?php endif ?><?php if ($unit->IsGuarding()): ?>, bewacht die Region<?php endif ?>.
+	<?= $this->number($unit->Size(), 'race', $unit->Race()) ?><?php if ($unit->IsHiding()): ?>, getarnt<?php endif ?><?php if ($disguised): ?>, gibt sich als Angehöriger der Partei <?= $disguised->Name() ?> aus<?php endif ?><?php if ($disguised === null): ?>, verheimlicht die Parteizugehörigkeit<?php endif ?><?php if ($unit->IsGuarding()): ?>, bewacht die Region<?php endif ?>.
 	<?= $unit->Description() ?>
 	<br>
 	Talente: <?= empty($talents) ? 'keine' : implode(', ', $talents) ?>.
