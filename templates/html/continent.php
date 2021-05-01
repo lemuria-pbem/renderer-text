@@ -59,7 +59,7 @@ endforeach;
 <?php endforeach ?>
 <?php if ($hasOwnName): ?>
 	<?php if ($hasOwnDescription): ?>
-		<p>Ursprünglich war dieses Landes bekannt als <em><?= $continent->Name() ?></em>. <em>„<?= $continent->Description() ?>“</em></p>
+		<p>Ursprünglich war dieses Land bekannt als <em><?= $continent->Name() ?></em>. <em>„<?= $continent->Description() ?>“</em></p>
 	<?php else: ?>
 		<p>Der ursprüngliche Name dieses Landes ist <em><?= $continent->Name() ?></em>.</p>
 	<?php endif ?>

@@ -56,7 +56,7 @@ Das Volk der Partei <?= $info['party'] ?> [<?= $id ?>] sagt über dieses Land: �
 <?php endforeach ?>
 <?php if ($hasOwnName): ?>
 <?php if ($hasOwnDescription): ?>
-Ursprünglich war dieses Landes bekannt als <?= $continent->Name() ?> – <?= $continent->Description() ?>
+Ursprünglich war dieses Land bekannt als <?= $continent->Name() ?> – <?= $continent->Description() ?>
 
 <?php else: ?>
 Der ursprüngliche Name dieses Landes ist <?= $continent->Name() ?>.
