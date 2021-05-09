@@ -116,7 +116,7 @@ elseif ($g || $o): ?>
  Hier <?= $g + $o === 1 ? 'kann' : 'können' ?> <?= $mining ?> abgebaut werden.<?php
 endif ?><?php if ($a): ?> <?= $animals ?> <?= $a === 1 ? 'streift' : 'streifen' ?> durch die Wildnis.<?php
 endif ?><?php if ($gr): ?> <?= $griffin ?> <?= $gr === 1 ? ' nistet ' : 'nisten' ?> in den Bergen.<?php
-endif ?><?php if ($g > 0): ?> Die Region wird bewacht von <?= ucfirst(implode(', ', $guardNames)) ?>.<?php endif ?>
+endif ?>
 <?php endif ?>
 
 <?= ucfirst(implode(', ', $neighbours)) ?>
@@ -124,4 +124,7 @@ endif ?><?php if ($g > 0): ?> Die Region wird bewacht von <?= ucfirst(implode(',
 <?php if ($luxuries): ?>
 Die Bauern produzieren <?= $this->things($offer->Commodity()) ?> und verlangen pro Stück $<?= $this->number($offer->Price()) ?>
 . Marktpreise für andere Waren: <?= implode(', ', $demand) ?>.
+<?php endif ?>
+<?php if ($g > 0): ?>
+Die Region wird bewacht von <?= ucfirst(implode(', ', $guardNames)) ?>.
 <?php endif ?>

@@ -123,9 +123,6 @@ endif;
 		<?php if ($gr): ?>
 			<?= $griffin ?> <?= $gr === 1 ? ' nistet ' : 'nisten' ?> in den Bergen.
 		<?php endif ?>
-		<?php if ($g > 0): ?>
-			Die Region wird bewacht von <?= ucfirst(implode(', ', $guardNames)) ?>.
-		<?php endif ?>
 		<br>
 	<?php endif ?>
 	<?= ucfirst(implode(', ', $neighbours)) ?>.
@@ -133,9 +130,19 @@ endif;
 		<br>
 		<?= $region->Description() ?>
 	<?php endif ?>
-	<?php if ($luxuries): ?>
-		<br>
-		Die Bauern produzieren <?= $this->things($offer->Commodity()) ?> und verlangen pro Stück $<?= $this->number($offer->Price()) ?>.
-		Marktpreise für andere Waren: <?= implode(', ', $demand) ?>.
-	<?php endif ?>
 </p>
+<?php if ($luxuries || $g > 0): ?>
+	<p>
+		<?php if ($luxuries): ?>
+			Die Bauern produzieren <?= $this->things($offer->Commodity()) ?> und verlangen pro Stück $<?= $this->number($offer->Price()) ?>.
+			Marktpreise für andere Waren: <?= implode(', ', $demand) ?>.
+		<?php endif ?>
+		<?php if ($g > 0): ?>
+			<?php if ($luxuries): ?>
+				<br>
+			<?php endif ?>
+			Die Region wird bewacht von <?= ucfirst(implode(', ', $guardNames)) ?>.
+		<?php endif ?>
+	</p>
+<?php endif ?>
+
