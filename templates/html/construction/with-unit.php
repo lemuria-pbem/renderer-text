@@ -8,6 +8,8 @@ use Lemuria\Renderer\Text\View\Html;
 
 /** @var Construction $construction */
 $construction = $this->variables[0];
+$inhabitants  = $this->people($construction);
+$people       = $inhabitants === 1 ? 'Bewohner' : 'Bewohnern';
 
 ?>
 <h5>
@@ -15,7 +17,7 @@ $construction = $this->variables[0];
 	<span class="badge badge-secondary"><?= $construction->Id() ?></span>
 </h5>
 <p>
-	<?= $this->get('building', $construction->Building()) ?> der Größe <?= $this->number($construction->Size()) ?> mit <?= $this->number($this->people($construction)) ?> Bewohnern.
+	<?= $this->get('building', $construction->Building()) ?> der Größe <?= $this->number($construction->Size()) ?> mit <?= $this->number($inhabitants) ?> <?= $people ?>.
 	Besitzer ist
 	<?php if (count($construction->Inhabitants())): ?>
 		<?= $construction->Inhabitants()->Owner()->Name() ?> <span class="badge badge-primary"><?= $construction->Inhabitants()->Owner()->Id() ?></span>.
