@@ -10,11 +10,13 @@ use Lemuria\Renderer\Text\View\Text;
 
 /** @var Construction $construction */
 $construction = $this->variables[0];
+$inhabitants  = $this->people($construction);
+$people       = $inhabitants === 1 ? 'Bewohner' : 'Bewohnern';
 
 ?>
 
-  >> <?= $construction ?>, <?= $this->get('building', $construction->Building()) ?> der Größe <?= $this->number($construction->Size()) ?> mit <?= $this->number($this->people($construction)) ?>
- Bewohnern. Besitzer ist <?= count($construction->Inhabitants()) ? $construction->Inhabitants()->Owner() : 'niemand' ?>
+  >> <?= $construction ?>, <?= $this->get('building', $construction->Building()) ?> der Größe <?= $this->number($construction->Size()) ?> mit <?= $this->number($inhabitants) ?>
+ <?= $people ?>. Besitzer ist <?= count($construction->Inhabitants()) ? $construction->Inhabitants()->Owner() : 'niemand' ?>
 .<?= line(description($construction)) ?>
 <?= $this->template('report', $construction) ?>
 <?php foreach ($construction->Inhabitants() as $unit): ?>
