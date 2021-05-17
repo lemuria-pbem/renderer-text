@@ -18,7 +18,6 @@ endif;
 
 ?>
 <?= $prefix . $unit ?> von <?= $foreign ?>, <?= $this->number($unit->Size(), 'race', $unit->Race()) ?>
-<?php if ($unit->IsHiding()): ?>, getarnt<?php endif ?>
 <?php if ($unit->IsGuarding()): ?>, bewacht die Region<?php endif ?>
 .<?= description($unit) ?>
 
