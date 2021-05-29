@@ -18,4 +18,8 @@ foreach ($intelligence->getMaterialPool($party) as $quantity /* @var Quantity $q
 endforeach;
 
 ?>
+<?php if (count($materialPool) > 0): ?>
 Materialpool: <?= implode(', ', $materialPool) ?>.
+<?php else: ?>
+Der Materialpool ist leer.
+<?php endif ?>
