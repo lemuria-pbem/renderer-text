@@ -102,8 +102,10 @@ endif;
 
 ?>
 <?php if ($landscape instanceof Ocean): ?>
-<?php if ($region->Name() !== 'Ozean'): ?>
+<?php if ($region->Name() === 'Ozean'): ?>
 >> <?= $region ?> <?= $map->getCoordinates($region) ?>.
+<?php else: ?>
+>> <?= $region ?> <?= $map->getCoordinates($region) ?>, <?= $this->get('landscape', $region->Landscape()) ?>.
 <?php endif ?>
 <?php else: ?>
 >> <?= $region ?> <?= $map->getCoordinates($region) ?>, <?= $this->get('landscape', $region->Landscape()) ?>, <?= $this->item(Peasant::class, $resources) ?>, <?= $this->item(Silver::class, $resources) ?>
