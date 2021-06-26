@@ -19,12 +19,16 @@ $banner    = $party->Banner() ? 'Unser Banner: ' . linkEmail($party->Banner()) :
 $continent = Continent::get(new Id(1));
 
 ?>
-<h1 class="text-center">Lemuria-Auswertung</h1>
+<header>
+	<h1 class="text-center">Lemuria-Auswertung</h1>
 
-<p class="text-center">
-	für die <?= $calendar->Week() ?>. Woche des Monats <?= $month ?> im <?= $season ?> des Jahres <?= $calendar->Year() ?><br>
-	(Runde <?= $calendar->Round() ?>)
-</p>
+	<p class="text-center">
+		für die <?= $calendar->Week() ?>. Woche des Monats <?= $month ?> im <?= $season ?> des Jahres <?= $calendar->Year() ?><br>
+		(Runde <?= $calendar->Round() ?>)
+	</p>
+</header>
+
+<hr>
 
 <h2><?= $party->Name() ?> <span class="badge badge-primary"><?= $party->Id() ?></span></h2>
 
@@ -47,3 +51,7 @@ $continent = Continent::get(new Id(1));
 <?php foreach ($atlas as $region): ?>
 	<?= $this->template('region', $region) ?>
 <?php endforeach ?>
+
+<hr>
+
+<?= $this->template('footer') ?>

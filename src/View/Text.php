@@ -6,7 +6,9 @@ use JetBrains\PhpStorm\Pure;
 
 use Lemuria\Entity;
 use Lemuria\Engine\Message;
+use Lemuria\Lemuria;
 use Lemuria\Renderer\Text\View;
+use Lemuria\Version;
 
 /**
  * Create a description line.
@@ -63,8 +65,16 @@ use Lemuria\Renderer\Text\View;
 /**
  * Create the footer.
  */
-#[Pure] function footer(): string {
-	return str_pad('', 80, '-');
+#[Pure] function footer(array $versions): string {
+	$footer  = str_pad('', 80, '-');
+	$version = Lemuria::Version();
+	if (isset($version[Version::GAME])) {
+		$game    = $version[Version::GAME][0];
+		$footer .= PHP_EOL . 'Version: ' . $game->name . ' ' . $game->version . ' (';
+		$footer .= implode(', ', $versions);
+		$footer .= ')';
+	}
+	return $footer;
 }
 
 class Text extends View

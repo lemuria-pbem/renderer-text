@@ -55,4 +55,4 @@ Dein Volk zählt <?= $this->number($census->count(), 'race', $party->Race()) ?> 
 <?php foreach ($atlas as $region): ?>
 <?= $this->wrappedTemplate('region', $region) ?>
 <?php endforeach ?>
-<?= footer() ?>
+<?= footer($this->gameVersions()) ?>

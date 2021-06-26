@@ -4,6 +4,7 @@ namespace Lemuria\Renderer\Text;
 
 use JetBrains\PhpStorm\Pure;
 
+use Lemuria\Version;
 use function Lemuria\getClass;
 use function Lemuria\number as formatNumber;
 use Lemuria\Engine\Fantasya\Census;
@@ -215,6 +216,24 @@ abstract class View
 
 	#[Pure] public function spyLevel(Unit $unit): int {
 		return $this->spyEffect[$unit->Id()->Id()] ?? 0;
+	}
+
+	public function gameVersions(): array {
+		$version  = Lemuria::Version();
+		$versions = [];
+		foreach ($version[Version::BASE] as $versionTag) {
+			$versions[] = $versionTag->name . ': ' . $versionTag->version;
+		}
+		foreach ($version[Version::MODEL] as $versionTag) {
+			$versions[] = $versionTag->name . ': ' . $versionTag->version;
+		}
+		foreach ($version[Version::ENGINE] as $versionTag) {
+			$versions[] = $versionTag->name . ': ' . $versionTag->version;
+		}
+		foreach ($version[Version::RENDERERS] as $versionTag) {
+			$versions[] = $versionTag->name . ': ' . $versionTag->version;
+		}
+		return $versions;
 	}
 
 	/**
