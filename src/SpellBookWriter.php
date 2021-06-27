@@ -35,7 +35,7 @@ class SpellBookWriter implements Writer
 			$details    = new SpellDetails($spell);
 			$components = $details->Components();
 
-			if ($n++ === 0) {
+			if ($n++ > 0) {
 				$output .= PHP_EOL . PHP_EOL;
 			}
 
