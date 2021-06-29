@@ -15,7 +15,7 @@ $versions = $this->gameVersions();
 <footer>
 	<?php if ($game): ?>
 		<p>
-			<em>Version: <?= $game->name ?> <?= $game->version ?> (<?= implode(', ', $versions) ?>)</em>
+			<em>Version: <?= $game->name ?> <?= $game->version ?> (<?= implode(', ', $versions) ?>) | <?= date('d.m.Y H:i:s') ?></em>
 		</p>
 	<?php endif ?>
 </footer>

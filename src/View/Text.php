@@ -72,7 +72,7 @@ use Lemuria\Version;
 		$game    = $version[Version::GAME][0];
 		$footer .= PHP_EOL . 'Version: ' . $game->name . ' ' . $game->version . ' (';
 		$footer .= implode(', ', $versions);
-		$footer .= ')';
+		$footer .= ') | ' . date('d.m.Y H:i:s');
 	}
 	return $footer;
 }

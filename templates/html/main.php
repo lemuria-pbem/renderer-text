@@ -46,6 +46,8 @@ $continent = Continent::get(new Id(1));
 
 <?= $this->template('acquaintances', $party) ?>
 
+<hr>
+
 <?= $this->template('continent', $continent) ?>
 
 <?php foreach ($atlas as $region): ?>
