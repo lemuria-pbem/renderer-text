@@ -19,6 +19,8 @@ use Lemuria\Renderer\Writer;
 
 class OrderWriter implements Writer
 {
+	use VersionTrait;
+
 	protected const SEPARATOR_LENGTH = 30;
 
 	protected Dictionary $dictionary;

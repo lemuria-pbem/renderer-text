@@ -12,6 +12,8 @@ use Lemuria\Renderer\Writer;
 
 abstract class FileWriter implements Writer
 {
+	use VersionTrait;
+
 	/**
 	 * @var Wrapper[]
 	 */
