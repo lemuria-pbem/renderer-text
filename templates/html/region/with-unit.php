@@ -1,4 +1,5 @@
 <?php
+/** @noinspection PhpUndefinedVariableInspection */
 declare (strict_types = 1);
 
 use Lemuria\Engine\Fantasya\Availability;
