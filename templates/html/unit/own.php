@@ -13,6 +13,7 @@ use Lemuria\Renderer\Text\View\Html;
 $unit      = $this->variables[0];
 $party     = $this->party;
 $census    = $this->census;
+$aura      = $unit->Aura();
 $disguised = $unit->Disguise();
 $calculus  = new Calculus($unit);
 
@@ -55,7 +56,7 @@ endif;
 	<?= $unit->Name() ?> <span class="badge badge-primary"><?= $unit->Id() ?></span>
 </h6>
 <p>
-	<?= $this->number($unit->Size(), 'race', $unit->Race()) ?><?php if ($unit->IsHiding()): ?>, getarnt<?php endif ?><?php if ($disguised): ?>, gibt sich als Angehöriger der Partei <?= $disguised->Name() ?> aus<?php endif ?><?php if ($disguised === null): ?>, verheimlicht die Parteizugehörigkeit<?php endif ?><?php if ($unit->IsGuarding()): ?>, bewacht die Region<?php endif ?>.
+	<?= $this->number($unit->Size(), 'race', $unit->Race()) ?><?php if ($aura): ?>, Aura <?= $aura->Aura()?>/<?= $aura->Maximum() ?><?php endif ?><?php if ($unit->IsHiding()): ?>, getarnt<?php endif ?><?php if ($disguised): ?>, gibt sich als Angehöriger der Partei <?= $disguised->Name() ?> aus<?php endif ?><?php if ($disguised === null): ?>, verheimlicht die Parteizugehörigkeit<?php endif ?><?php if ($unit->IsGuarding()): ?>, bewacht die Region<?php endif ?>.
 	<?= $unit->Description() ?>
 	<br>
 	Talente: <?= empty($talents) ? 'keine' : implode(', ', $talents) ?>.

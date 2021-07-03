@@ -13,6 +13,7 @@ use Lemuria\Renderer\Text\View\Text;
 /** @var Unit $unit */
 $unit      = $this->variables[0];
 $prefix    = $unit->Construction() || $unit->Vessel() ? '   * ' : '  -- ';
+$aura      = $unit->Aura();
 $disguised = $unit->Disguise();
 $calculus  = new Calculus($unit);
 
@@ -52,6 +53,7 @@ endif;
 
 ?>
 <?= $prefix . $unit ?>, <?= $this->number($unit->Size(), 'race', $unit->Race()) ?>
+<?php if ($aura): ?>, Aura <?= $aura->Aura() ?>/<?= $aura->Maximum() ?><?php endif ?>
 <?php if ($unit->IsHiding()): ?>, getarnt<?php endif ?>
 <?php if ($disguised): ?>, gibt sich als Angehöriger der Partei <?= $disguised->Name() ?> aus<?php endif ?>
 <?php if ($disguised === null): ?>, verheimlicht die Parteizugehörigkeit<?php endif ?>
