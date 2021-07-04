@@ -60,6 +60,7 @@ class Html extends View
 	 */
 	protected function generateContent(string $template): string {
 		ob_start();
+		/** @noinspection PhpIncludeInspection */
 		$result = @include __DIR__ . '/../../templates/html/' . $template . '.php';
 		$output = ob_get_clean();
 		if ($result) {

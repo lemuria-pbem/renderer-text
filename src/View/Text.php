@@ -65,7 +65,7 @@ use Lemuria\Version;
 /**
  * Create the footer.
  */
-#[Pure] function footer(array $versions): string {
+function footer(array $versions): string {
 	$footer  = str_pad('', 80, '-');
 	$version = Lemuria::Version();
 	if (isset($version[Version::GAME])) {
@@ -95,7 +95,7 @@ class Text extends View
 	/**
 	 * Render a report message.
 	 */
-	public function message(Message $message): string {
+	#[Pure] public function message(Message $message): string {
 		return wrap((string)$message);
 	}
 
@@ -112,6 +112,7 @@ class Text extends View
 	 */
 	private function generateUnwrappedContent(string $template): string {
 		ob_start();
+		/** @noinspection PhpIncludeInspection */
 		$result = @include __DIR__ . '/../../templates/text/' . $template . '.php';
 		$output = ob_get_clean();
 		if ($result) {

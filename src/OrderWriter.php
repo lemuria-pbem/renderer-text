@@ -84,7 +84,7 @@ class OrderWriter implements Writer
 		return $template;
 	}
 
-	#[Pure] private function createHeader(Party $party): string {
+	private function createHeader(Party $party): string {
 		$round = Lemuria::Calendar()->Round() + 1;
 		return $this->createBlock([
 			'PARTEI ' . $party->Id() . '; Befehle für Runde ' . $round
