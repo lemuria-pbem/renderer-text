@@ -6,7 +6,6 @@
       <path value="$PROJECT_DIR$/vendor/lemuria-pbem/lemuria" />
       <path value="$PROJECT_DIR$/vendor/composer" />
       <path value="$PROJECT_DIR$/vendor/psr/log" />
-      <path value="$PROJECT_DIR$/vendor/jetbrains/phpstorm-attributes" />
       <path value="$PROJECT_DIR$/vendor/ramsey/uuid" />
       <path value="$PROJECT_DIR$/vendor/brick/math" />
       <path value="$PROJECT_DIR$/vendor/lemuria-pbem/model-fantasya" />
@@ -15,5 +14,5 @@
       <path value="$PROJECT_DIR$/vendor/lemuria-pbem/engine-fantasya" />
     </include_path>
   </component>
-  <component name="PhpProjectSharedConfiguration" php_language_level="8.0" />
+  <component name="PhpProjectSharedConfiguration" php_language_level="8.1" />
 </project>
