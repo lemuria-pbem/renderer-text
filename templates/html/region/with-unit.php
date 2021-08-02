@@ -84,17 +84,15 @@ foreach ($intelligence->getMaterialPool($party) as $quantity /* @var Quantity $q
 	$materialPool[] = $this->number($quantity->Count(), 'resource', $quantity->Commodity());
 endforeach;
 
-$luxuries = null;
-$castle   = $intelligence->getGovernment();
-if ($castle?->Size() > Site::MAX_SIZE):
-	$luxuries = $region->Luxuries();
-	if ($luxuries):
-		$offer  = $luxuries->Offer();
-		$demand = [];
-		foreach ($luxuries as $luxury /* @var Offer $luxury */):
-			$demand[] = $this->get('resource', $luxury->Commodity()) . ' $' . $this->number($luxury->Price());
-		endforeach;
-	endif;
+$luxuries  = $region->Luxuries();
+$offer     = $luxuries?->Offer();
+$castle    = $intelligence->getGovernment();
+$hasMarket = $luxuries && $castle?->Size() > Site::MAX_SIZE;
+if ($hasMarket):
+	$demand = [];
+	foreach ($luxuries as $luxury /* @var Offer $luxury */):
+		$demand[] = $this->get('resource', $luxury->Commodity()) . ' $' . $this->number($luxury->Price());
+	endforeach;
 endif;
 
 ?>
@@ -134,9 +132,11 @@ endif;
 </p>
 <?php if ($luxuries || $g > 0): ?>
 	<p>
-		<?php if ($luxuries): ?>
+		<?php if ($hasMarket): ?>
 			Die Bauern produzieren <?= $this->things($offer->Commodity()) ?> und verlangen pro Stück $<?= $this->number($offer->Price()) ?>.
 			Marktpreise für andere Waren: <?= implode(', ', $demand) ?>.
+		<?php elseif ($offer): ?>
+			Die Bauern produzieren <?= $this->things($offer->Commodity()) ?>.
 		<?php endif ?>
 		<?php if ($g > 0): ?>
 			<?php if ($luxuries): ?>
