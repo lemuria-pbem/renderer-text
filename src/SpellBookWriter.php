@@ -5,6 +5,7 @@ namespace Lemuria\Renderer\Text;
 use Lemuria\Engine\Fantasya\Factory\Model\SpellDetails;
 use Lemuria\Engine\Message\Filter;
 use Lemuria\Id;
+use Lemuria\Model\Fantasya\Exception\JsonException;
 use Lemuria\Model\Fantasya\Party;
 use Lemuria\Model\Fantasya\Spell;
 use Lemuria\Renderer\Writer;
@@ -20,6 +21,9 @@ class SpellBookWriter implements Writer
 		return $this;
 	}
 
+	/**
+	 * @throws JsonException
+	 */
 	public function render(Id $party): Writer {
 		if (!file_put_contents($this->path, $this->generate($party))) {
 			throw new \RuntimeException('Could not create template.');
@@ -27,6 +31,9 @@ class SpellBookWriter implements Writer
 		return $this;
 	}
 
+	/**
+	 * @throws JsonException
+	 */
 	protected function generate(Id $id): string {
 		$party  = Party::get($id);
 		$output = '';
