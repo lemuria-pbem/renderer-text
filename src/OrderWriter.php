@@ -12,6 +12,7 @@ use Lemuria\Lemuria;
 use Lemuria\Model\Dictionary;
 use Lemuria\Model\Fantasya\Construction;
 use Lemuria\Model\Fantasya\Party;
+use Lemuria\Model\Fantasya\People;
 use Lemuria\Model\Fantasya\Region;
 use Lemuria\Model\Fantasya\Unit;
 use Lemuria\Model\Fantasya\Vessel;
@@ -50,20 +51,32 @@ class OrderWriter implements Writer
 
 			$template .= $this->createRegion($region);
 			foreach ($region->Estate() as $construction /* @var Construction $construction */) {
-				$inConstruction = true;
-				$template .= $this->createConstruction($construction);
+				$units = new People();
 				foreach ($construction->Inhabitants() as $unit /* @var Unit $unit */) {
 					if ($unit->Party() === $party) {
+						$units->add($unit);
+					}
+				}
+				if ($units->count()) {
+					$inConstruction = true;
+					$template      .= $this->createConstruction($construction);
+					foreach ($units as $unit /* @var Unit $unit */) {
 						$template .= $this->createUnit($unit);
 					}
 				}
 			}
 
 			foreach ($region->Fleet() as $vessel /* @var Vessel $vessel */) {
-				$inVessel  = true;
-				$template .= $this->createVessel($vessel);
+				$units = new People();
 				foreach ($vessel->Passengers() as $unit /* @var Unit $unit */) {
 					if ($unit->Party() === $party) {
+						$units->add($unit);
+					}
+				}
+				if ($units->count()) {
+					$inVessel  = true;
+					$template .= $this->createVessel($vessel);
+					foreach ($vessel->Passengers() as $unit /* @var Unit $unit */) {
 						$template .= $this->createUnit($unit);
 					}
 				}
