@@ -4,10 +4,10 @@ namespace Lemuria\Renderer\Text;
 
 use JetBrains\PhpStorm\Pure;
 
-use Lemuria\Version;
 use function Lemuria\getClass;
 use function Lemuria\number as formatNumber;
 use Lemuria\Engine\Fantasya\Census;
+use Lemuria\Engine\Fantasya\Effect\Hunger;
 use Lemuria\Engine\Fantasya\Effect\SpyEffect;
 use Lemuria\Engine\Fantasya\Factory\Model\TravelAtlas;
 use Lemuria\Engine\Fantasya\Outlook;
@@ -29,6 +29,7 @@ use Lemuria\Model\Fantasya\Unit;
 use Lemuria\Model\Fantasya\Vessel;
 use Lemuria\Model\Fantasya\World\PartyMap;
 use Lemuria\Singleton;
+use Lemuria\Version;
 
 /**
  * A view object that contains variables and helper functions for view scripts.
@@ -216,6 +217,24 @@ abstract class View
 
 	#[Pure] public function spyLevel(Unit $unit): int {
 		return $this->spyEffect[$unit->Id()->Id()] ?? 0;
+	}
+
+	public function health(Unit $unit): string {
+		$health = $unit->Health();
+		$stage  = match (true) {
+			$health < 0.25 => 4,
+			$health < 0.5  => 3,
+			$health < 0.75 => 2,
+			$health < 1.0  => 1,
+			default        => 0
+		};
+		$effect = new Hunger(new State());
+		if (Lemuria::Score()->find($effect->setUnit($unit))) {
+			$key = 'hunger';
+		} else {
+			$key = 'default';
+		}
+		return $this->dictionary->get('health.' . $key, $stage);
 	}
 
 	public function gameVersions(): array {
