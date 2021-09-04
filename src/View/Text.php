@@ -89,7 +89,11 @@ class Text extends View
 
 	public function wrappedTemplate(string $name, ...$variables): string {
 		$this->variables = $variables;
-		return $this->generateContent($name);
+		$content = $this->generateContent($name);
+		if (strlen($content) < 5 && empty(trim($content))) {
+			return PHP_EOL;
+		}
+		return $content;
 	}
 
 	/**

@@ -35,6 +35,8 @@ Allianzrechte: <?= $this->relation($relation) ?>
 <?php else: ?>Allianzrechte: keine<?php endif ?>
 
 <?php endforeach ?>
+<?php else: ?>
+
 <?php endif ?>
 <?php if ($generalRelations): ?>
 <?php foreach ($generalRelations as $relation /* @var Relation $relation */): ?>
