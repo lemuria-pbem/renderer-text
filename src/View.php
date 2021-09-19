@@ -219,6 +219,10 @@ abstract class View
 		return $this->spyEffect[$unit->Id()->Id()] ?? 0;
 	}
 
+	#[Pure] public function battleRow(Unit $unit): string {
+		return $this->dictionary->get('battleRow', $unit->BattleRow());
+	}
+
 	public function health(Unit $unit): string {
 		$effect = new Hunger(new State());
 		if (Lemuria::Score()->find($effect->setUnit($unit))) {
