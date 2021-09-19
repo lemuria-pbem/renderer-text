@@ -18,6 +18,7 @@ $disguised = $unit->Disguise();
 $calculus  = new Calculus($unit);
 $hitpoints = $calculus->hitpoints();
 $health    = (int)floor($unit->Health() * $hitpoints);
+$mark      = $this->healthMark($unit);
 
 $talents = [];
 foreach ($unit->Knowledge() as $ability /* @var Ability $ability */):
@@ -56,6 +57,9 @@ endif;
 ?>
 <h6>
 	<?= $unit->Name() ?> <span class="badge badge-primary"><?= $unit->Id() ?></span>
+	<?php if ($mark): ?>
+		<span class="badge badge-danger"><?= $mark ?></span>
+	<?php endif ?>
 </h6>
 <p>
 	<?= $this->number($unit->Size(), 'race', $unit->Race()) ?><?php if ($aura): ?>, Aura <?= $aura->Aura()?>/<?= $aura->Maximum() ?><?php endif ?>,

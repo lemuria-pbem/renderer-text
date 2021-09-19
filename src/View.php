@@ -220,21 +220,34 @@ abstract class View
 	}
 
 	public function health(Unit $unit): string {
-		$health = $unit->Health();
-		$stage  = match (true) {
-			$health < 0.25 => 4,
-			$health < 0.5  => 3,
-			$health < 0.75 => 2,
-			$health < 1.0  => 1,
-			default        => 0
-		};
 		$effect = new Hunger(new State());
 		if (Lemuria::Score()->find($effect->setUnit($unit))) {
 			$key = 'hunger';
 		} else {
 			$key = 'default';
 		}
-		return $this->dictionary->get('health.' . $key, $stage);
+		return $this->dictionary->get('health.' . $key, $this->healthStage($unit));
+	}
+
+	#[Pure] public function healthMark(Unit $unit): string {
+		return match ($this->healthStage($unit)) {
+			1       => '⚔',
+			2       => '✝',
+			3       => '†',
+			4       => '🕇',
+			default => ''
+		};
+	}
+
+	#[Pure] public function healthStage(Unit $unit): int {
+		$health = $unit->Health();
+		return match (true) {
+			$health < 0.25 => 4,
+			$health < 0.5  => 3,
+			$health < 0.75 => 2,
+			$health < 1.0  => 1,
+			default        => 0
+		};
 	}
 
 	public function gameVersions(): array {
