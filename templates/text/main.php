@@ -19,14 +19,13 @@ $atlas     = $this->atlas;
 $calendar  = Lemuria::Calendar();
 $season    = $this->get('calendar.season', $calendar->Season() - 1);
 $month     = $this->get('calendar.month', $calendar->Month() - 1);
-$week      = $calendar->Week();
 $continent = Continent::get(new Id(1));
 
 ?>
 <?= center('Lemuria-Auswertung') ?>
 <?= center('~~~~~~~~~~~~~~~~~~~~~~~~') ?>
 
-<?= center('für die ' . $week . '. Woche des Monats ' . $month . ' im ' . $season . ' des Jahres ' . $calendar->Year()) ?>
+<?= center('für die ' . $calendar->Week() . '. Woche des Monats ' . $month . ' im ' . $season . ' des Jahres ' . $calendar->Year()) ?>
 <?= center('(Runde ' . $calendar->Round() . ')') ?>
 
 
