@@ -24,13 +24,14 @@ class BattleLogWriter implements Writer
 	public const LOCATION_PLACEHOLDER = '%LOC%';
 
 	protected const START_SECTION = [
-		'BattleBeginsMessage'         => true,
+		'BattleBeginsMessage'         => true, 'BattleEndsMessage'           => true,
 		'AttackerTacticsRoundMessage' => true, 'DefenderTacticsRoundMessage' => true, 'NoTacticsRoundMessage' => true,
 		'AttackerOverrunMessage'      => true, 'DefenderOverrunMessage'      => true,
 		'CombatRoundMessage'          => true,
-		'AttackerWonMessage'          => true, 'DefenderWonMessage'          => true,
 		'BattleEndedInDrawMessage'    => true, 'BattleExhaustionMessage'     => true
 	];
+
+	protected const CENTER_MESSAGE = ['BattleEndsMessage' => true, 'CombatRoundMessage' => true];
 
 	public function __construct(private string $pathPattern) {
 		$this->dictionary = new Dictionary();
@@ -57,10 +58,15 @@ class BattleLogWriter implements Writer
 	protected function generate(Battle $log, Region $region): string {
 		$output = $this->generateHeader($region);
 		foreach ($log as $message /* @var Message $message */) {
-			if (isset(self::START_SECTION[getClass($message)])) {
+			$class = getClass($message);
+			if (isset(self::START_SECTION[$class])) {
 				$output .= PHP_EOL;
 			}
-			$output .= wrap((string)$message);
+			if (isset(self::CENTER_MESSAGE[$class])) {
+				$output .= center((string)$message) . PHP_EOL;
+			} else {
+				$output .= wrap((string)$message);
+			}
 		}
 		return $output;
 	}
