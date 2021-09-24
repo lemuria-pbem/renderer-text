@@ -41,6 +41,7 @@ $continent = Continent::get(new Id(1));
 <h3>Ereignisse</h3>
 
 <?= $this->template('report', $party) ?>
+<?= $this->template('hostilities', $party) ?>
 
 <h3>Alle bekannten Völker</h3>
 

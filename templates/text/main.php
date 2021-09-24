@@ -42,6 +42,7 @@ Dein Volk zählt <?= $this->number($census->count(), 'race', $party->Race()) ?> 
 <?= center('Ereignisse') ?>
 
 <?= $this->template('report', $party) ?>
+<?= $this->template('hostilities', $party) ?>
 
 <?= hr() ?>
 

@@ -67,6 +67,17 @@ abstract class View
 		return $this->dictionary->get($keyPath, $index);
 	}
 
+	public function toAndString(array $list): string {
+		if (empty($list)) {
+			return '';
+		}
+		if (count($list) === 1) {
+			return (string)$list[0];
+		}
+		$last = array_pop($list);
+		return implode(', ', $list) . ' und ' . $last;
+	}
+
 	/**
 	 * Format a number with optional string.
 	 */
@@ -113,15 +124,7 @@ abstract class View
 				$items[] = $this->item($class, $set, $keyPath);
 			}
 		}
-		switch (count($items)) {
-			case 0 :
-				return '';
-			case 1 :
-				return $items[0];
-			default :
-				$last = array_pop($items);
-				return implode(', ', $items) . ' und ' . $last;
-		}
+		return $this->toAndString($items);
 	}
 
 	/**
@@ -194,6 +197,10 @@ abstract class View
 			}
 		}
 		return $messages;
+	}
+
+	public function hostilities(): array {
+		return Lemuria::Hostilities()->findFor($this->party);
 	}
 
 	#[Pure] public function relation(Relation $relation): string {
