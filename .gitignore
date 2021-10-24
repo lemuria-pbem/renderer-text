@@ -1,5 +1,5 @@
 /vendor
 
-/composer.lock
 /.idea/deployment.xml
 /.idea/workspace.xml
+/composer.lock
