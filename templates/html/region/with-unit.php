@@ -65,6 +65,7 @@ $availability = new Availability($region);
 $peasants     = $availability->getResource(Peasant::class);
 $recruits     = $this->resource($peasants);
 $r            = $peasants->Count();
+$hasPeasants  = $resources[Peasant::class]->Count() > 0;
 
 $intelligence = new Intelligence($region);
 $guards       = $intelligence->getGuards();
@@ -130,16 +131,16 @@ endif;
 		<?= $region->Description() ?>
 	<?php endif ?>
 </p>
-<?php if ($luxuries || $g > 0): ?>
+<?php if ($luxuries && $hasPeasants || $g > 0): ?>
 	<p>
-		<?php if ($hasMarket): ?>
+		<?php if ($hasMarket && $hasPeasants): ?>
 			Die Bauern produzieren <?= $this->things($offer->Commodity()) ?> und verlangen pro Stück $<?= $this->number($offer->Price()) ?>.
 			Marktpreise für andere Waren: <?= implode(', ', $demand) ?>.
-		<?php elseif ($offer): ?>
+		<?php elseif ($offer && $hasPeasants): ?>
 			Die Bauern produzieren <?= $this->things($offer->Commodity()) ?>.
 		<?php endif ?>
 		<?php if ($g > 0): ?>
-			<?php if ($luxuries): ?>
+			<?php if ($luxuries && $hasPeasants): ?>
 				<br>
 			<?php endif ?>
 			Die Region wird bewacht von <?= ucfirst(implode(', ', $guardNames)) ?>.
