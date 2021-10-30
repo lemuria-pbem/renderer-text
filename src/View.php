@@ -227,7 +227,7 @@ abstract class View
 	}
 
 	#[Pure] public function battleRow(Unit $unit): string {
-		return $this->dictionary->get('battleRow', $unit->BattleRow());
+		return $this->dictionary->get('battleRow.' . $unit->BattleRow(), $unit->Size() > 1 ? 1 : 0);
 	}
 
 	public function health(Unit $unit): string {
