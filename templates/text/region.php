@@ -25,9 +25,7 @@ $visibility = $atlas->getVisibility($region);
 <?php foreach ($region->Fleet() as $vessel): ?>
 <?= $this->template('vessel/with-unit', $vessel) ?>
 <?php endforeach ?>
-<?php foreach ($outlook->Apparitions($region) as $unit): ?>
-<?= $this->template('unit', $unit) ?>
-<?php endforeach ?>
+<?= $this->template('apparitions/with-unit', $region) ?>
 <?php elseif ($visibility === TravelAtlas::TRAVELLED): ?>
 <?= $this->template('region/with-unit', $region) ?>
 <?= $this->template('report', $region) ?>
@@ -37,6 +35,7 @@ $visibility = $atlas->getVisibility($region);
 <?php foreach ($region->Fleet() as $vessel): ?>
 <?= $this->template('vessel/travelled', $vessel) ?>
 <?php endforeach ?>
+<?= $this->template('apparitions/travelled', $region) ?>
 <?php else: ?>
 <?= $this->template('region/neighbour', $region) ?>
 <?php endif ?>
