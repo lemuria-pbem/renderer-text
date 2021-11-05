@@ -8,11 +8,13 @@ use function Lemuria\Renderer\Text\View\line;
 use Lemuria\Id;
 use Lemuria\Lemuria;
 use Lemuria\Model\Fantasya\Continent;
+use Lemuria\Model\Fantasya\Party;
 use Lemuria\Renderer\Text\View\Text;
 
 /* @var Text $this */
 
 $party     = $this->party;
+$isPlayer  = $party->Type() === Party::PLAYER;
 $banner    = $this->party->Banner() ? 'Unser Banner: ' . $this->party->Banner() : '(kein Banner gesetzt)';
 $census    = $this->census;
 $atlas     = $this->atlas;
@@ -29,13 +31,11 @@ $continent = Continent::get(new Id(1));
 <?= center('(Runde ' . $calendar->Round() . ')') ?>
 
 
-Dein Volk: <?= $party->Name() ?> [<?= $party->Id() ?>]
-
-<?= line($party->Description()) ?>
-
-<?= line($banner) ?>
-
-Dein Volk zählt <?= $this->number($census->count(), 'race', $party->Race()) ?> in <?= $this->number($party->People()->count()) ?> Einheiten.
+<?php if ($isPlayer): ?>
+<?= $this->template('statistics/player') ?>
+<?php else: ?>
+<?= $this->template('statistics/other') ?>
+<?php endif ?>
 
 <?= hr() ?>
 
@@ -44,13 +44,19 @@ Dein Volk zählt <?= $this->number($census->count(), 'race', $party->Race()) ?> 
 <?= $this->template('report', $party) ?>
 <?= $this->template('hostilities', $party) ?>
 
+<?php if ($isPlayer): ?>
 <?= hr() ?>
 
 <?= center('Alle bekannten Völker') ?>
 <?= $this->wrappedTemplate('acquaintances', $party) ?>
+<?php endif ?>
 <?= hr() ?>
 
-<?= $this->template('continent', $continent) ?>
+<?php if ($isPlayer): ?>
+<?= $this->template('continent/player', $continent) ?>
+<?php else: ?>
+<?= $this->template('continent/other', $continent) ?>
+<?php endif ?>
 
 <?php foreach ($atlas as $region): ?>
 <?= $this->wrappedTemplate('region', $region) ?>

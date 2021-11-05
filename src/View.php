@@ -187,6 +187,21 @@ abstract class View
 		return $count;
 	}
 
+	public function races(Party $party): array {
+		$races = [];
+		foreach ($party->People() as $unit /* @var Unit $unit */) {
+			$race = $unit->Race();
+			$key  = $this->get('race', $race);
+			if (!isset($races[$key])) {
+				$races[$key] = ['race' => $race, 'persons' => 0, 'units' => 0];
+			}
+			$races[$key]['persons'] += $unit->Size();
+			$races[$key]['units']++;
+		}
+		ksort($races);
+		return $races;
+	}
+
 	/**
 	 * @return Message[]
 	 */

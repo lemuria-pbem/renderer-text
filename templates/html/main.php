@@ -5,11 +5,13 @@ use function Lemuria\Renderer\Text\View\linkEmail;
 use Lemuria\Id;
 use Lemuria\Lemuria;
 use Lemuria\Model\Fantasya\Continent;
+use Lemuria\Model\Fantasya\Party;
 use Lemuria\Renderer\Text\View\Html;
 
 /** @var Html $this */
 
 $party     = $this->party;
+$isPlayer  = $party->Type() === Party::PLAYER;
 $census    = $this->census;
 $atlas     = $this->atlas;
 $calendar  = Lemuria::Calendar();
@@ -30,26 +32,30 @@ $continent = Continent::get(new Id(1));
 
 <hr>
 
-<h2><?= $party->Name() ?> <span class="badge badge-primary"><?= $party->Id() ?></span></h2>
-
-<blockquote class="blockquote"><?= $party->Description() ?></blockquote>
-
-<p><?= $banner ?></p>
-
-<p>Dein Volk zählt <?= $this->number($census->count(), 'race', $party->Race()) ?> in <?= $this->number($party->People()->count()) ?> Einheiten.</p>
+<?php if ($isPlayer): ?>
+	<?= $this->template('statistics/player') ?>
+<?php else: ?>
+	<?= $this->template('statistics/other') ?>
+<?php endif ?>
 
 <h3>Ereignisse</h3>
 
 <?= $this->template('report', $party) ?>
 <?= $this->template('hostilities', $party) ?>
 
-<h3>Alle bekannten Völker</h3>
+<?php if ($isPlayer): ?>
+	<h3>Alle bekannten Völker</h3>
 
-<?= $this->template('acquaintances', $party) ?>
+	<?= $this->template('acquaintances', $party) ?>
+<?php endif ?>
 
 <hr>
 
-<?= $this->template('continent', $continent) ?>
+<?php if ($isPlayer): ?>
+	<?= $this->template('continent/player', $continent) ?>
+<?php else: ?>
+	<?= $this->template('continent/other', $continent) ?>
+<?php endif ?>
 
 <?php foreach ($atlas as $region): ?>
 	<?= $this->template('region', $region) ?>
