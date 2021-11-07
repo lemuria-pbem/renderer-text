@@ -27,4 +27,6 @@ endif;
 <?php if ($unit->IsGuarding()): ?>, bewacht die Region<?php endif ?>
 .<?= description($unit) ?>
 
+<?php if (!empty($inventory)): ?>
 Hat <?= empty($inventory) ? 'nichts' : implode(', ', $inventory) ?>.
+<?php endif ?>

@@ -27,6 +27,8 @@ endif;
 <p>
 	<?= $this->number($unit->Size(), 'race', $unit->Race()) ?><?php if ($unit->IsGuarding()): ?>, bewacht die Region<?php endif ?>.
 	<?= $unit->Description() ?>
-	<br>
-	Hat <?= empty($inventory) ? 'nichts' : implode(', ', $inventory) ?>,
+	<?php if (!empty($inventory)): ?>
+		<br>
+		Hat <?= implode(', ', $inventory) ?>.
+	<?php endif ?>
 </p>

@@ -1,6 +1,7 @@
 <?php
 declare (strict_types = 1);
 
+use function Lemuria\Renderer\Text\View\line;
 use function Lemuria\Renderer\Text\View\linkEmail;
 use Lemuria\Renderer\Text\View\Html;
 
@@ -11,10 +12,10 @@ $census = $this->census;
 $banner = $party->Banner() ? 'Unser Banner: ' . linkEmail($party->Banner()) : '(kein Banner gesetzt)';
 
 ?>
-<h2><?= $party->Name() ?> <span class="badge badge-primary"><?= $party->Id() ?></span></h2>
+Dein Volk: <?= $party->Name() ?> [<?= $party->Id() ?>]
 
-<blockquote class="blockquote"><?= $party->Description() ?></blockquote>
+<?= line($party->Description()) ?>
 
-<p><?= $banner ?></p>
+<?= line($banner) ?>
 
-<p>Dein Volk zählt <?= $this->number($census->count(), 'race', $party->Race()) ?> in <?= $this->number($party->People()->count()) ?> Einheiten.</p>
+Dein Volk zählt <?= $this->number($census->count(), 'race', $party->Race()) ?> in <?= $this->number($party->People()->count()) ?> Einheiten.
