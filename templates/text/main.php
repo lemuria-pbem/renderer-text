@@ -4,7 +4,6 @@ declare (strict_types = 1);
 use function Lemuria\Renderer\Text\View\center;
 use function Lemuria\Renderer\Text\View\footer;
 use function Lemuria\Renderer\Text\View\hr;
-use function Lemuria\Renderer\Text\View\line;
 use Lemuria\Id;
 use Lemuria\Lemuria;
 use Lemuria\Model\Fantasya\Continent;

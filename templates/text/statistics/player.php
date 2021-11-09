@@ -9,7 +9,7 @@ use Lemuria\Renderer\Text\View\Html;
 
 $party  = $this->party;
 $census = $this->census;
-$banner = $party->Banner() ? 'Unser Banner: ' . linkEmail($party->Banner()) : '(kein Banner gesetzt)';
+$banner = $party->Banner() ? 'Unser Banner: ' . $party->Banner() : '(kein Banner gesetzt)';
 
 ?>
 Dein Volk: <?= $party->Name() ?> [<?= $party->Id() ?>]
