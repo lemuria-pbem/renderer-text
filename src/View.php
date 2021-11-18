@@ -22,6 +22,7 @@ use Lemuria\Model\Dictionary;
 use Lemuria\Model\Fantasya\Commodity;
 use Lemuria\Model\Fantasya\Construction;
 use Lemuria\Model\Fantasya\Landscape\Ocean;
+use Lemuria\Model\Fantasya\Loot;
 use Lemuria\Model\Fantasya\Quantity;
 use Lemuria\Model\Fantasya\Party;
 use Lemuria\Model\Fantasya\Region;
@@ -280,6 +281,31 @@ abstract class View
 	public function hasTravelled(Unit $unit): bool {
 		$effect = new TravelEffect(State::getInstance());
 		return Lemuria::Score()->find($effect->setUnit($unit)) instanceof TravelEffect;
+	}
+
+	public function loot(): string {
+		$loot  = $this->party->Loot();
+		$group = Loot::ALL;
+		$line  = $this->dictionary->get('loot.group_' . ($loot->has($group) ? $group : Loot::NOTHING));
+		$items = [];
+		while ($group < Loot::TROPHY) {
+			$group *= 2;
+			if ($loot->has($group)) {
+				$items[] = $this->dictionary->get('loot.group_' . $group);
+			}
+		}
+		foreach ($loot->Classes() as $commodity) {
+			$items[] = $this->dictionary->get('resource.' . $commodity, 2);
+		}
+		$n = count($items);
+		if ($n > 0) {
+			if ($n > 1) {
+				$items[$n - 2] .= ' und ' . $items[$n - 1];
+				unset($items[$n - 1]);
+			}
+			$line .= ' außer ' . implode(', ', $items);
+		}
+		return $line;
 	}
 
 	public function gameVersions(): array {
