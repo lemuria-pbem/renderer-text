@@ -2,7 +2,6 @@
 declare (strict_types = 1);
 
 use function Lemuria\Renderer\Text\View\line;
-use function Lemuria\Renderer\Text\View\linkEmail;
 use Lemuria\Renderer\Text\View\Html;
 
 /** @var Html $this */
@@ -19,3 +18,4 @@ Dein Volk: <?= $party->Name() ?> [<?= $party->Id() ?>]
 <?= line($banner) ?>
 
 Dein Volk zählt <?= $this->number($census->count(), 'race', $party->Race()) ?> in <?= $this->number($party->People()->count()) ?> Einheiten.
+Deine Einheiten sammeln <?= $this->loot() ?>.
