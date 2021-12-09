@@ -22,7 +22,9 @@ use Lemuria\Model\Dictionary;
 use Lemuria\Model\Fantasya\Commodity;
 use Lemuria\Model\Fantasya\Construction;
 use Lemuria\Model\Fantasya\Landscape\Ocean;
+use Lemuria\Model\Fantasya\Herb;
 use Lemuria\Model\Fantasya\Loot;
+use Lemuria\Model\Fantasya\Potion;
 use Lemuria\Model\Fantasya\Quantity;
 use Lemuria\Model\Fantasya\Party;
 use Lemuria\Model\Fantasya\Region;
@@ -38,6 +40,10 @@ use Lemuria\Version;
  */
 abstract class View
 {
+	protected const QUANTITY_FACTOR = [
+		'Silver' => 100
+	];
+
 	public Census $census;
 
 	public Outlook $outlook;
@@ -306,6 +312,29 @@ abstract class View
 			$line .= ' außer ' . implode(', ', $items);
 		}
 		return $line;
+	}
+
+	#[Pure] public function quantity(Quantity $quantity, Unit $unit): string {
+		$commodity = $quantity->Commodity();
+		$class     = match (true) {
+			$commodity instanceof Herb   => 'herb',
+			$commodity instanceof Potion => 'potion',
+			default                      => getClass($commodity)
+		};
+		$key   = 'quantity.' . $class;
+		$count = $quantity->Count();
+		if ($this->dictionary->has($key)) {
+			$factor = self::QUANTITY_FACTOR[$class] ?? 1;
+			$size   = $unit->Size();
+			$amount = $size > 0 ? $count / $factor / $size : 0;
+			$index  = match (true) {
+				$amount >= 10.0 => 2,
+				$amount >= 2.0  => 1,
+				default         => 0
+			};
+			return $this->dictionary->get($key, $index) . ' ' . $this->get('resource.' . $commodity, 1);
+		}
+		return $this->number($count, 'resource', $commodity);
 	}
 
 	public function gameVersions(): array {

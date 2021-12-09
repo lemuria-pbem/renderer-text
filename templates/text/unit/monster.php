@@ -14,7 +14,7 @@ $prefix = $unit->Construction() || $unit->Vessel() ? '   * ' : '  -- ';
 
 $inventory = [];
 foreach ($unit->Inventory() as $quantity /* @var Quantity $quantity */):
-	$inventory[] = $this->number($quantity->Count(), 'resource', $quantity->Commodity());
+	$inventory[] = $this->quantity($quantity, $unit);
 endforeach;
 $n = count($inventory);
 if ($n > 1):
