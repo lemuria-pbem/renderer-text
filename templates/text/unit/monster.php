@@ -28,5 +28,5 @@ endif;
 .<?= description($unit) ?>
 
 <?php if (!empty($inventory)): ?>
-Hat <?= empty($inventory) ? 'nichts' : implode(', ', $inventory) ?>.
+Hat <?= implode(', ', $inventory) ?>.
 <?php endif ?>
