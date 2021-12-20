@@ -9,7 +9,6 @@ use Lemuria\Renderer\Text\View\Html;
 
 /** @var Region $region */
 $region     = $this->variables[0];
-$outlook    = $this->outlook;
 $atlas      = $this->atlas;
 $map        = $this->map;
 $visibility = $atlas->getVisibility($region);
