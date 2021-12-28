@@ -56,6 +56,16 @@ $visibility = $atlas->getVisibility($region);
 	<?php endforeach ?>
 
 	<?= $this->template('apparitions/travelled', $region) ?>
+<?php elseif ($visibility === TravelAtlas::LIGHTHOUSE): ?>
+	<?= $this->template('region/from-lighthouse', $region) ?>
+
+	<?php foreach ($region->Estate() as $construction): ?>
+		<?= $this->template('construction/travelled', $construction) ?>
+	<?php endforeach ?>
+
+	<?php foreach ($region->Fleet() as $vessel): ?>
+		<?= $this->template('vessel/travelled', $vessel) ?>
+	<?php endforeach ?>
 <?php else: ?>
 	<?= $this->template('region/neighbour', $region) ?>
 <?php endif ?>
