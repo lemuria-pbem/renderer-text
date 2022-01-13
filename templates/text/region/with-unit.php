@@ -73,15 +73,15 @@ $hasPeasants  = $resources[Peasant::class]->Count() > 0;
 
 $intelligence = new Intelligence($region);
 $guards       = $intelligence->getGuards();
-$g            = count($guards);
-if ($g > 0):
+$gs           = count($guards);
+if ($gs > 0):
 	$guardNames = [];
 	foreach ($guards as $unit /* @var Unit $unit */):
 		$guardNames[] = $unit->Name();
 	endforeach;
-	if ($g > 1):
-		$guardNames[$g - 2] .= ' und ' . $guardNames[$g - 1];
-		unset ($guardNames[$g - 1]);
+	if ($gs > 1):
+		$guardNames[$gs - 2] .= ' und ' . $guardNames[$gs - 1];
+		unset ($guardNames[$gs - 1]);
 	endif;
 endif;
 $materialPool = [];
@@ -129,6 +129,6 @@ Die Bauern produzieren <?= $this->things($offer->Commodity()) ?> und verlangen p
 <?php elseif ($offer && $hasPeasants): ?>
 Die Bauern produzieren <?= $this->things($offer->Commodity()) ?>.
 <?php endif ?>
-<?php if ($g > 0): ?>
+<?php if ($gs > 0): ?>
 Die Region wird bewacht von <?= ucfirst(implode(', ', $guardNames)) ?>.
 <?php endif ?>
