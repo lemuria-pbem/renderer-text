@@ -5,13 +5,13 @@ use function Lemuria\Renderer\Text\View\linkEmail;
 use Lemuria\Id;
 use Lemuria\Lemuria;
 use Lemuria\Model\Fantasya\Continent;
-use Lemuria\Model\Fantasya\Party;
+use Lemuria\Model\Fantasya\Party\Type;
 use Lemuria\Renderer\Text\View\Html;
 
 /** @var Html $this */
 
 $party     = $this->party;
-$isPlayer  = $party->Type() === Party::PLAYER;
+$isPlayer  = $party->Type() === Type::PLAYER;
 $census    = $this->census;
 $atlas     = $this->atlas;
 $calendar  = Lemuria::Calendar();

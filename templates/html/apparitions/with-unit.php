@@ -13,7 +13,7 @@ $outlook        = $this->outlook;
 $unitsInRegions = 0;
 
 ?>
-<?php foreach ($outlook->Apparitions($region) as $unit /* @var Unit $unit */): ?>
+<?php foreach ($outlook->getApparitions($region) as $unit /* @var Unit $unit */): ?>
 	<?php if ($unitsInRegions++ === 0): ?>
 		<h5>Einheiten in der Region</h5>
 		<br>

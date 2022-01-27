@@ -7,13 +7,13 @@ use function Lemuria\Renderer\Text\View\hr;
 use Lemuria\Id;
 use Lemuria\Lemuria;
 use Lemuria\Model\Fantasya\Continent;
-use Lemuria\Model\Fantasya\Party;
+use Lemuria\Model\Fantasya\Party\Type;
 use Lemuria\Renderer\Text\View\Text;
 
 /* @var Text $this */
 
 $party     = $this->party;
-$isPlayer  = $party->Type() === Party::PLAYER;
+$isPlayer  = $party->Type() === Type::PLAYER;
 $banner    = $this->party->Banner() ? 'Unser Banner: ' . $this->party->Banner() : '(kein Banner gesetzt)';
 $census    = $this->census;
 $atlas     = $this->atlas;

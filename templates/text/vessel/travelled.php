@@ -5,6 +5,7 @@ use function Lemuria\Renderer\Text\View\description;
 use function Lemuria\Renderer\Text\View\line;
 use Lemuria\Model\Fantasya\Landscape\Ocean;
 use Lemuria\Model\Fantasya\Vessel;
+use Lemuria\Model\World\Direction;
 use Lemuria\Renderer\Text\View\Text;
 
 /* @var Text $this */
@@ -18,7 +19,7 @@ $captain = $vessel->Passengers()->Owner()?->Party();
   >> <?= $vessel ?>, <?= $this->get('ship', $vessel->Ship()) ?>, Zustand <?= $this->number((int)round(100.0 * $vessel->Completion())) ?>
 %. Kapitän ist <?= $captain ? 'die Partei ' . $captain : 'niemand' ?>
 <?php if (!($vessel->Region()->Landscape() instanceof Ocean)): ?>
-<?php if ($vessel->Anchor() === Vessel::IN_DOCK): ?>
+<?php if ($vessel->Anchor() === Direction::NONE): ?>
 . Das Schiff liegt im Dock<?php else: ?>
 . Das Schiff ankert im <?= $this->get('world', $vessel->Anchor()) ?>
 <?php endif ?>

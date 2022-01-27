@@ -32,6 +32,7 @@ use Lemuria\Model\Fantasya\Relation;
 use Lemuria\Model\Fantasya\Unit;
 use Lemuria\Model\Fantasya\Vessel;
 use Lemuria\Model\Fantasya\World\PartyMap;
+use Lemuria\Model\World\Direction;
 use Lemuria\Singleton;
 use Lemuria\Version;
 
@@ -40,19 +41,19 @@ use Lemuria\Version;
  */
 abstract class View
 {
-	protected const QUANTITY_FACTOR = [
+	protected final const QUANTITY_FACTOR = [
 		'Silver' => 100
 	];
 
-	public Census $census;
+	public readonly Census $census;
 
-	public Outlook $outlook;
+	public readonly Outlook $outlook;
 
-	public TravelAtlas $atlas;
+	public readonly TravelAtlas $atlas;
 
-	public PartyMap $map;
+	public readonly PartyMap $map;
 
-	protected Dictionary $dictionary;
+	protected readonly Dictionary $dictionary;
 
 	protected array $spyEffect;
 
@@ -143,7 +144,7 @@ abstract class View
 	public function neighbours(?Region $region): array {
 		$neighbours = [];
 		$roads      = $region->Roads();
-		foreach ($this->map->getNeighbours($region)->getAll() as $direction => $neighbour) {
+		foreach ($this->map->getNeighbours($region)->getAll() as $direction => $neighbour /* @var Direction $direction */) {
 			if ($neighbour) {
 				if ($region->hasRoad($direction)) {
 					$predicate = ' führt eine Straße ';
@@ -250,7 +251,7 @@ abstract class View
 	}
 
 	#[Pure] public function battleRow(Unit $unit): string {
-		return $this->dictionary->get('battleRow.' . $unit->BattleRow(), $unit->Size() > 1 ? 1 : 0);
+		return $this->dictionary->get('battleRow.' . $unit->BattleRow()->value, $unit->Size() > 1 ? 1 : 0);
 	}
 
 	public function health(Unit $unit): string {

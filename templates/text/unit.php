@@ -1,7 +1,7 @@
 <?php
 declare (strict_types = 1);
 
-use Lemuria\Model\Fantasya\Party;
+use Lemuria\Model\Fantasya\Party\Type;
 use Lemuria\Model\Fantasya\Unit;
 use Lemuria\Renderer\Text\View\Text;
 
@@ -15,7 +15,7 @@ $party = $unit->Party();
 
 <?php if ($party === $this->party): ?>
 <?= $this->template('unit/own', $unit) ?>
-<?php elseif ($party->Type() === Party::MONSTER): ?>
+<?php elseif ($party->Type() === Type::MONSTER): ?>
 <?= $this->template('unit/monster', $unit) ?>
 <?php elseif ($this->spyLevel($unit)): ?>
 <?= $this->template('unit/spied', $unit) ?>
