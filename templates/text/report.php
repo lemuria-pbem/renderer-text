@@ -9,6 +9,7 @@ $report = $this->messages($this->variables[0]);
 
 ?>
 <?php if ($report): ?>
+
 <?php foreach ($report as $message): ?>
 <?= $this->message($message) ?>
 <?php endforeach ?>

@@ -39,7 +39,6 @@ $continent = Continent::get(new Id(1));
 <?= hr() ?>
 
 <?= center('Ereignisse') ?>
-
 <?= $this->template('report', $party) ?>
 <?= $this->template('hostilities', $party) ?>
 
