@@ -26,7 +26,7 @@ class SpellBookWriter implements Writer
 	 */
 	public function render(Id $party): Writer {
 		if (!file_put_contents($this->path, $this->generate($party))) {
-			throw new \RuntimeException('Could not create template.');
+			throw new \RuntimeException('Could not create spell book.');
 		}
 		return $this;
 	}
