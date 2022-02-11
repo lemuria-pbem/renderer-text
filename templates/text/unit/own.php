@@ -5,6 +5,7 @@ use function Lemuria\Renderer\Text\View\description;
 use Lemuria\Engine\Fantasya\Calculus;
 use Lemuria\Model\Fantasya\Ability;
 use Lemuria\Model\Fantasya\Quantity;
+use Lemuria\Model\Fantasya\Unicum;
 use Lemuria\Model\Fantasya\Unit;
 use Lemuria\Renderer\Text\View\Text;
 
@@ -18,6 +19,7 @@ $disguised = $unit->Disguise();
 $calculus  = new Calculus($unit);
 $hitpoints = $calculus->hitpoints();
 $health    = (int)floor($unit->Health() * $hitpoints);
+$payload   = 0;
 
 $talents = [];
 foreach ($unit->Knowledge() as $ability /* @var Ability $ability */):
@@ -27,7 +29,6 @@ foreach ($unit->Knowledge() as $ability /* @var Ability $ability */):
 endforeach;
 
 $inventory = [];
-$payload   = 0;
 foreach ($unit->Inventory() as $quantity /* @var Quantity $quantity */):
 	$inventory[] = $this->number($quantity->Count(), 'resource', $quantity->Commodity());
 	$payload     += $quantity->Weight();
@@ -37,6 +38,12 @@ if ($n > 1):
 	$inventory[$n - 2] .= ' und ' . $inventory[$n - 1];
 	unset($inventory[$n - 1]);
 endif;
+
+$treasury = $unit->Treasury();
+foreach ($treasury as $unicum /* @var Unicum $unicum */):
+	$payload += $unicum->Composition()->Weight();
+endforeach;
+
 $weight = (int)ceil($payload / 100);
 $total  = (int)ceil(($payload + $unit->Size() * $unit->Race()->Weight()) / 100);
 
@@ -64,7 +71,8 @@ endif;
 .<?= description($unit) ?>
 
 Talente: <?= empty($talents) ? 'keine' : implode(', ', $talents) ?>
-. Hat <?= empty($inventory) ? 'nichts' : implode(', ', $inventory) ?>
+<?php if ($treasury->isEmpty()): ?>. <?php else: ?><?= $this->template('treasury', $treasury) ?><?php endif ?>
+Hat <?= empty($inventory) ? 'nichts' : implode(', ', $inventory) ?>
 , Last <?= $this->number($weight) ?> GE, zusammen <?= $this->number($total) ?>
  GE.
 <?php if (!empty($spells)): ?>Eingesetzte Kampfzauber: <?= implode(', ', $spells) ?>

@@ -20,6 +20,7 @@ use Lemuria\ItemSet;
 use Lemuria\Lemuria;
 use Lemuria\Model\Dictionary;
 use Lemuria\Model\Fantasya\Commodity;
+use Lemuria\Model\Fantasya\Composition;
 use Lemuria\Model\Fantasya\Construction;
 use Lemuria\Model\Fantasya\Landscape\Ocean;
 use Lemuria\Model\Fantasya\Herb;
@@ -314,6 +315,10 @@ abstract class View
 			$line .= ' außer ' . implode(', ', $items);
 		}
 		return $line;
+	}
+
+	#[Pure] public function composition(Composition $composition): string {
+		return $this->dictionary->get('composition.' . $composition);
 	}
 
 	#[Pure] public function quantity(Quantity $quantity, Unit $unit): string {
