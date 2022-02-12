@@ -20,6 +20,7 @@ use Lemuria\ItemSet;
 use Lemuria\Lemuria;
 use Lemuria\Model\Dictionary;
 use Lemuria\Model\Fantasya\Commodity;
+use Lemuria\Model\Fantasya\Composition;
 use Lemuria\Model\Fantasya\Construction;
 use Lemuria\Model\Fantasya\Landscape\Ocean;
 use Lemuria\Model\Fantasya\Herb;
@@ -32,6 +33,7 @@ use Lemuria\Model\Fantasya\Relation;
 use Lemuria\Model\Fantasya\Unit;
 use Lemuria\Model\Fantasya\Vessel;
 use Lemuria\Model\Fantasya\World\PartyMap;
+use Lemuria\Model\World\Direction;
 use Lemuria\Singleton;
 use Lemuria\Version;
 
@@ -40,19 +42,19 @@ use Lemuria\Version;
  */
 abstract class View
 {
-	protected const QUANTITY_FACTOR = [
+	protected final const QUANTITY_FACTOR = [
 		'Silver' => 100
 	];
 
-	public Census $census;
+	public readonly Census $census;
 
-	public Outlook $outlook;
+	public readonly Outlook $outlook;
 
-	public TravelAtlas $atlas;
+	public readonly TravelAtlas $atlas;
 
-	public PartyMap $map;
+	public readonly PartyMap $map;
 
-	protected Dictionary $dictionary;
+	protected readonly Dictionary $dictionary;
 
 	protected array $spyEffect;
 
@@ -145,6 +147,7 @@ abstract class View
 		$roads      = $region->Roads();
 		foreach ($this->map->getNeighbours($region)->getAll() as $direction => $neighbour) {
 			if ($neighbour) {
+				$direction = Direction::from($direction);
 				if ($region->hasRoad($direction)) {
 					$predicate = ' führt eine Straße ';
 					$neighbour = $this->neighbour($neighbour, true);
@@ -250,7 +253,7 @@ abstract class View
 	}
 
 	#[Pure] public function battleRow(Unit $unit): string {
-		return $this->dictionary->get('battleRow.' . $unit->BattleRow(), $unit->Size() > 1 ? 1 : 0);
+		return $this->dictionary->get('battleRow.' . $unit->BattleRow()->value, $unit->Size() > 1 ? 1 : 0);
 	}
 
 	public function health(Unit $unit): string {
@@ -312,6 +315,10 @@ abstract class View
 			$line .= ' außer ' . implode(', ', $items);
 		}
 		return $line;
+	}
+
+	#[Pure] public function composition(Composition $composition): string {
+		return $this->dictionary->get('composition.' . $composition);
 	}
 
 	#[Pure] public function quantity(Quantity $quantity, Unit $unit): string {

@@ -22,9 +22,9 @@ class OrderWriter implements Writer
 {
 	use VersionTrait;
 
-	protected const SEPARATOR_LENGTH = 30;
+	protected final const SEPARATOR_LENGTH = 30;
 
-	protected Dictionary $dictionary;
+	protected readonly Dictionary $dictionary;
 
 	public function __construct(private string $path) {
 		$this->dictionary = new Dictionary();

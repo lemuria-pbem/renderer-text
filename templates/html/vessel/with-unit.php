@@ -4,6 +4,7 @@ declare (strict_types = 1);
 use Lemuria\Model\Fantasya\Landscape\Ocean;
 use Lemuria\Model\Fantasya\Unit;
 use Lemuria\Model\Fantasya\Vessel;
+use Lemuria\Model\World\Direction;
 use Lemuria\Renderer\Text\View\Html;
 
 /** @var Html $this */
@@ -24,7 +25,7 @@ $people     = $passengers === 1 ? 'Passagier' : 'Passagieren';
 		niemand.
 	<?php endif ?>
 	<?php if (!($vessel->Region()->Landscape() instanceof Ocean)): ?>
-		<?php if ($vessel->Anchor() === Vessel::IN_DOCK): ?>
+		<?php if ($vessel->Anchor() === Direction::NONE): ?>
 			Das Schiff liegt im Dock.
 		<?php else: ?>
 			Das Schiff ankert im <?= $this->get('world', $vessel->Anchor()) ?>.

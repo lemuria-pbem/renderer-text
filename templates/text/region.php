@@ -1,7 +1,7 @@
 <?php
 declare (strict_types = 1);
 
-use Lemuria\Engine\Fantasya\Factory\Model\TravelAtlas;
+use Lemuria\Engine\Fantasya\Factory\Model\Visibility;
 use Lemuria\Model\Fantasya\Region;
 use Lemuria\Renderer\Text\View\Text;
 
@@ -13,7 +13,7 @@ $atlas      = $this->atlas;
 $visibility = $atlas->getVisibility($region);
 
 ?>
-<?php if ($visibility === TravelAtlas::WITH_UNIT): ?>
+<?php if ($visibility === Visibility::WITH_UNIT): ?>
 <?= $this->template('region/with-unit', $region) ?>
 <?= $this->template('report', $region) ?>
 
@@ -25,7 +25,7 @@ $visibility = $atlas->getVisibility($region);
 <?= $this->template('vessel/with-unit', $vessel) ?>
 <?php endforeach ?>
 <?= $this->template('apparitions/with-unit', $region) ?>
-<?php elseif ($visibility === TravelAtlas::TRAVELLED): ?>
+<?php elseif ($visibility === Visibility::TRAVELLED): ?>
 <?= $this->template('region/with-unit', $region) ?>
 <?= $this->template('report', $region) ?>
 <?php foreach ($region->Estate() as $construction): ?>
@@ -35,7 +35,7 @@ $visibility = $atlas->getVisibility($region);
 <?= $this->template('vessel/travelled', $vessel) ?>
 <?php endforeach ?>
 <?= $this->template('apparitions/travelled', $region) ?>
-<?php elseif ($visibility === TravelAtlas::LIGHTHOUSE): ?>
+<?php elseif ($visibility === Visibility::LIGHTHOUSE): ?>
 <?= $this->template('region/from-lighthouse', $region) ?>
 <?php foreach ($region->Estate() as $construction): ?>
 <?= $this->template('construction/travelled', $construction) ?>

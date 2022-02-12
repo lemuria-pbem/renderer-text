@@ -1,7 +1,7 @@
 <?php
 declare (strict_types = 1);
 
-use Lemuria\Engine\Fantasya\Factory\Model\TravelAtlas;
+use Lemuria\Engine\Fantasya\Factory\Model\Visibility;
 use Lemuria\Model\Fantasya\Region;
 use Lemuria\Renderer\Text\View\Html;
 
@@ -20,7 +20,7 @@ $visibility = $atlas->getVisibility($region);
 	<span class="badge badge-secondary"><?= $region->Id() ?></span>
 </h4>
 
-<?php if ($visibility === TravelAtlas::WITH_UNIT): ?>
+<?php if ($visibility === Visibility::WITH_UNIT): ?>
 	<?= $this->template('region/with-unit', $region) ?>
 
 	<?php if (count($this->messages($region))): ?>
@@ -39,7 +39,7 @@ $visibility = $atlas->getVisibility($region);
 	<?php endforeach ?>
 
 	<?= $this->template('apparitions/with-unit', $region) ?>
-<?php elseif ($visibility === TravelAtlas::TRAVELLED): ?>
+<?php elseif ($visibility === Visibility::TRAVELLED): ?>
 	<?= $this->template('region/with-unit', $region) ?>
 
 	<?php if (count($this->messages($region))): ?>
@@ -56,7 +56,7 @@ $visibility = $atlas->getVisibility($region);
 	<?php endforeach ?>
 
 	<?= $this->template('apparitions/travelled', $region) ?>
-<?php elseif ($visibility === TravelAtlas::LIGHTHOUSE): ?>
+<?php elseif ($visibility === Visibility::LIGHTHOUSE): ?>
 	<?= $this->template('region/from-lighthouse', $region) ?>
 
 	<?php foreach ($region->Estate() as $construction): ?>

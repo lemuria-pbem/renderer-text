@@ -11,6 +11,6 @@ $region     = $this->variables[0];
 $outlook    = $this->outlook;
 
 ?>
-<?php foreach ($outlook->Apparitions($region) as $unit): ?>
+<?php foreach ($outlook->getApparitions($region) as $unit): ?>
 <?= $this->template('unit', $unit) ?>
 <?php endforeach ?>
