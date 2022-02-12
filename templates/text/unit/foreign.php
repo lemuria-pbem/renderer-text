@@ -45,5 +45,4 @@ endif;
 
 <?php if (count($resources) > 0): ?>
 Reist mit <?= implode(', ', $resources) ?>.
-
 <?php endif ?>
