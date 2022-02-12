@@ -2,6 +2,7 @@
 declare(strict_types = 1);
 namespace Lemuria\Renderer\Text;
 
+use function Lemuria\Renderer\Text\View\wrap;
 use Lemuria\Engine\Fantasya\Factory\Model\SpellDetails;
 use Lemuria\Engine\Message\Filter;
 use Lemuria\Id;
@@ -47,7 +48,10 @@ class SpellBookWriter implements Writer
 			}
 
 			$output .= $details->Name() . PHP_EOL . PHP_EOL;
-			$output .= implode(PHP_EOL, $details->Description()) . PHP_EOL . PHP_EOL;
+			foreach ($details->Description() as $description) {
+				$output .= wrap($description);
+			}
+			$output .= PHP_EOL;
 			$output .= 'Talentstufe: ' . $spell->Difficulty() . PHP_EOL;
 
 			if ($details->IsBattleSpell()) {
