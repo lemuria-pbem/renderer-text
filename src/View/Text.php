@@ -13,7 +13,7 @@ use Lemuria\Version;
 /**
  * Create a description line.
  */
-#[Pure] function description(Entity $entity): string {
+function description(Entity $entity): string {
 	if ($entity->Description()) {
 		$description = ' ' . trim($entity->Description());
 		if (!str_ends_with($description, '.')) {
