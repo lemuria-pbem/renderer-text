@@ -43,8 +43,8 @@ class OrderWriter implements Writer
 	}
 
 	protected function generate(Id $id): string {
-		$party    = Party::get($id);
-		$census   = new Census($party);
+		$party     = Party::get($id);
+		$census    = new Census($party);
 		$template  = $this->createHeader($party);
 		$template .= $this->createRegionDivider();
 		foreach ($census->getAtlas() as $region /* @var Region $region */) {
@@ -85,7 +85,7 @@ class OrderWriter implements Writer
 			}
 
 			$writeSeparator = $inConstruction || $inVessel;
-			foreach ($census->getPeople($region) as $unit /* @var Unit $unit */) {
+			foreach ($region->Residents() as $unit /* @var Unit $unit */) {
 				if (!$unit->Construction() && !$unit->Vessel()) {
 					if ($writeSeparator) {
 						$template .= $this->createSeparator();
