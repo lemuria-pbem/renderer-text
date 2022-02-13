@@ -2,17 +2,26 @@
 declare(strict_types = 1);
 namespace Lemuria\Renderer\Text\Composition;
 
-use JetBrains\PhpStorm\Pure;
-
+use function Lemuria\Renderer\Text\View\wrap;
+use Lemuria\Engine\Fantasya\Factory\Model\SpellDetails;
 use Lemuria\Model\Fantasya\Composition\Scroll as ScrollModel;
+use Lemuria\Model\Fantasya\Exception\JsonException;
 
 final class Scroll extends AbstractComposition
 {
-	#[Pure] public function getContent(): string {
+	/**
+	 * @throws JsonException
+	 */
+	public function getContent(): string {
 		$scroll = $this->getScroll();
 		$spell  = $scroll->Spell();
 		if ($spell) {
-			return $this->createContentHeader($this->dictionary->get('spell', $spell));
+			$details = new SpellDetails($spell);
+			$content = $this->createContentHeader($details->Name() . ' (Stufe ' . $spell->Difficulty() . ')' . PHP_EOL);
+			foreach ($details->Description() as $description) {
+				$content .= wrap($description);
+			}
+			return $content;
 		}
 		return $this->noContent('Auf dieser Schriftrolle steht nichts geschrieben.');
 	}
