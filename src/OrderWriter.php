@@ -5,6 +5,7 @@ namespace Lemuria\Renderer\Text;
 use JetBrains\PhpStorm\Pure;
 
 use function Lemuria\getClass;
+use function Lemuria\mbStrPad;
 use Lemuria\Engine\Fantasya\Census;
 use Lemuria\Engine\Message\Filter;
 use Lemuria\Id;
@@ -22,7 +23,7 @@ class OrderWriter implements Writer
 {
 	use VersionTrait;
 
-	protected final const SEPARATOR_LENGTH = 30;
+	protected final const SEPARATOR_LENGTH = 78;
 
 	protected readonly Dictionary $dictionary;
 
@@ -44,7 +45,8 @@ class OrderWriter implements Writer
 	protected function generate(Id $id): string {
 		$party    = Party::get($id);
 		$census   = new Census($party);
-		$template = $this->createHeader($party);
+		$template  = $this->createHeader($party);
+		$template .= $this->createRegionDivider();
 		foreach ($census->getAtlas() as $region /* @var Region $region */) {
 			$inConstruction = null;
 			$inVessel       = null;
@@ -92,6 +94,8 @@ class OrderWriter implements Writer
 					$template .= $this->createUnit($unit);
 				}
 			}
+
+			$template .= $this->createRegionDivider();
 		}
 		$template .= $this->createFooter();
 		return $template;
@@ -105,17 +109,19 @@ class OrderWriter implements Writer
 	}
 
 	#[Pure] private function createRegion(Region $region): string {
-		return $this->createBlock(['; Region ' . $region]);
+		return PHP_EOL . $this->createBlock(['; Region ' . $region]);
 	}
 
 	#[Pure] private function createConstruction(Construction $construction): string {
 		$building = $this->dictionary->get('building', getClass($construction->Building()));
-		return $this->createBlock(['; ' . $building . ' ' . $construction]);
+		$name     = '; ' . $building . ' ' . $construction . ' ';
+		return $this->createBlock([mbStrPad($name, self::SEPARATOR_LENGTH, '-')]);
 	}
 
 	#[Pure] private function createVessel(Vessel $vessel): string {
 		$ship = $this->dictionary->get('ship', getClass($vessel->Ship()));
-		return $this->createBlock(['; ' . $ship . ' ' . $vessel]);
+		$name = '; ' . $ship . ' ' . $vessel . ' ';
+		return $this->createBlock([mbStrPad($name, self::SEPARATOR_LENGTH, '-')]);
 	}
 
 	private function createUnit(Unit $unit): string {
@@ -136,8 +142,12 @@ class OrderWriter implements Writer
 		return $this->createBlock([str_pad('; ', self::SEPARATOR_LENGTH, '-')]);
 	}
 
+	#[Pure] private function createRegionDivider(): string {
+		return str_pad('; ', self::SEPARATOR_LENGTH, '=') . PHP_EOL;
+	}
+
 	private function createFooter(): string {
-		return 'NÄCHSTER' . PHP_EOL;
+		return PHP_EOL . 'NÄCHSTER' . PHP_EOL;
 	}
 
 	#[Pure] private function createBlock(array $lines): string {
