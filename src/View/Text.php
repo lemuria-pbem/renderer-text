@@ -40,8 +40,8 @@ function description(Entity $entity): string {
 /**
  * Create a horizontal line.
  */
-#[Pure] function hr(): string {
-	return line(str_pad('', 80, '-'));
+#[Pure] function hr(int $length = 80): string {
+	return line(str_pad('', $length, '-'));
 }
 
 /**
@@ -49,6 +49,13 @@ function description(Entity $entity): string {
  */
 #[Pure] function line(string $output): string {
 	return $output . PHP_EOL;
+}
+
+/**
+ * Output a line and underline it.
+ */
+#[Pure] function underline(string $line): string {
+	return $line . PHP_EOL . hr(mb_strlen($line));
 }
 
 /**

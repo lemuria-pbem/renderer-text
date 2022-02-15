@@ -19,11 +19,11 @@ class BattleLogWriter implements Writer
 {
 	use VersionTrait;
 
-	protected Dictionary $dictionary;
+	protected readonly Dictionary $dictionary;
 
-	public const LOCATION_PLACEHOLDER = '%LOC%';
+	public final const LOCATION_PLACEHOLDER = '%LOC%';
 
-	protected const START_SECTION = [
+	protected final const START_SECTION = [
 		'BattleBeginsMessage'         => true, 'BattleEndsMessage'           => true,
 		'AttackerTacticsRoundMessage' => true, 'DefenderTacticsRoundMessage' => true, 'NoTacticsRoundMessage' => true,
 		'AttackerOverrunMessage'      => true, 'DefenderOverrunMessage'      => true,
@@ -31,7 +31,7 @@ class BattleLogWriter implements Writer
 		'BattleEndedInDrawMessage'    => true, 'BattleExhaustionMessage'     => true
 	];
 
-	protected const CENTER_MESSAGE = ['BattleEndsMessage' => true, 'CombatRoundMessage' => true];
+	protected final const CENTER_MESSAGE = ['BattleEndsMessage' => true, 'CombatRoundMessage' => true];
 
 	public function __construct(private string $pathPattern) {
 		$this->dictionary = new Dictionary();

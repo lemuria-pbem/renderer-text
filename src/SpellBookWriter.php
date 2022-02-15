@@ -2,6 +2,7 @@
 declare(strict_types = 1);
 namespace Lemuria\Renderer\Text;
 
+use function Lemuria\Renderer\Text\View\wrap;
 use Lemuria\Engine\Fantasya\Factory\Model\SpellDetails;
 use Lemuria\Engine\Message\Filter;
 use Lemuria\Id;
@@ -26,7 +27,7 @@ class SpellBookWriter implements Writer
 	 */
 	public function render(Id $party): Writer {
 		if (!file_put_contents($this->path, $this->generate($party))) {
-			throw new \RuntimeException('Could not create template.');
+			throw new \RuntimeException('Could not create spell book.');
 		}
 		return $this;
 	}
@@ -47,7 +48,10 @@ class SpellBookWriter implements Writer
 			}
 
 			$output .= $details->Name() . PHP_EOL . PHP_EOL;
-			$output .= implode(PHP_EOL, $details->Description()) . PHP_EOL . PHP_EOL;
+			foreach ($details->Description() as $description) {
+				$output .= wrap($description);
+			}
+			$output .= PHP_EOL;
 			$output .= 'Talentstufe: ' . $spell->Difficulty() . PHP_EOL;
 
 			if ($details->IsBattleSpell()) {
