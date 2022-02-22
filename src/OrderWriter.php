@@ -86,7 +86,7 @@ class OrderWriter implements Writer
 
 			$writeSeparator = $inConstruction || $inVessel;
 			foreach ($region->Residents() as $unit /* @var Unit $unit */) {
-				if (!$unit->Construction() && !$unit->Vessel()) {
+				if ($unit->Party() === $party && !$unit->Construction() && !$unit->Vessel()) {
 					if ($writeSeparator) {
 						$template .= $this->createSeparator();
 						$writeSeparator = false;
