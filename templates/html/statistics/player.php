@@ -19,5 +19,6 @@ $banner = $party->Banner() ? 'Unser Banner: ' . linkEmail($party->Banner()) : '(
 
 <p>
 	Dein Volk zählt <?= $this->number($census->count(), 'race', $party->Race()) ?> in <?= $this->number($party->People()->count()) ?> Einheiten.<br>
-	Deine Einheiten sammeln <?= $this->loot() ?>.
+	Deine Einheiten sammeln <?= $this->loot() ?>.<br>
+	Vorgaben für neue Einheiten: <?= implode(', ', $this->presettings()) ?>.
 </p>

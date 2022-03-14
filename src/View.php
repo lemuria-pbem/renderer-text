@@ -42,6 +42,8 @@ use Lemuria\Version;
  */
 abstract class View
 {
+	protected final const BATTLE_ROW = ['Fliehen', 'Nicht', 'Defensiv', 'Hinten', 'Vorsichtig', 'Vorne', 'Aggressiv'];
+
 	protected final const QUANTITY_FACTOR = [
 		'Silver' => 100
 	];
@@ -360,6 +362,21 @@ abstract class View
 			$versions[] = $versionTag->name . ': ' . $versionTag->version;
 		}
 		return $versions;
+	}
+
+	public function presettings(): array {
+		$presettings   = [];
+		$settings      = $this->party->Presettings();
+		$presettings[] = 'KÄMPFEN ' . self::BATTLE_ROW[$settings->BattleRow()->value];
+		$presettings[] = $settings->IsLooting() ? 'SAMMELN' : 'SAMMELN Nicht';
+		$presettings[] = $settings->IsHiding() ? 'TARNEN' : 'TARNEN Nicht';
+		$disguise      = $settings->Disguise();
+		if ($disguise === null) {
+			$presettings[] = 'TARNEN Partei';
+		} elseif ($disguise instanceof Party) {
+			$presettings[] = 'TARNEN Partei ' . $disguise->Id();
+		}
+		return $presettings;
 	}
 
 	/**
