@@ -36,6 +36,7 @@ $map        = $this->map;
 $landscape  = $region->Landscape();
 $resources  = $region->Resources();
 $neighbours = $this->neighbours($region);
+$treasury   = $region->Treasury();
 
 $t       = $resources[Wood::class]->Count();
 $g       = $resources[Stone::class]->Count();
@@ -129,6 +130,7 @@ Die Bauern produzieren <?= $this->things($offer->Commodity()) ?> und verlangen p
 <?php elseif ($offer && $hasPeasants): ?>
 Die Bauern produzieren <?= $this->things($offer->Commodity()) ?>.
 <?php endif ?>
+<?php if (!$treasury->isEmpty()): ?><?= $this->template('treasury/region', $treasury) ?><?php endif ?>
 <?php if ($gs > 0): ?>
 Die Region wird bewacht von <?= ucfirst(implode(', ', $guardNames)) ?>.
 <?php endif ?>

@@ -76,7 +76,7 @@ endif;
 	Talente: <?= empty($talents) ? 'keine' : implode(', ', $talents) ?>.
 	<br>
 	<?php if (!$treasury->isEmpty()): ?>
-		<?= $this->template('treasury', $treasury) ?>
+		<?= $this->template('treasury/unit', $treasury) ?>
 		<br>
 	<?php endif ?>
 	Hat <?= empty($inventory) ? 'nichts' : implode(', ', $inventory) ?>,
