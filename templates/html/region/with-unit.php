@@ -32,6 +32,7 @@ $map        = $this->map;
 $landscape  = $region->Landscape();
 $resources  = $region->Resources();
 $neighbours = $this->neighbours($region);
+$treasury   = $region->Treasury();
 
 $t       = $resources[Wood::class]->Count();
 $g       = $resources[Stone::class]->Count();
@@ -135,14 +136,15 @@ endif;
 	<p>
 		<?php if ($hasMarket && $hasPeasants): ?>
 			Die Bauern produzieren <?= $this->things($offer->Commodity()) ?> und verlangen pro Stück $<?= $this->number($offer->Price()) ?>.
-			Marktpreise für andere Waren: <?= implode(', ', $demand) ?>.
+			Marktpreise für andere Waren: <?= implode(', ', $demand) ?>.<br>
 		<?php elseif ($offer && $hasPeasants): ?>
-			Die Bauern produzieren <?= $this->things($offer->Commodity()) ?>.
+			Die Bauern produzieren <?= $this->things($offer->Commodity()) ?>.<br>
+		<?php endif ?>
+		<?php if (!$treasury->isEmpty()): ?>
+			<?= $this->template('treasury/region', $treasury) ?>
+			<br>
 		<?php endif ?>
 		<?php if ($gs > 0): ?>
-			<?php if ($luxuries && $hasPeasants): ?>
-				<br>
-			<?php endif ?>
 			Die Region wird bewacht von <?= ucfirst(implode(', ', $guardNames)) ?>.
 		<?php endif ?>
 	</p>

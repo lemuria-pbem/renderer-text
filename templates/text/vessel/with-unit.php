@@ -14,6 +14,7 @@ use Lemuria\Renderer\Text\View\Text;
 $vessel     = $this->variables[0];
 $passengers = $this->people($vessel);
 $people     = $passengers === 1 ? 'Passagier' : 'Passagieren';
+$treasury   = $vessel->Treasury();
 
 ?>
 
@@ -26,6 +27,7 @@ $people     = $passengers === 1 ? 'Passagier' : 'Passagieren';
 <?php endif ?>
 <?php endif ?>
 .<?= line(description($vessel)) ?>
+<?php if (!$treasury->isEmpty()): ?><?= $this->template('treasury/region', $treasury) ?><?php endif ?>
 <?= $this->template('report', $vessel) ?>
 <?php foreach ($vessel->Passengers() as $unit): ?>
 <?= $this->template('unit', $unit) ?>

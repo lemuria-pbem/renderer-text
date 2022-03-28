@@ -71,7 +71,7 @@ endif;
 .<?= description($unit) ?>
 
 Talente: <?= empty($talents) ? 'keine' : implode(', ', $talents) ?>
-<?php if ($treasury->isEmpty()): ?>. <?php else: ?><?= $this->template('treasury', $treasury) ?><?php endif ?>
+<?php if ($treasury->isEmpty()): ?>. <?php else: ?><?= $this->template('treasury/unit', $treasury) ?><?php endif ?>
 Hat <?= empty($inventory) ? 'nichts' : implode(', ', $inventory) ?>
 , Last <?= $this->number($weight) ?> GE, zusammen <?= $this->number($total) ?>
  GE.

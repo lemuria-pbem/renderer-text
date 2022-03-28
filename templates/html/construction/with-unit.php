@@ -10,6 +10,7 @@ use Lemuria\Renderer\Text\View\Html;
 $construction = $this->variables[0];
 $inhabitants  = $this->people($construction);
 $people       = $inhabitants === 1 ? 'Bewohner' : 'Bewohnern';
+$treasury     = $construction->Treasury();
 
 ?>
 <h5>
@@ -25,6 +26,10 @@ $people       = $inhabitants === 1 ? 'Bewohner' : 'Bewohnern';
 		niemand.
 	<?php endif ?>
 	<?= $construction->Description() ?>
+	<?php if (!$treasury->isEmpty()): ?>
+		<br>
+		<?= $this->template('treasury/construction', $treasury) ?>
+	<?php endif ?>
 </p>
 
 <?php if (count($this->messages($construction))): ?>

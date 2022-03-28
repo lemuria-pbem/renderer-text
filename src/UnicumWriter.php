@@ -65,6 +65,15 @@ class UnicumWriter
 		if ($composition->supports(Practice::GIVE)) {
 			$output .= $details->BestowCommand() . PHP_EOL;
 		}
+		if ($composition->supports(Practice::TAKE)) {
+			$output .= $details->TakeCommand() . PHP_EOL;
+		}
+		if ($composition->supports(Practice::LOSE)) {
+			$output .= $details->LoseCommand() . PHP_EOL;
+		}
+		if ($composition->supports(Practice::DESTROY)) {
+			$output .= $details->DestroyCommand() . PHP_EOL;
+		}
 		if ($composition->supports(Practice::READ)) {
 			$output .= $details->ReadCommand() . PHP_EOL;
 		}

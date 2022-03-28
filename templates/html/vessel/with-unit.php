@@ -13,6 +13,7 @@ use Lemuria\Renderer\Text\View\Html;
 $vessel     = $this->variables[0];
 $passengers = $this->people($vessel);
 $people     = $passengers === 1 ? 'Passagier' : 'Passagieren';
+$treasury   = $vessel->Treasury();
 
 ?>
 <h5><?= $vessel->Name() ?> <span class="badge badge-info"><?= $vessel->Id() ?></span></h5>
@@ -32,6 +33,10 @@ $people     = $passengers === 1 ? 'Passagier' : 'Passagieren';
 		<?php endif ?>
 	<?php endif ?>
 	<?= $vessel->Description() ?>
+	<?php if (!$treasury->isEmpty()): ?>
+		<br>
+		<?= $this->template('treasury/vessel', $treasury) ?>
+	<?php endif ?>
 </p>
 
 <?php if (count($this->messages($vessel))): ?>
