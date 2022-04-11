@@ -4,6 +4,7 @@ declare (strict_types = 1);
 use function Lemuria\Renderer\Text\View\linkEmail;
 use Lemuria\Engine\Fantasya\Statistics\Subject;
 use Lemuria\Lemuria;
+use Lemuria\Model\Fantasya\Region;
 use Lemuria\Renderer\Text\View\Html;
 
 /** @var Html $this */
@@ -13,8 +14,8 @@ $census = $this->census;
 $banner = $party->Banner() ? 'Unser Banner: ' . linkEmail($party->Banner()) : '(kein Banner gesetzt)';
 $round  = Lemuria::Calendar()->Round();
 
-$statUnits  = $this->numberStatistics(Subject::Units, $party);
-$statPeople = $this->numberStatistics(Subject::People, $party);
+$units  = $this->numberStatistics(Subject::Units, $party);
+$people = $this->numberStatistics(Subject::People, $party);
 
 ?>
 <h2><?= $party->Name() ?> <span class="badge badge-primary"><?= $party->Id() ?></span></h2>
@@ -41,16 +42,19 @@ $statPeople = $this->numberStatistics(Subject::People, $party);
 			</tr>
 		</thead>
 		<tbody>
-			<tr class="<?= $statUnits->movement ?>">
+			<tr class="<?= $units->movement ?>">
 				<th scope="row">Anzahl Einheiten</th>
-				<td><?= $statUnits->value ?></td>
-				<td class="more-is-good"><?= $statUnits->change ?></td>
+				<td><?= $units->value ?></td>
+				<td class="more-is-good"><?= $units->change ?></td>
 			</tr>
-			<tr class="<?= $statPeople->movement ?>">
+			<tr class="<?= $people->movement ?>">
 				<th scope="row">Anzahl Personen</th>
-				<td><?= $statPeople->value ?></td>
-				<td class="more-is-good"><?= $statPeople->change ?></td>
+				<td><?= $people->value ?></td>
+				<td class="more-is-good"><?= $people->change ?></td>
 			</tr>
+			<?php foreach ($census->getAtlas() as $region /* @var Region $region */): ?>
+				<?= $this->template('statistics/region', $region) ?>
+			<?php endforeach ?>
 		</tbody>
 	</table>
 </div>
