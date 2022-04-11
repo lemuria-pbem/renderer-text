@@ -2,8 +2,12 @@
 declare(strict_types = 1);
 namespace Lemuria\Renderer\Text\View;
 
+use Lemuria\Engine\Fantasya\Statistics\Subject;
 use Lemuria\Engine\Message;
+use Lemuria\Identifiable;
+use Lemuria\Renderer\Text\Statistics\Data\HtmlNumber;
 use Lemuria\Renderer\Text\View;
+use Lemuria\Statistics\Data\Number;
 
 /**
  * Replace email address with a mailto link.
@@ -53,6 +57,14 @@ class Html extends View
 		$badge = self::BADGE[$level] ?? self::BADGE_UNDEFINED;
 		$b     = self::LEVEL[$level] ?? self::LEVEL_UNDEFINED;
 		return '<span class="badge badge-' . $badge . ' text-monospace">' . $b . '</span>&nbsp;' . $message;
+	}
+
+	public function numberStatistics(Subject $subject, Identifiable $entity): HtmlNumber {
+		$data = $this->statistics($subject, $entity);
+		if (!($data instanceof Number)) {
+			$data = new Number();
+		}
+		return new HtmlNumber($data);
 	}
 
 	/**

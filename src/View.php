@@ -13,6 +13,7 @@ use Lemuria\Engine\Fantasya\Effect\TravelEffect;
 use Lemuria\Engine\Fantasya\Factory\Model\TravelAtlas;
 use Lemuria\Engine\Fantasya\Outlook;
 use Lemuria\Engine\Fantasya\State;
+use Lemuria\Engine\Fantasya\Statistics\Subject;
 use Lemuria\Engine\Message;
 use Lemuria\Engine\Message\Filter;
 use Lemuria\Identifiable;
@@ -35,6 +36,9 @@ use Lemuria\Model\Fantasya\Vessel;
 use Lemuria\Model\Fantasya\World\PartyMap;
 use Lemuria\Model\World\Direction;
 use Lemuria\Singleton;
+use Lemuria\Statistics;
+use Lemuria\Statistics\Data;
+use Lemuria\Statistics\Record;
 use Lemuria\Version;
 
 /**
@@ -58,9 +62,13 @@ abstract class View
 
 	protected readonly Dictionary $dictionary;
 
+	protected readonly Statistics $statistics;
+
 	protected array $spyEffect;
 
 	protected ?array $variables = null;
+
+	protected array $statisticsCache = [];
 
 	public function __construct(public Party $party, private Filter $messageFilter) {
 		$this->census  = new Census($this->party);
@@ -70,6 +78,7 @@ abstract class View
 		$this->map        = new PartyMap(Lemuria::World(), $this->party);
 		$this->dictionary = new Dictionary();
 		$this->spyEffect  = $this->getSpyEffect();
+		$this->statistics = Lemuria::Statistics();
 	}
 
 	/**
@@ -377,6 +386,18 @@ abstract class View
 			$presettings[] = 'TARNEN Partei ' . $disguise->Id();
 		}
 		return $presettings;
+	}
+
+	public function statistics(Subject $subject, Identifiable $entity): ?Data {
+		$record = new Record($subject->name, $entity);
+		$key    = $record->Key();
+		if (isset($this->statisticsCache[$key])) {
+			return $this->statisticsCache[$key];
+		}
+
+		$data                        = $this->statistics->request($record)->Data();
+		$this->statisticsCache[$key] = $data;
+		return $data;
 	}
 
 	/**
