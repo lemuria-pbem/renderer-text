@@ -7,18 +7,17 @@ use JetBrains\PhpStorm\Pure;
 use function Lemuria\number;
 use Lemuria\Statistics\Data\Number;
 
-class HtmlNumber
+class TextNumber
 {
+	public const LENGTH = 10;
+
 	public string $value;
 
 	public string $change;
 
-	public string $movement;
-
 	#[Pure] public function __construct(Number $number) {
-		$this->value    = number($number->value);
-		$this->change   = $this->getChange($number);
-		$this->movement = $this->getMovement($number);
+		$this->value  = sprintf('%-' . self::LENGTH . 's', number($number->value));
+		$this->change = sprintf('%-' . self::LENGTH . 's', $this->getChange($number));
 	}
 
 	#[Pure] private function getChange(Number $number): string {
@@ -27,14 +26,6 @@ class HtmlNumber
 			$number->change < 0      => number($number->change),
 			$number->change > 0      => '+' . number($number->change),
 			default                  => '±' . number($number->change)
-		};
-	}
-
-	private function getMovement(Number $number): string {
-		return match (true) {
-			$number->change < 0 => 'change-less',
-			$number->change > 0 => 'change-more',
-			default             => 'change-equal'
 		};
 	}
 }

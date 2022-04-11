@@ -4,10 +4,14 @@ namespace Lemuria\Renderer\Text\View;
 
 use JetBrains\PhpStorm\Pure;
 
+use Lemuria\Engine\Fantasya\Statistics\Subject;
 use Lemuria\Entity;
 use Lemuria\Engine\Message;
+use Lemuria\Identifiable;
 use Lemuria\Lemuria;
+use Lemuria\Renderer\Text\Statistics\Data\TextNumber;
 use Lemuria\Renderer\Text\View;
+use Lemuria\Statistics\Data\Number;
 use Lemuria\Version;
 
 /**
@@ -108,6 +112,14 @@ class Text extends View
 	 */
 	#[Pure] public function message(Message $message): string {
 		return wrap((string)$message);
+	}
+
+	public function numberStatistics(Subject $subject, Identifiable $entity): TextNumber {
+		$data = $this->statistics($subject, $entity);
+		if (!($data instanceof Number)) {
+			$data = new Number();
+		}
+		return new TextNumber($data);
 	}
 
 	/**
