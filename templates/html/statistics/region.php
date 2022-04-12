@@ -104,15 +104,13 @@ if (!empty($luxuries)) {
 		<tr id="<?= $class . '-market' ?>" class="collapse <?= $class ?>">
 			<td colspan="3">
 				<table class="table">
-					<tr>
-						<th scope="rowgroup">Marktpreise</th>
-					</tr>
+					<caption>Marktpreise</caption>
 					<tr>
 						<?php foreach ($luxuries as $luxury): ?>
 							<th scope="col" colspan="2"><?= $this->get('resource.' . $luxury->class) ?></th>
 						<?php endforeach ?>
 					</tr>
-					<tr>
+					<tr class="td-16">
 						<?php foreach ($luxuries as $luxury): ?>
 							<td><?= $luxury->value ?></td>
 							<td class="<?= $luxury->movement ?> <?= $luxury->moreOrLess ?>"><?= $luxury->change ?></td>
@@ -188,7 +186,7 @@ if (!empty($luxuries)) {
 							<th scope="col" colspan="2"><?= $this->get('resource.' . $luxury->class) ?></th>
 						<?php endforeach ?>
 					</tr>
-					<tr>
+					<tr class="td-16">
 						<?php foreach ($luxuries as $luxury): ?>
 							<td><?= $luxury->value ?></td>
 							<td class="<?= $luxury->movement ?> <?= $luxury->moreOrLess ?>"><?= $luxury->change ?></td>
@@ -268,7 +266,7 @@ if (!empty($luxuries)) {
 							<th scope="col" colspan="2"><?= $this->get('resource.' . $luxury->class) ?></th>
 						<?php endforeach ?>
 					</tr>
-					<tr>
+					<tr class="td-16">
 						<?php foreach ($luxuries as $luxury): ?>
 							<td><?= $luxury->value ?></td>
 							<td class="<?= $luxury->movement ?> <?= $luxury->moreOrLess ?>"><?= $luxury->change ?></td>
