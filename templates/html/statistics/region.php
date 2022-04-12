@@ -3,7 +3,6 @@ declare (strict_types = 1);
 
 use Lemuria\Engine\Fantasya\Statistics\Subject;
 use Lemuria\Model\Fantasya\Region;
-use Lemuria\Renderer\Text\Statistics\Data\HtmlCommodity;
 use Lemuria\Renderer\Text\View\Html;
 
 /** @var Html $this */
