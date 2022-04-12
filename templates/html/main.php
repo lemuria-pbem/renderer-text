@@ -33,9 +33,9 @@ $continent = Continent::get(new Id(1));
 <hr>
 
 <?php if ($isPlayer): ?>
-	<?= $this->template('statistics/player') ?>
+	<?= $this->template('header/player') ?>
 <?php else: ?>
-	<?= $this->template('statistics/other') ?>
+	<?= $this->template('header/other') ?>
 <?php endif ?>
 
 <h3>Ereignisse</h3>

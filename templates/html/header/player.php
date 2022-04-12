@@ -32,29 +32,5 @@ $people = $this->numberStatistics(Subject::People, $party);
 
 <h3>Statistik</h3>
 
-<div class="table-responsive">
-	<table class="statistics table table-sm table-striped table-bordered">
-		<thead class="table-light">
-			<tr>
-				<th scope="col">Deine Partei</th>
-				<th scope="col">Runde <?= $round ?></th>
-				<th scope="col">Veränderung</th>
-			</tr>
-		</thead>
-		<tbody>
-			<tr class="<?= $units->movement ?>">
-				<th scope="row">Anzahl Einheiten</th>
-				<td><?= $units->value ?></td>
-				<td class="more-is-good"><?= $units->change ?></td>
-			</tr>
-			<tr class="<?= $people->movement ?>">
-				<th scope="row">Anzahl Personen</th>
-				<td><?= $people->value ?></td>
-				<td class="more-is-good"><?= $people->change ?></td>
-			</tr>
-			<?php foreach ($census->getAtlas() as $region /* @var Region $region */): ?>
-				<?= $this->template('statistics/region', $region) ?>
-			<?php endforeach ?>
-		</tbody>
-	</table>
-</div>
+<?= $this->template('statistics/table') ?>
+
