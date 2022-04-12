@@ -4,7 +4,6 @@ declare (strict_types = 1);
 use function Lemuria\Renderer\Text\View\linkEmail;
 use Lemuria\Engine\Fantasya\Statistics\Subject;
 use Lemuria\Lemuria;
-use Lemuria\Model\Fantasya\Region;
 use Lemuria\Renderer\Text\View\Html;
 
 /** @var Html $this */
@@ -30,7 +29,8 @@ $people = $this->numberStatistics(Subject::People, $party);
 	Vorgaben für neue Einheiten: <?= implode(', ', $this->presettings()) ?>.
 </p>
 
+<?php if (false): ?>
 <h3>Statistik</h3>
 
 <?= $this->template('statistics/table') ?>
-
+<?php endif ?>
