@@ -2,9 +2,14 @@
 declare(strict_types = 1);
 namespace Lemuria\Renderer\Text\View;
 
+use function Lemuria\getClass;
 use Lemuria\Engine\Fantasya\Statistics\Subject;
 use Lemuria\Engine\Message;
 use Lemuria\Identifiable;
+use Lemuria\Model\Fantasya\Luxuries;
+use Lemuria\Model\Fantasya\Region;
+use Lemuria\Renderer\Text\Statistics\Data\HtmlCommodity;
+use Lemuria\Renderer\Text\Statistics\Data\HtmlMarket;
 use Lemuria\Renderer\Text\Statistics\Data\HtmlNumber;
 use Lemuria\Renderer\Text\View;
 use Lemuria\Statistics\Data\Number;
@@ -67,15 +72,45 @@ class Html extends View
 		return new HtmlNumber($data);
 	}
 
-	public function commodityStatistics(Subject $subject, Identifiable $entity): array {
-		$statistics  = [];
-		$commodities = $this->statistics($subject, $entity);
+	/**
+	 * @return HtmlCommodity[]
+	 */
+	public function animalStatistics(Subject $subject, Region $region): array {
+		$statistics = [];
+		foreach (parent::ANIMALS as $class) {
+			$statistics[getClass($class)] = null;
+		}
+		$commodities = $this->statistics($subject, $region);
 		if ($commodities) {
 			foreach ($commodities as $class => $number) {
-				$statistics[] = new HtmlNumber($number, $class);
+				$statistics[$class] = new HtmlCommodity($number, $class);
 			}
 		}
-		return $statistics;
+		foreach (array_keys($statistics) as $class) {
+			if (!$statistics[$class]) {
+				unset($statistics[$class]);
+			}
+		}
+		return array_values($statistics);
+	}
+
+	/**
+	 * @return HtmlMarket[]
+	 */
+	public function marketStatistics(Subject $subject, Region $region): array {
+		$statistics = [];
+		$market     = $this->statistics($subject, $region);
+		if (!$market) {
+			return $statistics;
+		}
+
+		$offer = getClass($region->Luxuries()->Offer()->Commodity());
+		foreach (Luxuries::LUXURIES as $class) {
+			$class              = getClass($class);
+			$number             = new HtmlMarket($market[$class], $class);
+			$statistics[$class] = $number->setIsOffer($class === $offer);
+		}
+		return array_values($statistics);
 	}
 
 	/**

@@ -3,7 +3,7 @@ declare (strict_types = 1);
 
 use Lemuria\Engine\Fantasya\Statistics\Subject;
 use Lemuria\Model\Fantasya\Region;
-use Lemuria\Renderer\Text\Statistics\Data\HtmlNumber;
+use Lemuria\Renderer\Text\Statistics\Data\HtmlCommodity;
 use Lemuria\Renderer\Text\View\Html;
 
 /** @var Html $this */
@@ -26,7 +26,8 @@ $migration  = $this->numberStatistics(Subject::Migration, $region);
 $wealth     = $this->numberStatistics(Subject::Wealth, $region);
 $income     = $this->numberStatistics(Subject::Income, $region);
 $trees      = $this->numberStatistics(Subject::Trees, $region);
-$animals    = $this->commodityStatistics(Subject::Animals, $region);
+$animals    = $this->animalStatistics(Subject::Animals, $region);
+$luxuries   = $this->marketStatistics(Subject::Market, $region);
 
 if ($cols <= 1) {
 	$ids = $class . '-population ' . $class . '-workers ' . $class . '-recruits ' . $class . '-births ' .
@@ -36,10 +37,13 @@ if ($cols <= 1) {
 } else {
 	$ids = $class . '-population ' . $class . '-peasants';
 }
-foreach ($animals as $i => $animal /* @var HtmlNumber $animal */) {
+foreach ($animals as $i => $animal) {
 	if ($i % $cols === 0) {
 		$ids .= ' ' . $class . '-' . $animal->key;
 	}
+}
+if (!empty($luxuries)) {
+	$ids .= ' ' . $class . '-market';
 }
 
 ?>
@@ -96,6 +100,28 @@ foreach ($animals as $i => $animal /* @var HtmlNumber $animal */) {
 			<td class="more-is-good"><?= $animal->change ?></td>
 		</tr>
 	<?php endforeach ?>
+	<?php if (!empty($luxuries)): ?>
+		<tr id="<?= $class . '-market' ?>" class="collapse <?= $class ?>">
+			<td colspan="3">
+				<table class="table">
+					<tr>
+						<th scope="rowgroup">Marktpreise</th>
+					</tr>
+					<tr>
+						<?php foreach ($luxuries as $luxury): ?>
+							<th scope="col" colspan="2"><?= $this->get('resource.' . $luxury->class) ?></th>
+						<?php endforeach ?>
+					</tr>
+					<tr>
+						<?php foreach ($luxuries as $luxury): ?>
+							<td><?= $luxury->value ?></td>
+							<td class="<?= $luxury->movement ?> <?= $luxury->moreOrLess ?>"><?= $luxury->change ?></td>
+						<?php endforeach ?>
+					</tr>
+				</table>
+			</td>
+		</tr>
+	<?php endif ?>
 
 <?php elseif ($cols === 2): ?>
 	<tr>
@@ -152,6 +178,26 @@ foreach ($animals as $i => $animal /* @var HtmlNumber $animal */) {
 			</tr>
 		<?php endif ?>
 	<?php endforeach ?>
+	<?php if (!empty($luxuries)): ?>
+		<tr id="<?= $class . '-market' ?>" class="collapse <?= $class ?>">
+			<th scope="row">Marktpreise</th>
+			<td colspan="5">
+				<table class="table">
+					<tr>
+						<?php foreach ($luxuries as $luxury): ?>
+							<th scope="col" colspan="2"><?= $this->get('resource.' . $luxury->class) ?></th>
+						<?php endforeach ?>
+					</tr>
+					<tr>
+						<?php foreach ($luxuries as $luxury): ?>
+							<td><?= $luxury->value ?></td>
+							<td class="<?= $luxury->movement ?> <?= $luxury->moreOrLess ?>"><?= $luxury->change ?></td>
+						<?php endforeach ?>
+					</tr>
+				</table>
+			</td>
+		</tr>
+	<?php endif ?>
 
 <?php else: ?>
 	<tr>
@@ -212,4 +258,24 @@ foreach ($animals as $i => $animal /* @var HtmlNumber $animal */) {
 			</tr>
 		<?php endif ?>
 	<?php endforeach ?>
+	<?php if (!empty($luxuries)): ?>
+		<tr id="<?= $class . '-market' ?>" class="collapse <?= $class ?>">
+			<th scope="row">Marktpreise</th>
+			<td colspan="8">
+				<table class="table">
+					<tr>
+						<?php foreach ($luxuries as $luxury): ?>
+							<th scope="col" colspan="2"><?= $this->get('resource.' . $luxury->class) ?></th>
+						<?php endforeach ?>
+					</tr>
+					<tr>
+						<?php foreach ($luxuries as $luxury): ?>
+							<td><?= $luxury->value ?></td>
+							<td class="<?= $luxury->movement ?> <?= $luxury->moreOrLess ?>"><?= $luxury->change ?></td>
+						<?php endforeach ?>
+					</tr>
+				</table>
+			</td>
+		</tr>
+	<?php endif ?>
 <?php endif ?>
