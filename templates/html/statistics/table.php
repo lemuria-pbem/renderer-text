@@ -3,6 +3,7 @@ declare (strict_types = 1);
 
 use Lemuria\Engine\Fantasya\Statistics\Subject;
 use Lemuria\Lemuria;
+use Lemuria\Model\Fantasya\Landscape\Ocean;
 use Lemuria\Model\Fantasya\Region;
 use Lemuria\Renderer\Text\View\Html;
 
@@ -37,7 +38,9 @@ $people = $this->numberStatistics(Subject::People, $party);
 				<td class="more-is-good"><?= $people->change ?></td>
 			</tr>
 			<?php foreach ($census->getAtlas() as $region /* @var Region $region */): ?>
-				<?= $this->template('statistics/region', $region, 1) ?>
+				<?php if (!($region->Landscape() instanceof Ocean)): ?>
+					<?= $this->template('statistics/region', $region, 1) ?>
+				<?php endif ?>
 			<?php endforeach ?>
 		</tbody>
 	</table>
@@ -65,7 +68,9 @@ $people = $this->numberStatistics(Subject::People, $party);
 			<td class="more-is-good"><?= $people->change ?></td>
 		</tr>
 		<?php foreach ($census->getAtlas() as $region /* @var Region $region */): ?>
-			<?= $this->template('statistics/region', $region, 2) ?>
+			<?php if (!($region->Landscape() instanceof Ocean)): ?>
+				<?= $this->template('statistics/region', $region, 2) ?>
+			<?php endif ?>
 		<?php endforeach ?>
 		</tbody>
 	</table>
@@ -96,7 +101,9 @@ $people = $this->numberStatistics(Subject::People, $party);
 			<td class="more-is-good" colspan="4"><?= $people->change ?></td>
 		</tr>
 		<?php foreach ($census->getAtlas() as $region /* @var Region $region */): ?>
-			<?= $this->template('statistics/region', $region, 3) ?>
+			<?php if (!($region->Landscape() instanceof Ocean)): ?>
+				<?= $this->template('statistics/region', $region, 3) ?>
+			<?php endif ?>
 		<?php endforeach ?>
 		</tbody>
 	</table>

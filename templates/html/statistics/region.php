@@ -3,13 +3,14 @@ declare (strict_types = 1);
 
 use Lemuria\Engine\Fantasya\Statistics\Subject;
 use Lemuria\Model\Fantasya\Region;
+use Lemuria\Renderer\Text\Statistics\Data\HtmlNumber;
 use Lemuria\Renderer\Text\View\Html;
 
 /** @var Html $this */
 
 /** @var Region $region */
 $region = $this->variables[0];
-$cols   = $this->variables[1];
+$cols   = max(1, min(3, $this->variables[1]));
 $prefix = match ($cols) {
 	2       => 'md-',
 	3       => 'xl-',
@@ -24,9 +25,22 @@ $births     = $this->numberStatistics(Subject::Births, $region);
 $migration  = $this->numberStatistics(Subject::Migration, $region);
 $wealth     = $this->numberStatistics(Subject::Wealth, $region);
 $income     = $this->numberStatistics(Subject::Income, $region);
-$ids        = $class . '-population ' . $class . '-workers ' . $class . '-recruits ' . $class . '-births ' . $class . '-migration ' . $class . '-wealth ' . $class . '-income';
-$idsMd      = $class . '-population ' . $class . '-peasants ' . $class . '-wealth ';
-$idsXl      = $class . '-population ' . $class . '-peasants';
+$trees      = $this->numberStatistics(Subject::Trees, $region);
+$animals    = $this->commodityStatistics(Subject::Animals, $region);
+
+if ($cols <= 1) {
+	$ids = $class . '-population ' . $class . '-workers ' . $class . '-recruits ' . $class . '-births ' .
+		   $class . '-migration ' . $class . '-wealth ' . $class . '-income ' . $class . '-trees';
+} elseif ($cols === 2) {
+	$ids = $class . '-population ' . $class . '-peasants ' . $class . '-wealth ' . $class . '-trees';
+} else {
+	$ids = $class . '-population ' . $class . '-peasants';
+}
+foreach ($animals as $i => $animal /* @var HtmlNumber $animal */) {
+	if ($i % $cols === 0) {
+		$ids .= ' ' . $class . '-' . $animal->key;
+	}
+}
 
 ?>
 <?php if ($cols <= 1): ?>
@@ -70,10 +84,23 @@ $idsXl      = $class . '-population ' . $class . '-peasants';
 		<td><?= $income->value ?></td>
 		<td class="more-is-good"><?= $income->change ?></td>
 	</tr>
+	<tr id="<?= $class ?>-trees" class="collapse <?= $trees->movement ?> <?= $class ?>">
+		<th scope="row">Baumbestand</th>
+		<td><?= $trees->value ?></td>
+		<td class="more-is-good"><?= $trees->change ?></td>
+	</tr>
+	<?php foreach ($animals as $animal): ?>
+		<tr id="<?= $class . '-' . $animal->key ?>" class="collapse <?= $animal->movement ?> <?= $class ?>">
+			<th scope="row">Anzahl <?= $this->get('resource.' . $animal->class, 1) ?></th>
+			<td><?= $animal->value ?></td>
+			<td class="more-is-good"><?= $animal->change ?></td>
+		</tr>
+	<?php endforeach ?>
+
 <?php elseif ($cols === 2): ?>
 	<tr>
 		<th scope="rowgroup" colspan="3">
-			<a href=".<?= $class ?>" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="<?= $idsMd ?>"><?= $this->get('landscape', $region->Landscape()) ?> <?= $region->Name() ?></a>
+			<a href=".<?= $class ?>" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="<?= $ids ?>"><?= $this->get('landscape', $region->Landscape()) ?> <?= $region->Name() ?></a>
 		</th>
 		<th scope="row">Bevölkerung</th>
 		<td><?= $population->value ?></td>
@@ -103,10 +130,33 @@ $idsXl      = $class . '-population ' . $class . '-peasants';
 		<td><?= $wealth->value ?></td>
 		<td class="<?= $wealth->movement ?> more-is-good"><?= $wealth->change ?></td>
 	</tr>
+	<tr id="<?= $class ?>-trees" class="collapse <?= $class ?>">
+		<th scope="row">Baumbestand</th>
+		<td><?= $trees->value ?></td>
+		<td class="<?= $trees->movement ?> more-is-good" colspan="4"><?= $trees->change ?></td>
+	</tr>
+	<?php foreach ($animals as $i => $animal): ?>
+		<?php if ($i % $cols === 0): ?>
+			<tr id="<?= $class . '-' . $animal->key ?>" class="collapse <?= $class ?>">
+			<th scope="row">Anzahl <?= $this->get('resource.' . $animal->class, 1) ?></th>
+			<td><?= $animal->value ?></td>
+			<?php if ($i === count($animals) - 1): ?>
+				<td class="<?= $animal->movement ?> more-is-good" colspan="4"><?= $animal->change ?></td>
+			<?php else: ?>
+				<td class="<?= $animal->movement ?> more-is-good"><?= $animal->change ?></td>
+			<?php endif ?>
+		<?php else: ?>
+			<th scope="row">Anzahl <?= $this->get('resource.' . $animal->class, 1) ?></th>
+			<td><?= $animal->value ?></td>
+			<td class="<?= $animal->movement ?> more-is-good"><?= $animal->change ?></td>
+			</tr>
+		<?php endif ?>
+	<?php endforeach ?>
+
 <?php else: ?>
 	<tr>
 		<th scope="rowgroup" colspan="3">
-			<a href=".<?= $class ?>" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="<?= $idsXl ?>"><?= $this->get('landscape', $region->Landscape()) ?> <?= $region->Name() ?></a>
+			<a href=".<?= $class ?>" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="<?= $ids ?>"><?= $this->get('landscape', $region->Landscape()) ?> <?= $region->Name() ?></a>
 		</th>
 		<th scope="row">Bevölkerung</th>
 		<td><?= $population->value ?></td>
@@ -132,6 +182,34 @@ $idsXl      = $class . '-population ' . $class . '-peasants';
 		<td class="<?= $births->movement ?> more-is-good"><?= $births->change ?></td>
 		<th scope="row">Bauernwanderung</th>
 		<td><?= $migration->value ?></td>
-		<td class="<?= $migration->movement ?> more-is-good" colspan="4"><?= $migration->change ?></td>
+		<td class="<?= $migration->movement ?> more-is-good"><?= $migration->change ?></td>
+		<th scope="row">Baumbestand</th>
+		<td><?= $trees->value ?></td>
+		<td class="<?= $trees->movement ?> more-is-good"><?= $trees->change ?></td>
 	</tr>
+	<?php foreach ($animals as $i => $animal): ?>
+		<?php if ($i % $cols === 0): ?>
+			<tr id="<?= $class . '-' . $animal->key ?>" class="collapse <?= $class ?>">
+			<th scope="row">Anzahl <?= $this->get('resource.' . $animal->class, 1) ?></th>
+			<td><?= $animal->value ?></td>
+			<?php if ($i === count($animals) - 1): ?>
+				<td class="<?= $animal->movement ?> more-is-good" colspan="7"><?= $animal->change ?></td>
+			<?php else: ?>
+				<td class="<?= $animal->movement ?> more-is-good"><?= $animal->change ?></td>
+			<?php endif ?>
+		<?php elseif ($i % $cols === 1): ?>
+			<th scope="row">Anzahl <?= $this->get('resource.' . $animal->class, 1) ?></th>
+			<td><?= $animal->value ?></td>
+			<?php if ($i === count($animals) - 1): ?>
+				<td class="<?= $animal->movement ?> more-is-good" colspan="4"><?= $animal->change ?></td>
+			<?php else: ?>
+				<td class="<?= $animal->movement ?> more-is-good"><?= $animal->change ?></td>
+			<?php endif ?>
+		<?php else: ?>
+			<th scope="row">Anzahl <?= $this->get('resource.' . $animal->class, 1) ?></th>
+			<td><?= $animal->value ?></td>
+			<td class="<?= $animal->movement ?> more-is-good"><?= $animal->change ?></td>
+			</tr>
+		<?php endif ?>
+	<?php endforeach ?>
 <?php endif ?>

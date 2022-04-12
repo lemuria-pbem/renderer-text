@@ -15,10 +15,13 @@ class HtmlNumber
 
 	public string $movement;
 
-	#[Pure] public function __construct(Number $number) {
+	public string $key;
+
+	#[Pure] public function __construct(Number $number, public string $class = '') {
 		$this->value    = number($number->value);
 		$this->change   = $this->getChange($number);
 		$this->movement = $this->getMovement($number);
+		$this->key      = strtolower($this->class);
 	}
 
 	#[Pure] private function getChange(Number $number): string {

@@ -67,6 +67,17 @@ class Html extends View
 		return new HtmlNumber($data);
 	}
 
+	public function commodityStatistics(Subject $subject, Identifiable $entity): array {
+		$statistics  = [];
+		$commodities = $this->statistics($subject, $entity);
+		if ($commodities) {
+			foreach ($commodities as $class => $number) {
+				$statistics[] = new HtmlNumber($number, $class);
+			}
+		}
+		return $statistics;
+	}
+
 	/**
 	 * Generate HTML output.
 	 */
