@@ -2,8 +2,20 @@
 declare(strict_types = 1);
 namespace Lemuria\Renderer\Text\View;
 
+use function Lemuria\getClass;
+use Lemuria\Engine\Fantasya\Statistics\Subject;
 use Lemuria\Engine\Message;
+use Lemuria\Identifiable;
+use Lemuria\Model\Fantasya\Luxuries;
+use Lemuria\Model\Fantasya\Party;
+use Lemuria\Model\Fantasya\Region;
+use Lemuria\Model\Fantasya\Resources;
+use Lemuria\Model\Fantasya\Transport;
+use Lemuria\Renderer\Text\Statistics\Data\HtmlCommodity;
+use Lemuria\Renderer\Text\Statistics\Data\HtmlMarket;
+use Lemuria\Renderer\Text\Statistics\Data\HtmlNumber;
 use Lemuria\Renderer\Text\View;
+use Lemuria\Statistics\Data\Number;
 
 /**
  * Replace email address with a mailto link.
@@ -53,6 +65,74 @@ class Html extends View
 		$badge = self::BADGE[$level] ?? self::BADGE_UNDEFINED;
 		$b     = self::LEVEL[$level] ?? self::LEVEL_UNDEFINED;
 		return '<span class="badge badge-' . $badge . ' text-monospace">' . $b . '</span>&nbsp;' . $message;
+	}
+
+	public function numberStatistics(Subject $subject, Identifiable $entity): HtmlNumber {
+		$data = $this->statistics($subject, $entity);
+		if (!($data instanceof Number)) {
+			$data = new Number();
+		}
+		return new HtmlNumber($data);
+	}
+
+	/**
+	 * @return HtmlCommodity[]
+	 */
+	public function animalStatistics(Subject $subject, Region $region): array {
+		$statistics = [];
+		foreach (Transport::ANIMALS as $class) {
+			$statistics[getClass($class)] = null;
+		}
+		$commodities = $this->statistics($subject, $region);
+		if ($commodities) {
+			foreach ($commodities as $class => $number) {
+				$statistics[$class] = new HtmlCommodity($number, $class);
+			}
+		}
+		foreach (array_keys($statistics) as $class) {
+			if (!$statistics[$class]) {
+				unset($statistics[$class]);
+			}
+		}
+		return array_values($statistics);
+	}
+
+	/**
+	 * @return HtmlCommodity[]
+	 */
+	public function materialPoolStatistics(Subject $subject, Party $party): array {
+		$statistics  = array_fill_keys(Resources::getAll(), null);
+		$commodities = $this->statistics($subject, $party);
+		if ($commodities) {
+			foreach ($commodities as $class => $number) {
+				$statistics[$class] = new HtmlCommodity($number, $class);
+			}
+		}
+		foreach (array_keys($statistics) as $class) {
+			if (!$statistics[$class]) {
+				unset($statistics[$class]);
+			}
+		}
+		return array_values($statistics);
+	}
+
+	/**
+	 * @return HtmlMarket[]
+	 */
+	public function marketStatistics(Subject $subject, Region $region): array {
+		$statistics = [];
+		$market     = $this->statistics($subject, $region);
+		if (!$market) {
+			return $statistics;
+		}
+
+		$offer = getClass($region->Luxuries()->Offer()->Commodity());
+		foreach (Luxuries::LUXURIES as $class) {
+			$class              = getClass($class);
+			$number             = new HtmlMarket($market[$class], $class);
+			$statistics[$class] = $number->setIsOffer($class === $offer);
+		}
+		return array_values($statistics);
 	}
 
 	/**

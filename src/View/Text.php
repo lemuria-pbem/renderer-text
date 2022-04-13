@@ -4,16 +4,22 @@ namespace Lemuria\Renderer\Text\View;
 
 use JetBrains\PhpStorm\Pure;
 
+use Lemuria\Engine\Fantasya\Statistics\Subject;
 use Lemuria\Entity;
 use Lemuria\Engine\Message;
+use Lemuria\Identifiable;
 use Lemuria\Lemuria;
+use Lemuria\Model\Fantasya\Party;
+use Lemuria\Model\Fantasya\Resources;
+use Lemuria\Renderer\Text\Statistics\Data\TextNumber;
 use Lemuria\Renderer\Text\View;
+use Lemuria\Statistics\Data\Number;
 use Lemuria\Version;
 
 /**
  * Create a description line.
  */
-function description(Entity $entity): string {
+#[Pure] function description(Entity $entity): string {
 	if ($entity->Description()) {
 		$description = ' ' . trim($entity->Description());
 		if (!str_ends_with($description, '.')) {
@@ -108,6 +114,34 @@ class Text extends View
 	 */
 	#[Pure] public function message(Message $message): string {
 		return wrap((string)$message);
+	}
+
+	public function numberStatistics(Subject $subject, Identifiable $entity, string $name): TextNumber {
+		$data = $this->statistics($subject, $entity);
+		if (!($data instanceof Number)) {
+			$data = new Number();
+		}
+		return new TextNumber($data, $name);
+	}
+
+	/**
+	 * @return array(string=>TextNumber)
+	 */
+	public function materialPoolStatistics(Subject $subject, Party $party): array {
+		$statistics  = array_fill_keys(Resources::getAll(), null);
+		$commodities = $this->statistics($subject, $party);
+		if ($commodities) {
+			foreach ($commodities as $class => $number) {
+				$name               = $this->get('resource.' . $class, 1);
+				$statistics[$class] = new TextNumber($number, $name);
+			}
+		}
+		foreach (array_keys($statistics) as $class) {
+			if (!$statistics[$class]) {
+				unset($statistics[$class]);
+			}
+		}
+		return $statistics;
 	}
 
 	/**
