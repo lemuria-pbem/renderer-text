@@ -14,7 +14,7 @@ $map        = $this->map;
 $visibility = $atlas->getVisibility($region);
 
 ?>
-<h4>
+<h4 id="region-<?= $region->Id()->Id() ?>">
 	<?= $region->Name() ?>
 	<span class="badge badge-light"><?= $map->getCoordinates($region) ?></span>
 	<span class="badge badge-secondary"><?= $region->Id() ?></span>

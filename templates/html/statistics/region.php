@@ -11,10 +11,10 @@ use Lemuria\Renderer\Text\View\Html;
 $region = $this->variables[0];
 $cols   = max(1, min(4, $this->variables[1]));
 $prefix = match ($cols) {
-	2       => 'md-',
-	3       => 'lg-',
-	4       => 'xl-',
-	default => ''
+	2       => 'md-stat-',
+	3       => 'lg-stat-',
+	4       => 'xl-stat-',
+	default => 'stat-'
 };
 $class  = $prefix . 'region-' . $region->Id()->Id();
 
@@ -52,7 +52,8 @@ if (!empty($luxuries)) {
 <?php if ($cols <= 1): ?>
 	<tr>
 		<th scope="rowgroup" colspan="3">
-			<a href=".<?= $class ?>" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="<?= $ids ?>"><?= $this->get('landscape', $region->Landscape()) ?> <?= $region->Name() ?></a>
+			<a href=".<?= $class ?>" title="Details..." data-toggle="collapse" role="button" aria-expanded="false" aria-controls="<?= $ids ?>"><?= $this->get('landscape', $region->Landscape()) ?> <?= $region->Name() ?></a>
+			&nbsp;<a href="#region-<?= $region->Id()->Id() ?>" title="zur Region" class="text-body">⮞</a>
 		</th>
 	</tr>
 	<tr id="<?= $class ?>-population" class="collapse <?= $population->movement ?> <?= $class ?>">
@@ -126,7 +127,8 @@ if (!empty($luxuries)) {
 <?php elseif ($cols === 2): ?>
 	<tr>
 		<th scope="rowgroup" colspan="3">
-			<a href=".<?= $class ?>" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="<?= $ids ?>"><?= $this->get('landscape', $region->Landscape()) ?> <?= $region->Name() ?></a>
+			<a href=".<?= $class ?>" title="Details..." data-toggle="collapse" role="button" aria-expanded="false" aria-controls="<?= $ids ?>"><?= $this->get('landscape', $region->Landscape()) ?> <?= $region->Name() ?></a>
+			&nbsp;<a href="#region-<?= $region->Id()->Id() ?>" title="zur Region" class="text-body">⮞</a>
 		</th>
 		<th scope="row">Bevölkerung</th>
 		<td><?= $population->value ?></td>
@@ -202,7 +204,8 @@ if (!empty($luxuries)) {
 <?php elseif ($cols === 3): ?>
 	<tr>
 		<th scope="rowgroup" colspan="3">
-			<a href=".<?= $class ?>" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="<?= $ids ?>"><?= $this->get('landscape', $region->Landscape()) ?> <?= $region->Name() ?></a>
+			<a href=".<?= $class ?>" title="Details..." data-toggle="collapse" role="button" aria-expanded="false" aria-controls="<?= $ids ?>"><?= $this->get('landscape', $region->Landscape()) ?> <?= $region->Name() ?></a>
+			&nbsp;<a href="#region-<?= $region->Id()->Id() ?>" title="zur Region" class="text-body">⮞</a>
 		</th>
 		<th scope="row">Bevölkerung</th>
 		<td><?= $population->value ?></td>
@@ -282,7 +285,8 @@ if (!empty($luxuries)) {
 <?php else: ?>
 	<tr>
 		<th scope="rowgroup" colspan="3">
-			<a href=".<?= $class ?>" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="<?= $ids ?>"><?= $this->get('landscape', $region->Landscape()) ?> <?= $region->Name() ?></a>
+			<a href=".<?= $class ?>" title="Details..." data-toggle="collapse" role="button" aria-expanded="false" aria-controls="<?= $ids ?>"><?= $this->get('landscape', $region->Landscape()) ?> <?= $region->Name() ?></a>
+			&nbsp;<a href="#region-<?= $region->Id()->Id() ?>" title="zur Region" class="text-body">⮞</a>
 		</th>
 		<th scope="row">Bevölkerung</th>
 		<td><?= $population->value ?></td>
