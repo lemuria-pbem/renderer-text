@@ -32,7 +32,7 @@ Dein Volk zählt <?= $this->number($census->count(), 'race', $party->Race()) ?> 
 <?= wrap('Deine Einheiten sammeln ' . $this->loot() . '.') ?>
 <?= wrap('Vorgaben für neue Einheiten: ' . implode(', ', $this->presettings()) . '.') ?>
 
-<?php if (false): ?>
+<?php if ($this->isDevelopment()): ?>
 <?= hr() ?>
 
 <?= center('Statistik') ?>

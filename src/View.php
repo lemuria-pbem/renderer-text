@@ -81,6 +81,10 @@ abstract class View
 		$this->statistics = Lemuria::Statistics();
 	}
 
+	public function isDevelopment(): bool {
+		return Lemuria::FeatureFlag()->IsDevelopment();
+	}
+
 	/**
 	 * Get a string.
 	 */
