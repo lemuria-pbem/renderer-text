@@ -170,7 +170,7 @@ $pCount = count($pool);
 		<?php endif ?>
 		<?php foreach ($census->getAtlas() as $region /* @var Region $region */): ?>
 			<?php if (!($region->Landscape() instanceof Ocean)): ?>
-				<?= $this->template('statistics/region', $region, 3) ?>
+				<?= $this->template('statistics/region', $region, 4) ?>
 			<?php endif ?>
 		<?php endforeach ?>
 		</tbody>
