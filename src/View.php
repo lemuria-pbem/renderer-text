@@ -21,11 +21,6 @@ use Lemuria\ItemSet;
 use Lemuria\Lemuria;
 use Lemuria\Model\Dictionary;
 use Lemuria\Model\Fantasya\Commodity;
-use Lemuria\Model\Fantasya\Commodity\Camel;
-use Lemuria\Model\Fantasya\Commodity\Elephant;
-use Lemuria\Model\Fantasya\Commodity\Griffin;
-use Lemuria\Model\Fantasya\Commodity\Horse;
-use Lemuria\Model\Fantasya\Commodity\Pegasus;
 use Lemuria\Model\Fantasya\Composition;
 use Lemuria\Model\Fantasya\Construction;
 use Lemuria\Model\Fantasya\Landscape\Ocean;
@@ -56,8 +51,6 @@ abstract class View
 	protected final const QUANTITY_FACTOR = [
 		'Silver' => 100
 	];
-
-	protected final const ANIMALS = [Horse::class, Camel::class, Elephant::class, Griffin::class, Pegasus::class];
 
 	public readonly Census $census;
 

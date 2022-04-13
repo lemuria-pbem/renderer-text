@@ -29,7 +29,7 @@ $people = $this->numberStatistics(Subject::People, $party);
 	Vorgaben für neue Einheiten: <?= implode(', ', $this->presettings()) ?>.
 </p>
 
-<?php if (false): ?>
+<?php if (true): ?>
 <h3>Statistik</h3>
 
 <?= $this->template('statistics/table') ?>

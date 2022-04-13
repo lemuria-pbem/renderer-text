@@ -7,7 +7,10 @@ use Lemuria\Engine\Fantasya\Statistics\Subject;
 use Lemuria\Engine\Message;
 use Lemuria\Identifiable;
 use Lemuria\Model\Fantasya\Luxuries;
+use Lemuria\Model\Fantasya\Party;
 use Lemuria\Model\Fantasya\Region;
+use Lemuria\Model\Fantasya\Resources;
+use Lemuria\Model\Fantasya\Transport;
 use Lemuria\Renderer\Text\Statistics\Data\HtmlCommodity;
 use Lemuria\Renderer\Text\Statistics\Data\HtmlMarket;
 use Lemuria\Renderer\Text\Statistics\Data\HtmlNumber;
@@ -77,10 +80,29 @@ class Html extends View
 	 */
 	public function animalStatistics(Subject $subject, Region $region): array {
 		$statistics = [];
-		foreach (parent::ANIMALS as $class) {
+		foreach (Transport::ANIMALS as $class) {
 			$statistics[getClass($class)] = null;
 		}
 		$commodities = $this->statistics($subject, $region);
+		if ($commodities) {
+			foreach ($commodities as $class => $number) {
+				$statistics[$class] = new HtmlCommodity($number, $class);
+			}
+		}
+		foreach (array_keys($statistics) as $class) {
+			if (!$statistics[$class]) {
+				unset($statistics[$class]);
+			}
+		}
+		return array_values($statistics);
+	}
+
+	/**
+	 * @return HtmlCommodity[]
+	 */
+	public function materialPoolStatistics(Subject $subject, Party $party): array {
+		$statistics  = array_fill_keys(Resources::getAll(), null);
+		$commodities = $this->statistics($subject, $party);
 		if ($commodities) {
 			foreach ($commodities as $class => $number) {
 				$statistics[$class] = new HtmlCommodity($number, $class);
