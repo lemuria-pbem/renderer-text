@@ -5,19 +5,17 @@ namespace Lemuria\Renderer\Text\Statistics\Data;
 use JetBrains\PhpStorm\Pure;
 
 use function Lemuria\number;
+use Lemuria\Renderer\Text\Text\TableRow;
 use Lemuria\Statistics\Data\Number;
 
-class TextNumber
+class TextNumber extends TableRow
 {
-	public const LENGTH = 10;
-
 	public string $value;
 
 	public string $change;
 
-	#[Pure] public function __construct(Number $number) {
-		$this->value  = sprintf('%-' . self::LENGTH . 's', number($number->value));
-		$this->change = sprintf('%-' . self::LENGTH . 's', $this->getChange($number));
+	#[Pure] public function __construct(Number $number, private string $name) {
+		parent::__construct($this->name, number($number->value), $this->getChange($number));
 	}
 
 	#[Pure] private function getChange(Number $number): string {
