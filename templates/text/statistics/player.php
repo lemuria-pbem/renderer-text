@@ -22,6 +22,7 @@ $header    = (string)new TableRow('Deine Partei', 'Runde ' . number($round), 'Ve
 $underline = str_pad('-------------------------------', mb_strlen(trim($header)), '-') . PHP_EOL;
 $units     = $this->numberStatistics(Subject::Units, $party, 'Anzahl Einheiten');
 $people    = $this->numberStatistics(Subject::People, $party, 'Anzahl Personen');
+$education = $this->numberStatistics(Subject::Education, $party, 'Gesamte Erfahrungspunkte');
 $pool      = $this->materialPoolStatistics(Subject::MaterialPool, $party);
 
 ?>
@@ -44,6 +45,7 @@ Dein Volk zählt <?= $this->number($census->count(), 'race', $party->Race()) ?> 
 <?= $underline ?>
 <?= $units ?>
 <?= $people ?>
+<?= $education ?>
 <?= $underline ?>
 <?php if (count($pool) > 0): ?>
 Materialpool
