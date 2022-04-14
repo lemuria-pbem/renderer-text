@@ -14,21 +14,28 @@ $map        = $this->map;
 $visibility = $atlas->getVisibility($region);
 
 ?>
-<h4 id="region-<?= $region->Id()->Id() ?>">
-	<?= $region->Name() ?>
-	<span class="badge badge-light"><?= $map->getCoordinates($region) ?></span>
-	<span class="badge badge-secondary"><?= $region->Id() ?></span>
-</h4>
-
 <?php if ($visibility === Visibility::WITH_UNIT): ?>
-	<?= $this->template('region/with-unit', $region) ?>
-
-	<?php if (count($this->messages($region))): ?>
-		<h5>Ereignisse</h5>
-		<?= $this->template('report', $region) ?>
-	<?php endif ?>
-
-	<?= $this->template('material-pool', $region) ?>
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-12 col-lg-6 col-xl-4 pl-0">
+			<h4 id="region-<?= $region->Id()->Id() ?>">
+				<?= $region->Name() ?>
+				<span class="badge badge-light"><?= $map->getCoordinates($region) ?></span>
+				<span class="badge badge-secondary"><?= $region->Id() ?></span>
+			</h4>
+			<?= $this->template('region/with-unit', $region) ?>
+		</div>
+		<div class="col-12 col-lg-6 col-xl-4 pr-lg-0 pr-xl-3">
+			<?php if (count($this->messages($region))): ?>
+				<h5>Ereignisse</h5>
+				<?= $this->template('report', $region) ?>
+			<?php endif ?>
+		</div>
+		<div class="col-12 col-xl-4 p-0 pl-xl-3 pr-xl-0">
+			<?= $this->template('material-pool', $region) ?>
+		</div>
+	</div>
+</div>
 
 	<?php foreach ($region->Estate() as $construction): ?>
 		<?= $this->template('construction/with-unit', $construction) ?>
@@ -40,13 +47,25 @@ $visibility = $atlas->getVisibility($region);
 
 	<?= $this->template('apparitions/with-unit', $region) ?>
 <?php elseif ($visibility === Visibility::TRAVELLED): ?>
-	<?= $this->template('region/with-unit', $region) ?>
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-12 col-lg-6 pl-0">
+			<h4 id="region-<?= $region->Id()->Id() ?>">
+				<?= $region->Name() ?>
+				<span class="badge badge-light"><?= $map->getCoordinates($region) ?></span>
+				<span class="badge badge-secondary"><?= $region->Id() ?></span>
+			</h4>
 
-	<?php if (count($this->messages($region))): ?>
-		<h5>Ereignisse</h5>
-		<?= $this->template('report', $region) ?>
-	<?php endif ?>
-
+			<?= $this->template('region/with-unit', $region) ?>
+		</div>
+		<div class="col-12 col-lg-6 pr-0">
+			<?php if (count($this->messages($region))): ?>
+				<h5>Ereignisse</h5>
+				<?= $this->template('report', $region) ?>
+			<?php endif ?>
+		</div>
+	</div>
+</div>
 	<?php foreach ($region->Estate() as $construction): ?>
 		<?= $this->template('construction/travelled', $construction) ?>
 	<?php endforeach ?>
@@ -57,6 +76,12 @@ $visibility = $atlas->getVisibility($region);
 
 	<?= $this->template('apparitions/travelled', $region) ?>
 <?php elseif ($visibility === Visibility::LIGHTHOUSE): ?>
+	<h4 id="region-<?= $region->Id()->Id() ?>">
+		<?= $region->Name() ?>
+		<span class="badge badge-light"><?= $map->getCoordinates($region) ?></span>
+		<span class="badge badge-secondary"><?= $region->Id() ?></span>
+	</h4>
+
 	<?= $this->template('region/from-lighthouse', $region) ?>
 
 	<?php foreach ($region->Estate() as $construction): ?>
@@ -67,5 +92,11 @@ $visibility = $atlas->getVisibility($region);
 		<?= $this->template('vessel/travelled', $vessel) ?>
 	<?php endforeach ?>
 <?php else: ?>
+	<h4 id="region-<?= $region->Id()->Id() ?>">
+		<?= $region->Name() ?>
+		<span class="badge badge-light"><?= $map->getCoordinates($region) ?></span>
+		<span class="badge badge-secondary"><?= $region->Id() ?></span>
+	</h4>
+
 	<?= $this->template('region/neighbour', $region) ?>
 <?php endif ?>

@@ -1,6 +1,7 @@
 <?php
 declare (strict_types = 1);
 
+use function Lemuria\Renderer\Text\View\p3;
 use Lemuria\Model\Fantasya\Landscape\Ocean;
 use Lemuria\Model\Fantasya\Unit;
 use Lemuria\Model\Fantasya\Vessel;
@@ -15,13 +16,17 @@ $passengers = $this->people($vessel);
 $people     = $passengers === 1 ? 'Passagier' : 'Passagieren';
 $treasury   = $vessel->Treasury();
 
+$unitsInside = $vessel->Passengers();
+$captain     = $unitsInside->Owner();
+$i           = 0;
+
 ?>
 <h5><?= $vessel->Name() ?> <span class="badge badge-info"><?= $vessel->Id() ?></span></h5>
 <p>
 	<?= $this->get('ship', $vessel->Ship()) ?> mit <?= $this->number($passengers) ?> <?= $people ?>, Zustand <?= $this->number((int)round(100.0 * $vessel->Completion())) ?>%, <?php if ($vessel->Space() < 0): ?>überladen mit<?php else: ?>freier Platz<?php endif ?> <?= $this->number((int)ceil(abs($vessel->Space()) / 100)) ?> GE.
 	Kapitän ist
-	<?php if (count($vessel->Passengers())): ?>
-		<?= $vessel->Passengers()->Owner()->Name() ?> <span class="badge badge-primary"><?= $vessel->Passengers()->Owner()->Id() ?></span>.
+	<?php if (count($unitsInside)): ?>
+		<?= $captain->Name() ?> <span class="badge badge-primary"><?= $captain->Id() ?></span>.
 	<?php else: ?>
 		niemand.
 	<?php endif ?>
@@ -44,6 +49,14 @@ $treasury   = $vessel->Treasury();
 	<?= $this->template('report', $vessel) ?>
 <?php endif ?>
 
-<?php foreach ($vessel->Passengers() as $unit /* @var Unit $unit */): ?>
-	<?= $this->template('unit', $unit) ?>
-<?php endforeach ?>
+<?php if ($unitsInside->count() > 0): ?>
+	<div class="container-fluid">
+		<div class="row">
+			<?php foreach ($unitsInside as $unit /* @var Unit $unit */): ?>
+				<div class="col-12 col-md-6 col-xl-4 <?= p3(++$i) ?>">
+					<?= $this->template('unit', $unit) ?>
+				</div>
+			<?php endforeach ?>
+		</div>
+	</div>
+<?php endif ?>

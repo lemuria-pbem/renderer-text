@@ -1,6 +1,7 @@
 <?php
 declare (strict_types = 1);
 
+use function Lemuria\Renderer\Text\View\p3;
 use Lemuria\Model\Fantasya\Construction;
 use Lemuria\Renderer\Text\View\Html;
 
@@ -12,6 +13,10 @@ $inhabitants  = $this->people($construction);
 $people       = $inhabitants === 1 ? 'Bewohner' : 'Bewohnern';
 $treasury     = $construction->Treasury();
 
+$unitsInside = $construction->Inhabitants();
+$owner       = $unitsInside->Owner();
+$i           = 0;
+
 ?>
 <h5>
 	<?= $construction->Name() ?>
@@ -20,8 +25,8 @@ $treasury     = $construction->Treasury();
 <p>
 	<?= $this->get('building', $construction->Building()) ?> der Größe <?= $this->number($construction->Size()) ?> mit <?= $this->number($inhabitants) ?> <?= $people ?>.
 	Besitzer ist
-	<?php if (count($construction->Inhabitants())): ?>
-		<?= $construction->Inhabitants()->Owner()->Name() ?> <span class="badge badge-primary"><?= $construction->Inhabitants()->Owner()->Id() ?></span>.
+	<?php if (count($unitsInside)): ?>
+		<?= $owner->Name() ?> <span class="badge badge-primary"><?= $owner->Id() ?></span>.
 	<?php else: ?>
 		niemand.
 	<?php endif ?>
@@ -37,6 +42,14 @@ $treasury     = $construction->Treasury();
 	<?= $this->template('report', $construction) ?>
 <?php endif ?>
 
-<?php foreach ($construction->Inhabitants() as $unit): ?>
-	<?= $this->template('unit', $unit) ?>
-<?php endforeach ?>
+<?php if ($unitsInside->count() > 0): ?>
+	<div class="container-fluid">
+		<div class="row">
+		<?php foreach ($unitsInside as $unit): ?>
+			<div class="col-12 col-md-6 col-xl-4 <?= p3(++$i) ?>">
+				<?= $this->template('unit', $unit) ?>
+			</div>
+		<?php endforeach ?>
+		</div>
+	</div>
+<?php endif ?>

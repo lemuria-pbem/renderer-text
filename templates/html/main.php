@@ -38,11 +38,6 @@ $continent = Continent::get(new Id(1));
 	<?= $this->template('header/other') ?>
 <?php endif ?>
 
-<h3>Ereignisse</h3>
-
-<?= $this->template('report', $party) ?>
-<?= $this->template('hostilities', $party) ?>
-
 <?php if ($isPlayer): ?>
 	<h3>Alle bekannten Völker</h3>
 

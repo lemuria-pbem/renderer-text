@@ -21,11 +21,11 @@ class HtmlMaterial extends HtmlCommodity implements \Stringable
 	}
 
 	public function __toString(): string {
-		$output = '<span>' . $this->value . '&nbsp;' . $this->translation . '</span>';
+		$output = '<span style="white-space: nowrap;"><span>' . $this->value . '&nbsp;' . $this->translation . '</span>';
 		if ($this->direction !== 0) {
 			$class   = 'badge badge-inverse badge-' . ($this->direction > 0 ? 'success' : 'danger');
 			$output .= '<span class="' . $class . '">' . $this->change . '</span>';
 		}
-		return $output;
+		return $output . '</span>';
 	}
 }

@@ -33,6 +33,20 @@ function linkEmail(string $input): string {
 	return $input;
 }
 
+/**
+ * Calculate the right Bootstrap column padding classes for a given column number.
+ */
+function p3(int $i): string {
+	return match (--$i % 6) {
+		0       => 'p-0 pr-md-3',
+		1       => 'p-0 pl-md-3 pr-xl-3',
+		2       => 'p-0 pr-md-3 pl-xl-3 pr-xl-0',
+		3       => 'p-0 pl-md-3 pl-xl-0 pr-xl-3',
+		4       => 'p-0 pr-md-3 pl-xl-3',
+		default => 'p-0 pl-md-3 pl-xl-3 pr-xl-0'
+	};
+}
+
 class Html extends View
 {
 	protected const BADGE_UNDEFINED = 'dark';
