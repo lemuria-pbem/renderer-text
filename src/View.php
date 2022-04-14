@@ -409,6 +409,20 @@ abstract class View
 	}
 
 	/**
+	 * @return int[]
+	 */
+	public function talentStatistics(Subject $subject, Unit $unit): array {
+		$statistics = [];
+		$talents    = $this->statistics($subject, $unit);
+		if ($talents) {
+			foreach ($talents as $class => $number /* @var Number $number */) {
+				$statistics[$class] = $number->change;
+			}
+		}
+		return $statistics;
+	}
+
+	/**
 	 * Render a template.
 	 */
 	abstract public function template(string $name, mixed ...$variables): string;

@@ -1,8 +1,10 @@
 <?php
 declare (strict_types = 1);
 
+use function Lemuria\getClass;
 use function Lemuria\Renderer\Text\View\description;
 use Lemuria\Engine\Fantasya\Calculus;
+use Lemuria\Engine\Fantasya\Statistics\Subject;
 use Lemuria\Model\Fantasya\Ability;
 use Lemuria\Model\Fantasya\Quantity;
 use Lemuria\Model\Fantasya\Unicum;
@@ -21,11 +23,23 @@ $hitpoints = $calculus->hitpoints();
 $health    = (int)floor($unit->Health() * $hitpoints);
 $payload   = 0;
 
-$talents = [];
+$talents    = [];
+$statistics = $this->talentStatistics(Subject::Talents, $unit);
 foreach ($unit->Knowledge() as $ability /* @var Ability $ability */):
 	$experience = $ability->Experience();
-	$ability    = $calculus->knowledge($ability->Talent());
-	$talents[]  = $this->get('talent', $ability->Talent()) . ' ' . $ability->Level() . ' (' . $this->number($experience) . ')';
+	$talent     = $ability->Talent();
+	$ability    = $calculus->knowledge($talent);
+	$knowledge  = $this->get('talent', $ability->Talent()) . ' ' . $ability->Level();
+	$change     = $statistics[getClass($talent)] ?? 0;
+	if ($change > 0) {
+		$knowledge .= ' (+' . $change . '/';
+	} elseif ($change < 0) {
+		$knowledge .= ' (' . $change . '/';
+	} else {
+		$knowledge .= ' (';
+	}
+	$knowledge .= $this->number($experience) . ')';
+	$talents[]  = $knowledge;
 endforeach;
 
 $inventory = [];
