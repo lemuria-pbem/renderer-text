@@ -21,41 +21,45 @@ $banner    = $party->Banner() ? 'Unser Banner: ' . linkEmail($party->Banner()) :
 $continent = Continent::get(new Id(1));
 
 ?>
-<header>
-	<h1 class="text-center">Lemuria-Auswertung</h1>
+<body data-spy="scroll" data-target="#navbar">
+	<header>
+		<h1 class="text-center">Lemuria-Auswertung</h1>
 
-	<p class="text-center">
-		für die <?= $calendar->Week() ?>. Woche des Monats <?= $month ?> im <?= $season ?> des Jahres <?= $calendar->Year() ?><br>
-		(Runde <?= $calendar->Round() ?>)
-	</p>
-</header>
+		<p class="text-center">
+			für die <?= $calendar->Week() ?>. Woche des Monats <?= $month ?> im <?= $season ?> des Jahres <?= $calendar->Year() ?><br>
+			(Runde <?= $calendar->Round() ?>)
+		</p>
 
-<hr>
+		<?= $this->template('navigation') ?>
+	</header>
 
-<?php if ($isPlayer): ?>
-	<?= $this->template('header/player') ?>
-<?php else: ?>
-	<?= $this->template('header/other') ?>
-<?php endif ?>
+	<hr>
 
-<?php if ($isPlayer): ?>
-	<h3>Alle bekannten Völker</h3>
+	<?php if ($isPlayer): ?>
+		<?= $this->template('header/player') ?>
+	<?php else: ?>
+		<?= $this->template('header/other') ?>
+	<?php endif ?>
 
-	<?= $this->template('acquaintances', $party) ?>
-<?php endif ?>
+	<?php if ($isPlayer): ?>
+		<h3>Alle bekannten Völker</h3>
 
-<hr>
+		<?= $this->template('acquaintances', $party) ?>
+	<?php endif ?>
 
-<?php if ($isPlayer): ?>
-	<?= $this->template('continent/player', $continent) ?>
-<?php else: ?>
-	<?= $this->template('continent/other', $continent) ?>
-<?php endif ?>
+	<hr>
 
-<?php foreach ($atlas as $region): ?>
-	<?= $this->template('region', $region) ?>
-<?php endforeach ?>
+	<?php if ($isPlayer): ?>
+		<?= $this->template('continent/player', $continent) ?>
+	<?php else: ?>
+		<?= $this->template('continent/other', $continent) ?>
+	<?php endif ?>
 
-<hr>
+	<?php foreach ($atlas as $region): ?>
+		<?= $this->template('region', $region) ?>
+	<?php endforeach ?>
 
-<?= $this->template('footer') ?>
+	<hr>
+
+	<?= $this->template('footer') ?>
+</body>
