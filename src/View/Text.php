@@ -11,6 +11,8 @@ use Lemuria\Identifiable;
 use Lemuria\Lemuria;
 use Lemuria\Model\Fantasya\Party;
 use Lemuria\Model\Fantasya\Resources;
+use Lemuria\Model\Fantasya\Unit;
+use Lemuria\Renderer\Text\Statistics\Data\TextMaterial;
 use Lemuria\Renderer\Text\Statistics\Data\TextNumber;
 use Lemuria\Renderer\Text\View;
 use Lemuria\Statistics\Data\Number;
@@ -142,6 +144,27 @@ class Text extends View
 			}
 		}
 		return $statistics;
+	}
+
+	/**
+	 * @return TextMaterial[]
+	 */
+	public function regionPoolStatistics(Subject $subject, Unit $unit): array {
+		$statistics  = array_fill_keys(Resources::getAll(), null);
+		$commodities = $this->statistics($subject, $unit);
+		if ($commodities) {
+			foreach ($commodities as $class => $number /* @var Number $number */) {
+				if ($number->value > 0) {
+					$statistics[$class] = new TextMaterial($number, $class, $this);
+				}
+			}
+		}
+		foreach (array_keys($statistics) as $class) {
+			if (!$statistics[$class]) {
+				unset($statistics[$class]);
+			}
+		}
+		return array_values($statistics);
 	}
 
 	/**

@@ -38,6 +38,7 @@ use Lemuria\Model\World\Direction;
 use Lemuria\Singleton;
 use Lemuria\Statistics;
 use Lemuria\Statistics\Data;
+use Lemuria\Statistics\Fantasya\PartyEntityRecord;
 use Lemuria\Statistics\Record;
 use Lemuria\Version;
 
@@ -393,8 +394,11 @@ abstract class View
 	}
 
 	public function statistics(Subject $subject, Identifiable $entity): ?Data {
-		$record = new Record($subject->name, $entity);
-		$key    = $record->Key();
+		$record = match ($subject) {
+			Subject::RegionPool => new PartyEntityRecord($subject->name, $entity),
+			default             => new Record($subject->name, $entity)
+		};
+		$key = $record->Key();
 		if (isset($this->statisticsCache[$key])) {
 			return $this->statisticsCache[$key];
 		}

@@ -11,8 +11,10 @@ use Lemuria\Model\Fantasya\Party;
 use Lemuria\Model\Fantasya\Region;
 use Lemuria\Model\Fantasya\Resources;
 use Lemuria\Model\Fantasya\Transport;
+use Lemuria\Model\Fantasya\Unit;
 use Lemuria\Renderer\Text\Statistics\Data\HtmlCommodity;
 use Lemuria\Renderer\Text\Statistics\Data\HtmlMarket;
+use Lemuria\Renderer\Text\Statistics\Data\HtmlMaterial;
 use Lemuria\Renderer\Text\Statistics\Data\HtmlNumber;
 use Lemuria\Renderer\Text\View;
 use Lemuria\Statistics\Data\Number;
@@ -106,6 +108,27 @@ class Html extends View
 		if ($commodities) {
 			foreach ($commodities as $class => $number) {
 				$statistics[$class] = new HtmlCommodity($number, $class);
+			}
+		}
+		foreach (array_keys($statistics) as $class) {
+			if (!$statistics[$class]) {
+				unset($statistics[$class]);
+			}
+		}
+		return array_values($statistics);
+	}
+
+	/**
+	 * @return HtmlCommodity[]
+	 */
+	public function regionPoolStatistics(Subject $subject, Unit $unit): array {
+		$statistics  = array_fill_keys(Resources::getAll(), null);
+		$commodities = $this->statistics($subject, $unit);
+		if ($commodities) {
+			foreach ($commodities as $class => $number /* @var Number $number */) {
+				if ($number->value > 0) {
+					$statistics[$class] = new HtmlMaterial($number, $class, $this);
+				}
 			}
 		}
 		foreach (array_keys($statistics) as $class) {
