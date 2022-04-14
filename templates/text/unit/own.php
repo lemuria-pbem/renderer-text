@@ -4,6 +4,7 @@ declare (strict_types = 1);
 use function Lemuria\getClass;
 use function Lemuria\Renderer\Text\View\description;
 use Lemuria\Engine\Fantasya\Calculus;
+use Lemuria\Engine\Fantasya\Factory\Model\Comments;
 use Lemuria\Engine\Fantasya\Statistics\Subject;
 use Lemuria\Model\Fantasya\Ability;
 use Lemuria\Model\Fantasya\Quantity;
@@ -22,6 +23,7 @@ $calculus  = new Calculus($unit);
 $hitpoints = $calculus->hitpoints();
 $health    = (int)floor($unit->Health() * $hitpoints);
 $payload   = 0;
+$comments  = new Comments($unit);
 
 $talents    = [];
 $statistics = $this->talentStatistics(Subject::Talents, $unit);
@@ -91,5 +93,12 @@ Hat <?= empty($inventory) ? 'nichts' : implode(', ', $inventory) ?>
  GE.
 <?php if (!empty($spells)): ?>Eingesetzte Kampfzauber: <?= implode(', ', $spells) ?>
 .
+<?php endif ?>
+<?php if ($comments->count()): ?>
+
+Notizen:
+<?php foreach ($comments->comments as $line): ?>
+ „<?= $line ?>“
+<?php endforeach ?>
 <?php endif ?>
 <?= $this->template('report', $unit) ?>
