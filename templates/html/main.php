@@ -21,7 +21,7 @@ $banner    = $party->Banner() ? 'Unser Banner: ' . linkEmail($party->Banner()) :
 $continent = Continent::get(new Id(1));
 
 ?>
-<body data-spy="scroll" data-target="#navbar">
+<body class="non-responsive" data-spy="scroll" data-offset="250" data-target="#navbar">
 	<header>
 		<h1 class="text-center">Lemuria-Auswertung</h1>
 
@@ -30,6 +30,7 @@ $continent = Continent::get(new Id(1));
 			(Runde <?= $calendar->Round() ?>)
 		</p>
 
+		<button id="toggle-responsive" class="btn btn-light">Ansicht umschalten</button>
 		<?= $this->template('navigation') ?>
 	</header>
 
