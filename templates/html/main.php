@@ -30,7 +30,7 @@ $continent = Continent::get(new Id(1));
 			(Runde <?= $calendar->Round() ?>)
 		</p>
 
-		<button id="toggle-responsive" class="btn btn-light">Ansicht umschalten</button>
+		<button id="toggle-responsive" class="btn btn-light" title="Taste: #">Ansicht umschalten</button>
 		<?= $this->template('navigation') ?>
 	</header>
 
