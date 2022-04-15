@@ -3,6 +3,7 @@ declare (strict_types = 1);
 
 use function Lemuria\Renderer\Text\View\p3;
 use Lemuria\Model\Fantasya\Construction;
+use Lemuria\Model\World\SortMode;
 use Lemuria\Renderer\Text\View\Html;
 
 /** @var Html $this */
@@ -13,7 +14,7 @@ $inhabitants  = $this->people($construction);
 $people       = $inhabitants === 1 ? 'Bewohner' : 'Bewohnern';
 $treasury     = $construction->Treasury();
 
-$unitsInside = $construction->Inhabitants();
+$unitsInside = $construction->Inhabitants()->sort(SortMode::BY_PARTY, $this->party);
 $owner       = $unitsInside->Owner();
 $i           = 0;
 

@@ -6,6 +6,7 @@ use Lemuria\Model\Fantasya\Landscape\Ocean;
 use Lemuria\Model\Fantasya\Unit;
 use Lemuria\Model\Fantasya\Vessel;
 use Lemuria\Model\World\Direction;
+use Lemuria\Model\World\SortMode;
 use Lemuria\Renderer\Text\View\Html;
 
 /** @var Html $this */
@@ -16,7 +17,7 @@ $passengers = $this->people($vessel);
 $people     = $passengers === 1 ? 'Passagier' : 'Passagieren';
 $treasury   = $vessel->Treasury();
 
-$unitsInside = $vessel->Passengers();
+$unitsInside = $vessel->Passengers()->sort(SortMode::BY_PARTY, $this->party);
 $captain     = $unitsInside->Owner();
 $i           = 0;
 
