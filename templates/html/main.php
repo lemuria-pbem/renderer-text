@@ -42,7 +42,7 @@ $continent = Continent::get(new Id(1));
 	<?php endif ?>
 
 	<?php if ($isPlayer): ?>
-		<h3>Alle bekannten Völker</h3>
+		<h3>Bekannte Völker und Allianzen</h3>
 
 		<?= $this->template('acquaintances', $party) ?>
 	<?php endif ?>

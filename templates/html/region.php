@@ -17,7 +17,7 @@ $visibility = $atlas->getVisibility($region);
 <?php if ($visibility === Visibility::WITH_UNIT): ?>
 <div class="container-fluid">
 	<div class="row">
-		<div class="col-12 col-lg-6 col-xl-4 pl-0">
+		<div class="col-12 col-lg-6 col-xl-4 p-0 pr-lg-3">
 			<h4 id="region-<?= $region->Id()->Id() ?>">
 				<?= $region->Name() ?>
 				<span class="badge badge-light"><?= $map->getCoordinates($region) ?></span>
@@ -25,7 +25,7 @@ $visibility = $atlas->getVisibility($region);
 			</h4>
 			<?= $this->template('region/with-unit', $region) ?>
 		</div>
-		<div class="col-12 col-lg-6 col-xl-4 pr-lg-0 pr-xl-3">
+		<div class="col-12 col-lg-6 col-xl-4 p-0 pl-lg-3 pr-xl-3">
 			<?php if (count($this->messages($region))): ?>
 				<h5>Ereignisse</h5>
 				<?= $this->template('report', $region) ?>

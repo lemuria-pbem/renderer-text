@@ -36,14 +36,14 @@ function linkEmail(string $input): string {
 /**
  * Calculate the right Bootstrap column padding classes for a given column number.
  */
-function p3(int $i): string {
+function p3(int $i, string $bp = 'md'): string {
 	return match (--$i % 6) {
-		0       => 'p-0 pr-md-3',
-		1       => 'p-0 pl-md-3 pr-xl-3',
-		2       => 'p-0 pr-md-3 pl-xl-3 pr-xl-0',
-		3       => 'p-0 pl-md-3 pl-xl-0 pr-xl-3',
-		4       => 'p-0 pr-md-3 pl-xl-3',
-		default => 'p-0 pl-md-3 pl-xl-3 pr-xl-0'
+		0       => 'p-0 pr-' . $bp . '-3',
+		1       => 'p-0 pl-' . $bp . '-3 pr-xl-3',
+		2       => 'p-0 pr-' . $bp . '-3 pl-xl-3 pr-xl-0',
+		3       => 'p-0 pl-' . $bp . '-3 pl-xl-0 pr-xl-3',
+		4       => 'p-0 pr-' . $bp . '-3 pl-xl-3',
+		default => 'p-0 pl-' . $bp . '-3 pl-xl-3 pr-xl-0'
 	};
 }
 

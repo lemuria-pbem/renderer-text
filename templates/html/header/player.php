@@ -19,7 +19,7 @@ $people = $this->numberStatistics(Subject::People, $party);
 ?>
 <div class="container-fluid">
 	<div class="row">
-		<div class="col-12 col-lg-6 pl-0">
+		<div class="col-12 col-lg-6 p-0 pr-lg-3">
 			<h2><?= $party->Name() ?> <span class="badge badge-primary"><?= $party->Id() ?></span></h2>
 
 			<blockquote class="blockquote"><?= $party->Description() ?></blockquote>
@@ -32,7 +32,7 @@ $people = $this->numberStatistics(Subject::People, $party);
 				Vorgaben für neue Einheiten: <?= implode(', ', $this->presettings()) ?>.
 			</p>
 		</div>
-		<div class="col-12 col-lg-6 pr-0">
+		<div class="col-12 col-lg-6 p-0 pl-lg-3">
 			<h3>Ereignisse</h3>
 
 			<?= $this->template('report', $party) ?>
