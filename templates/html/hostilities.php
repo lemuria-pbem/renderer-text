@@ -23,9 +23,11 @@ endforeach;
 
 ?>
 <?php if (!empty($hostilities)): ?>
-<h3>Kampfberichte</h3>
+	<div class="col-12 col-lg-6 p-0 pr-lg-3">
+		<h3>Kampfberichte</h3>
 
-<?php foreach ($hostilities as $location => $participants): ?>
-In <?= $location ?> gab es einen Kampf zwischen den Parteien <?= $participants ?>.<br>
-<?php endforeach ?>
+		<?php foreach ($hostilities as $location => $participants): ?>
+		In <?= $location ?> gab es einen Kampf zwischen den Parteien <?= $participants ?>.<br>
+		<?php endforeach ?>
+	</div>
 <?php endif ?>

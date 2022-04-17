@@ -12,6 +12,7 @@ use Lemuria\Model\Fantasya\Region;
 use Lemuria\Model\Fantasya\Resources;
 use Lemuria\Model\Fantasya\Transport;
 use Lemuria\Model\Fantasya\Unit;
+use Lemuria\Renderer\Text\Statistics\Data\HtmlClassNumber;
 use Lemuria\Renderer\Text\Statistics\Data\HtmlCommodity;
 use Lemuria\Renderer\Text\Statistics\Data\HtmlMarket;
 use Lemuria\Renderer\Text\Statistics\Data\HtmlMaterial;
@@ -89,6 +90,35 @@ class Html extends View
 			$data = new Number();
 		}
 		return new HtmlNumber($data);
+	}
+
+	public function numberStatisticsOrNull(Subject $subject, Identifiable $entity): ?HtmlNumber {
+		$data = $this->statistics($subject, $entity);
+		if (!($data instanceof Number) || !$data->value && !$data->change) {
+			return null;
+		}
+		return new HtmlNumber($data);
+	}
+
+	/**
+	 * @param array(string=>Subject) $subjects
+	 * @return array(string=>HtmlNumber)
+	 */
+	public function multipleStatistics(array $subjects, Region $region): array {
+		foreach ($region->Residents() as $unit /* @var Unit $unit */) {
+			if ($unit->Party() === $this->party) {
+				break;
+			}
+		}
+		$statistics = [];
+		foreach ($subjects as $name => $subject) {
+			$number = $this->statistics($subject, $unit);
+			if (!($number instanceof Number) || !$number->value && !$number->change) {
+				continue;
+			}
+			$statistics[$name] = new HtmlClassNumber($number, strtolower($subject->name));
+		}
+		return $statistics;
 	}
 
 	/**

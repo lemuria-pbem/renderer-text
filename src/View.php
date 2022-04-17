@@ -394,11 +394,8 @@ abstract class View
 	}
 
 	public function statistics(Subject $subject, Identifiable $entity): ?Data {
-		$record = match ($subject) {
-			Subject::RegionPool => new PartyEntityRecord($subject->name, $entity),
-			default             => new Record($subject->name, $entity)
-		};
-		$key = $record->Key();
+		$record = new PartyEntityRecord($subject->name, $entity);
+		$key    = $record->Key();
 		if (isset($this->statisticsCache[$key])) {
 			return $this->statisticsCache[$key];
 		}

@@ -23,6 +23,7 @@ $underline = str_pad('-------------------------------', mb_strlen(trim($header))
 $units     = $this->numberStatistics(Subject::Units, $party, 'Anzahl Einheiten');
 $people    = $this->numberStatistics(Subject::People, $party, 'Anzahl Personen');
 $education = $this->numberStatistics(Subject::Education, $party, 'Gesamte Erfahrungspunkte');
+$expenses  = $this->numberStatistics(Subject::Expenses, $party, 'Gesamte Ausgaben');
 $pool      = $this->materialPoolStatistics(Subject::MaterialPool, $party);
 
 ?>
@@ -46,6 +47,7 @@ Dein Volk zählt <?= $this->number($census->count(), 'race', $party->Race()) ?> 
 <?= $units ?>
 <?= $people ?>
 <?= $education ?>
+<?= $expenses ?>
 <?= $underline ?>
 <?php if (count($pool) > 0): ?>
 Materialpool

@@ -25,6 +25,14 @@ $births     = $this->numberStatistics(Subject::Births, $region);
 $migration  = $this->numberStatistics(Subject::Migration, $region);
 $wealth     = $this->numberStatistics(Subject::Wealth, $region);
 $income     = $this->numberStatistics(Subject::Income, $region);
+$expenses   = $this->multipleStatistics([
+	'Ausgaben für Unterhalt'    => Subject::Support,
+	'Ausgaben für Gebäude'      => Subject::Maintenance,
+	'Ausgaben für Rekrutierung' => Subject::Recruiting,
+	'Lernkosten'                => Subject::LearningCosts,
+	'Handelseinkäufe'           => Subject::Purchase,
+	'Almosen an Fremdeinheiten' => Subject::Charity
+], $region);
 $trees      = $this->numberStatistics(Subject::Trees, $region);
 $animals    = $this->animalStatistics(Subject::Animals, $region);
 $luxuries   = $this->marketStatistics(Subject::Market, $region);
@@ -38,6 +46,12 @@ if ($cols <= 1) {
 	$ids = $class . '-population ' . $class . '-peasants';
 } else {
 	$ids = $class . '-population ' . $class . '-resources';
+}
+$i = 0;
+foreach ($expenses as $name => $expense) {
+	if ($i++ % $cols === 0) {
+		$ids .= ' ' . $class . '-' . $expense->class;
+	}
 }
 foreach ($animals as $i => $animal) {
 	if ($i % $cols === 0) {
@@ -96,6 +110,13 @@ if (!empty($luxuries)) {
 		<td><?= $trees->value ?></td>
 		<td class="more-is-good"><?= $trees->change ?></td>
 	</tr>
+	<?php foreach ($expenses as $name => $expense): ?>
+		<tr id="<?= $class . '-' . $expense->class ?>" class="collapse <?= $expense->movement ?> <?= $class ?>">
+			<th scope="row"><?= $name ?></th>
+			<td><?= $expense->value ?></td>
+			<td class="less-is-good"><?= $expense->change ?></td>
+		</tr>
+	<?php endforeach ?>
 	<?php foreach ($animals as $animal): ?>
 		<tr id="<?= $class . '-' . $animal->key ?>" class="collapse <?= $animal->movement ?> <?= $class ?>">
 			<th scope="row">Anzahl <?= $this->get('resource.' . $animal->class, 1) ?></th>
@@ -163,6 +184,25 @@ if (!empty($luxuries)) {
 		<td><?= $trees->value ?></td>
 		<td class="<?= $trees->movement ?> more-is-good" colspan="4"><?= $trees->change ?></td>
 	</tr>
+	<?php $i = 0 ?>
+	<?php foreach ($expenses as $name => $expense): ?>
+		<?php if ($i % $cols === 0): ?>
+			<tr id="<?= $class . '-' . $expense->class ?>" class="collapse <?= $class ?>">
+			<th scope="row"><?= $name ?></th>
+			<td><?= $expense->value ?></td>
+			<?php if ($i === count($expenses) - 1): ?>
+				<td class="<?= $expense->movement ?> less-is-good" colspan="4"><?= $expense->change ?></td>
+			<?php else: ?>
+				<td class="<?= $expense->movement ?> less-is-good"><?= $expense->change ?></td>
+			<?php endif ?>
+		<?php else: ?>
+			<th scope="row"><?= $name ?></th>
+			<td><?= $expense->value ?></td>
+			<td class="<?= $expense->movement ?> less-is-good"><?= $expense->change ?></td>
+			</tr>
+		<?php endif ?>
+		<?php $i++ ?>
+	<?php endforeach ?>
 	<?php foreach ($animals as $i => $animal): ?>
 		<?php if ($i % $cols === 0): ?>
 			<tr id="<?= $class . '-' . $animal->key ?>" class="collapse <?= $class ?>">
@@ -236,6 +276,33 @@ if (!empty($luxuries)) {
 		<td><?= $trees->value ?></td>
 		<td class="<?= $trees->movement ?> more-is-good"><?= $trees->change ?></td>
 	</tr>
+	<?php $i = 0 ?>
+	<?php foreach ($expenses as $name => $expense): ?>
+		<?php if ($i % $cols === 0): ?>
+			<tr id="<?= $class . '-' . $expense->class ?>" class="collapse <?= $class ?>">
+			<th scope="row"><?= $name ?></th>
+			<td><?= $expense->value ?></td>
+			<?php if ($i === count($expenses) - 1): ?>
+				<td class="<?= $expense->movement ?> less-is-good" colspan="7"><?= $expense->change ?></td>
+			<?php else: ?>
+				<td class="<?= $expense->movement ?> less-is-good"><?= $expense->change ?></td>
+			<?php endif ?>
+		<?php elseif ($i % $cols === 1): ?>
+			<th scope="row"><?= $name ?></th>
+			<td><?= $expense->value ?></td>
+			<?php if ($i === count($expenses) - 1): ?>
+				<td class="<?= $expense->movement ?> less-is-good" colspan="4"><?= $expense->change ?></td>
+			<?php else: ?>
+				<td class="<?= $expense->movement ?> less-is-good"><?= $expense->change ?></td>
+			<?php endif ?>
+		<?php else: ?>
+			<th scope="row"><?= $name ?></th>
+			<td><?= $expense->value ?></td>
+			<td class="<?= $expense->movement ?> less-is-good"><?= $expense->change ?></td>
+			</tr>
+		<?php endif ?>
+		<?php $i++ ?>
+	<?php endforeach ?>
 	<?php foreach ($animals as $i => $animal): ?>
 		<?php if ($i % $cols === 0): ?>
 			<tr id="<?= $class . '-' . $animal->key ?>" class="collapse <?= $class ?>">
@@ -317,6 +384,41 @@ if (!empty($luxuries)) {
 		<td><?= $trees->value ?></td>
 		<td class="<?= $trees->movement ?> more-is-good" colspan="10"><?= $trees->change ?></td>
 	</tr>
+	<?php $i = 0 ?>
+	<?php foreach ($expenses as $name => $expense): ?>
+		<?php if ($i % $cols === 0): ?>
+			<tr id="<?= $class . '-' . $expense->class ?>" class="collapse <?= $class ?>">
+			<th scope="row"><?= $name ?></th>
+			<td><?= $expense->value ?></td>
+			<?php if ($i === count($expenses) - 1): ?>
+				<td class="<?= $expense->movement ?> less-is-good" colspan="10"><?= $expense->change ?></td>
+			<?php else: ?>
+				<td class="<?= $expense->movement ?> less-is-good"><?= $expense->change ?></td>
+			<?php endif ?>
+		<?php elseif ($i % $cols === 1): ?>
+			<th scope="row"><?= $name ?></th>
+			<td><?= $expense->value ?></td>
+			<?php if ($i === count($expenses) - 1): ?>
+				<td class="<?= $expense->movement ?> less-is-good" colspan="7"><?= $expense->change ?></td>
+			<?php else: ?>
+				<td class="<?= $expense->movement ?> less-is-good"><?= $expense->change ?></td>
+			<?php endif ?>
+		<?php elseif ($i % $cols === 2): ?>
+			<th scope="row"><?= $name ?></th>
+			<td><?= $expense->value ?></td>
+			<?php if ($i === count($expenses) - 1): ?>
+				<td class="<?= $expense->movement ?> less-is-good" colspan="4"><?= $expense->change ?></td>
+			<?php else: ?>
+				<td class="<?= $expense->movement ?> less-is-good"><?= $expense->change ?></td>
+			<?php endif ?>
+		<?php else: ?>
+			<th scope="row"><?= $name ?></th>
+			<td><?= $expense->value ?></td>
+			<td class="<?= $expense->movement ?> less-is-good"><?= $expense->change ?></td>
+			</tr>
+		<?php endif ?>
+		<?php $i++ ?>
+	<?php endforeach ?>
 	<?php foreach ($animals as $i => $animal): ?>
 		<?php if ($i % $cols === 0): ?>
 			<tr id="<?= $class . '-' . $animal->key ?>" class="collapse <?= $class ?>">

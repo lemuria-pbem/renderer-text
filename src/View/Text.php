@@ -126,6 +126,14 @@ class Text extends View
 		return new TextNumber($data, $name);
 	}
 
+	public function numberStatisticsOrNull(Subject $subject, Identifiable $entity, string $name): ?TextNumber {
+		$data = $this->statistics($subject, $entity);
+		if (!($data instanceof Number) || !$data->value && !$data->change) {
+			return null;
+		}
+		return new TextNumber($data, $name);
+	}
+
 	/**
 	 * @return array(string=>TextNumber)
 	 */
