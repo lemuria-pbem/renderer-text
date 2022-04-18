@@ -15,7 +15,7 @@ class SpellBookWriter implements Writer
 {
 	use VersionTrait;
 
-	public function __construct(private string $path) {
+	public function __construct(private readonly string $path) {
 	}
 
 	public function setFilter(Filter $filter): Writer {

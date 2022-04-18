@@ -12,7 +12,7 @@ class TextMaterial implements \Stringable
 {
 	private string $translation;
 
-	#[Pure] public function __construct(private Number $number, string $class, Text $view) {
+	#[Pure] public function __construct(private readonly Number $number, string $class, Text $view) {
 		$this->translation = $view->get('resource.' . $class, $number->value === 1 ? 0 : 1);
 	}
 

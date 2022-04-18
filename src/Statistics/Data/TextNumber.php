@@ -14,7 +14,7 @@ class TextNumber extends TableRow
 
 	public string $change;
 
-	#[Pure] public function __construct(Number $number, private string $name) {
+	#[Pure] public function __construct(Number $number, private readonly string $name) {
 		parent::__construct($this->name, number($number->value), $this->getChange($number));
 	}
 

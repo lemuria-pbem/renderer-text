@@ -1,4 +1,5 @@
 <?php
+/** @noinspection PhpUndefinedVariableInspection */
 declare (strict_types = 1);
 
 use function Lemuria\number;

@@ -33,7 +33,7 @@ class BattleLogWriter implements Writer
 
 	protected final const CENTER_MESSAGE = ['BattleEndsMessage' => true, 'CombatRoundMessage' => true];
 
-	public function __construct(private string $pathPattern) {
+	public function __construct(private readonly string $pathPattern) {
 		$this->dictionary = new Dictionary();
 	}
 

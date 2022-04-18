@@ -26,9 +26,6 @@ final class Scroll extends AbstractComposition
 		return $this->noContent('Auf dieser Schriftrolle steht nichts geschrieben.');
 	}
 
-	/**
-	 * @noinspection PhpUnnecessaryLocalVariableInspection
-	 */
 	private function getScroll(): ScrollModel {
 		/** @var ScrollModel $scroll */
 		$scroll = $this->composition;

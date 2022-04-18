@@ -112,6 +112,7 @@ class Html extends View
 		}
 		$statistics = [];
 		foreach ($subjects as $name => $subject) {
+			/** @noinspection PhpUndefinedVariableInspection */
 			$number = $this->statistics($subject, $unit);
 			if (!($number instanceof Number) || !$number->value && !$number->change) {
 				continue;

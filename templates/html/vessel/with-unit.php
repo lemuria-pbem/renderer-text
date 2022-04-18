@@ -1,4 +1,5 @@
 <?php
+/** @noinspection PhpPossiblePolymorphicInvocationInspection */
 declare (strict_types = 1);
 
 use function Lemuria\Renderer\Text\View\p3;

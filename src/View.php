@@ -39,7 +39,6 @@ use Lemuria\Singleton;
 use Lemuria\Statistics;
 use Lemuria\Statistics\Data;
 use Lemuria\Statistics\Fantasya\PartyEntityRecord;
-use Lemuria\Statistics\Record;
 use Lemuria\Version;
 
 /**
@@ -71,7 +70,7 @@ abstract class View
 
 	protected array $statisticsCache = [];
 
-	public function __construct(public Party $party, private Filter $messageFilter) {
+	public function __construct(public Party $party, private readonly Filter $messageFilter) {
 		$this->census  = new Census($this->party);
 		$this->outlook = new Outlook($this->census);
 		$this->atlas   = new TravelAtlas($this->party);
@@ -132,8 +131,6 @@ abstract class View
 
 	/**
 	 * Get an Item from a set.
-	 *
-	 * @noinspection PhpPureFunctionMayProduceSideEffectsInspection
 	 */
 	#[Pure] public function item(string $class, ItemSet $set, string $keyPath = 'resource'): string {
 		$item = $set[$class];
