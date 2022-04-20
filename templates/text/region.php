@@ -27,6 +27,16 @@ $visibility = $atlas->getVisibility($region);
 <?= $this->template('vessel/with-unit', $vessel) ?>
 <?php endforeach ?>
 <?= $this->template('apparitions/with-unit', $region) ?>
+<?php elseif ($visibility === Visibility::FARSIGHT): ?>
+<?= $this->template('region/with-unit', $region) ?>
+
+<?php foreach ($region->Estate() as $construction): ?>
+<?= $this->template('construction/foreign', $construction) ?>
+<?php endforeach ?>
+<?php foreach ($region->Fleet() as $vessel): ?>
+<?= $this->template('vessel/foreign', $vessel) ?>
+<?php endforeach ?>
+<?= $this->template('apparitions/with-unit', $region) ?>
 <?php elseif ($visibility === Visibility::TRAVELLED): ?>
 <?= $this->template('region/with-unit', $region) ?>
 <?= $this->template('report', $region) ?>
