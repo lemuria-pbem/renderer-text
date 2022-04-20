@@ -4,6 +4,7 @@ namespace Lemuria\Renderer\Text;
 
 use function Lemuria\Renderer\Text\View\wrap;
 use Lemuria\Engine\Fantasya\Factory\Model\SpellDetails;
+use Lemuria\Engine\Fantasya\Factory\SpellParser;
 use Lemuria\Engine\Message\Filter;
 use Lemuria\Id;
 use Lemuria\Model\Fantasya\Exception\JsonException;
@@ -62,7 +63,11 @@ class SpellBookWriter implements Writer
 			if ($spell->IsIncremental()) {
 				$output .= 'Aura: ' . $spell->Aura() . ' * Stufe' . PHP_EOL;
 			} else {
-				$output .= 'Aura: ' . $spell->Aura() . PHP_EOL;
+				if (SpellParser::getSyntax($spell) === SpellParser::REGION) {
+					$output .= 'Aura: ' . $spell->Aura() . ' + Entfernung' . PHP_EOL;
+				} else {
+					$output .= 'Aura: ' . $spell->Aura() . PHP_EOL;
+				}
 			}
 			if ($components) {
 				$output .= 'Komponenten: ' . implode(', ', $components) . PHP_EOL;
