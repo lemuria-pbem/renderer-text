@@ -41,8 +41,6 @@ $people = $this->numberStatistics(Subject::People, $party);
 	</div>
 </div>
 
-<?php if ($this->isDevelopment()): ?>
 <h3 id="statistics" title="Taste: S">Statistik</h3>
 
 <?= $this->template('statistics/table') ?>
-<?php endif ?>

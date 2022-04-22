@@ -36,7 +36,6 @@ Dein Volk: <?= $party->Name() ?> [<?= $party->Id() ?>]
 Dein Volk zählt <?= $this->number($census->count(), 'race', $party->Race()) ?> in <?= $this->number($party->People()->count()) ?> Einheiten.
 <?= wrap('Deine Einheiten sammeln ' . $this->loot() . '.') ?>
 <?= wrap('Vorgaben für neue Einheiten: ' . implode(', ', $this->presettings()) . '.') ?>
-<?php if ($this->isDevelopment()): ?>
 
 <?= hr() ?>
 
@@ -56,5 +55,4 @@ Materialpool
 <?php endforeach ?>
 <?php else: ?>
 Der Materialpool ist leer.
-<?php endif ?>
 <?php endif ?>
