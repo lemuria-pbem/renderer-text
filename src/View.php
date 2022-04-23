@@ -39,6 +39,7 @@ use Lemuria\Singleton;
 use Lemuria\Statistics;
 use Lemuria\Statistics\Data;
 use Lemuria\Statistics\Fantasya\PartyEntityRecord;
+use Lemuria\Statistics\Record;
 use Lemuria\Version;
 
 /**
@@ -391,7 +392,7 @@ abstract class View
 	}
 
 	public function statistics(Subject $subject, Identifiable $entity): ?Data {
-		$record = new PartyEntityRecord($subject->name, $entity);
+		$record = $subject === Subject::Talents ? new Record($subject->name, $entity) : new PartyEntityRecord($subject->name, $entity);
 		$key    = $record->Key();
 		if (isset($this->statisticsCache[$key])) {
 			return $this->statisticsCache[$key];
