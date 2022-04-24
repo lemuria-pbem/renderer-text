@@ -21,7 +21,7 @@ abstract class FileWriter implements Writer
 
 	protected Filter $messageFilter;
 
-	#[Pure] public function __construct(private string $path) {
+	#[Pure] public function __construct(private readonly string $path) {
 		$this->messageFilter = new NullFilter();
 	}
 

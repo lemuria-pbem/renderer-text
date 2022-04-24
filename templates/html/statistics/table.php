@@ -13,12 +13,14 @@ $party  = $this->party;
 $census = $this->census;
 $round  = Lemuria::Calendar()->Round();
 
-$units  = $this->numberStatistics(Subject::Units, $party);
-$people = $this->numberStatistics(Subject::People, $party);
-$pool   = $this->materialPoolStatistics(Subject::MaterialPool, $party);
-$h      = 0;
-$p      = 0;
-$pCount = count($pool);
+$units     = $this->numberStatistics(Subject::Units, $party);
+$people    = $this->numberStatistics(Subject::People, $party);
+$education = $this->numberStatistics(Subject::Education, $party);
+$expenses  = $this->numberStatistics(Subject::Expenses, $party);
+$pool      = $this->materialPoolStatistics(Subject::MaterialPool, $party);
+$h         = 0;
+$p         = 0;
+$pCount    = count($pool);
 
 ?>
 <div class="table-responsive d-md-none">
@@ -40,6 +42,16 @@ $pCount = count($pool);
 				<th scope="row">Anzahl Personen</th>
 				<td><?= $people->value ?></td>
 				<td class="more-is-good"><?= $people->change ?></td>
+			</tr>
+			<tr class="<?= $education->movement ?>">
+				<th scope="row">Gesamte Erfahrungspunkte</th>
+				<td><?= $education->value ?></td>
+				<td class="more-is-good"><?= $education->change ?></td>
+			</tr>
+			<tr class="<?= $expenses->movement ?>">
+				<th scope="row">Gesamte Ausgaben</th>
+				<td><?= $expenses->value ?></td>
+				<td class="less-is-good"><?= $expenses->change ?></td>
 			</tr>
 			<?php if ($pCount > 0): ?>
 				<tr>
@@ -70,13 +82,21 @@ $pCount = count($pool);
 		</tr>
 		</thead>
 		<tbody>
-		<tr class="<?= $units->movement ?>">
+		<tr>
 			<th scope="row">Anzahl Einheiten</th>
 			<td><?= $units->value ?></td>
-			<td class="more-is-good"><?= $units->change ?></td>
+			<td class="<?= $units->movement ?> more-is-good"><?= $units->change ?></td>
 			<th scope="row">Anzahl Personen</th>
 			<td><?= $people->value ?></td>
-			<td class="more-is-good"><?= $people->change ?></td>
+			<td class="<?= $people->movement ?> more-is-good"><?= $people->change ?></td>
+		</tr>
+		<tr>
+			<th scope="row">Gesamte Erfahrungspunkte</th>
+			<td><?= $education->value ?></td>
+			<td class="<?= $education->movement ?> more-is-good"><?= $education->change ?></td>
+			<th scope="row">Gesamte Ausgaben</th>
+			<td><?= $expenses->value ?></td>
+			<td class="<?= $expenses->movement ?> less-is-good"><?= $expenses->change ?></td>
 		</tr>
 		<?php if ($pCount > 0): ?>
 			<tr>
@@ -110,13 +130,21 @@ $pCount = count($pool);
 		</tr>
 		</thead>
 		<tbody>
-		<tr class="<?= $units->movement ?>">
+		<tr>
 			<th scope="row">Anzahl Einheiten</th>
 			<td><?= $units->value ?></td>
-			<td class="more-is-good"><?= $units->change ?></td>
+			<td class="<?= $units->movement ?> more-is-good"><?= $units->change ?></td>
 			<th scope="row">Anzahl Personen</th>
 			<td><?= $people->value ?></td>
-			<td class="more-is-good" colspan="4"><?= $people->change ?></td>
+			<td class="<?= $units->movement ?> more-is-good"><?= $people->change ?></td>
+			<th scope="row">Gesamte Erfahrungspunkte</th>
+			<td><?= $education->value ?></td>
+			<td class="<?= $education->movement ?> more-is-good"><?= $education->change ?></td>
+		</tr>
+		<tr>
+			<th scope="row">Gesamte Ausgaben</th>
+			<td><?= $expenses->value ?></td>
+			<td class="<?= $expenses->movement ?> less-is-good" colspan="7"><?= $expenses->change ?></td>
 		</tr>
 		<?php if ($pCount > 0): ?>
 			<tr>
@@ -153,13 +181,19 @@ $pCount = count($pool);
 		</tr>
 		</thead>
 		<tbody>
-		<tr class="<?= $units->movement ?>">
+		<tr>
 			<th scope="row">Anzahl Einheiten</th>
 			<td><?= $units->value ?></td>
-			<td class="more-is-good"><?= $units->change ?></td>
+			<td class="<?= $units->movement ?> more-is-good"><?= $units->change ?></td>
 			<th scope="row">Anzahl Personen</th>
 			<td><?= $people->value ?></td>
-			<td class="more-is-good" colspan="7"><?= $people->change ?></td>
+			<td class="<?= $units->movement ?> more-is-good"><?= $people->change ?></td>
+			<th scope="row">Gesamte Erfahrungspunkte</th>
+			<td><?= $education->value ?></td>
+			<td class="<?= $education->movement ?> more-is-good"><?= $education->change ?></td>
+			<th scope="row">Gesamte Ausgaben</th>
+			<td><?= $expenses->value ?></td>
+			<td class="<?= $expenses->movement ?> less-is-good"><?= $expenses->change ?></td>
 		</tr>
 		<?php if ($pCount > 0): ?>
 			<tr>

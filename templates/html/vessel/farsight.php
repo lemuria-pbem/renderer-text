@@ -46,11 +46,6 @@ $i           = 0;
 	<?php endif ?>
 </p>
 
-<?php if (count($this->messages($vessel))): ?>
-	<h6>Ereignisse</h6>
-	<?= $this->template('report', $vessel) ?>
-<?php endif ?>
-
 <?php if ($unitsInside->count() > 0): ?>
 	<div class="container-fluid">
 		<div class="row">

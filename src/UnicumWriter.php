@@ -17,7 +17,7 @@ class UnicumWriter
 {
 	protected final const NAMESPACE = 'Lemuria\\Renderer\\Text\\Composition\\';
 
-	public function __construct(private string $path) {
+	public function __construct(private readonly string $path) {
 	}
 
 	/**

@@ -27,7 +27,7 @@ class OrderWriter implements Writer
 
 	protected readonly Dictionary $dictionary;
 
-	public function __construct(private string $path) {
+	public function __construct(private readonly string $path) {
 		$this->dictionary = new Dictionary();
 	}
 

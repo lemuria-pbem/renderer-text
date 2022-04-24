@@ -22,6 +22,8 @@ $header    = (string)new TableRow('Deine Partei', 'Runde ' . number($round), 'Ve
 $underline = str_pad('-------------------------------', mb_strlen(trim($header)), '-') . PHP_EOL;
 $units     = $this->numberStatistics(Subject::Units, $party, 'Anzahl Einheiten');
 $people    = $this->numberStatistics(Subject::People, $party, 'Anzahl Personen');
+$education = $this->numberStatistics(Subject::Education, $party, 'Gesamte Erfahrungspunkte');
+$expenses  = $this->numberStatistics(Subject::Expenses, $party, 'Gesamte Ausgaben');
 $pool      = $this->materialPoolStatistics(Subject::MaterialPool, $party);
 
 ?>
@@ -34,7 +36,6 @@ Dein Volk: <?= $party->Name() ?> [<?= $party->Id() ?>]
 Dein Volk zählt <?= $this->number($census->count(), 'race', $party->Race()) ?> in <?= $this->number($party->People()->count()) ?> Einheiten.
 <?= wrap('Deine Einheiten sammeln ' . $this->loot() . '.') ?>
 <?= wrap('Vorgaben für neue Einheiten: ' . implode(', ', $this->presettings()) . '.') ?>
-<?php if ($this->isDevelopment()): ?>
 
 <?= hr() ?>
 
@@ -44,6 +45,8 @@ Dein Volk zählt <?= $this->number($census->count(), 'race', $party->Race()) ?> 
 <?= $underline ?>
 <?= $units ?>
 <?= $people ?>
+<?= $education ?>
+<?= $expenses ?>
 <?= $underline ?>
 <?php if (count($pool) > 0): ?>
 Materialpool
@@ -52,5 +55,4 @@ Materialpool
 <?php endforeach ?>
 <?php else: ?>
 Der Materialpool ist leer.
-<?php endif ?>
 <?php endif ?>

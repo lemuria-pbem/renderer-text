@@ -21,46 +21,46 @@ $banner    = $party->Banner() ? 'Unser Banner: ' . linkEmail($party->Banner()) :
 $continent = Continent::get(new Id(1));
 
 ?>
-<header>
-	<h1 class="text-center">Lemuria-Auswertung</h1>
+<body class="non-responsive" data-spy="scroll" data-offset="250" data-target="#navbar">
+	<header>
+		<h1 class="text-center">Lemuria-Auswertung</h1>
 
-	<p class="text-center">
-		für die <?= $calendar->Week() ?>. Woche des Monats <?= $month ?> im <?= $season ?> des Jahres <?= $calendar->Year() ?><br>
-		(Runde <?= $calendar->Round() ?>)
-	</p>
-</header>
+		<p class="text-center">
+			für die <?= $calendar->Week() ?>. Woche des Monats <?= $month ?> im <?= $season ?> des Jahres <?= $calendar->Year() ?><br>
+			(Runde <?= $calendar->Round() ?>)
+		</p>
 
-<hr>
+		<button id="toggle-responsive" class="btn btn-light" title="Taste: #">Ansicht umschalten</button>
+		<?= $this->template('navigation') ?>
+	</header>
 
-<?php if ($isPlayer): ?>
-	<?= $this->template('header/player') ?>
-<?php else: ?>
-	<?= $this->template('header/other') ?>
-<?php endif ?>
+	<hr>
 
-<h3>Ereignisse</h3>
+	<?php if ($isPlayer): ?>
+		<?= $this->template('header/player') ?>
+	<?php else: ?>
+		<?= $this->template('header/other') ?>
+	<?php endif ?>
 
-<?= $this->template('report', $party) ?>
-<?= $this->template('hostilities', $party) ?>
+	<?php if ($isPlayer): ?>
+		<h3>Bekannte Völker und Allianzen</h3>
 
-<?php if ($isPlayer): ?>
-	<h3>Alle bekannten Völker</h3>
+		<?= $this->template('acquaintances', $party) ?>
+	<?php endif ?>
 
-	<?= $this->template('acquaintances', $party) ?>
-<?php endif ?>
+	<hr>
 
-<hr>
+	<?php if ($isPlayer): ?>
+		<?= $this->template('continent/player', $continent) ?>
+	<?php else: ?>
+		<?= $this->template('continent/other', $continent) ?>
+	<?php endif ?>
 
-<?php if ($isPlayer): ?>
-	<?= $this->template('continent/player', $continent) ?>
-<?php else: ?>
-	<?= $this->template('continent/other', $continent) ?>
-<?php endif ?>
+	<?php foreach ($atlas as $region): ?>
+		<?= $this->template('region', $region) ?>
+	<?php endforeach ?>
 
-<?php foreach ($atlas as $region): ?>
-	<?= $this->template('region', $region) ?>
-<?php endforeach ?>
+	<hr>
 
-<hr>
-
-<?= $this->template('footer') ?>
+	<?= $this->template('footer') ?>
+</body>

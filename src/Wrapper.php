@@ -4,7 +4,9 @@ namespace Lemuria\Renderer\Text;
 
 interface Wrapper
 {
-	public const REPORT ='%WRAPPED_REPORT%';
+	public final const REPORT ='%WRAPPED_REPORT%';
+
+	public final const VERSION = '%VERSION%';
 
 	public function wrap(string $report): string;
 }

@@ -19,7 +19,6 @@ use Lemuria\Model\Fantasya\Commodity\Wood;
 use Lemuria\Model\Fantasya\Intelligence;
 use Lemuria\Model\Fantasya\Landscape\Ocean;
 use Lemuria\Model\Fantasya\Offer;
-use Lemuria\Model\Fantasya\Quantity;
 use Lemuria\Model\Fantasya\Region;
 use Lemuria\Model\Fantasya\Unit;
 use Lemuria\Renderer\Text\View\Text;
@@ -85,10 +84,6 @@ if ($gs > 0):
 		unset ($guardNames[$gs - 1]);
 	endif;
 endif;
-$materialPool = [];
-foreach ($intelligence->getMaterialPool($party) as $quantity /* @var Quantity $quantity */):
-	$materialPool[] = $this->number($quantity->Count(), 'resource', $quantity->Commodity());
-endforeach;
 
 $luxuries  = $region->Luxuries();
 $offer     = $luxuries?->Offer();

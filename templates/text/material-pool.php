@@ -1,8 +1,7 @@
 <?php
 declare(strict_types = 1);
 
-use Lemuria\Model\Fantasya\Intelligence;
-use Lemuria\Model\Fantasya\Quantity;
+use Lemuria\Engine\Fantasya\Statistics\Subject;
 use Lemuria\Model\Fantasya\Region;
 use Lemuria\Renderer\Text\View\Text;
 
@@ -10,12 +9,8 @@ use Lemuria\Renderer\Text\View\Text;
 
 /** @var Region $region */
 $region       = $this->variables[0];
-$party        = $this->party;
-$intelligence = new Intelligence($region);
-$materialPool = [];
-foreach ($intelligence->getMaterialPool($party) as $quantity /* @var Quantity $quantity */):
-	$materialPool[] = $this->number($quantity->Count(), 'resource', $quantity->Commodity());
-endforeach;
+$people       = $this->census->getPeople($region);
+$materialPool = $this->regionPoolStatistics(Subject::RegionPool, $people->getFirst());
 
 ?>
 <?php if (count($materialPool) > 0): ?>

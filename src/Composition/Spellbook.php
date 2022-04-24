@@ -34,9 +34,6 @@ final class Spellbook extends AbstractComposition
 		return $content;
 	}
 
-	/**
-	 * @noinspection PhpUnnecessaryLocalVariableInspection
-	 */
 	private function getSpellbook(): SpellbookModel {
 		/** @var SpellbookModel $spellbook */
 		$spellbook = $this->composition;

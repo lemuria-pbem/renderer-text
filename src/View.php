@@ -38,6 +38,7 @@ use Lemuria\Model\World\Direction;
 use Lemuria\Singleton;
 use Lemuria\Statistics;
 use Lemuria\Statistics\Data;
+use Lemuria\Statistics\Fantasya\PartyEntityRecord;
 use Lemuria\Statistics\Record;
 use Lemuria\Version;
 
@@ -70,7 +71,7 @@ abstract class View
 
 	protected array $statisticsCache = [];
 
-	public function __construct(public Party $party, private Filter $messageFilter) {
+	public function __construct(public Party $party, private readonly Filter $messageFilter) {
 		$this->census  = new Census($this->party);
 		$this->outlook = new Outlook($this->census);
 		$this->atlas   = new TravelAtlas($this->party);
@@ -131,8 +132,6 @@ abstract class View
 
 	/**
 	 * Get an Item from a set.
-	 *
-	 * @noinspection PhpPureFunctionMayProduceSideEffectsInspection
 	 */
 	#[Pure] public function item(string $class, ItemSet $set, string $keyPath = 'resource'): string {
 		$item = $set[$class];
@@ -393,7 +392,7 @@ abstract class View
 	}
 
 	public function statistics(Subject $subject, Identifiable $entity): ?Data {
-		$record = new Record($subject->name, $entity);
+		$record = $subject === Subject::Talents ? new Record($subject->name, $entity) : new PartyEntityRecord($subject->name, $entity);
 		$key    = $record->Key();
 		if (isset($this->statisticsCache[$key])) {
 			return $this->statisticsCache[$key];
@@ -402,6 +401,20 @@ abstract class View
 		$data                        = $this->statistics->request($record)->Data();
 		$this->statisticsCache[$key] = $data;
 		return $data;
+	}
+
+	/**
+	 * @return int[]
+	 */
+	public function talentStatistics(Subject $subject, Unit $unit): array {
+		$statistics = [];
+		$talents    = $this->statistics($subject, $unit);
+		if ($talents) {
+			foreach ($talents as $class => $number /* @var Number $number */) {
+				$statistics[$class] = $number->change;
+			}
+		}
+		return $statistics;
 	}
 
 	/**

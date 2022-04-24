@@ -1,8 +1,7 @@
 <?php
 declare(strict_types = 1);
 
-use Lemuria\Model\Fantasya\Intelligence;
-use Lemuria\Model\Fantasya\Quantity;
+use Lemuria\Engine\Fantasya\Statistics\Subject;
 use Lemuria\Model\Fantasya\Region;
 use Lemuria\Renderer\Text\View\Html;
 
@@ -10,18 +9,14 @@ use Lemuria\Renderer\Text\View\Html;
 
 /** @var Region $region */
 $region       = $this->variables[0];
-$party        = $this->party;
-$intelligence = new Intelligence($region);
-$materialPool = [];
-foreach ($intelligence->getMaterialPool($party) as $quantity /* @var Quantity $quantity */):
-	$materialPool[] = $this->number($quantity->Count(), 'resource', $quantity->Commodity());
-endforeach;
+$people       = $this->census->getPeople($region);
+$materialPool = $this->regionPoolStatistics(Subject::RegionPool, $people->getFirst());
 
 ?>
 <h5>Materialpool</h5>
 
 <?php if (count($materialPool) > 0): ?>
-	<p><?= implode(', ', $materialPool) ?>.</p>
+	<p><?= implode('&nbsp;· ', $materialPool) ?></p>
 <?php else: ?>
 	<p>Der Materialpool ist leer.</p>
 <?php endif ?>

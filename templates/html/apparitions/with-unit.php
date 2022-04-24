@@ -1,8 +1,10 @@
 <?php
 declare (strict_types = 1);
 
+use function Lemuria\Renderer\Text\View\p3;
 use Lemuria\Model\Fantasya\Region;
 use Lemuria\Model\Fantasya\Unit;
+use Lemuria\Model\World\SortMode;
 use Lemuria\Renderer\Text\View\Html;
 
 /** @var Html $this */
@@ -10,13 +12,20 @@ use Lemuria\Renderer\Text\View\Html;
 /** @var Region $region */
 $region         = $this->variables[0];
 $outlook        = $this->outlook;
+$apparitions    = $outlook->getApparitions($region)->sort(SortMode::BY_PARTY, $this->party);
 $unitsInRegions = 0;
 
 ?>
-<?php foreach ($outlook->getApparitions($region) as $unit /* @var Unit $unit */): ?>
+<?php foreach ($apparitions as $unit /* @var Unit $unit */): ?>
 	<?php if ($unitsInRegions++ === 0): ?>
 		<h5>Einheiten in der Region</h5>
 		<br>
+		<div class="container-fluid">
+		<div class="row">
 	<?php endif ?>
-	<?= $this->template('unit', $unit) ?>
+		<div class="col-12 col-md-6 col-xl-4 <?= p3($unitsInRegions) ?>">
+			<?= $this->template('unit', $unit) ?>
+		</div>
 <?php endforeach ?>
+</div>
+</div>

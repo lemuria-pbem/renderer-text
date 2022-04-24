@@ -1,7 +1,10 @@
 <?php
 declare (strict_types = 1);
 
+use function Lemuria\getClass;
 use Lemuria\Engine\Fantasya\Calculus;
+use Lemuria\Engine\Fantasya\Factory\Model\Comments;
+use Lemuria\Engine\Fantasya\Statistics\Subject;
 use Lemuria\Model\Fantasya\Ability;
 use Lemuria\Model\Fantasya\Quantity;
 use Lemuria\Model\Fantasya\Unicum;
@@ -21,18 +24,29 @@ $hitpoints = $calculus->hitpoints();
 $health    = (int)floor($unit->Health() * $hitpoints);
 $mark      = $this->healthMark($unit);
 $payload   = 0;
+$comments  = new Comments($unit);
 
-$talents = [];
+$talents    = [];
+$statistics = $this->talentStatistics(Subject::Talents, $unit);
 foreach ($unit->Knowledge() as $ability /* @var Ability $ability */):
 	$experience = $ability->Experience();
-	$ability    = $calculus->knowledge($ability->Talent());
-	$talents[]  = $this->get('talent', $ability->Talent()) . ' ' . $ability->Level() . ' (' . $this->number($experience) . ')';
+	$talent     = $ability->Talent();
+	$ability    = $calculus->knowledge($talent);
+	$knowledge  = '<span>' . $this->get('talent', $talent) . '&nbsp;' . $ability->Level() . '</span>';
+	$change     = $statistics[getClass($talent)] ?? 0;
+	if ($change > 0) {
+		$knowledge .= '<span class="badge badge-inverse badge-success">+' . $change . '</span>';
+	} elseif ($change < 0) {
+		$knowledge .= '<span class="badge badge-inverse badge-danger">' . $change . '</span>';
+	}
+	$knowledge .= '&nbsp;<span>(' . $this->number($experience) . ')</span>';
+	$talents[]  = $knowledge;
 endforeach;
 
 $inventory = [];
 foreach ($unit->Inventory() as $quantity /* @var Quantity $quantity */):
 	$inventory[] = $this->number($quantity->Count(), 'resource', $quantity->Commodity());
-	$payload     += $quantity->Weight();
+	$payload    += $quantity->Weight();
 endforeach;
 $n = count($inventory);
 if ($n > 1):
@@ -86,6 +100,16 @@ endif;
 		Eingesetzte Kampfzauber: <?= implode(', ', $spells) ?>.
 	<?php endif ?>
 </p>
+<?php if ($comments->count()): ?>
+	<p class="h7">Notizen:</p>
+	<blockquote class="blockquote">
+		<ol>
+			<?php foreach ($comments->comments as $line): ?>
+				<li>„<?= $line ?>“</li>
+			<?php endforeach ?>
+		</ol>
+	</blockquote>
+<?php endif ?>
 <?php if (count($this->messages($unit))): ?>
 	<?= $this->template('report', $unit) ?>
 <?php endif ?>
