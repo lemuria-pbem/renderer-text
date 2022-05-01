@@ -14,6 +14,7 @@ use Lemuria\Model\Fantasya\Resources;
 use Lemuria\Model\Fantasya\Unit;
 use Lemuria\Renderer\Text\Statistics\Data\TextMaterial;
 use Lemuria\Renderer\Text\Statistics\Data\TextNumber;
+use Lemuria\Renderer\Text\Statistics\Data\TextTalent;
 use Lemuria\Renderer\Text\View;
 use Lemuria\Statistics\Data\Number;
 use Lemuria\Version;
@@ -173,6 +174,22 @@ class Text extends View
 			}
 		}
 		return array_values($statistics);
+	}
+
+	/**
+	 * @return array(string=>TextNumber)
+	 */
+	public function expertsStatistics(Subject $subject, Party $party): array {
+		$statistics = [];
+		$experts    = $this->statistics($subject, $party);
+		if ($experts) {
+			foreach ($experts as $class => $number) {
+				$name              = $this->get('talent.' . $class);
+				$statistics[$name] = new TextNumber($number, $name);
+			}
+		}
+		ksort($statistics);
+		return $statistics;
 	}
 
 	/**
