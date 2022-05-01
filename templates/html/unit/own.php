@@ -3,7 +3,7 @@ declare (strict_types = 1);
 
 use function Lemuria\getClass;
 use Lemuria\Engine\Fantasya\Calculus;
-use Lemuria\Engine\Fantasya\Factory\Model\Comments;
+use Lemuria\Engine\Fantasya\Factory\Model\Orders;
 use Lemuria\Engine\Fantasya\Statistics\Subject;
 use Lemuria\Model\Fantasya\Ability;
 use Lemuria\Model\Fantasya\Quantity;
@@ -24,7 +24,8 @@ $hitpoints = $calculus->hitpoints();
 $health    = (int)floor($unit->Health() * $hitpoints);
 $mark      = $this->healthMark($unit);
 $payload   = 0;
-$comments  = new Comments($unit);
+$orders    = new Orders($unit);
+
 
 $talents    = [];
 $statistics = $this->talentStatistics(Subject::Talents, $unit);
@@ -100,15 +101,25 @@ endif;
 		Eingesetzte Kampfzauber: <?= implode(', ', $spells) ?>.
 	<?php endif ?>
 </p>
-<?php if ($comments->count()): ?>
+<?php if (!empty($orders->comments)): ?>
 	<p class="h7">Notizen:</p>
 	<blockquote class="blockquote">
 		<ol>
-			<?php foreach ($comments->comments as $line): ?>
+			<?php foreach ($orders->comments as $line): ?>
 				<li>„<?= $line ?>“</li>
 			<?php endforeach ?>
 		</ol>
 	</blockquote>
+<?php endif ?>
+<?php if (!empty($orders->orders)): ?>
+	<p class="h8">
+		<a data-toggle="collapse" href="#orders-<?= $unit->Id()->Id() ?>" role="button" aria-expanded="false" aria-controls="orders-<?= $unit->Id()->Id() ?>">Befehle</a>
+	</p>
+	<ol id="orders-<?= $unit->Id()->Id() ?>" class="small collapse">
+		<?php foreach ($orders->orders as $order): ?>
+			<li><?= $order ?></li>
+		<?php endforeach ?>
+	</ol>
 <?php endif ?>
 <?php if (count($this->messages($unit))): ?>
 	<?= $this->template('report', $unit) ?>
