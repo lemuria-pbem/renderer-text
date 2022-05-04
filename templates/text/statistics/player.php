@@ -24,6 +24,7 @@ $units     = $this->numberStatistics(Subject::Units, $party, 'Anzahl Einheiten')
 $people    = $this->numberStatistics(Subject::People, $party, 'Anzahl Personen');
 $education = $this->numberStatistics(Subject::Education, $party, 'Gesamte Erfahrungspunkte');
 $expenses  = $this->numberStatistics(Subject::Expenses, $party, 'Gesamte Ausgaben');
+$experts   = $this->expertsStatistics(Subject::Experts, $party);
 $pool      = $this->materialPoolStatistics(Subject::MaterialPool, $party);
 
 ?>
@@ -48,9 +49,14 @@ Dein Volk zählt <?= $this->number($census->count(), 'race', $party->Race()) ?> 
 <?= $education ?>
 <?= $expenses ?>
 <?= $underline ?>
+Talent-Experten
+<?php foreach ($experts as $number): ?>
+<?= $number ?>
+<?php endforeach ?>
+<?= $underline ?>
 <?php if (count($pool) > 0): ?>
 Materialpool
-<?php foreach ($pool as $resource => $number): ?>
+<?php foreach ($pool as $number): ?>
 <?= $number ?>
 <?php endforeach ?>
 <?php else: ?>

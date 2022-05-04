@@ -204,6 +204,22 @@ class Html extends View
 	}
 
 	/**
+	 * @return HtmlCommodity[]
+	 */
+	public function expertsStatistics(Subject $subject, Party $party): array {
+		$statistics  = [];
+		$experts = $this->statistics($subject, $party);
+		if ($experts) {
+			foreach ($experts as $class => $number) {
+				$translation              = $this->get('talent.' . $class);
+				$statistics[$translation] = new HtmlClassNumber($number, $class);
+			}
+		}
+		ksort($statistics);
+		return array_values($statistics);
+	}
+
+	/**
 	 * Generate HTML output.
 	 */
 	protected function generateContent(string $template): string {

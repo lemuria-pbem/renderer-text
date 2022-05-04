@@ -18,9 +18,8 @@ $people    = $this->numberStatistics(Subject::People, $party);
 $education = $this->numberStatistics(Subject::Education, $party);
 $expenses  = $this->numberStatistics(Subject::Expenses, $party);
 $pool      = $this->materialPoolStatistics(Subject::MaterialPool, $party);
-$h         = 0;
-$p         = 0;
 $pCount    = count($pool);
+$experts   = $this->expertsStatistics(Subject::Experts, $party);
 
 ?>
 <div class="table-responsive d-md-none">
@@ -52,6 +51,11 @@ $pCount    = count($pool);
 				<th scope="row">Gesamte Ausgaben</th>
 				<td><?= $expenses->value ?></td>
 				<td class="less-is-good"><?= $expenses->change ?></td>
+			</tr>
+			<tr>
+				<td colspan="3">
+					<?= $this->template('statistics/experts', $experts, 4) ?>
+				</td>
 			</tr>
 			<?php if ($pCount > 0): ?>
 				<tr>
@@ -97,6 +101,11 @@ $pCount    = count($pool);
 			<th scope="row">Gesamte Ausgaben</th>
 			<td><?= $expenses->value ?></td>
 			<td class="<?= $expenses->movement ?> less-is-good"><?= $expenses->change ?></td>
+		</tr>
+		<tr>
+			<td colspan="6">
+				<?= $this->template('statistics/experts', $experts, 6) ?>
+			</td>
 		</tr>
 		<?php if ($pCount > 0): ?>
 			<tr>
@@ -146,6 +155,11 @@ $pCount    = count($pool);
 			<td><?= $expenses->value ?></td>
 			<td class="<?= $expenses->movement ?> less-is-good" colspan="7"><?= $expenses->change ?></td>
 		</tr>
+		<tr>
+			<td colspan="9">
+				<?= $this->template('statistics/experts', $experts, 8) ?>
+			</td>
+		</tr>
 		<?php if ($pCount > 0): ?>
 			<tr>
 				<td colspan="9">
@@ -194,6 +208,11 @@ $pCount    = count($pool);
 			<th scope="row">Gesamte Ausgaben</th>
 			<td><?= $expenses->value ?></td>
 			<td class="<?= $expenses->movement ?> less-is-good"><?= $expenses->change ?></td>
+		</tr>
+		<tr>
+			<td colspan="12">
+				<?= $this->template('statistics/experts', $experts, 10) ?>
+			</td>
 		</tr>
 		<?php if ($pCount > 0): ?>
 			<tr>
