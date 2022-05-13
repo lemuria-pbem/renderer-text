@@ -23,6 +23,8 @@ class BattleLogWriter implements Writer
 
 	public final const LOCATION_PLACEHOLDER = '%LOC%';
 
+	public final const COUNTER_PLACEHOLDER = '%N%';
+
 	protected final const START_SECTION = [
 		'BattleBeginsMessage'         => true, 'BattleEndsMessage'           => true,
 		'AttackerTacticsRoundMessage' => true, 'DefenderTacticsRoundMessage' => true, 'NoTacticsRoundMessage' => true,
@@ -42,11 +44,18 @@ class BattleLogWriter implements Writer
 	}
 
 	public function render(Id $party): Writer {
+		$counter = [];
 		foreach (Lemuria::Hostilities()->findFor(Party::get($party)) as $battleLog) {
 			if ($battleLog->count()) {
 				/** @var Region $region */
 				$region = $battleLog->Location();
-				$path   = str_replace(self::LOCATION_PLACEHOLDER, (string)$region->Id(), $this->pathPattern);
+				$id     = (string)$region->Id();
+				if (!isset($counter[$id])) {
+					$counter[$id] = 0;
+				}
+				$counter[$id]++;
+				$path = str_replace(self::LOCATION_PLACEHOLDER, $id, $this->pathPattern);
+				$path = str_replace(self::COUNTER_PLACEHOLDER, (string)$counter[$id], $path);
 				if (!file_put_contents($path, $this->generate($battleLog, $region))) {
 					throw new \RuntimeException('Could not create battle log.');
 				}
