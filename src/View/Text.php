@@ -14,7 +14,6 @@ use Lemuria\Model\Fantasya\Resources;
 use Lemuria\Model\Fantasya\Unit;
 use Lemuria\Renderer\Text\Statistics\Data\TextMaterial;
 use Lemuria\Renderer\Text\Statistics\Data\TextNumber;
-use Lemuria\Renderer\Text\Statistics\Data\TextTalent;
 use Lemuria\Renderer\Text\View;
 use Lemuria\Statistics\Data\Number;
 use Lemuria\Version;
