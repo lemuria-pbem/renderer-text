@@ -27,6 +27,14 @@ abstract class FileWriter extends AbstractWriter
 		$this->messageFilter = new NullFilter();
 	}
 
+	public function getPathFactory(): PathFactory {
+		return $this->pathFactory;
+	}
+
+	public function getFilter(): Filter {
+		return $this->messageFilter;
+	}
+
 	public function setFilter(Filter $filter): Writer {
 		$this->messageFilter = $filter;
 		return $this;

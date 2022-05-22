@@ -8,6 +8,6 @@ use Lemuria\Renderer\Text\View\Text;
 final class TextWriter extends FileWriter
 {
 	protected function getView(Party $party): View {
-		return new Text($party, $this->messageFilter);
+		return new Text($party, $this);
 	}
 }

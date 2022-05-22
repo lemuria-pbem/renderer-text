@@ -71,10 +71,13 @@ abstract class View
 
 	protected array $statisticsCache = [];
 
-	public function __construct(public Party $party, private readonly Filter $messageFilter) {
-		$this->census  = new Census($this->party);
-		$this->outlook = new Outlook($this->census);
-		$this->atlas   = new TravelAtlas($this->party);
+	private readonly Filter $messageFilter;
+
+	public function __construct(public Party $party, FileWriter $writer) {
+		$this->messageFilter = $writer->getFilter();
+		$this->census        = new Census($this->party);
+		$this->outlook       = new Outlook($this->census);
+		$this->atlas         = new TravelAtlas($this->party);
 		$this->atlas->forRound(Lemuria::Calendar()->Round() - 1);
 		$this->map        = new PartyMap(Lemuria::World(), $this->party);
 		$this->dictionary = new Dictionary();
