@@ -7,23 +7,19 @@ use function Lemuria\Renderer\Text\View\center;
 use function Lemuria\Renderer\Text\View\wrap;
 use Lemuria\Engine\Combat\Battle;
 use Lemuria\Engine\Fantasya\Combat\Log\Message;
-use Lemuria\Engine\Message\Filter;
 use Lemuria\Id;
 use Lemuria\Lemuria;
 use Lemuria\Model\Dictionary;
 use Lemuria\Model\Fantasya\Party;
 use Lemuria\Model\Fantasya\Region;
+use Lemuria\Renderer\PathFactory;
 use Lemuria\Renderer\Writer;
 
-class BattleLogWriter implements Writer
+class BattleLogWriter extends AbstractWriter
 {
 	use VersionTrait;
 
 	protected readonly Dictionary $dictionary;
-
-	public final const LOCATION_PLACEHOLDER = '%LOC%';
-
-	public final const COUNTER_PLACEHOLDER = '%N%';
 
 	protected final const START_SECTION = [
 		'BattleBeginsMessage'         => true, 'BattleEndsMessage'           => true,
@@ -35,28 +31,16 @@ class BattleLogWriter implements Writer
 
 	protected final const CENTER_MESSAGE = ['BattleEndsMessage' => true, 'CombatRoundMessage' => true];
 
-	public function __construct(private readonly string $pathPattern) {
+	public function __construct(PathFactory $pathFactory) {
+		parent::__construct($pathFactory);
 		$this->dictionary = new Dictionary();
 	}
 
-	public function setFilter(Filter $filter): Writer {
-		return $this;
-	}
-
-	public function render(Id $party): Writer {
-		$counter = [];
-		foreach (Lemuria::Hostilities()->findFor(Party::get($party)) as $battleLog) {
+	public function render(Id $entity): Writer {
+		foreach (Lemuria::Hostilities()->findFor(Party::get($entity)) as $battleLog /* @var Battle $battleLog */) {
 			if ($battleLog->count()) {
-				/** @var Region $region */
-				$region = $battleLog->Location();
-				$id     = (string)$region->Id();
-				if (!isset($counter[$id])) {
-					$counter[$id] = 0;
-				}
-				$counter[$id]++;
-				$path = str_replace(self::LOCATION_PLACEHOLDER, $id, $this->pathPattern);
-				$path = str_replace(self::COUNTER_PLACEHOLDER, (string)$counter[$id], $path);
-				if (!file_put_contents($path, $this->generate($battleLog, $region))) {
+				$path = $this->pathFactory->getPath($this, $battleLog);
+				if (!file_put_contents($path, $this->generate($battleLog, $battleLog->Location()))) {
 					throw new \RuntimeException('Could not create battle log.');
 				}
 			}

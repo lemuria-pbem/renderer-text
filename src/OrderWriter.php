@@ -7,7 +7,6 @@ use JetBrains\PhpStorm\Pure;
 use function Lemuria\getClass;
 use function Lemuria\mbStrPad;
 use Lemuria\Engine\Fantasya\Census;
-use Lemuria\Engine\Message\Filter;
 use Lemuria\Id;
 use Lemuria\Lemuria;
 use Lemuria\Model\Dictionary;
@@ -17,9 +16,10 @@ use Lemuria\Model\Fantasya\People;
 use Lemuria\Model\Fantasya\Region;
 use Lemuria\Model\Fantasya\Unit;
 use Lemuria\Model\Fantasya\Vessel;
+use Lemuria\Renderer\PathFactory;
 use Lemuria\Renderer\Writer;
 
-class OrderWriter implements Writer
+class OrderWriter extends AbstractWriter
 {
 	use VersionTrait;
 
@@ -27,23 +27,21 @@ class OrderWriter implements Writer
 
 	protected readonly Dictionary $dictionary;
 
-	public function __construct(private readonly string $path) {
+	public function __construct(PathFactory $pathFactory) {
+		parent::__construct($pathFactory);
 		$this->dictionary = new Dictionary();
 	}
 
-	public function setFilter(Filter $filter): Writer {
-		return $this;
-	}
-
-	public function render(Id $party): Writer {
-		if (!file_put_contents($this->path, $this->generate($party))) {
+	public function render(Id $entity): Writer {
+		$party = Party::get($entity);
+		$path  = $this->pathFactory->getPath($this, $party);
+		if (!file_put_contents($path, $this->generate($party))) {
 			throw new \RuntimeException('Could not create template.');
 		}
 		return $this;
 	}
 
-	protected function generate(Id $id): string {
-		$party     = Party::get($id);
+	protected function generate(Party $party): string {
 		$census    = new Census($party);
 		$template  = $this->createHeader($party);
 		$template .= $this->createRegionDivider();

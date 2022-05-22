@@ -8,9 +8,10 @@ use Lemuria\Engine\Message\Filter;
 use Lemuria\Engine\Message\Filter\NullFilter;
 use Lemuria\Id;
 use Lemuria\Model\Fantasya\Party;
+use Lemuria\Renderer\PathFactory;
 use Lemuria\Renderer\Writer;
 
-abstract class FileWriter implements Writer
+abstract class FileWriter extends AbstractWriter
 {
 	use VersionTrait;
 
@@ -21,7 +22,8 @@ abstract class FileWriter implements Writer
 
 	protected Filter $messageFilter;
 
-	#[Pure] public function __construct(private readonly string $path) {
+	#[Pure] public function __construct(PathFactory $pathFactory) {
+		parent::__construct($pathFactory);
 		$this->messageFilter = new NullFilter();
 	}
 
@@ -30,15 +32,17 @@ abstract class FileWriter implements Writer
 		return $this;
 	}
 
-	public function render(Id $party): Writer {
-		$view   = $this->getView(Party::get($party));
+	public function render(Id $entity): Writer {
+		$party  = Party::get($entity);
+		$view   = $this->getView($party);
 		$report = $view->generate();
 
 		foreach ($this->wrapper as $wrapper) {
 			$report = $wrapper->wrap($report);
 		}
 
-		if (!file_put_contents($this->path, $report)) {
+		$path = $this->pathFactory->getPath($this, $party);
+		if (!file_put_contents($path, $report)) {
 			throw new \RuntimeException('Could not create report.');
 		}
 
