@@ -9,6 +9,7 @@ use Lemuria\Renderer\Text\View\Html;
 
 $hostilities = [];
 $links       = [];
+$i           = 0;
 foreach ($this->hostilities() as $battle /* @var BattleLog $battle */):
 	$participants = [];
 	foreach ($battle->Participants() as $party):
@@ -21,7 +22,6 @@ foreach ($this->hostilities() as $battle /* @var BattleLog $battle */):
 
 	$hostilities[$name] = $this->toAndString($participants);
 	$links[]            = $this->battleLogPath($battle);
-	$i                  = 0;
 endforeach;
 
 ?>

@@ -2,8 +2,6 @@
 declare(strict_types = 1);
 namespace Lemuria\Renderer\Text\Composition;
 
-use JetBrains\PhpStorm\Pure;
-
 use function Lemuria\Renderer\Text\View\center;
 use function Lemuria\Renderer\Text\View\hr;
 use function Lemuria\Renderer\Text\View\wrap;
@@ -19,12 +17,12 @@ abstract class AbstractComposition implements Composition
 		$this->dictionary = new Dictionary();
 	}
 
-	#[Pure] protected function createContentHeader(string $content = null): string {
+	protected function createContentHeader(string $content = null): string {
 		$header = PHP_EOL . hr() . PHP_EOL . center('Inhalt') . PHP_EOL;
 		return $content ? $header . wrap($content) : $header;
 	}
 
-	#[Pure] protected function noContent(string $text): string {
+	protected function noContent(string $text): string {
 		return PHP_EOL . wrap($text);
 	}
 }

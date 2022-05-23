@@ -10,7 +10,7 @@ use Lemuria\Model\Fantasya\Continent;
 use Lemuria\Model\Fantasya\Party\Type;
 use Lemuria\Renderer\Text\View\Text;
 
-/* @var Text $this */
+/** @var Text $this */
 
 $party     = $this->party;
 $isPlayer  = $party->Type() === Type::PLAYER;

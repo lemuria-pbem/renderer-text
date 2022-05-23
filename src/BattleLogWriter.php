@@ -37,7 +37,7 @@ class BattleLogWriter extends AbstractWriter
 	}
 
 	public function render(Id $entity): Writer {
-		foreach (Lemuria::Hostilities()->findFor(Party::get($entity)) as $battleLog /* @var Battle $battleLog */) {
+		foreach (Lemuria::Hostilities()->findFor(Party::get($entity)) as $battleLog) {
 			if ($battleLog->count()) {
 				$path = $this->pathFactory->getPath($this, $battleLog);
 				if (!file_put_contents($path, $this->generate($battleLog, $battleLog->Location()))) {

@@ -2,8 +2,6 @@
 declare(strict_types = 1);
 namespace Lemuria\Renderer\Text;
 
-use JetBrains\PhpStorm\Pure;
-
 use Lemuria\Engine\Message\Filter;
 use Lemuria\Engine\Message\Filter\NullFilter;
 use Lemuria\Id;
@@ -22,7 +20,7 @@ abstract class FileWriter extends AbstractWriter
 
 	protected Filter $messageFilter;
 
-	#[Pure] public function __construct(PathFactory $pathFactory) {
+	public function __construct(PathFactory $pathFactory) {
 		parent::__construct($pathFactory);
 		$this->messageFilter = new NullFilter();
 	}

@@ -4,7 +4,7 @@ declare (strict_types = 1);
 use function Lemuria\Renderer\Text\View\line;
 use Lemuria\Renderer\Text\View\Text;
 
-/* @var Text $this */
+/** @var Text $this */
 
 $party  = $this->party;
 $banner = $this->party->Banner() ? 'Parteibanner: ' . $this->party->Banner() : '(kein Banner gesetzt)';

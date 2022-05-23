@@ -5,7 +5,7 @@ use Lemuria\Model\Fantasya\Party\Type;
 use Lemuria\Model\Fantasya\Unit;
 use Lemuria\Renderer\Text\View\Text;
 
-/* @var Text $this */
+/** @var Text $this */
 
 /** @var Unit $unit */
 $unit  = $this->variables[0];
