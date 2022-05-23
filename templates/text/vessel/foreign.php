@@ -8,7 +8,7 @@ use Lemuria\Model\Fantasya\Vessel;
 use Lemuria\Model\World\Direction;
 use Lemuria\Renderer\Text\View\Text;
 
-/* @var Text $this */
+/** @var Text $this */
 
 /** @var Vessel $vessel */
 $vessel     = $this->variables[0];

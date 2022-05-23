@@ -2,8 +2,6 @@
 declare(strict_types = 1);
 namespace Lemuria\Renderer\Text\Statistics\Data;
 
-use JetBrains\PhpStorm\Pure;
-
 use function Lemuria\direction;
 use Lemuria\Renderer\Text\View\Html;
 use Lemuria\Statistics\Data\Number;
@@ -14,7 +12,7 @@ class HtmlMaterial extends HtmlCommodity implements \Stringable
 
 	private int $direction;
 
-	#[Pure] public function __construct(Number $number, string $class, Html $view) {
+	public function __construct(Number $number, string $class, Html $view) {
 		parent::__construct($number, $class);
 		$this->translation = $view->get('resource.' . $class, $number->value === 1 ? 0 : 1);
 		$this->direction   = direction($number->change);

@@ -2,8 +2,6 @@
 declare (strict_types = 1);
 namespace Lemuria\Renderer\Text;
 
-use JetBrains\PhpStorm\Pure;
-
 use function Lemuria\getClass;
 use function Lemuria\number as formatNumber;
 use Lemuria\Engine\Fantasya\Census;
@@ -92,7 +90,7 @@ abstract class View
 	/**
 	 * Get a string.
 	 */
-	#[Pure] public function get(string $keyPath, $index = null): string {
+	public function get(string $keyPath, $index = null): string {
 		return $this->dictionary->get($keyPath, $index);
 	}
 
@@ -110,7 +108,7 @@ abstract class View
 	/**
 	 * Format a number with optional string.
 	 */
-	#[Pure] public function number(int|float $number, ?string $keyPath = null, ?Singleton $singleton = null, string $delimiter = ' '): string {
+	public function number(int|float $number, ?string $keyPath = null, ?Singleton $singleton = null, string $delimiter = ' '): string {
 		if ($keyPath) {
 			if ($singleton) {
 				$keyPath .= '.' . getClass($singleton);
@@ -121,7 +119,7 @@ abstract class View
 		return formatNumber($number);
 	}
 
-	#[Pure] public function things(Commodity $commodity): string {
+	public function things(Commodity $commodity): string {
 		$keyPath = 'resource.' . getClass($commodity);
 		return $this->get($keyPath, 1);
 	}
@@ -129,14 +127,14 @@ abstract class View
 	/**
 	 * Format a Quantity.
 	 */
-	#[Pure] public function resource(Quantity $item, string $keyPath = 'resource'): string {
+	public function resource(Quantity $item, string $keyPath = 'resource'): string {
 		return $this->number($item->Count(), $keyPath, $item->getObject());
 	}
 
 	/**
 	 * Get an Item from a set.
 	 */
-	#[Pure] public function item(string $class, ItemSet $set, string $keyPath = 'resource'): string {
+	public function item(string $class, ItemSet $set, string $keyPath = 'resource'): string {
 		$item = $set[$class];
 		return $this->number($item->Count(), $keyPath, $item->getObject());
 	}
@@ -190,7 +188,7 @@ abstract class View
 	/**
 	 * Get a neighbour description.
 	 */
-	#[Pure] public function neighbour(Region $region = null, bool $hasRoad = false): string {
+	public function neighbour(Region $region = null, bool $hasRoad = false): string {
 		$landscape = $region->Landscape();
 		$article   = $this->get('article', $landscape);
 		if ($hasRoad) {
@@ -205,7 +203,7 @@ abstract class View
 		return $text;
 	}
 
-	#[Pure] public function people(Construction|Vessel $entity): int {
+	public function people(Construction|Vessel $entity): int {
 		$count  = 0;
 		$people = $entity instanceof Construction ? $entity->Inhabitants() : $entity->Passengers();
 		foreach ($people as $unit /* @var Unit $unit */) {
@@ -246,7 +244,7 @@ abstract class View
 		return Lemuria::Hostilities()->findFor($this->party);
 	}
 
-	#[Pure] public function relation(Relation $relation): string {
+	public function relation(Relation $relation): string {
 		$agreement = $relation->Agreement();
 		if ($agreement === Relation::NONE || $agreement === Relation::ALL) {
 			$agreement = 'agreement_' . $agreement;
@@ -265,11 +263,11 @@ abstract class View
 		return implode(', ', $agreements);
 	}
 
-	#[Pure] public function spyLevel(Unit $unit): int {
+	public function spyLevel(Unit $unit): int {
 		return $this->spyEffect[$unit->Id()->Id()] ?? 0;
 	}
 
-	#[Pure] public function battleRow(Unit $unit): string {
+	public function battleRow(Unit $unit): string {
 		return $this->dictionary->get('battleRow.' . $unit->BattleRow()->value, $unit->Size() > 1 ? 1 : 0);
 	}
 
@@ -283,7 +281,7 @@ abstract class View
 		return $this->dictionary->get('health.' . $key, $this->healthStage($unit));
 	}
 
-	#[Pure] public function healthMark(Unit $unit): string {
+	public function healthMark(Unit $unit): string {
 		return match ($this->healthStage($unit)) {
 			1       => '⚔',
 			2       => '✝',
@@ -293,7 +291,7 @@ abstract class View
 		};
 	}
 
-	#[Pure] public function healthStage(Unit $unit): int {
+	public function healthStage(Unit $unit): int {
 		$health = $unit->Health();
 		return match (true) {
 			$health < 0.25 => 4,
@@ -334,11 +332,11 @@ abstract class View
 		return $line;
 	}
 
-	#[Pure] public function composition(Composition $composition): string {
+	public function composition(Composition $composition): string {
 		return $this->dictionary->get('composition.' . $composition);
 	}
 
-	#[Pure] public function quantity(Quantity $quantity, Unit $unit): string {
+	public function quantity(Quantity $quantity, Unit $unit): string {
 		$commodity = $quantity->Commodity();
 		$class     = match (true) {
 			$commodity instanceof Herb   => 'herb',

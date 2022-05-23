@@ -6,7 +6,7 @@ use function Lemuria\Renderer\Text\View\line;
 use Lemuria\Model\Fantasya\Construction;
 use Lemuria\Renderer\Text\View\Text;
 
-/* @var Text $this */
+/** @var Text $this */
 
 /** @var Construction $construction */
 $construction = $this->variables[0];
