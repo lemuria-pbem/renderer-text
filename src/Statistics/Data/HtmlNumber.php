@@ -21,10 +21,10 @@ class HtmlNumber
 
 	private function getChange(Number $number): string {
 		return match (true) {
-			$number->change === null => '±' . number(is_float($number->value) ? 0.0 : 0),
+			$number->change === null => '± ' . number(is_float($number->value) ? 0.0 : 0),
 			$number->change < 0      => number($number->change),
-			$number->change > 0      => '+' . number($number->change),
-			default                  => '±' . number($number->change)
+			$number->change > 0      => '+ ' . number($number->change),
+			default                  => '± ' . number($number->change)
 		};
 	}
 
