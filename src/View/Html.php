@@ -22,6 +22,7 @@ use Lemuria\Renderer\Text\Statistics\Data\HtmlMarket;
 use Lemuria\Renderer\Text\Statistics\Data\HtmlMaterial;
 use Lemuria\Renderer\Text\Statistics\Data\HtmlNumber;
 use Lemuria\Renderer\Text\Statistics\Data\HtmlPrognosis;
+use Lemuria\Renderer\Text\Statistics\Data\HtmlQualification;
 use Lemuria\Renderer\Text\View;
 use Lemuria\Statistics\Data\Number;
 
@@ -219,12 +220,28 @@ class Html extends View
 	 * @return HtmlCommodity[]
 	 */
 	public function expertsStatistics(Subject $subject, Party $party): array {
-		$statistics  = [];
-		$experts = $this->statistics($subject, $party);
+		$statistics = [];
+		$experts    = $this->statistics($subject, $party);
 		if ($experts) {
 			foreach ($experts as $class => $prognosis) {
 				$translation              = $this->get('talent.' . $class);
 				$statistics[$translation] = new HtmlPrognosis($prognosis, $class);
+			}
+		}
+		ksort($statistics);
+		return array_values($statistics);
+	}
+
+	/**
+	 * @return HtmlQualification[]
+	 */
+	public function qualificationStatistics(Subject $subject, Unit $unit): array {
+		$statistics    = [];
+		$qualification = $this->statistics($subject, $unit);
+		if ($qualification) {
+			foreach ($qualification as $class => $values) {
+				$translation              = $this->get('talent.' . $class);
+				$statistics[$translation] = new HtmlQualification($values, $class);
 			}
 		}
 		ksort($statistics);

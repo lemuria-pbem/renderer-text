@@ -2,6 +2,7 @@
 declare (strict_types = 1);
 
 use Lemuria\Engine\Fantasya\Factory\Model\Visibility;
+use Lemuria\Engine\Fantasya\Statistics\Subject;
 use Lemuria\Model\Fantasya\Region;
 use Lemuria\Renderer\Text\View\Html;
 
@@ -12,6 +13,10 @@ $region     = $this->variables[0];
 $atlas      = $this->atlas;
 $map        = $this->map;
 $visibility = $atlas->getVisibility($region);
+if ($visibility === Visibility::WITH_UNIT) {
+	$people        = $this->census->getPeople($region);
+	$qualification = $this->qualificationStatistics(Subject::Qualification, $people->getFirst());
+}
 
 ?>
 <?php if ($visibility === Visibility::WITH_UNIT): ?>
@@ -36,6 +41,20 @@ $visibility = $atlas->getVisibility($region);
 			</div>
 		</div>
 	</div>
+	<?php if ($this->isDevelopment()): ?>
+		<div class="table-responsive d-md-none">
+			<?= $this->template('statistics/qualification', $qualification, 1) ?>
+		</div>
+		<div class="table-responsive d-none d-md-block d-lg-none">
+			<?= $this->template('statistics/qualification', $qualification, 2) ?>
+		</div>
+		<div class="table-responsive d-none d-lg-block d-xl-none">
+			<?= $this->template('statistics/qualification', $qualification, 2) ?>
+		</div>
+		<div class="table-responsive d-none d-xl-block">
+			<?= $this->template('statistics/qualification', $qualification, 3) ?>
+		</div>
+	<?php endif ?>
 	<?php foreach ($region->Estate() as $construction): ?>
 		<?= $this->template('construction/with-unit', $construction) ?>
 	<?php endforeach ?>
