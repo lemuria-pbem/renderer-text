@@ -5,29 +5,23 @@ namespace Lemuria\Renderer\Text;
 use function Lemuria\Renderer\Text\View\wrap;
 use Lemuria\Engine\Fantasya\Factory\Model\SpellDetails;
 use Lemuria\Engine\Fantasya\Factory\SpellParser;
-use Lemuria\Engine\Message\Filter;
 use Lemuria\Id;
 use Lemuria\Model\Fantasya\Exception\JsonException;
 use Lemuria\Model\Fantasya\Party;
 use Lemuria\Model\Fantasya\Spell;
 use Lemuria\Renderer\Writer;
 
-class SpellBookWriter implements Writer
+class SpellBookWriter extends AbstractWriter
 {
 	use VersionTrait;
-
-	public function __construct(private readonly string $path) {
-	}
-
-	public function setFilter(Filter $filter): Writer {
-		return $this;
-	}
 
 	/**
 	 * @throws JsonException
 	 */
-	public function render(Id $party): Writer {
-		if (!file_put_contents($this->path, $this->generate($party))) {
+	public function render(Id $entity): Writer {
+		$party = Party::get($entity);
+		$path  = $this->pathFactory->getPath($this, $party);
+		if (!file_put_contents($path, $this->generate($party))) {
 			throw new \RuntimeException('Could not create spell book.');
 		}
 		return $this;
@@ -36,8 +30,7 @@ class SpellBookWriter implements Writer
 	/**
 	 * @throws JsonException
 	 */
-	protected function generate(Id $id): string {
-		$party  = Party::get($id);
+	protected function generate(Party $party): string {
 		$output = '';
 		$n      = 0;
 		foreach ($party->SpellBook() as $spell /* @var Spell $spell */) {

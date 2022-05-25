@@ -17,7 +17,7 @@ $e        = 0;
 
 ?>
 <table class="table">
-	<caption>Talent-Experten</caption>
+	<caption>Talent-Experten (Prognose)</caption>
 	<?php for ($r = 0; $r < $rCount; $r++): ?>
 		<?php $n = min(($r + 1) * $items, $eCount) ?>
 		<tr>
@@ -30,9 +30,9 @@ $e        = 0;
 			<?php for (; $e < $n; $e++): ?>
 				<td><?= $experts[$e]->value ?></td>
 				<?php if ($e === $last && ($c = ($items - $e % $items) * 2 - 1) > 1): ?>
-					<td class="more-is-good <?= $experts[$e]->movement ?>" colspan="<?= $c ?>"><?= $experts[$e]->change ?></td>
+					<td class="more-is-good <?= $experts[$e]->movement ?>" colspan="<?= $c ?>"><?= $experts[$e]->change ?> (<?= $experts[$e]->prognosis ?>)</td>
 				<?php else: ?>
-					<td class="more-is-good <?= $experts[$e]->movement ?>"><?= $experts[$e]->change ?></td>
+					<td class="more-is-good <?= $experts[$e]->movement ?>"><?= $experts[$e]->change ?> (<?= $experts[$e]->prognosis ?>)</td>
 				<?php endif ?>
 			<?php endfor ?>
 		</tr>

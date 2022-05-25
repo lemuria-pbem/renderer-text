@@ -7,7 +7,7 @@ use Lemuria\Model\Fantasya\Landscape\Ocean;
 use Lemuria\Model\Fantasya\Region;
 use Lemuria\Renderer\Text\View\Text;
 
-/* @var Text $this */
+/** @var Text $this */
 
 /** @var Region $region */
 $region     = $this->variables[0];

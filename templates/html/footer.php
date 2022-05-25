@@ -5,7 +5,7 @@ use Lemuria\Lemuria;
 use Lemuria\Renderer\Text\View\Html;
 use Lemuria\Version;
 
-/* @var Html $this */
+/** @var Html $this */
 
 $version  = Lemuria::Version();
 $game     = $version[Version::GAME][0] ?? null;

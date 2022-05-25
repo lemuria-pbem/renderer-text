@@ -2,29 +2,29 @@
 declare(strict_types = 1);
 namespace Lemuria\Renderer\Text;
 
-use Lemuria\Exception\LemuriaException;
 use function Lemuria\getClass;
 use function Lemuria\Renderer\Text\View\hr;
 use function Lemuria\Renderer\Text\View\underline;
 use function Lemuria\Renderer\Text\View\wrap;
 use Lemuria\Engine\Fantasya\Factory\Model\CompositionDetails;
+use Lemuria\Exception\LemuriaException;
+use Lemuria\Id;
 use Lemuria\Model\Fantasya\Composition as CompositionModel;
 use Lemuria\Model\Fantasya\Exception\JsonException;
 use Lemuria\Model\Fantasya\Practice;
 use Lemuria\Model\Fantasya\Unicum;
 
-class UnicumWriter
+class UnicumWriter extends AbstractWriter
 {
 	protected final const NAMESPACE = 'Lemuria\\Renderer\\Text\\Composition\\';
-
-	public function __construct(private readonly string $path) {
-	}
 
 	/**
 	 * @throws JsonException
 	 */
-	public function render(Unicum $unicum): UnicumWriter {
-		if (!file_put_contents($this->path, $this->generate($unicum))) {
+	public function render(Id $entity): UnicumWriter {
+		$unicum = Unicum::get($entity);
+		$path   = $this->pathFactory->getPath($this, $unicum);
+		if (!file_put_contents($path, $this->generate($unicum))) {
 			throw new \RuntimeException('Could not create unicum information.');
 		}
 		return $this;

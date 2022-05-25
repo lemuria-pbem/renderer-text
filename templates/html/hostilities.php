@@ -8,6 +8,8 @@ use Lemuria\Renderer\Text\View\Html;
 /** @var Html $this */
 
 $hostilities = [];
+$links       = [];
+$i           = 0;
 foreach ($this->hostilities() as $battle /* @var BattleLog $battle */):
 	$participants = [];
 	foreach ($battle->Participants() as $party):
@@ -19,6 +21,7 @@ foreach ($this->hostilities() as $battle /* @var BattleLog $battle */):
 	$name     = $location->Name() . ' <span class="badge badge-secondary">' . $location->Id() . '</span>';
 
 	$hostilities[$name] = $this->toAndString($participants);
+	$links[]            = $this->battleLogPath($battle);
 endforeach;
 
 ?>
@@ -27,7 +30,9 @@ endforeach;
 		<h3>Kampfberichte</h3>
 
 		<?php foreach ($hostilities as $location => $participants): ?>
-		In <?= $location ?> gab es einen Kampf zwischen den Parteien <?= $participants ?>.<br>
+		In <?= $location ?> gab es einen Kampf zwischen den Parteien <?= $participants ?>.
+		<a href="<?= $links[$i++] ?>">Kampfbericht anzeigen</a>
+		<br>
 		<?php endforeach ?>
 	</div>
 <?php endif ?>

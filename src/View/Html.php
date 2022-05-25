@@ -3,6 +3,7 @@ declare(strict_types = 1);
 namespace Lemuria\Renderer\Text\View;
 
 use function Lemuria\getClass;
+use Lemuria\Engine\Fantasya\Combat\BattleLog;
 use Lemuria\Engine\Fantasya\Statistics\Subject;
 use Lemuria\Engine\Message;
 use Lemuria\Identifiable;
@@ -12,11 +13,16 @@ use Lemuria\Model\Fantasya\Region;
 use Lemuria\Model\Fantasya\Resources;
 use Lemuria\Model\Fantasya\Transport;
 use Lemuria\Model\Fantasya\Unit;
+use Lemuria\Renderer\PathFactory;
+use Lemuria\Renderer\Text\BattleLogWriter;
+use Lemuria\Renderer\Text\FileWriter;
 use Lemuria\Renderer\Text\Statistics\Data\HtmlClassNumber;
 use Lemuria\Renderer\Text\Statistics\Data\HtmlCommodity;
 use Lemuria\Renderer\Text\Statistics\Data\HtmlMarket;
 use Lemuria\Renderer\Text\Statistics\Data\HtmlMaterial;
 use Lemuria\Renderer\Text\Statistics\Data\HtmlNumber;
+use Lemuria\Renderer\Text\Statistics\Data\HtmlPrognosis;
+use Lemuria\Renderer\Text\Statistics\Data\HtmlQualification;
 use Lemuria\Renderer\Text\View;
 use Lemuria\Statistics\Data\Number;
 
@@ -65,6 +71,13 @@ class Html extends View
 	protected const LEVEL = [
 		Message::DEBUG => 'D', Message::ERROR => 'F', Message::EVENT => 'E', Message::FAILURE => 'W', Message::SUCCESS => 'M'
 	];
+
+	private PathFactory $pathFactory;
+
+	public function __construct(Party $party, FileWriter $writer) {
+		parent::__construct($party, $writer);
+		$this->pathFactory = $writer->getPathFactory();
+	}
 
 	/**
 	 * Render a template.
@@ -207,16 +220,36 @@ class Html extends View
 	 * @return HtmlCommodity[]
 	 */
 	public function expertsStatistics(Subject $subject, Party $party): array {
-		$statistics  = [];
-		$experts = $this->statistics($subject, $party);
+		$statistics = [];
+		$experts    = $this->statistics($subject, $party);
 		if ($experts) {
-			foreach ($experts as $class => $number) {
+			foreach ($experts as $class => $prognosis) {
 				$translation              = $this->get('talent.' . $class);
-				$statistics[$translation] = new HtmlClassNumber($number, $class);
+				$statistics[$translation] = new HtmlPrognosis($prognosis, $class);
 			}
 		}
 		ksort($statistics);
 		return array_values($statistics);
+	}
+
+	/**
+	 * @return HtmlQualification[]
+	 */
+	public function qualificationStatistics(Subject $subject, Unit $unit): array {
+		$statistics    = [];
+		$qualification = $this->statistics($subject, $unit);
+		if ($qualification) {
+			foreach ($qualification as $class => $values) {
+				$translation              = $this->get('talent.' . $class);
+				$statistics[$translation] = new HtmlQualification($values, $class);
+			}
+		}
+		ksort($statistics);
+		return array_values($statistics);
+	}
+
+	protected function battleLogPath(BattleLog $battleLog): string {
+		return basename($this->pathFactory->getPath(new BattleLogWriter($this->pathFactory), $battleLog));
 	}
 
 	/**

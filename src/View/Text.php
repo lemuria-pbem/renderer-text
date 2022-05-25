@@ -2,8 +2,6 @@
 declare(strict_types = 1);
 namespace Lemuria\Renderer\Text\View;
 
-use JetBrains\PhpStorm\Pure;
-
 use Lemuria\Engine\Fantasya\Statistics\Subject;
 use Lemuria\Entity;
 use Lemuria\Engine\Message;
@@ -21,7 +19,7 @@ use Lemuria\Version;
 /**
  * Create a description line.
  */
-#[Pure] function description(Entity $entity): string {
+function description(Entity $entity): string {
 	if ($entity->Description()) {
 		$description = ' ' . trim($entity->Description());
 		if (!str_ends_with($description, '.')) {
@@ -35,7 +33,7 @@ use Lemuria\Version;
 /**
  * Create a centered line.
  */
-#[Pure] function center(string $output): string {
+function center(string $output): string {
 	$columns = 80;
 	$length  = mb_strlen($output);
 	if ($length >= $columns) {
@@ -48,28 +46,28 @@ use Lemuria\Version;
 /**
  * Create a horizontal line.
  */
-#[Pure] function hr(int $length = 80): string {
+function hr(int $length = 80): string {
 	return line(str_pad('', $length, '-'));
 }
 
 /**
  * Create an output line terminated by EOL.
  */
-#[Pure] function line(string $output): string {
+function line(string $output): string {
 	return $output . PHP_EOL;
 }
 
 /**
  * Output a line and underline it.
  */
-#[Pure] function underline(string $line): string {
+function underline(string $line): string {
 	return $line . PHP_EOL . hr(mb_strlen($line));
 }
 
 /**
  * Take text and wrap lines that are too long.
  */
-#[Pure] function wrap(string $output): string {
+function wrap(string $output): string {
 	$wrapped = '';
 	foreach (explode(PHP_EOL, $output) as $line) {
 		$wrapped .= wordwrap($line, 80) . PHP_EOL;
@@ -114,7 +112,7 @@ class Text extends View
 	/**
 	 * Render a report message.
 	 */
-	#[Pure] public function message(Message $message): string {
+	public function message(Message $message): string {
 		return wrap((string)$message);
 	}
 

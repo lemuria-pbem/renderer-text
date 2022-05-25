@@ -10,7 +10,7 @@ use Lemuria\Model\Fantasya\Unit;
 use Lemuria\Renderer\Text\Text\TableRow;
 use Lemuria\Renderer\Text\View\Text;
 
-/* @var Text $this */
+/** @var Text $this */
 
 /** @var Region $region */
 $region = $this->variables[0];
