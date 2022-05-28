@@ -37,7 +37,8 @@ $people = $this->numberStatistics(Subject::People, $party);
 
 			<?= $this->template('report', $party) ?>
 		</div>
-		<?= $this->template('hostilities', $party) ?>
+		<?= $this->template('announcements') ?>
+		<?= $this->template('hostilities') ?>
 	</div>
 </div>
 

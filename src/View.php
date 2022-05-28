@@ -9,6 +9,7 @@ use Lemuria\Engine\Fantasya\Effect\Hunger;
 use Lemuria\Engine\Fantasya\Effect\SpyEffect;
 use Lemuria\Engine\Fantasya\Effect\TravelEffect;
 use Lemuria\Engine\Fantasya\Factory\Model\TravelAtlas;
+use Lemuria\Engine\Fantasya\Message\Filter\NoAnnouncementFilter;
 use Lemuria\Engine\Fantasya\Outlook;
 use Lemuria\Engine\Fantasya\State;
 use Lemuria\Engine\Fantasya\Statistics\Subject;
@@ -236,6 +237,48 @@ abstract class View
 			}
 		}
 		return $messages;
+	}
+
+	/**
+	 * @return Message[]
+	 */
+	public function announcements(): array {
+		$announcements = [];
+		$filter        = new NoAnnouncementFilter();
+		foreach (Lemuria::Report()->getAll($this->party) as $message) {
+			if (!$filter->retains($message)) {
+				$announcements[] = $message;
+			}
+		}
+		foreach ($this->atlas as $region /* @var Region $region */) {
+			foreach (Lemuria::Report()->getAll($region) as $message) {
+				if (!$filter->retains($message)) {
+					$announcements[] = $message;
+				}
+			}
+			foreach ($region->Estate() as $construction /* @var Construction $construction */) {
+				foreach (Lemuria::Report()->getAll($construction) as $message) {
+					if (!$filter->retains($message)) {
+						$announcements[] = $message;
+					}
+				}
+			}
+			foreach ($region->Fleet() as $vessel /* @var Vessel $vessel */) {
+				foreach (Lemuria::Report()->getAll($vessel) as $message) {
+					if (!$filter->retains($message)) {
+						$announcements[] = $message;
+					}
+				}
+			}
+			foreach ($this->party->People() as $unit /* @var Unit $unit */) {
+				foreach (Lemuria::Report()->getAll($unit) as $message) {
+					if (!$filter->retains($message)) {
+						$announcements[] = $message;
+					}
+				}
+			}
+		}
+		return $announcements;
 	}
 
 	public function hostilities(): array {
