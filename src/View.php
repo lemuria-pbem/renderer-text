@@ -32,7 +32,6 @@ use Lemuria\Model\Fantasya\Relation;
 use Lemuria\Model\Fantasya\Unit;
 use Lemuria\Model\Fantasya\Vessel;
 use Lemuria\Model\Fantasya\World\PartyMap;
-use Lemuria\Model\World\Direction;
 use Lemuria\Singleton;
 use Lemuria\Statistics;
 use Lemuria\Statistics\Data;
@@ -160,9 +159,8 @@ abstract class View
 	public function neighbours(?Region $region): array {
 		$neighbours = [];
 		$roads      = $region->Roads();
-		foreach ($this->map->getNeighbours($region)->getAll() as $direction => $neighbour) {
+		foreach ($this->map->getNeighbours($region) as $direction => $neighbour) {
 			if ($neighbour) {
-				$direction = Direction::from($direction);
 				if ($region->hasRoad($direction)) {
 					$predicate = ' führt eine Straße ';
 					$neighbour = $this->neighbour($neighbour, true);
