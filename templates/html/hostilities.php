@@ -27,7 +27,7 @@ endforeach;
 
 ?>
 <?php if (!empty($hostilities)): ?>
-	<div class="col-12 col-lg-6 p-0 pr-lg-3">
+	<div class="col-12 p-0">
 		<h3>Kampfberichte</h3>
 
 		<?php foreach ($hostilities as $location => $participants): ?>
