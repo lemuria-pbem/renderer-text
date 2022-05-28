@@ -2,6 +2,7 @@
 declare (strict_types = 1);
 
 use Lemuria\Engine\Fantasya\Combat\BattleLog;
+use Lemuria\Model\Fantasya\Party\Type;
 use Lemuria\Model\Fantasya\Region;
 use Lemuria\Renderer\Text\View\Html;
 
@@ -31,7 +32,9 @@ endforeach;
 
 		<?php foreach ($hostilities as $location => $participants): ?>
 		In <?= $location ?> gab es einen Kampf zwischen den Parteien <?= $participants ?>.
-		<a href="<?= $links[$i++] ?>">Kampfbericht anzeigen</a>
+		<?php if ($this->party->Type() === Type::PLAYER): ?>
+			<a href="<?= $links[$i++] ?>">Kampfbericht anzeigen</a>
+		<?php endif ?>
 		<br>
 		<?php endforeach ?>
 	</div>
