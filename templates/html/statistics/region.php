@@ -127,17 +127,17 @@ if (!empty($luxuries)) {
 	<?php if (!empty($luxuries)): ?>
 		<tr id="<?= $class . '-market' ?>" class="collapse <?= $class ?>">
 			<td colspan="3">
-				<table class="table">
+				<table class="market table">
 					<caption>Marktpreise</caption>
 					<tr>
 						<?php foreach ($luxuries as $luxury): ?>
-							<th scope="col" colspan="2"><?= $this->get('resource.' . $luxury->class) ?></th>
+							<th scope="col" colspan="2" class="<?= $luxury->offerDemand ?>"><?= $this->get('resource.' . $luxury->class) ?></th>
 						<?php endforeach ?>
 					</tr>
 					<tr class="td-16">
 						<?php foreach ($luxuries as $luxury): ?>
-							<td><?= $luxury->value ?></td>
-							<td class="<?= $luxury->movement ?> <?= $luxury->moreOrLess ?>"><?= $luxury->change ?></td>
+							<td class="<?= $luxury->offerDemand ?>"><?= $luxury->value ?></td>
+							<td class="<?= $luxury->movement ?> <?= $luxury->moreOrLess ?> <?= $luxury->offerDemand ?>"><?= $luxury->change ?></td>
 						<?php endforeach ?>
 					</tr>
 				</table>
@@ -224,16 +224,16 @@ if (!empty($luxuries)) {
 		<tr id="<?= $class . '-market' ?>" class="collapse <?= $class ?>">
 			<th scope="row">Marktpreise</th>
 			<td colspan="5">
-				<table class="table">
+				<table class="market table">
 					<tr>
 						<?php foreach ($luxuries as $luxury): ?>
-							<th scope="col" colspan="2"><?= $this->get('resource.' . $luxury->class) ?></th>
+							<th scope="col" colspan="2" class="<?= $luxury->offerDemand ?>"><?= $this->get('resource.' . $luxury->class) ?></th>
 						<?php endforeach ?>
 					</tr>
 					<tr class="td-16">
 						<?php foreach ($luxuries as $luxury): ?>
-							<td><?= $luxury->value ?></td>
-							<td class="<?= $luxury->movement ?> <?= $luxury->moreOrLess ?>"><?= $luxury->change ?></td>
+							<td class="<?= $luxury->offerDemand ?>"><?= $luxury->value ?></td>
+							<td class="<?= $luxury->movement ?> <?= $luxury->moreOrLess ?> <?= $luxury->offerDemand ?>"><?= $luxury->change ?></td>
 						<?php endforeach ?>
 					</tr>
 				</table>
@@ -332,16 +332,16 @@ if (!empty($luxuries)) {
 		<tr id="<?= $class . '-market' ?>" class="collapse <?= $class ?>">
 			<th scope="row">Marktpreise</th>
 			<td colspan="8">
-				<table class="table">
+				<table class="market table">
 					<tr>
 						<?php foreach ($luxuries as $luxury): ?>
-							<th scope="col" colspan="2"><?= $this->get('resource.' . $luxury->class) ?></th>
+							<th scope="col" colspan="2" class="<?= $luxury->offerDemand ?>"><?= $this->get('resource.' . $luxury->class) ?></th>
 						<?php endforeach ?>
 					</tr>
 					<tr class="td-16">
 						<?php foreach ($luxuries as $luxury): ?>
-							<td><?= $luxury->value ?></td>
-							<td class="<?= $luxury->movement ?> <?= $luxury->moreOrLess ?>"><?= $luxury->change ?></td>
+							<td class="<?= $luxury->offerDemand ?>"><?= $luxury->value ?></td>
+							<td class="<?= $luxury->movement ?> <?= $luxury->moreOrLess ?> <?= $luxury->offerDemand ?>"><?= $luxury->change ?></td>
 						<?php endforeach ?>
 					</tr>
 				</table>
@@ -456,16 +456,16 @@ if (!empty($luxuries)) {
 		<tr id="<?= $class . '-market' ?>" class="collapse <?= $class ?>">
 			<th scope="row">Marktpreise</th>
 			<td colspan="11">
-				<table class="table">
+				<table class="market table">
 					<tr>
 						<?php foreach ($luxuries as $luxury): ?>
-							<th scope="col" colspan="2"><?= $this->get('resource.' . $luxury->class) ?></th>
+							<th scope="col" colspan="2" class="<?= $luxury->offerDemand ?>"><?= $this->get('resource.' . $luxury->class) ?></th>
 						<?php endforeach ?>
 					</tr>
 					<tr class="td-16">
 						<?php foreach ($luxuries as $luxury): ?>
-							<td><?= $luxury->value ?></td>
-							<td class="<?= $luxury->movement ?> <?= $luxury->moreOrLess ?>"><?= $luxury->change ?></td>
+							<td class="<?= $luxury->offerDemand ?>"><?= $luxury->value ?></td>
+							<td class="<?= $luxury->movement ?> <?= $luxury->moreOrLess ?> <?= $luxury->offerDemand ?>"><?= $luxury->change ?></td>
 						<?php endforeach ?>
 					</tr>
 				</table>
