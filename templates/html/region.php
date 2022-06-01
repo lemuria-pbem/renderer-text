@@ -41,20 +41,18 @@ if ($visibility === Visibility::WITH_UNIT) {
 			</div>
 		</div>
 	</div>
-	<?php if ($this->isDevelopment()): ?>
-		<div class="table-responsive d-md-none">
-			<?= $this->template('statistics/qualification', $qualification, 1) ?>
-		</div>
-		<div class="table-responsive d-none d-md-block d-lg-none">
-			<?= $this->template('statistics/qualification', $qualification, 2) ?>
-		</div>
-		<div class="table-responsive d-none d-lg-block d-xl-none">
-			<?= $this->template('statistics/qualification', $qualification, 2) ?>
-		</div>
-		<div class="table-responsive d-none d-xl-block">
-			<?= $this->template('statistics/qualification', $qualification, 3) ?>
-		</div>
-	<?php endif ?>
+	<div class="table-responsive d-md-none">
+		<?= $this->template('statistics/qualification', $qualification, 1) ?>
+	</div>
+	<div class="table-responsive d-none d-md-block d-lg-none">
+		<?= $this->template('statistics/qualification', $qualification, 2) ?>
+	</div>
+	<div class="table-responsive d-none d-lg-block d-xl-none">
+		<?= $this->template('statistics/qualification', $qualification, 2) ?>
+	</div>
+	<div class="table-responsive d-none d-xl-block">
+		<?= $this->template('statistics/qualification', $qualification, 3) ?>
+	</div>
 	<?php foreach ($region->Estate() as $construction): ?>
 		<?= $this->template('construction/with-unit', $construction) ?>
 	<?php endforeach ?>

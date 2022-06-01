@@ -40,7 +40,8 @@ $continent = Continent::get(new Id(1));
 
 <?= center('Ereignisse') ?>
 <?= $this->template('report', $party) ?>
-<?= $this->template('hostilities', $party) ?>
+<?= $this->template('announcements') ?>
+<?= $this->template('hostilities') ?>
 
 <?php if ($isPlayer): ?>
 <?= hr() ?>
