@@ -119,6 +119,7 @@ if ($visibility === Visibility::WITH_UNIT) {
 	<?php foreach ($region->Fleet() as $vessel): ?>
 		<?= $this->template('vessel/travelled', $vessel) ?>
 	<?php endforeach ?>
+	<?= $this->template('apparitions/travelled', $region) ?>
 <?php else: ?>
 	<h4 id="region-<?= $region->Id()->Id() ?>">
 		<?= $region->Name() ?>

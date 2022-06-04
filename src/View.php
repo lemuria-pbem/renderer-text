@@ -244,6 +244,7 @@ abstract class View
 	 */
 	public function announcements(): array {
 		$announcements = [];
+		$atlas         = $this->census->getAtlas();
 		$filter        = new NoAnnouncementFilter();
 		foreach (Lemuria::Report()->getAll($this->party) as $message) {
 			if (!$filter->retains($message)) {
@@ -270,10 +271,12 @@ abstract class View
 					}
 				}
 			}
-			foreach ($this->party->People() as $unit /* @var Unit $unit */) {
-				foreach (Lemuria::Report()->getAll($unit) as $message) {
-					if (!$filter->retains($message)) {
-						$announcements[] = $message;
+			if ($atlas->has($region->Id())) {
+				foreach ($this->census->getPeople($region) as $unit /* @var Unit $unit */) {
+					foreach (Lemuria::Report()->getAll($unit) as $message) {
+						if (!$filter->retains($message)) {
+							$announcements[] = $message;
+						}
 					}
 				}
 			}
