@@ -18,14 +18,17 @@ $prefix = match ($cols) {
 };
 $class  = $prefix . 'region-' . $region->Id()->Id();
 
-$population = $this->numberStatistics(Subject::Population, $region);
-$workers    = $this->numberStatistics(Subject::Workers, $region);
-$recruits   = $this->numberStatistics(Subject::Unemployment, $region);
-$births     = $this->numberStatistics(Subject::Births, $region);
-$migration  = $this->numberStatistics(Subject::Migration, $region);
-$wealth     = $this->numberStatistics(Subject::Wealth, $region);
-$income     = $this->numberStatistics(Subject::Income, $region);
-$expenses   = $this->multipleStatistics([
+$population  = $this->numberStatistics(Subject::Population, $region);
+$workers     = $this->numberStatistics(Subject::Workers, $region);
+$workplaces  = $this->numberStatistics(Subject::Workplaces, $region);
+$recruits    = $this->numberStatistics(Subject::Unemployment, $region);
+$births      = $this->numberStatistics(Subject::Births, $region);
+$migration   = $this->numberStatistics(Subject::Migration, $region);
+$wealth      = $this->numberStatistics(Subject::Wealth, $region);
+$income      = $this->numberStatistics(Subject::Income, $region);
+$joblessness = $this->numberStatistics(Subject::Joblessness, $region);
+$prosperity  = $this->numberStatistics(Subject::Prosperity, $region);
+$expenses    = $this->multipleStatistics([
 	'Ausgaben für Unterhalt'    => Subject::Support,
 	'Ausgaben für Gebäude'      => Subject::Maintenance,
 	'Ausgaben für Rekrutierung' => Subject::Recruiting,
@@ -33,9 +36,9 @@ $expenses   = $this->multipleStatistics([
 	'Handelseinkäufe'           => Subject::Purchase,
 	'Almosen an Fremdeinheiten' => Subject::Charity
 ], $region);
-$trees      = $this->numberStatistics(Subject::Trees, $region);
-$animals    = $this->animalStatistics(Subject::Animals, $region);
-$luxuries   = $this->marketStatistics(Subject::Market, $region);
+$trees       = $this->numberStatistics(Subject::Trees, $region);
+$animals     = $this->animalStatistics(Subject::Animals, $region);
+$luxuries    = $this->marketStatistics(Subject::Market, $region);
 
 if ($cols <= 1) {
 	$ids = $class . '-population ' . $class . '-workers ' . $class . '-recruits ' . $class . '-births ' .

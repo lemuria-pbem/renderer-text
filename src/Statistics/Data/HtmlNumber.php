@@ -14,17 +14,18 @@ class HtmlNumber
 	public string $movement;
 
 	public function __construct(Number $number) {
-		$this->value    = number($number->value);
+		$this->value    = number(is_float($number->value) ? round($number->value, 2) : $number->value);
 		$this->change   = $this->getChange($number);
 		$this->movement = $this->getMovement($number);
 	}
 
 	private function getChange(Number $number): string {
+		$change = is_float($number->change) ? round($number->change, 2) : $number->change;
 		return match (true) {
-			$number->change === null => '± ' . number(is_float($number->value) ? 0.0 : 0),
-			$number->change < 0      => number($number->change),
-			$number->change > 0      => '+ ' . number($number->change),
-			default                  => '± ' . number($number->change)
+			$change === null => '± ' . number(is_float($number->value) ? 0.0 : 0),
+			$change < 0      => number($change),
+			$change > 0      => '+ ' . number($change),
+			default          => '± ' . number($change)
 		};
 	}
 

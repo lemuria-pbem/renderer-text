@@ -14,9 +14,9 @@ class TableRow implements \Stringable
 
 	public string $change;
 
-	public function __construct(private readonly string $name, string $value, string $change) {
-		$this->value  = sprintf('%-' . self::LENGTH . 's', $value);
-		$this->change = sprintf('%-' . self::LENGTH . 's', $change);
+	public function __construct(private readonly string $name, string $value, string $change, string $unit = '') {
+		$this->value  = sprintf('%-' . self::LENGTH . 's', $value . $unit);
+		$this->change = sprintf('%-' . self::LENGTH . 's', $change . $unit);
 	}
 
 	public function __toString(): string {
