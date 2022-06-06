@@ -55,6 +55,7 @@ $visibility = $atlas->getVisibility($region);
 <?php foreach ($region->Fleet() as $vessel): ?>
 <?= $this->template('vessel/travelled', $vessel) ?>
 <?php endforeach ?>
+<?= $this->template('apparitions/travelled', $region) ?>
 <?php else: ?>
 <?= $this->template('region/neighbour', $region) ?>
 <?php endif ?>

@@ -22,6 +22,9 @@ foreach ($region->Residents() as $unit /* @var Unit $unit */) {
 $round = Lemuria::Calendar()->Round();
 
 $header      = (string)new TableRow('Regionsstatistik', 'Runde ' . number($round), 'Veränderung');
+$workplaces  = $this->numberStatistics(Subject::Workplaces, $region, 'Arbeitsplätze');
+$joblessness = $this->numberStatistics(Subject::Joblessness, $region, 'Arbeitslosigkeit', '%');
+$prosperity  = $this->numberStatistics(Subject::Prosperity, $region, 'Wohlstand');
 $charity     = $this->numberStatisticsOrNull(Subject::Charity, $unit, 'Almosen an Fremdeinheiten');
 $learning    = $this->numberStatisticsOrNull(Subject::LearningCosts, $unit, 'Lernkosten');
 $maintenance = $this->numberStatisticsOrNull(Subject::Maintenance, $unit, 'Ausgaben für Gebäude');
@@ -31,6 +34,11 @@ $support     = $this->numberStatisticsOrNull(Subject::Support, $unit, 'Ausgaben 
 
 ?>
 <?= $header ?>
+<?php if ($this->isDevelopment()): ?>
+<?= $workplaces ?>
+<?= $prosperity ?>
+<?= $joblessness ?>
+<?php endif ?>
 <?= $support ?: '' ?>
 <?= $maintenance ?: '' ?>
 <?= $recruiting ?: '' ?>

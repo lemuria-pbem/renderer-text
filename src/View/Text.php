@@ -116,12 +116,12 @@ class Text extends View
 		return wrap((string)$message);
 	}
 
-	public function numberStatistics(Subject $subject, Identifiable $entity, string $name): TextNumber {
+	public function numberStatistics(Subject $subject, Identifiable $entity, string $name, string $unit = ''): TextNumber {
 		$data = $this->statistics($subject, $entity);
 		if (!($data instanceof Number)) {
 			$data = new Number();
 		}
-		return new TextNumber($data, $name);
+		return new TextNumber($data, $name, $unit);
 	}
 
 	public function numberStatisticsOrNull(Subject $subject, Identifiable $entity, string $name): ?TextNumber {

@@ -244,6 +244,7 @@ abstract class View
 	 */
 	public function announcements(): array {
 		$announcements = [];
+		$atlas         = $this->census->getAtlas();
 		$filter        = new NoAnnouncementFilter();
 		foreach (Lemuria::Report()->getAll($this->party) as $message) {
 			if (!$filter->retains($message)) {
@@ -270,10 +271,12 @@ abstract class View
 					}
 				}
 			}
-			foreach ($this->party->People() as $unit /* @var Unit $unit */) {
-				foreach (Lemuria::Report()->getAll($unit) as $message) {
-					if (!$filter->retains($message)) {
-						$announcements[] = $message;
+			if ($atlas->has($region->Id())) {
+				foreach ($this->census->getPeople($region) as $unit /* @var Unit $unit */) {
+					foreach (Lemuria::Report()->getAll($unit) as $message) {
+						if (!$filter->retains($message)) {
+							$announcements[] = $message;
+						}
 					}
 				}
 			}
@@ -435,8 +438,9 @@ abstract class View
 
 	public function statistics(Subject $subject, Identifiable $entity): ?Data {
 		$record = match ($subject) {
-			Subject::Experts, Subject::Talents => new Record($subject->name, $entity),
-			default                            => new PartyEntityRecord($subject->name, $entity),
+			Subject::Experts, Subject::Joblessness, Subject::Prosperity,
+			Subject::Talents, Subject::Workplaces                        => new Record($subject->name, $entity),
+			default                                                      => new PartyEntityRecord($subject->name, $entity),
 		};
 		$key = $record->Key();
 		if (isset($this->statisticsCache[$key])) {
