@@ -44,11 +44,12 @@ if ($cols <= 1) {
 	$ids = $class . '-population ' . $class . '-workers ' . $class . '-recruits ' . $class . '-births ' .
 		   $class . '-migration ' . $class . '-wealth ' . $class . '-income ' . $class . '-trees';
 } elseif ($cols === 2) {
-	$ids = $class . '-population ' . $class . '-peasants ' . $class . '-wealth ' . $class . '-trees';
+	$ids = $class . '-joblessness ' . $class . '-population ' . $class . '-peasants ' . $class . '-wealth ' .
+		   $class . '-prosperity';
 } elseif ($cols === 3) {
-	$ids = $class . '-population ' . $class . '-peasants';
+	$ids = $class . '-joblessness ' . $class . '-population ' . $class . '-peasants';
 } else {
-	$ids = $class . '-population ' . $class . '-resources';
+	$ids = $class . '-joblessness ' . $class . '-population ' . $class;
 }
 $i = 0;
 foreach ($expenses as $name => $expense) {
@@ -78,6 +79,16 @@ if (!empty($luxuries)) {
 		<td><?= $population->value ?></td>
 		<td class="more-is-good"><?= $population->change ?></td>
 	</tr>
+	<tr id="<?= $class ?>-workplaces" class="collapse <?= $workplaces->movement ?> <?= $class ?>">
+		<th scope="row">Arbeitsplätze</th>
+		<td><?= $workplaces->value ?></td>
+		<td class="more-is-good"><?= $workplaces->change ?></td>
+	</tr>
+	<tr id="<?= $class ?>-joblessness" class="collapse <?= $joblessness->movement ?> <?= $class ?>">
+		<th scope="row">Arbeitslosigkeit</th>
+		<td><?= $joblessness->value ?> %</td>
+		<td class="less-is-good"><?= $joblessness->change ?></td>
+	</tr>
 	<tr id="<?= $class ?>-workers" class="collapse <?= $workers->movement ?> <?= $class ?>">
 		<th scope="row">Arbeiter</th>
 		<td><?= $workers->value ?></td>
@@ -97,6 +108,11 @@ if (!empty($luxuries)) {
 		<th scope="row">Bauernwanderung</th>
 		<td><?= $migration->value ?></td>
 		<td class="more-is-good"><?= $migration->change ?></td>
+	</tr>
+	<tr id="<?= $class ?>-prosperity" class="collapse <?= $prosperity->movement ?> <?= $class ?>">
+		<th scope="row">Wohlstand</th>
+		<td><?= $prosperity->value ?> a</td>
+		<td class="more-is-good"><?= $prosperity->change ?></td>
 	</tr>
 	<tr id="<?= $class ?>-wealth" class="collapse <?= $wealth->movement ?> <?= $class ?>">
 		<th scope="row">Silbervorrat</th>
@@ -158,6 +174,14 @@ if (!empty($luxuries)) {
 		<td><?= $population->value ?></td>
 		<td class="<?= $population->movement ?> more-is-good"><?= $population->change ?></td>
 	</tr>
+	<tr id="<?= $class?>-joblessness" class="collapse <?= $class ?>">
+		<th scope="row">Arbeitslosigkeit</th>
+		<td><?= $joblessness->value ?> %</td>
+		<td class="<?= $joblessness->movement ?> less-is-good"><?= $joblessness->change ?></td>
+		<th scope="row">Arbeitsplätze</th>
+		<td><?= $workplaces->value ?></td>
+		<td class="<?= $workplaces->movement ?> more-is-good"><?= $workplaces->change ?></td>
+	</tr>
 	<tr id="<?= $class ?>-population" class="collapse <?= $class ?>">
 		<th scope="row">Rekruten</th>
 		<td><?= $recruits->value ?></td>
@@ -175,17 +199,20 @@ if (!empty($luxuries)) {
 		<td class="<?= $migration->movement ?> more-is-good"><?= $migration->change ?></td>
 	</tr>
 	<tr id="<?= $class ?>-wealth" class="collapse <?= $class ?>">
-		<th scope="row">Einkommen</th>
-		<td><?= $income->value ?></td>
-		<td class="<?= $income->movement ?> more-is-good"><?= $income->change ?></td>
 		<th scope="row">Silbervorrat</th>
 		<td><?= $wealth->value ?></td>
 		<td class="<?= $wealth->movement ?> more-is-good"><?= $wealth->change ?></td>
+		<th scope="row">Einkommen</th>
+		<td><?= $income->value ?></td>
+		<td class="<?= $income->movement ?> more-is-good"><?= $income->change ?></td>
 	</tr>
-	<tr id="<?= $class ?>-trees" class="collapse <?= $class ?>">
+	<tr id="<?= $class ?>-prosperity" class="collapse <?= $class ?>">
+		<th scope="row">Wohlstand</th>
+		<td><?= $prosperity->value ?> a</td>
+		<td class="<?= $prosperity->movement ?> more-is-good"><?= $prosperity->change ?></td>
 		<th scope="row">Baumbestand</th>
 		<td><?= $trees->value ?></td>
-		<td class="<?= $trees->movement ?> more-is-good" colspan="4"><?= $trees->change ?></td>
+		<td class="<?= $trees->movement ?> more-is-good"><?= $trees->change ?></td>
 	</tr>
 	<?php $i = 0 ?>
 	<?php foreach ($expenses as $name => $expense): ?>
@@ -256,6 +283,17 @@ if (!empty($luxuries)) {
 		<th scope="row">Silbervorrat</th>
 		<td><?= $wealth->value ?></td>
 		<td class="<?= $wealth->movement ?> more-is-good"><?= $wealth->change ?></td>
+	</tr>
+	<tr id="<?= $class?>-joblessness" class="collapse <?= $class ?>">
+		<th scope="row">Arbeitslosigkeit</th>
+		<td><?= $joblessness->value ?> %</td>
+		<td class="<?= $joblessness->movement ?> less-is-good"><?= $joblessness->change ?></td>
+		<th scope="row">Arbeitsplätze</th>
+		<td><?= $workplaces->value ?></td>
+		<td class="<?= $workplaces->movement ?> more-is-good"><?= $workplaces->change ?></td>
+		<th scope="row">Wohlstand</th>
+		<td><?= $prosperity->value ?> a</td>
+		<td class="<?= $prosperity->movement ?> more-is-good"><?= $prosperity->change ?></td>
 	</tr>
 	<tr id="<?= $class ?>-population" class="collapse <?= $class ?>">
 		<th scope="row">Rekruten</th>
@@ -368,6 +406,20 @@ if (!empty($luxuries)) {
 		<td><?= $income->value ?></td>
 		<td class="<?= $income->movement ?> more-is-good"><?= $income->change ?></td>
 	</tr>
+	<tr id="<?= $class?>-joblessness" class="collapse <?= $class ?>">
+		<th scope="row">Arbeitslosigkeit</th>
+		<td><?= $joblessness->value ?> %</td>
+		<td class="<?= $joblessness->movement ?> less-is-good"><?= $joblessness->change ?></td>
+		<th scope="row">Arbeitsplätze</th>
+		<td><?= $workplaces->value ?></td>
+		<td class="<?= $workplaces->movement ?> more-is-good"><?= $workplaces->change ?></td>
+		<th scope="row">Wohlstand</th>
+		<td><?= $prosperity->value ?> a</td>
+		<td class="<?= $prosperity->movement ?> more-is-good"><?= $prosperity->change ?></td>
+		<th scope="row">Geburten</th>
+		<td><?= $births->value ?></td>
+		<td class="<?= $births->movement ?> more-is-good"><?= $births->change ?></td>
+	</tr>
 	<tr id="<?= $class ?>-population" class="collapse <?= $class ?>">
 		<th scope="row">Rekruten</th>
 		<td><?= $recruits->value ?></td>
@@ -375,14 +427,9 @@ if (!empty($luxuries)) {
 		<th scope="row">Arbeiter</th>
 		<td><?= $workers->value ?></td>
 		<td class="<?= $workers->movement ?> more-is-good"><?= $workers->change ?></td>
-		<th scope="row">Geburten</th>
-		<td><?= $births->value ?></td>
-		<td class="<?= $births->movement ?> more-is-good"><?= $births->change ?></td>
 		<th scope="row">Bauernwanderung</th>
 		<td><?= $migration->value ?></td>
 		<td class="<?= $migration->movement ?> more-is-good"><?= $migration->change ?></td>
-	</tr>
-	<tr id="<?= $class ?>-resources" class="collapse <?= $class ?>">
 		<th scope="row">Baumbestand</th>
 		<td><?= $trees->value ?></td>
 		<td class="<?= $trees->movement ?> more-is-good" colspan="10"><?= $trees->change ?></td>
