@@ -9,9 +9,10 @@ use Lemuria\Renderer\Text\View\Html;
 
 $party    = $this->party;
 $spells   = $party->SpellBook()->count();
+$herbs    = $party->HerbalBook()->count();
 $unica    = new PartyUnica($party);
 $treasury = $unica->Treasury();
-$hasLinks = $spells + $treasury->count();
+$hasLinks = $spells + $herbs + $treasury->count();
 $i        = $spells;
 
 ?>
@@ -19,6 +20,10 @@ $i        = $spells;
 	<p>
 		<?php if ($spells > 0): ?>
 			<a id="spell-book" href="<?= $this->spellBookPath() ?>" title="Taste: Z">Zauberbuch anzeigen</a>
+		<?php endif ?>
+		<?php if ($herbs > 0): ?>
+			<?= $i++ > 0 ? '·' : '' ?>
+			<a id="herbal-book" href="<?= $this->herbalBookPath() ?>" title="Taste: K">Kräutervorkommen anzeigen</a>
 		<?php endif ?>
 		<?php foreach ($treasury as $unicum /* @var Unicum $unicum */): ?>
 			<?= $i++ > 0 ? '·' : '' ?>

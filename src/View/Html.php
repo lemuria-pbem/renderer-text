@@ -17,6 +17,7 @@ use Lemuria\Model\Fantasya\Unit;
 use Lemuria\Renderer\PathFactory;
 use Lemuria\Renderer\Text\BattleLogWriter;
 use Lemuria\Renderer\Text\FileWriter;
+use Lemuria\Renderer\Text\HerbalBookWriter;
 use Lemuria\Renderer\Text\SpellBookWriter;
 use Lemuria\Renderer\Text\Statistics\Data\HtmlClassNumber;
 use Lemuria\Renderer\Text\Statistics\Data\HtmlCommodity;
@@ -257,6 +258,10 @@ class Html extends View
 
 	protected function spellBookPath(): string {
 		return basename($this->pathFactory->getPath(new SpellBookWriter($this->pathFactory)));
+	}
+
+	protected function herbalBookPath(): string {
+		return basename($this->pathFactory->getPath(new HerbalBookWriter($this->pathFactory)));
 	}
 
 	protected function unicumPath(Unicum $unicum): string {
