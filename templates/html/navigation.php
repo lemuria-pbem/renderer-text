@@ -19,17 +19,17 @@ $census = $this->census;
 			<?php foreach ($census->getAtlas() as $region /* @var Region $region */): ?>
 				<?php if ($region->Landscape() instanceof Ocean): ?>
 					<?php foreach ($region->Fleet() as $vessel): ?>
-						<a class="nav-link pb-0" href="#vessel-<?= $vessel->Id()->Id() ?>"><?= $vessel->Name() ?></a>
+						<a class="vessel nav-link pb-0" href="#vessel-<?= $vessel->Id()->Id() ?>"><?= $vessel->Name() ?></a>
 					<?php endforeach ?>
 				<?php else: ?>
-					<a class="nav-link" href="#region-<?= $region->Id()->Id() ?>"><?= $region->Name() ?></a>
+					<a class="region nav-link" href="#region-<?= $region->Id()->Id() ?>"><?= $region->Name() ?></a>
 					<?php if ($region->Estate()->count() > 0 || $region->Fleet()->count() > 0): ?>
 						<nav id="nav-region-<?= $region->Id()->Id() ?>" class="nav nav-pills flex-column">
 							<?php foreach ($region->Estate() as $construction): ?>
-								<a class="nav-link ml-3 py-0" href="#construction-<?= $construction->Id()->Id() ?>"><?= $construction->Name() ?></a>
+								<a class="construction nav-link ml-3 py-0" href="#construction-<?= $construction->Id()->Id() ?>"><?= $construction->Name() ?></a>
 							<?php endforeach ?>
 							<?php foreach ($region->Fleet() as $vessel): ?>
-								<a class="nav-link ml-3 py-0" href="#vessel-<?= $vessel->Id()->Id() ?>"><?= $vessel->Name() ?></a>
+								<a class="vessel nav-link ml-3 py-0" href="#vessel-<?= $vessel->Id()->Id() ?>"><?= $vessel->Name() ?></a>
 							<?php endforeach ?>
 						</nav>
 					<?php endif ?>

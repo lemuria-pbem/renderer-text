@@ -31,6 +31,8 @@ $people = $this->numberStatistics(Subject::People, $party);
 				Deine Einheiten sammeln <?= $this->loot() ?>.<br>
 				Vorgaben für neue Einheiten: <?= implode(', ', $this->presettings()) ?>.
 			</p>
+
+			<?= $this->template('party-links') ?>
 		</div>
 		<div class="col-12 col-lg-6 p-0 pl-lg-3">
 			<h3>Ereignisse</h3>

@@ -12,10 +12,12 @@ use Lemuria\Model\Fantasya\Party;
 use Lemuria\Model\Fantasya\Region;
 use Lemuria\Model\Fantasya\Resources;
 use Lemuria\Model\Fantasya\Transport;
+use Lemuria\Model\Fantasya\Unicum;
 use Lemuria\Model\Fantasya\Unit;
 use Lemuria\Renderer\PathFactory;
 use Lemuria\Renderer\Text\BattleLogWriter;
 use Lemuria\Renderer\Text\FileWriter;
+use Lemuria\Renderer\Text\SpellBookWriter;
 use Lemuria\Renderer\Text\Statistics\Data\HtmlClassNumber;
 use Lemuria\Renderer\Text\Statistics\Data\HtmlCommodity;
 use Lemuria\Renderer\Text\Statistics\Data\HtmlMarket;
@@ -23,6 +25,7 @@ use Lemuria\Renderer\Text\Statistics\Data\HtmlMaterial;
 use Lemuria\Renderer\Text\Statistics\Data\HtmlNumber;
 use Lemuria\Renderer\Text\Statistics\Data\HtmlPrognosis;
 use Lemuria\Renderer\Text\Statistics\Data\HtmlQualification;
+use Lemuria\Renderer\Text\UnicumWriter;
 use Lemuria\Renderer\Text\View;
 use Lemuria\Statistics\Data\Number;
 
@@ -250,6 +253,14 @@ class Html extends View
 
 	protected function battleLogPath(BattleLog $battleLog): string {
 		return basename($this->pathFactory->getPath(new BattleLogWriter($this->pathFactory), $battleLog));
+	}
+
+	protected function spellBookPath(): string {
+		return basename($this->pathFactory->getPath(new SpellBookWriter($this->pathFactory)));
+	}
+
+	protected function unicumPath(Unicum $unicum): string {
+		return basename($this->pathFactory->getPath(new UnicumWriter($this->pathFactory), $unicum));
 	}
 
 	/**
