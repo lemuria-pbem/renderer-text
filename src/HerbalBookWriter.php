@@ -35,14 +35,14 @@ class HerbalBookWriter extends AbstractWriter
 		$atlas->sort(SortMode::NORTH_TO_SOUTH);
 
 		$output     = '';
-		$round      = Lemuria::Calendar()->Round();
+		$round      = Lemuria::Calendar()->Round() - 1;
 		$dictionary = new Dictionary();
 		foreach ($atlas as $region /* @var Region $region */) {
 			$herbage = $herbalBook->getHerbage($region);
-			$rounds  = $round - $herbalBook->getVisit($region)->Round();
+			$rounds  = $herbalBook->getVisit($region)->Round() - $round;
 
 			$output .= $dictionary->get('landscape.' . $region->Landscape()) . ' ' . $region->Name() . ': ';
-			$output .= $dictionary->get('amount.' . Explore::occurrence($herbage)) . ' ' . $dictionary->get('herb.' . $herbage->Herb(), 1) . ' ';
+			$output .= $dictionary->get('amount.' . Explore::occurrence($herbage)) . ' ' . $dictionary->get('resource.' . $herbage->Herb(), 1) . ' ';
 			$output .= '(' . str_replace('$rounds', (string)abs($rounds), $dictionary->get('visit.' . Visit::when($rounds)) ). ')';
 			$output .= PHP_EOL;
 		}
