@@ -12,7 +12,7 @@ $unit  = $this->variables[0];
 $party = $unit->Party();
 
 ?>
-<div class="unit">
+<div id="unit-<?= $unit->Id() ?>" class="unit">
 	<?php if ($unit->Party() === $this->party): ?>
 		<?= $this->template('unit/own', $unit) ?>
 	<?php elseif ($party->Type() === Type::MONSTER): ?>

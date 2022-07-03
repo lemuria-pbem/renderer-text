@@ -31,6 +31,8 @@ $continent = Continent::get(new Id(1));
 		</p>
 
 		<button id="toggle-responsive" class="btn btn-light" title="Taste: #">Ansicht umschalten</button>
+		<?= $this->template('goto'); ?>
+		<button id="toggle-goto" class="btn btn-light" data-toggle="modal" data-target="#modal-goto" title="Taste: G">Gehe zu…</button>
 		<?= $this->template('navigation') ?>
 	</header>
 
