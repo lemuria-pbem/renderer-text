@@ -19,7 +19,7 @@ final class HerbAlmanac extends AbstractComposition
 			return $this->noContent('Die Seiten dieses Kräuteralmanachs sind leer.');
 		}
 
-		$content    = PHP_EOL . hr() . PHP_EOL . center('Inhalt');
+		$content    = PHP_EOL . hr() . PHP_EOL . center('Inhalt') . PHP_EOL;
 		$dictionary = new Dictionary();
 		$round      = Lemuria::Calendar()->Round() - 1;
 		foreach ($herbalBook as $region /* @var Region $region */) {
