@@ -35,6 +35,8 @@ $banner = $party->Banner() ? 'Parteibanner: ' . linkEmail($party->Banner()) : '(
 			<h3>Ereignisse</h3>
 
 			<?= $this->template('report', $party) ?>
+
+			<?= $this->template('header/messages-button') ?>
 		</div>
 		<?= $this->template('hostilities', $party) ?>
 	</div>

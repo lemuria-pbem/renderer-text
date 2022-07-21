@@ -38,6 +38,8 @@ $people = $this->numberStatistics(Subject::People, $party);
 			<h3>Ereignisse</h3>
 
 			<?= $this->template('report', $party) ?>
+
+			<?= $this->template('header/messages-button') ?>
 		</div>
 		<?= $this->template('announcements') ?>
 		<?= $this->template('hostilities') ?>

@@ -1,15 +1,18 @@
 <?php
 declare (strict_types = 1);
 
+use function Lemuria\getClass;
 use Lemuria\Renderer\Text\View\Html;
 
 /** @var Html $this */
 
-$report = $this->messages($this->variables[0]);
+$entity = $this->variables[0];
+$class  = strtolower(getClass($entity));
+$report = $this->messages($entity);
 
 ?>
 <?php if ($report): ?>
-	<ul class="report">
+	<ul class="<?= $class ?> report">
 	<?php foreach ($report as $message): ?>
 		<li><?= $this->message($message) ?></li>
 	<?php endforeach ?>
