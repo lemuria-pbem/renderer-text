@@ -32,7 +32,7 @@ $captain = $vessel->Passengers()->Owner()?->Party();
 						Das Schiff ankert im <?= $this->get('world', $vessel->Anchor()) ?>.
 					<?php endif ?>
 				<?php endif ?>
-				<?= $vessel->Description() ?>
+				<?= $this->template('description', $vessel) ?>
 			</p>
 		</div>
 		<div class="col-12 col-lg-6 pr-0">

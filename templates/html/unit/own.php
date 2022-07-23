@@ -86,7 +86,7 @@ endif;
 <p>
 	<?= $this->number($unit->Size(), 'race', $unit->Race()) ?><?php if ($aura): ?>, Aura <?= $aura->Aura()?>/<?= $aura->Maximum() ?><?php endif ?>, <?= $this->battleRow($unit) ?>,
 	<?= $this->health($unit) ?> (<?= $health ?>/<?= $hitpoints ?>)<?php if ($unit->IsHiding()): ?>, getarnt<?php endif ?><?php if ($disguised): ?>, gibt sich als Angehöriger der Partei <?= $disguised->Name() ?> aus<?php endif ?><?php if ($disguised === null): ?>, verheimlicht die Parteizugehörigkeit<?php endif ?><?php if (!$unit->IsLooting()): ?>, sammelt nicht<?php endif ?><?php if ($unit->IsGuarding()): ?>, bewacht die Region<?php endif ?>.
-	<?= $unit->Description() ?>
+	<?= $this->template('description', $unit) ?>
 	<br>
 	Talente: <?= empty($talents) ? 'keine' : implode(', ', $talents) ?>.
 	<br>
@@ -106,7 +106,9 @@ endif;
 	<blockquote class="blockquote">
 		<ol>
 			<?php foreach ($orders->comments as $line): ?>
-				<li>„<?= $line ?>“</li>
+				<li>
+					<q><?= $line ?></q>
+				</li>
 			<?php endforeach ?>
 		</ol>
 	</blockquote>

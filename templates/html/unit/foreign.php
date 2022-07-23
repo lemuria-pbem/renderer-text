@@ -44,7 +44,7 @@ endif;
 </h6>
 <p>
 	<?= $this->number($unit->Size(), 'race', $unit->Race()) ?><?php if ($unit->IsGuarding()): ?>, bewacht die Region<?php endif ?>.
-	<?= $unit->Description() ?>
+	<?= $this->template('description', $unit) ?>
 </p>
 <?php if (count($resources) > 0): ?>
 	<p>Reist mit <?= implode(', ', $resources) ?>.</p>
