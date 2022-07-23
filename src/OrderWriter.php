@@ -48,7 +48,8 @@ class OrderWriter extends AbstractWriter
 			$inVessel       = null;
 
 			$template .= $this->createRegion($region);
-			foreach ($region->Estate() as $construction /* @var Construction $construction */) {
+
+			foreach (View::sortedEstate($region) as $construction /* @var Construction $construction */) {
 				$units = new People();
 				foreach ($construction->Inhabitants() as $unit /* @var Unit $unit */) {
 					if ($unit->Party() === $party) {
@@ -64,7 +65,7 @@ class OrderWriter extends AbstractWriter
 				}
 			}
 
-			foreach ($region->Fleet() as $vessel /* @var Vessel $vessel */) {
+			foreach (View::sortedFleet($region) as $vessel /* @var Vessel $vessel */) {
 				$units = new People();
 				foreach ($vessel->Passengers() as $unit /* @var Unit $unit */) {
 					if ($unit->Party() === $party) {

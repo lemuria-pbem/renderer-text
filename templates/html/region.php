@@ -5,6 +5,7 @@ use Lemuria\Engine\Fantasya\Factory\Model\Visibility;
 use Lemuria\Engine\Fantasya\Statistics\Subject;
 use Lemuria\Model\Fantasya\Party\Type;
 use Lemuria\Model\Fantasya\Region;
+use Lemuria\Renderer\Text\View;
 use Lemuria\Renderer\Text\View\Html;
 
 /** @var Html $this */
@@ -18,6 +19,9 @@ if ($visibility === Visibility::WITH_UNIT) {
 	$people        = $this->census->getPeople($region);
 	$qualification = $this->qualificationStatistics(Subject::Qualification, $people->getFirst());
 }
+$estate = View::sortedEstate($region);
+$fleet = View::sortedFleet($region);
+
 
 ?>
 <?php if ($visibility === Visibility::WITH_UNIT): ?>
@@ -56,10 +60,10 @@ if ($visibility === Visibility::WITH_UNIT) {
 			<?= $this->template('statistics/qualification', $qualification, 3) ?>
 		</div>
 	<?php endif ?>
-	<?php foreach ($region->Estate() as $construction): ?>
+	<?php foreach ($estate as $construction): ?>
 		<?= $this->template('construction/with-unit', $construction) ?>
 	<?php endforeach ?>
-	<?php foreach ($region->Fleet() as $vessel): ?>
+	<?php foreach ($fleet as $vessel): ?>
 		<?= $this->template('vessel/with-unit', $vessel) ?>
 	<?php endforeach ?>
 	<?= $this->template('apparitions/with-unit', $region) ?>
@@ -76,10 +80,10 @@ if ($visibility === Visibility::WITH_UNIT) {
 			</div>
 		</div>
 	</div>
-	<?php foreach ($region->Estate() as $construction): ?>
+	<?php foreach ($estate as $construction): ?>
 		<?= $this->template('construction/farsight', $construction) ?>
 	<?php endforeach ?>
-	<?php foreach ($region->Fleet() as $vessel): ?>
+	<?php foreach ($fleet as $vessel): ?>
 		<?= $this->template('vessel/farsight', $vessel) ?>
 	<?php endforeach ?>
 	<?= $this->template('apparitions/with-unit', $region) ?>
@@ -102,10 +106,10 @@ if ($visibility === Visibility::WITH_UNIT) {
 			</div>
 		</div>
 	</div>
-	<?php foreach ($region->Estate() as $construction): ?>
+	<?php foreach ($estate as $construction): ?>
 		<?= $this->template('construction/travelled', $construction) ?>
 	<?php endforeach ?>
-	<?php foreach ($region->Fleet() as $vessel): ?>
+	<?php foreach ($fleet as $vessel): ?>
 		<?= $this->template('vessel/travelled', $vessel) ?>
 	<?php endforeach ?>
 	<?= $this->template('apparitions/travelled', $region) ?>
@@ -116,10 +120,10 @@ if ($visibility === Visibility::WITH_UNIT) {
 		<span class="badge badge-secondary"><?= $region->Id() ?></span>
 	</h4>
 	<?= $this->template('region/from-lighthouse', $region) ?>
-	<?php foreach ($region->Estate() as $construction): ?>
+	<?php foreach ($estate as $construction): ?>
 		<?= $this->template('construction/travelled', $construction) ?>
 	<?php endforeach ?>
-	<?php foreach ($region->Fleet() as $vessel): ?>
+	<?php foreach ($fleet as $vessel): ?>
 		<?= $this->template('vessel/travelled', $vessel) ?>
 	<?php endforeach ?>
 	<?= $this->template('apparitions/travelled', $region) ?>

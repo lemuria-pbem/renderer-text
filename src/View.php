@@ -22,6 +22,8 @@ use Lemuria\Model\Dictionary;
 use Lemuria\Model\Fantasya\Commodity;
 use Lemuria\Model\Fantasya\Composition;
 use Lemuria\Model\Fantasya\Construction;
+use Lemuria\Model\Fantasya\Estate;
+use Lemuria\Model\Fantasya\Fleet;
 use Lemuria\Model\Fantasya\Landscape\Ocean;
 use Lemuria\Model\Fantasya\Herb;
 use Lemuria\Model\Fantasya\Loot;
@@ -70,6 +72,16 @@ abstract class View
 	protected array $statisticsCache = [];
 
 	private readonly Filter $messageFilter;
+
+	public static function sortedEstate(Region $region): Estate {
+		$estate = clone $region->Estate();
+		return $estate->sort();
+	}
+
+	public static function sortedFleet(Region $region): Fleet {
+		$fleet = clone $region->Fleet();
+		return $fleet->sort();
+	}
 
 	public function __construct(public Party $party, FileWriter $writer) {
 		$this->messageFilter = $writer->getFilter();
@@ -257,14 +269,14 @@ abstract class View
 					$announcements[] = $message;
 				}
 			}
-			foreach ($region->Estate() as $construction /* @var Construction $construction */) {
+			foreach (self::sortedEstate($region) as $construction /* @var Construction $construction */) {
 				foreach (Lemuria::Report()->getAll($construction) as $message) {
 					if (!$filter->retains($message)) {
 						$announcements[] = $message;
 					}
 				}
 			}
-			foreach ($region->Fleet() as $vessel /* @var Vessel $vessel */) {
+			foreach (self::sortedFleet($region) as $vessel /* @var Vessel $vessel */) {
 				foreach (Lemuria::Report()->getAll($vessel) as $message) {
 					if (!$filter->retains($message)) {
 						$announcements[] = $message;
