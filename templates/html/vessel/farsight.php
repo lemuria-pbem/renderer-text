@@ -39,7 +39,7 @@ $i           = 0;
 			Das Schiff ankert im <?= $this->get('world', $vessel->Anchor()) ?>.
 		<?php endif ?>
 	<?php endif ?>
-	<?= $vessel->Description() ?>
+	<?= $this->template('description', $vessel) ?>
 	<?php if (!$treasury->isEmpty()): ?>
 		<br>
 		<?= $this->template('treasury/vessel', $treasury) ?>

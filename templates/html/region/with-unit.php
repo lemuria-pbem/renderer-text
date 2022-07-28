@@ -122,10 +122,7 @@ endif;
 		<br>
 	<?php endif ?>
 	<?= ucfirst(implode(', ', $neighbours)) ?>.
-	<?php if ($region->Description()): ?>
-		<br>
-		<?= $region->Description() ?>
-	<?php endif ?>
+	<?= $this->template('description', $region) ?>
 </p>
 <?php if ($luxuries && $hasPeasants || $gs > 0): ?>
 	<p>

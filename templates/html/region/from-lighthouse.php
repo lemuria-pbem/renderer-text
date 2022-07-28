@@ -29,5 +29,5 @@ $neighbours = $this->neighbours($region);
 	<?php endif ?>
 	<?= ucfirst(implode(', ', $neighbours)) ?>.
 	<br>
-	<?= $region->Description() ?>
+	<?= $this->template('description', $region) ?>
 </p>

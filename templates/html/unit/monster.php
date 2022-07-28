@@ -26,7 +26,7 @@ endif;
 </h6>
 <p>
 	<?= $this->number($unit->Size(), 'race', $unit->Race()) ?><?php if ($unit->IsGuarding()): ?>, bewacht die Region<?php endif ?>.
-	<?= $unit->Description() ?>
+	<?= $this->template('description', $unit) ?>
 	<?php if (!empty($inventory)): ?>
 		<br>
 		Hat <?= implode(', ', $inventory) ?>.

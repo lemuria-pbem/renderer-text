@@ -17,7 +17,7 @@ $e             = 0;
 
 ?>
 <h5>Talentstatistik (Stufe, Anzahl, Prognose)</h5>
-<table class="statistics table table-sm table-striped table-bordered"">
+<table class="statistics table table-sm table-striped table-bordered">
 	<tbody>
 		<?php for ($r = 0; $r < $rCount; $r++): ?>
 			<?php $n = min(($r + 1) * $items, $eCount) ?>

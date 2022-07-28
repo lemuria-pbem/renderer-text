@@ -32,7 +32,7 @@ $i           = 0;
 	<?php else: ?>
 		niemand.
 	<?php endif ?>
-	<?= $construction->Description() ?>
+	<?= $this->template('description', $construction) ?>
 	<?php if (!$treasury->isEmpty()): ?>
 		<br>
 		<?= $this->template('treasury/construction', $treasury) ?>

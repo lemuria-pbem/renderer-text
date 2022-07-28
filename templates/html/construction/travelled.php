@@ -25,7 +25,7 @@ $owner        = $construction->Inhabitants()->Owner()?->Party();
 				<?php else: ?>
 					Besitzer ist niemand.
 				<?php endif ?>
-				<?= $construction->Description() ?>
+				<?= $this->template('description', $construction) ?>
 			</p>
 		</div>
 		<div class="col-12 col-lg-6 pr-0">

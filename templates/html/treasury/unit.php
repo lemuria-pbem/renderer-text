@@ -22,7 +22,7 @@ Besondere Gegenstände:
 		<?php else: ?>
 			<?= $this->composition($unicum->Composition()) ?> <span class="badge badge-dark"><?= $unicum->Id() ?></span>:
 		<?php endif ?>
-		<?= $unicum->Description() ?>
+		<?= $this->template('description', $unicum) ?>
 	<?php else: ?>
 		<?php if ($unicum->Name()): ?>
 			<?= $unicum->Name() ?> <span class="badge badge-dark"><?= $unicum->Id() ?></span>, <?= $this->composition($unicum->Composition()) ?>

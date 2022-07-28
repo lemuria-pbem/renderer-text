@@ -3,6 +3,7 @@ declare (strict_types = 1);
 
 use Lemuria\Engine\Fantasya\Factory\Model\Visibility;
 use Lemuria\Model\Fantasya\Region;
+use Lemuria\Renderer\Text\View;
 use Lemuria\Renderer\Text\View\Text;
 
 /** @var Text $this */
@@ -11,6 +12,8 @@ use Lemuria\Renderer\Text\View\Text;
 $region     = $this->variables[0];
 $atlas      = $this->atlas;
 $visibility = $atlas->getVisibility($region);
+$estate     = View::sortedEstate($region);
+$fleet      = View::sortedFleet($region);
 
 ?>
 <?php if ($visibility === Visibility::WITH_UNIT): ?>
@@ -20,39 +23,39 @@ $visibility = $atlas->getVisibility($region);
 <?= $this->template('statistics/region', $region) ?>
 
 <?= $this->template('material-pool', $region) ?>
-<?php foreach ($region->Estate() as $construction): ?>
+<?php foreach ($estate as $construction): ?>
 <?= $this->template('construction/with-unit', $construction) ?>
 <?php endforeach ?>
-<?php foreach ($region->Fleet() as $vessel): ?>
+<?php foreach ($fleet as $vessel): ?>
 <?= $this->template('vessel/with-unit', $vessel) ?>
 <?php endforeach ?>
 <?= $this->template('apparitions/with-unit', $region) ?>
 <?php elseif ($visibility === Visibility::FARSIGHT): ?>
 <?= $this->template('region/with-unit', $region) ?>
 
-<?php foreach ($region->Estate() as $construction): ?>
+<?php foreach ($estate as $construction): ?>
 <?= $this->template('construction/foreign', $construction) ?>
 <?php endforeach ?>
-<?php foreach ($region->Fleet() as $vessel): ?>
+<?php foreach ($fleet as $vessel): ?>
 <?= $this->template('vessel/foreign', $vessel) ?>
 <?php endforeach ?>
 <?= $this->template('apparitions/with-unit', $region) ?>
 <?php elseif ($visibility === Visibility::TRAVELLED): ?>
 <?= $this->template('region/with-unit', $region) ?>
 <?= $this->template('report', $region) ?>
-<?php foreach ($region->Estate() as $construction): ?>
+<?php foreach ($estate as $construction): ?>
 <?= $this->template('construction/travelled', $construction) ?>
 <?php endforeach ?>
-<?php foreach ($region->Fleet() as $vessel): ?>
+<?php foreach ($fleet as $vessel): ?>
 <?= $this->template('vessel/travelled', $vessel) ?>
 <?php endforeach ?>
 <?= $this->template('apparitions/travelled', $region) ?>
 <?php elseif ($visibility === Visibility::LIGHTHOUSE): ?>
 <?= $this->template('region/from-lighthouse', $region) ?>
-<?php foreach ($region->Estate() as $construction): ?>
+<?php foreach ($estate as $construction): ?>
 <?= $this->template('construction/travelled', $construction) ?>
 <?php endforeach ?>
-<?php foreach ($region->Fleet() as $vessel): ?>
+<?php foreach ($fleet as $vessel): ?>
 <?= $this->template('vessel/travelled', $vessel) ?>
 <?php endforeach ?>
 <?= $this->template('apparitions/travelled', $region) ?>
