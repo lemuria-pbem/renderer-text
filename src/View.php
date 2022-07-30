@@ -430,6 +430,9 @@ abstract class View
 		foreach ($version[Version::RENDERERS] as $versionTag) {
 			$versions[] = $versionTag->name . ': ' . $versionTag->version;
 		}
+		foreach ($version[Version::STATISTICS] as $versionTag) {
+			$versions[] = $versionTag->name . ': ' . $versionTag->version;
+		}
 		return $versions;
 	}
 
