@@ -118,8 +118,8 @@ class Html extends View
 	}
 
 	/**
-	 * @param array(string=>Subject) $subjects
-	 * @return array(string=>HtmlNumber)
+	 * @param array<string, Subject> $subjects
+	 * @return array<string, HtmlNumber>
 	 */
 	public function multipleStatistics(array $subjects, Region $region): array {
 		foreach ($region->Residents() as $unit /* @var Unit $unit */) {
@@ -273,7 +273,6 @@ class Html extends View
 	 */
 	protected function generateContent(string $template): string {
 		ob_start();
-		/** @noinspection PhpIncludeInspection */
 		$result = @include __DIR__ . '/../../templates/html/' . $template . '.php';
 		$output = ob_get_clean();
 		if ($result) {
