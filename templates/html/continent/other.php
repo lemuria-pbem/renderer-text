@@ -10,7 +10,7 @@ use Lemuria\Renderer\Text\View\Html;
 $continent = $this->variables[0];
 
 ?>
-<h3>
+<h3 id="continent-<?= $continent->Id() ?>">
 	<?= $continent->Name() ?>
 </h3>
 

@@ -15,8 +15,7 @@ use Lemuria\Renderer\Text\View\Text;
 $party     = $this->party;
 $isPlayer  = $party->Type() === Type::PLAYER;
 $banner    = $this->party->Banner() ? 'Unser Banner: ' . $this->party->Banner() : '(kein Banner gesetzt)';
-$census    = $this->census;
-$atlas     = $this->atlas;
+$travelLog = $this->travelLog;
 $calendar  = Lemuria::Calendar();
 $season    = $this->get('calendar.season', $calendar->Season() - 1);
 $month     = $this->get('calendar.month', $calendar->Month() - 1);
@@ -49,6 +48,8 @@ $continent = Continent::get(new Id(1));
 <?= center('Alle bekannten Völker') ?>
 <?= $this->wrappedTemplate('acquaintances', $party) ?>
 <?php endif ?>
+<?php foreach ($travelLog as $continent => $atlas): ?>
+<?php if ($atlas->count() > 0): ?>
 <?= hr() ?>
 
 <?php if ($isPlayer): ?>
@@ -59,5 +60,7 @@ $continent = Continent::get(new Id(1));
 
 <?php foreach ($atlas as $region): ?>
 <?= $this->wrappedTemplate('region', $region) ?>
+<?php endforeach ?>
+<?php endif ?>
 <?php endforeach ?>
 <?= footer($this->gameVersions()) ?>

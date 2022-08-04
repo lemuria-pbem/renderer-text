@@ -12,8 +12,7 @@ use Lemuria\Renderer\Text\View\Html;
 
 $party     = $this->party;
 $isPlayer  = $party->Type() === Type::PLAYER;
-$census    = $this->census;
-$atlas     = $this->atlas;
+$travelLog = $this->travelLog;
 $calendar  = Lemuria::Calendar();
 $season    = $this->get('calendar.season', $calendar->Season() - 1);
 $month     = $this->get('calendar.month', $calendar->Month() - 1);
@@ -50,17 +49,21 @@ $continent = Continent::get(new Id(1));
 
 	<hr>
 
-	<?php if ($isPlayer): ?>
-		<?= $this->template('continent/player', $continent) ?>
-	<?php else: ?>
-		<?= $this->template('continent/other', $continent) ?>
-	<?php endif ?>
+	<?php foreach ($travelLog as $continent => $atlas): ?>
+		<?php if ($atlas->count() > 0): ?>
+			<?php if ($isPlayer): ?>
+				<?= $this->template('continent/player', $continent) ?>
+			<?php else: ?>
+				<?= $this->template('continent/other', $continent) ?>
+			<?php endif ?>
 
-	<?php foreach ($atlas as $region): ?>
-		<?= $this->template('region', $region) ?>
+			<?php foreach ($atlas as $region): ?>
+				<?= $this->template('region', $region) ?>
+			<?php endforeach ?>
+
+			<hr>
+		<?php endif ?>
 	<?php endforeach ?>
-
-	<hr>
 
 	<?= $this->template('footer') ?>
 </body>

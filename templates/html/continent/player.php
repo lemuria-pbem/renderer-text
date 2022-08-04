@@ -34,7 +34,7 @@ foreach ($acquaintances as $acquaintance /* @var Party $acquaintance */):
 endforeach;
 
 ?>
-<h3>
+<h3 id="continent-<?= $continent->Id() ?>">
 	<?= $name ?>
 	<?php if ($hasOwnName): ?>
 		<span class="badge badge-primary"><?= $party->Id() ?></span>

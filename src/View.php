@@ -2,6 +2,7 @@
 declare (strict_types = 1);
 namespace Lemuria\Renderer\Text;
 
+use Lemuria\Renderer\Text\Model\TravelLog;
 use function Lemuria\getClass;
 use function Lemuria\number as formatNumber;
 use Lemuria\Engine\Fantasya\Census;
@@ -59,6 +60,8 @@ abstract class View
 
 	public readonly TravelAtlas $atlas;
 
+	public readonly TravelLog $travelLog;
+
 	public readonly PartyMap $map;
 
 	protected readonly Dictionary $dictionary;
@@ -89,6 +92,7 @@ abstract class View
 		$this->outlook       = new Outlook($this->census);
 		$this->atlas         = new TravelAtlas($this->party);
 		$this->atlas->forRound(Lemuria::Calendar()->Round() - 1);
+		$this->travelLog  = new TravelLog($party);
 		$this->map        = new PartyMap(Lemuria::World(), $this->party);
 		$this->dictionary = new Dictionary();
 		$this->spyEffect  = $this->getSpyEffect();
