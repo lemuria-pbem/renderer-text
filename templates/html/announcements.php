@@ -12,10 +12,11 @@ $announcements = $this->announcements();
 	<div class="col-12 p-0">
 		<h3>Botschaften</h3>
 
-		<ul class="report">
-			<?php foreach ($announcements as $message): ?>
-				<li><?= $this->message($message) ?></li>
-			<?php endforeach ?>
-		</ul>
+		<?php foreach ($announcements as $announcement): ?>
+			<div class="announcement">
+				<span class="sender">Von: <strong><?= $announcement->Sender() ?></strong></span>&nbsp;·&nbsp;<span class="recipient">An: <strong><?= $announcement->Recipient() ?></strong></span>
+				<blockquote>„<?= $announcement->Message() ?>“</blockquote>
+			</div>
+		<?php endforeach ?>
 	</div>
 <?php endif ?>

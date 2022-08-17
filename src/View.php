@@ -2,7 +2,6 @@
 declare (strict_types = 1);
 namespace Lemuria\Renderer\Text;
 
-use Lemuria\Renderer\Text\Model\TravelLog;
 use function Lemuria\getClass;
 use function Lemuria\number as formatNumber;
 use Lemuria\Engine\Fantasya\Census;
@@ -11,6 +10,7 @@ use Lemuria\Engine\Fantasya\Effect\SpyEffect;
 use Lemuria\Engine\Fantasya\Effect\TravelEffect;
 use Lemuria\Engine\Fantasya\Factory\Model\TravelAtlas;
 use Lemuria\Engine\Fantasya\Message\Filter\NoAnnouncementFilter;
+use Lemuria\Engine\Fantasya\Message\LemuriaMessage;
 use Lemuria\Engine\Fantasya\Outlook;
 use Lemuria\Engine\Fantasya\State;
 use Lemuria\Engine\Fantasya\Statistics\Subject;
@@ -36,6 +36,8 @@ use Lemuria\Model\Fantasya\Relation;
 use Lemuria\Model\Fantasya\Unit;
 use Lemuria\Model\Fantasya\Vessel;
 use Lemuria\Model\Fantasya\World\PartyMap;
+use Lemuria\Renderer\Text\Engine\Announcement;
+use Lemuria\Renderer\Text\Model\TravelLog;
 use Lemuria\Singleton;
 use Lemuria\Statistics;
 use Lemuria\Statistics\Data;
@@ -247,7 +249,7 @@ abstract class View
 	 */
 	public function messages(Identifiable $entity): array {
 		$messages = [];
-		foreach (Lemuria::Report()->getAll($entity) as $message) {
+		foreach (Lemuria::Report()->getAll($entity) as $message /* @var LemuriaMessage $message */) {
 			if (!$this->messageFilter->retains($message)) {
 				$messages[] = $message;
 			}
@@ -256,42 +258,42 @@ abstract class View
 	}
 
 	/**
-	 * @return Message[]
+	 * @return Announcement[]
 	 */
 	public function announcements(): array {
 		$announcements = [];
 		$atlas         = $this->census->getAtlas();
 		$filter        = new NoAnnouncementFilter();
-		foreach (Lemuria::Report()->getAll($this->party) as $message) {
+		foreach (Lemuria::Report()->getAll($this->party) as $message /* @var LemuriaMessage $message */) {
 			if (!$filter->retains($message)) {
-				$announcements[] = $message;
+				$announcements[] = new Announcement($message, $this->dictionary);
 			}
 		}
 		foreach ($this->atlas as $region /* @var Region $region */) {
-			foreach (Lemuria::Report()->getAll($region) as $message) {
+			foreach (Lemuria::Report()->getAll($region) as $message /* @var LemuriaMessage $message */) {
 				if (!$filter->retains($message)) {
-					$announcements[] = $message;
+					$announcements[] = new Announcement($message, $this->dictionary);
 				}
 			}
 			foreach (self::sortedEstate($region) as $construction /* @var Construction $construction */) {
-				foreach (Lemuria::Report()->getAll($construction) as $message) {
+				foreach (Lemuria::Report()->getAll($construction) as $message /* @var LemuriaMessage $message */) {
 					if (!$filter->retains($message)) {
-						$announcements[] = $message;
+						$announcements[] = new Announcement($message, $this->dictionary);
 					}
 				}
 			}
 			foreach (self::sortedFleet($region) as $vessel /* @var Vessel $vessel */) {
-				foreach (Lemuria::Report()->getAll($vessel) as $message) {
+				foreach (Lemuria::Report()->getAll($vessel) as $message /* @var LemuriaMessage $message */) {
 					if (!$filter->retains($message)) {
-						$announcements[] = $message;
+						$announcements[] = new Announcement($message, $this->dictionary);
 					}
 				}
 			}
 			if ($atlas->has($region->Id())) {
 				foreach ($this->census->getPeople($region) as $unit /* @var Unit $unit */) {
-					foreach (Lemuria::Report()->getAll($unit) as $message) {
+					foreach (Lemuria::Report()->getAll($unit) as $message /* @var LemuriaMessage $message */) {
 						if (!$filter->retains($message)) {
-							$announcements[] = $message;
+							$announcements[] = new Announcement($message, $this->dictionary);
 						}
 					}
 				}

@@ -1,4 +1,4 @@
-<?php
+<?php /** @noinspection PhpPossiblePolymorphicInvocationInspection */
 declare (strict_types = 1);
 
 use Lemuria\Engine\Fantasya\Statistics\Subject;
