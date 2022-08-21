@@ -10,14 +10,26 @@ use Lemuria\Model\Domain;
 
 class Announcement
 {
+	private ?string $from = null;
+
 	private string $sender;
+
+	private string $to;
 
 	private string $recipient;
 
 	private string $message;
 
+	public function From(): ?string {
+		return $this->from;
+	}
+
 	public function Sender(): string {
 		return $this->sender;
+	}
+
+	public function To(): string {
+		return $this->to;
 	}
 
 	public function Recipient(): string {
@@ -36,18 +48,32 @@ class Announcement
 			if (empty($sender)) {
 				$this->sender = 'Anonyme Einheit';
 			} elseif ($domain === Domain::UNIT) {
-				$this->sender = $type->Sender();
+				$this->sender = $this->setFrom($type->Sender());
 			} else {
-				$this->sender = $dictionary->get('domain.' . Domain::PARTY->name) . ' ' . $type->Sender();
+				$this->sender = $dictionary->get('domain.' . Domain::PARTY->name) . ' ' . $this->setFrom($type->Sender());
 			}
 			if ($domain === Domain::UNIT) {
-				$this->recipient = $type->Recipient();
+				$this->recipient = $this->setTo($type->Recipient());
 			} else {
-				$this->recipient = $dictionary->get('domain.' . $domain->name) . ' ' . $type->Recipient();
+				$this->recipient = $dictionary->get('domain.' . $domain->name) . ' ' . $this->setTo($type->Recipient());
 			}
-			$this->message   = $type->Message();
+			$this->message = $type->Message();
 			return $this;
 		}
 		throw new LemuriaException('No announcement message.');
+	}
+
+	protected function setFrom(string $sender): string {
+		$start      = strrpos($sender, '[');
+		$end        = strrpos($sender, ']');
+		$this->from = substr($sender, $start + 1, $end - $start - 1);
+		return substr($sender, 0, $start - 1);
+	}
+
+	protected function setTo(string $recipient): string {
+		$start    = strrpos($recipient, '[');
+		$end      = strrpos($recipient, ']');
+		$this->to = substr($recipient, $start + 1, $end - $start - 1);
+		return substr($recipient, 0, $start - 1);
 	}
 }

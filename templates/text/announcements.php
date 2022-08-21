@@ -18,8 +18,11 @@ $announcements = $this->announcements();
 <?= center('Botschaften') ?>
 <?php foreach ($announcements as $announcement): ?>
 
-Von: <?= $announcement->Sender() ?> · An: <?= $announcement->Recipient() ?>
-
+<?php if ($announcement->From()): ?>
+Von: <?= $announcement->Sender() ?> [<?= $announcement->From() ?>] · An: <?= $announcement->Recipient() ?> [<?= $announcement->To() ?>]
+<?php else: ?>
+Von: <?= $announcement->Sender() ?> · An: <?= $announcement->Recipient() ?> [<?= $announcement->To() ?>]
+<?php endif ?>
 <?= wrap('„' . $announcement->Message() . '“') ?>
 <?php endforeach ?>
 <?php endif ?>

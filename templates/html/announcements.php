@@ -14,7 +14,11 @@ $announcements = $this->announcements();
 
 		<?php foreach ($announcements as $announcement): ?>
 			<div class="announcement">
-				<span class="sender">Von: <strong><?= $announcement->Sender() ?></strong></span>&nbsp;·&nbsp;<span class="recipient">An: <strong><?= $announcement->Recipient() ?></strong></span>
+				<?php if ($announcement->From()): ?>
+					<span class="sender">Von: <strong><?= $announcement->Sender() ?></strong></span>&nbsp;<span class="badge badge-primary"><?= $announcement->From() ?></span>&nbsp;·&nbsp;<span class="recipient">An: <strong><?= $announcement->Recipient() ?></strong></span>&nbsp;<span class="badge badge-primary"><?= $announcement->To() ?></span>
+				<?php else: ?>
+					<span class="sender">Von: <strong><?= $announcement->Sender() ?></strong></span>&nbsp;·&nbsp;<span class="recipient">An: <strong><?= $announcement->Recipient() ?></strong></span>&nbsp;<span class="badge badge-primary"><?= $announcement->To() ?></span>
+				<?php endif ?>
 				<blockquote>„<?= $announcement->Message() ?>“</blockquote>
 			</div>
 		<?php endforeach ?>
