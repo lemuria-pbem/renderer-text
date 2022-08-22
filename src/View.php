@@ -9,6 +9,7 @@ use Lemuria\Engine\Fantasya\Effect\Hunger;
 use Lemuria\Engine\Fantasya\Effect\SpyEffect;
 use Lemuria\Engine\Fantasya\Effect\TravelEffect;
 use Lemuria\Engine\Fantasya\Factory\Model\TravelAtlas;
+use Lemuria\Engine\Fantasya\Factory\Model\Visibility;
 use Lemuria\Engine\Fantasya\Message\Filter\NoAnnouncementFilter;
 use Lemuria\Engine\Fantasya\Message\LemuriaMessage;
 use Lemuria\Engine\Fantasya\Outlook;
@@ -175,11 +176,12 @@ abstract class View
 	 *
 	 * @return string[]
 	 */
-	public function neighbours(?Region $region): array {
+	public function neighbours(Region $region): array {
 		$neighbours = [];
 		$roads      = $region->Roads();
 		foreach ($this->map->getNeighbours($region) as $direction => $neighbour) {
-			if ($neighbour) {
+			$visibility = $this->atlas->getVisibility($neighbour)->value;
+			if ($visibility > Visibility::UNKNOWN->value) {
 				if ($region->hasRoad($direction)) {
 					$predicate = ' führt eine Straße ';
 					$neighbour = $this->neighbour($neighbour, true);
