@@ -2,6 +2,7 @@
 declare(strict_types = 1);
 namespace Lemuria\Renderer\Text\View;
 
+use function Lemuria\endsWith;
 use Lemuria\Engine\Fantasya\Statistics\Subject;
 use Lemuria\Entity;
 use Lemuria\Engine\Message;
@@ -22,7 +23,7 @@ use Lemuria\Version;
 function description(Entity $entity): string {
 	if ($entity->Description()) {
 		$description = ' ' . trim($entity->Description());
-		if (!str_ends_with($description, '.')) {
+		if (!endsWith($description, ['.', '!', '?'])) {
 			$description .= '.';
 		}
 		return $description;
