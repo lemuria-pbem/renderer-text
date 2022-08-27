@@ -18,9 +18,9 @@ $a = 0;
 $g = 0;
 
 ?>
-<?php if ($acquaintances->count()): ?>
-	<h3 id="alliances" title="Taste: A">Bekannte Völker und Allianzen</h3>
+<h3 id="alliances" title="Taste: A">Bekannte Völker und Allianzen</h3>
 
+<?php if ($acquaintances->count()): ?>
 	<div id="acquaintances" class="container-fluid">
 		<div class="row">
 			<?php foreach ($acquaintances as $acquaintance /* @var Party $acquaintance */): ?>
