@@ -31,9 +31,9 @@ $e             = 0;
 				<?php for (; $e < $n; $e++): ?>
 					<?php for ($i = 0; $i < 3; $i++): ?>
 						<?php if ($qualification[$e]->prognosis[$i]): ?>
-							<td><?= ($i >= 2 ? '≤ ' : '') . $qualification[$e]->level[$i] ?>: <?= $qualification[$e]->prognosis[$i]->value ?></td>
-							<td class="more-is-good <?= $qualification[$e]->prognosis[$i]->movement ?>"><?= $qualification[$e]->prognosis[$i]->change ?></td>
-							<td><?= $qualification[$e]->prognosis[$i]->prognosis ?></td>
+							<td class="rank-<?= $i + 1 ?>"><?= ($i >= 2 ? '≤ ' : '') . $qualification[$e]->level[$i] ?>: <?= $qualification[$e]->prognosis[$i]->value ?></td>
+							<td class="rank-<?= $i + 1 ?> more-is-good <?= $qualification[$e]->prognosis[$i]->movement ?>"><?= $qualification[$e]->prognosis[$i]->change ?></td>
+							<td class="rank-<?= $i + 1 ?>"><?= $qualification[$e]->prognosis[$i]->prognosis ?></td>
 						<?php else: ?>
 							<td colspan="3"></td>
 						<?php endif ?>
