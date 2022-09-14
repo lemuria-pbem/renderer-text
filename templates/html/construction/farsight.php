@@ -11,33 +11,25 @@ use Lemuria\Renderer\Text\View\Html;
 
 /** @var Construction $construction */
 $construction = $this->variables[0];
-$inhabitants  = $this->people($construction);
-$people       = $inhabitants === 1 ? 'Bewohner' : 'Bewohnern';
 $treasury     = $construction->Treasury();
-
-$unitsInside = $construction->Inhabitants()->sort(SortMode::BY_PARTY, $this->party);
-$owner       = $unitsInside->Owner();
-$i           = 0;
+$unitsInside  = $construction->Inhabitants()->sort(SortMode::BY_PARTY, $this->party);
+$i            = 0;
 
 ?>
-<h5 id="construction-<?= $construction->Id()->Id() ?>">
-	<?= $construction->Name() ?>
-	<span class="badge badge-secondary"><?= $construction->Id() ?></span>
-</h5>
-<p>
-	<?= $this->get('building', $construction->Building()) ?> der Größe <?= $this->number($construction->Size()) ?> mit <?= $this->number($inhabitants) ?> <?= $people ?>.
-	Besitzer ist
-	<?php if (count($unitsInside)): ?>
-		<?= $owner->Name() ?> <span class="badge badge-primary"><?= $owner->Id() ?></span>.
-	<?php else: ?>
-		niemand.
-	<?php endif ?>
-	<?= $this->template('description', $construction) ?>
-	<?php if (!$treasury->isEmpty()): ?>
-		<br>
-		<?= $this->template('treasury/construction', $treasury) ?>
-	<?php endif ?>
-</p>
+<?php if ($treasury->isEmpty()): ?>
+	<?= $this->template('construction/part/description', $construction) ?>
+<?php else: ?>
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-12 col-md-6">
+				<?= $this->template('construction/part/description', $construction) ?>
+			</div>
+			<div class="col-12 col-md-6">
+				<?= $this->template('treasury/construction', $treasury) ?>
+			</div>
+		</div>
+	</div>
+<?php endif ?>
 
 <?php if ($unitsInside->count() > 0): ?>
 	<div class="container-fluid">

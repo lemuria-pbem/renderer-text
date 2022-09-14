@@ -4,6 +4,8 @@ declare (strict_types = 1);
 
 use function Lemuria\Renderer\Text\View\p3;
 use Lemuria\Model\Fantasya\Construction;
+use Lemuria\Model\Fantasya\Extension\Market;
+use Lemuria\Model\Fantasya\Market\Sales;
 use Lemuria\Model\World\SortMode;
 use Lemuria\Renderer\Text\View\Html;
 
@@ -11,37 +13,57 @@ use Lemuria\Renderer\Text\View\Html;
 
 /** @var Construction $construction */
 $construction = $this->variables[0];
-$inhabitants  = $this->people($construction);
-$people       = $inhabitants === 1 ? 'Bewohner' : 'Bewohnern';
 $treasury     = $construction->Treasury();
-
-$unitsInside = $construction->Inhabitants()->sort(SortMode::BY_PARTY, $this->party);
-$owner       = $unitsInside->Owner();
-$i           = 0;
+$unitsInside  = $construction->Inhabitants()->sort(SortMode::BY_PARTY, $this->party);
+$i            = 0;
+$m            = count($this->messages($construction));
+$h            = $treasury->isEmpty() ? 0 : 1;
+$sales        = $construction->Extensions()->offsetExists(Market::class) ? new Sales($construction) : null;
+$s            = $sales?->count() ? 1 : 0;
+$columns      = 1 + ($m > 0 || $h) + $s;
 
 ?>
-<h5 id="construction-<?= $construction->Id()->Id() ?>">
-	<?= $construction->Name() ?>
-	<span class="badge badge-secondary"><?= $construction->Id() ?></span>
-</h5>
-<p>
-	<?= $this->get('building', $construction->Building()) ?> der Größe <?= $this->number($construction->Size()) ?> mit <?= $this->number($inhabitants) ?> <?= $people ?>.
-	Besitzer ist
-	<?php if (count($unitsInside)): ?>
-		<?= $owner->Name() ?> <span class="badge badge-primary"><?= $owner->Id() ?></span>.
-	<?php else: ?>
-		niemand.
-	<?php endif ?>
-	<?= $this->template('description', $construction) ?>
-	<?php if (!$treasury->isEmpty()): ?>
-		<br>
-		<?= $this->template('treasury/construction', $treasury) ?>
-	<?php endif ?>
-</p>
-
-<?php if (count($this->messages($construction))): ?>
-	<h6>Ereignisse</h6>
-	<?= $this->template('report', $construction) ?>
+<?php if ($columns === 1): ?>
+	<?= $this->template('construction/part/description', $construction) ?>
+<?php else: ?>
+	<div class="container-fluid">
+		<div class="row">
+			<?php if ($columns === 2): ?>
+				<div class="col-12 col-md-6">
+					<?= $this->template('construction/part/description', $construction) ?>
+				</div>
+				<div class="col-12 col-md-6">
+					<?php if ($s): ?>
+						<?= $this->template('construction/building/market', $construction, $sales) ?>
+					<?php else: ?>
+						<?php if ($h): ?>
+							<?= $this->template('treasury/construction', $treasury) ?>
+						<?php endif ?>
+						<?php if ($m > 0): ?>
+							<h6>Ereignisse</h6>
+							<?= $this->template('report', $construction) ?>
+						<?php endif ?>
+					<?php endif ?>
+				</div>
+			<?php else: ?>
+				<div class="col-12 col-md-6 col-xl-4">
+					<?= $this->template('construction/part/description', $construction) ?>
+				</div>
+				<div class="col-12 col-md-6 col-xl-4">
+					<?= $this->template('construction/building/market', $construction, $sales) ?>
+				</div>
+				<div class="col-12 col-md-6 col-xl-4">
+					<?php if ($h): ?>
+						<?= $this->template('treasury/construction', $treasury) ?>
+					<?php endif ?>
+					<?php if ($m > 0): ?>
+						<h6>Ereignisse</h6>
+						<?= $this->template('report', $construction) ?>
+					<?php endif ?>
+				</div>
+			<?php endif ?>
+		</div>
+	</div>
 <?php endif ?>
 
 <?php if ($unitsInside->count() > 0): ?>
