@@ -1,14 +1,15 @@
 <?php
 declare (strict_types = 1);
 
+use function Lemuria\Renderer\Text\View\center;
 use Lemuria\Model\Fantasya\Commodity;
 use Lemuria\Model\Fantasya\Construction;
 use Lemuria\Model\Fantasya\Extension\Market;
 use Lemuria\Model\Fantasya\Market\Sales;
 use Lemuria\Model\Fantasya\Quantity;
-use Lemuria\Renderer\Text\View\Html;
+use Lemuria\Renderer\Text\View\Text;
 
-/** @var Html $this */
+/** @var Text $this */
 
 /** @var Construction $construction */
 $construction = $this->variables[0];
@@ -24,22 +25,21 @@ foreach ($tradeables as $commodity /* @var Commodity $commodity */) {
 }
 
 ?>
-<h6>Marktordnung</h6>
+<?= center('Marktordnung') ?>
 
 <?php if ($fee instanceof Quantity): ?>
-	<p>Die Marktgebühr beträgt <?= $this->resource($fee) ?>.</p>
+Die Marktgebühr beträgt <?= $this->resource($fee) ?>.
 <?php elseif (is_float($fee)): ?>
-	<p>Die Marktgebühr beträgt <?= (int)round(100.0 * $fee) ?> % des Umsatzes.</p>
+Die Marktgebühr beträgt <?= (int)round(100.0 * $fee) ?>% des Umsatzes.
 <?php else: ?>
-	<p>Es gibt keine Marktgebühr.</p>
+Es gibt keine Marktgebühr.
 <?php endif ?>
-
 <?php if (count($goods)): ?>
-	<?php if ($tradeables->IsExclusion()): ?>
-		<p>Die Marktaufsicht hat den Handel mit den folgenden Waren verboten: <?= implode(', ', $goods) ?></p>
-	<?php else: ?>
-		<p>Auf diesem Markt dürfen nur die folgenden Waren gehandelt werden: <?= implode(', ', $goods) ?></p>
-	<?php endif ?>
+<?php if ($tradeables->IsExclusion()): ?>
+Die Marktaufsicht hat den Handel mit den folgenden Waren verboten: <?= implode(', ', $goods) ?>
 <?php else: ?>
-	<p>Es gibt keine Handelsbeschränkungen.</p>
+Auf diesem Markt dürfen nur die folgenden Waren gehandelt werden: <?= implode(', ', $goods) ?>
+<?php endif ?>
+<?php else: ?>
+Es gibt keine Handelsbeschränkungen.
 <?php endif ?>

@@ -19,8 +19,7 @@ $i            = 0;
 $m            = count($this->messages($construction));
 $h            = $treasury->isEmpty() ? 0 : 1;
 $sales        = $construction->Extensions()->offsetExists(Market::class) ? new Sales($construction) : null;
-$s            = $sales?->count() ? 1 : 0;
-$columns      = 1 + ($m > 0 || $h) + $s;
+$columns      = 1 + ($m > 0 || $h) + ($sales ? 1 : 0);
 
 ?>
 <?php if ($columns === 1): ?>
@@ -33,7 +32,7 @@ $columns      = 1 + ($m > 0 || $h) + $s;
 					<?= $this->template('construction/part/description', $construction) ?>
 				</div>
 				<div class="col-12 col-md-6">
-					<?php if ($s): ?>
+					<?php if ($sales): ?>
 						<?= $this->template('construction/building/market', $construction, $sales) ?>
 					<?php else: ?>
 						<?php if ($h): ?>
@@ -71,7 +70,7 @@ $columns      = 1 + ($m > 0 || $h) + $s;
 		<div class="row">
 		<?php foreach ($unitsInside as $unit): ?>
 			<div class="col-12 col-md-6 col-xl-4 <?= p3(++$i) ?>">
-				<?= $this->template('unit', $unit) ?>
+				<?= $this->template('unit', $unit, $sales) ?>
 			</div>
 		<?php endforeach ?>
 		</div>
