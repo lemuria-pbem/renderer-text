@@ -19,7 +19,7 @@ $i            = 0;
 $m            = count($this->messages($construction));
 $h            = $treasury->isEmpty() ? 0 : 1;
 $sales        = $construction->Extensions()->offsetExists(Market::class) ? new Sales($construction) : null;
-$columns      = 1 + ($m > 0 || $h) + ($sales ? 1 : 0);
+$columns      = 1 + ($m > 0 || $h ? 1 : 0) + ($sales ? 1 : 0);
 
 ?>
 <?php if ($columns === 1): ?>
