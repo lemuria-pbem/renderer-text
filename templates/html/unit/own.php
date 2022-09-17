@@ -126,7 +126,7 @@ foreach ($allTrades as $trade /* @var Trade $trade */) {
 		Eingesetzte Kampfzauber: <?= implode(', ', $spells) ?>.
 	<?php endif ?>
 </p>
-<?php if ($sales): ?>
+<?php if ($sales && $allTrades->count() > 0): ?>
 	<div class="market">
 		<p class="h7">
 			<a data-toggle="collapse" href="#<?= $merchant ?>" role="button" aria-expanded="true" aria-controls="market">Aktuelle Marktangebote</a>

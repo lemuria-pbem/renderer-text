@@ -120,7 +120,7 @@ Hat <?= empty($inventory) ? 'nichts' : implode(', ', $inventory) ?>
 <?php if (!empty($spells)): ?>Eingesetzte Kampfzauber: <?= implode(', ', $spells) ?>
 .
 <?php endif ?>
-<?php if ($sales): ?>
+<?php if ($sales && $allTrades->count() > 0): ?>
 
 <?= center('Aktuelle Marktangebote') ?>
 <?php foreach ($trades as $trade): ?>
