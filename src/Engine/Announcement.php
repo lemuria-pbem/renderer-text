@@ -43,6 +43,7 @@ class Announcement
 	public function __construct(LemuriaMessage $message, Dictionary $dictionary) {
 		$type = $message->MessageType();
 		if ($type instanceof AnnouncementInterface) {
+			$type->init($message);
 			$domain = $type->Report();
 			$sender = $type->Sender();
 			if (empty($sender)) {
