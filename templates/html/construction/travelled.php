@@ -13,7 +13,7 @@ $owner        = $construction->Inhabitants()->Owner()?->Party();
 ?>
 <div class="container-fluid">
 	<div class="row">
-		<div class="col-12 col-lg-6 pl-0">
+		<div class="col-12">
 			<h5 id="construction-<?= $construction->Id()->Id() ?>">
 				<?= $construction->Name() ?>
 				<span class="badge badge-secondary"><?= $construction->Id() ?></span>
@@ -27,12 +27,6 @@ $owner        = $construction->Inhabitants()->Owner()?->Party();
 				<?php endif ?>
 				<?= $this->template('description', $construction) ?>
 			</p>
-		</div>
-		<div class="col-12 col-lg-6 pr-0">
-			<?php if (count($this->messages($construction))): ?>
-				<h6>Ereignisse</h6>
-				<?= $this->template('report', $construction) ?>
-			<?php endif ?>
 		</div>
 	</div>
 </div>

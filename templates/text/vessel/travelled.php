@@ -25,4 +25,3 @@ $captain = $vessel->Passengers()->Owner()?->Party();
 <?php endif ?>
 <?php endif ?>
 .<?= line(description($vessel)) ?>
-<?= $this->template('report', $vessel) ?>

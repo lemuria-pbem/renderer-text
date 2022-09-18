@@ -272,23 +272,26 @@ abstract class View
 			}
 		}
 		foreach ($this->atlas as $region /* @var Region $region */) {
-			if (in_array($this->atlas->getVisibility($region), [Visibility::WITH_UNIT, Visibility::TRAVELLED])) {
+			$visibility = $this->atlas->getVisibility($region);
+			if (in_array($visibility, [Visibility::WITH_UNIT, Visibility::TRAVELLED])) {
 				foreach (Lemuria::Report()->getAll($region) as $message/* @var LemuriaMessage $message */) {
 					if (!$filter->retains($message)) {
 						$announcements[] = new Announcement($message, $this->dictionary);
 					}
 				}
-				foreach (self::sortedEstate($region) as $construction/* @var Construction $construction */) {
-					foreach (Lemuria::Report()->getAll($construction) as $message/* @var LemuriaMessage $message */) {
-						if (!$filter->retains($message)) {
-							$announcements[] = new Announcement($message, $this->dictionary);
+				if ($visibility === Visibility::WITH_UNIT) {
+					foreach (self::sortedEstate($region) as $construction/* @var Construction $construction */) {
+						foreach (Lemuria::Report()->getAll($construction) as $message/* @var LemuriaMessage $message */) {
+							if (!$filter->retains($message)) {
+								$announcements[] = new Announcement($message, $this->dictionary);
+							}
 						}
 					}
-				}
-				foreach (self::sortedFleet($region) as $vessel/* @var Vessel $vessel */) {
-					foreach (Lemuria::Report()->getAll($vessel) as $message/* @var LemuriaMessage $message */) {
-						if (!$filter->retains($message)) {
-							$announcements[] = new Announcement($message, $this->dictionary);
+					foreach (self::sortedFleet($region) as $vessel/* @var Vessel $vessel */) {
+						foreach (Lemuria::Report()->getAll($vessel) as $message/* @var LemuriaMessage $message */) {
+							if (!$filter->retains($message)) {
+								$announcements[] = new Announcement($message, $this->dictionary);
+							}
 						}
 					}
 				}
