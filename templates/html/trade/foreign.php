@@ -8,6 +8,14 @@ use Lemuria\Renderer\Text\View\Html;
 
 /** @var Trade $trade */
 $trade = $this->variables[0];
+$price = $trade->Price();
 
 ?>
-fremdes Angebot
+<span class="badge badge-secondary"><?= $trade->Id() ?></span>
+<?php if ($trade->Trade() === Trade::OFFER): ?>
+	Angebot:
+<?php else: ?>
+	Gesuch:
+<?php endif ?>
+<?= $this->deal($trade->Goods()) ?> für <?= $this->deal($price) ?>
+<?php if ($price->IsVariable()): ?> (verhandelbar)<?php endif ?>

@@ -29,6 +29,7 @@ use Lemuria\Model\Fantasya\Fleet;
 use Lemuria\Model\Fantasya\Landscape\Ocean;
 use Lemuria\Model\Fantasya\Herb;
 use Lemuria\Model\Fantasya\Loot;
+use Lemuria\Model\Fantasya\Market\Deal;
 use Lemuria\Model\Fantasya\Potion;
 use Lemuria\Model\Fantasya\Quantity;
 use Lemuria\Model\Fantasya\Party;
@@ -148,6 +149,17 @@ abstract class View
 	 */
 	public function resource(Quantity $item, string $keyPath = 'resource'): string {
 		return $this->number($item->Count(), $keyPath, $item->getObject());
+	}
+
+	/**
+	 * Formast a Deal.
+	 */
+	public function deal(Deal $deal, bool $withMinimum = false): string {
+		$maximum = $this->number($deal->Maximum(), 'resource', $deal->Commodity());
+		if ($deal->IsVariable() && $withMinimum) {
+			return formatNumber($deal->Minimum()) . '–' . $maximum;
+		}
+		return $maximum;
 	}
 
 	/**

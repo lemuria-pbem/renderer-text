@@ -10,4 +10,6 @@ use Lemuria\Renderer\Text\View\Text;
 $trade = $this->variables[0];
 
 ?>
-eigenes Angebot
+<?php if ($trade->Trade() === Trade::OFFER): ?>Angebot <?php else: ?>Gesuch <?php endif ?>
+[<?= $trade->Id() ?>]: <?= $this->deal($trade->Goods()) ?> für <?= $this->deal($trade->Price(), true) ?>
+<?php if ($trade->IsRepeat()): ?> (wiederholt)<?php endif ?>
