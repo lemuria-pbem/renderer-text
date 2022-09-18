@@ -37,6 +37,7 @@ Dein Volk: <?= $party->Name() ?> [<?= $party->Id() ?>]
 Dein Volk zählt <?= $this->number($census->count(), 'race', $party->Race()) ?> in <?= $this->number($party->People()->count()) ?> Einheiten.
 <?= wrap('Deine Einheiten sammeln ' . $this->loot() . '.') ?>
 <?= wrap('Vorgaben für neue Einheiten: ' . implode(', ', $this->presettings()) . '.') ?>
+<?= wrap('Vorgaben für neue Handelsangebote: ' . ($party->Presettings()->IsRepeat() ? 'WIEDERHOLEN' : 'WIEDERHOLEN Nicht') . '.') ?>
 
 <?= hr() ?>
 
