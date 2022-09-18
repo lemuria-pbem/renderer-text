@@ -23,7 +23,10 @@ $sales        = $construction->Extensions()->offsetExists(Market::class) ? new S
  <?= $people ?>. Besitzer ist <?= count($construction->Inhabitants()) ? $construction->Inhabitants()->Owner() : 'niemand' ?>
 .<?= line(description($construction)) ?>
 <?php if (!$treasury->isEmpty()): ?><?= $this->template('treasury/region', $treasury) ?><?php endif ?>
-<?php if ($sales): ?><?= $this->template('construction/building/market', $construction, $sales) ?><?php endif ?>
+<?php if ($sales): ?>
+
+<?= $this->template('construction/building/market', $construction, $sales) ?>
+<?php endif ?>
 <?= $this->template('report', $construction) ?>
 <?php foreach ($construction->Inhabitants() as $unit): ?>
 <?= $this->template('unit', $unit, $sales) ?>

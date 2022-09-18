@@ -17,5 +17,5 @@ $price = $trade->Price();
 <?php else: ?>
 	Gesuch:
 <?php endif ?>
-<?= $this->deal($trade->Goods()) ?> für <?= $this->deal($price) ?>
+<?= $this->deal($trade->Goods(), true) ?> für <?= $this->deal($price) ?>
 <?php if ($price->IsVariable()): ?> (verhandelbar)<?php endif ?>

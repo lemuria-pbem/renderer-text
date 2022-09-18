@@ -28,10 +28,10 @@ $columns      = 1 + ($m > 0 || $h ? 1 : 0) + ($sales ? 1 : 0);
 	<div class="container-fluid">
 		<div class="row">
 			<?php if ($columns === 2): ?>
-				<div class="col-12 col-md-6">
+				<div class="col-12 col-md-6 p-0 pr-md-3">
 					<?= $this->template('construction/part/description', $construction) ?>
 				</div>
-				<div class="col-12 col-md-6">
+				<div class="col-12 col-md-6 p-0 pl-md-3 pt-md-5">
 					<?php if ($sales): ?>
 						<?= $this->template('construction/building/market', $construction, $sales) ?>
 					<?php else: ?>
@@ -45,13 +45,13 @@ $columns      = 1 + ($m > 0 || $h ? 1 : 0) + ($sales ? 1 : 0);
 					<?php endif ?>
 				</div>
 			<?php else: ?>
-				<div class="col-12 col-md-6 col-xl-4">
+				<div class="col-12 col-md-6 col-xl-4 p-0 pr-md-3">
 					<?= $this->template('construction/part/description', $construction) ?>
 				</div>
-				<div class="col-12 col-md-6 col-xl-4">
+				<div class="col-12 col-md-6 col-xl-4 p-0 pl-md-3 pr-xl-3 pt-md-5">
 					<?= $this->template('construction/building/market', $construction, $sales) ?>
 				</div>
-				<div class="col-12 col-md-6 col-xl-4">
+				<div class="col-12 col-md-6 col-xl-4 p-0 pr-md-4 pl-xl-3 pr-xl-0 pt-xl-5">
 					<?php if ($h): ?>
 						<?= $this->template('treasury/construction', $treasury) ?>
 					<?php endif ?>

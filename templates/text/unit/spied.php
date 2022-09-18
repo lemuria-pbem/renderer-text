@@ -69,9 +69,11 @@ GE.
 <?php if ($sales): ?>
 
 <?= center('Marktangebote') ?>
+
 <?php if (count($trades) > 0): ?>
 <?php foreach ($trades as $trade): ?>
 <?= $this->template('trade/foreign', $trade) ?>
+
 <?php endforeach ?>
 <?php else: ?>
 Dieser Händler hat gerade nichts anzubieten.

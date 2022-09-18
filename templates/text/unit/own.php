@@ -123,26 +123,31 @@ Hat <?= empty($inventory) ? 'nichts' : implode(', ', $inventory) ?>
 <?php if ($sales && $allTrades->count() > 0): ?>
 
 <?= center('Aktuelle Marktangebote') ?>
+
 <?php foreach ($trades as $trade): ?>
 <?= $this->template('trade/own', $trade) ?>
+
 <?php endforeach ?>
 <?php foreach ($impossible as $trade): ?>
 nicht vorrätig: <?= $this->template('trade/own', $trade) ?>
+
 <?php endforeach ?>
 <?php foreach ($forbidden as $trade): ?>
 Handel untersagt: <?= $this->template('trade/own', $trade) ?>
-<?php endforeach ?>
 
+<?php endforeach ?>
 <?php elseif ($allTrades->count() > 0): ?>
 
 <?= center('Angebote für den Markthandel') ?>
+
 <?php foreach ($trades as $trade): ?>
 <?= $this->template('trade/own', $trade) ?>
+
 <?php endforeach ?>
 <?php foreach ($impossible as $trade): ?>
 nicht vorrätig: <?= $this->template('trade/own', $trade) ?>
-<?php endforeach ?>
 
+<?php endforeach ?>
 <?php endif ?>
 <?php if (!empty($orders->comments)): ?>
 

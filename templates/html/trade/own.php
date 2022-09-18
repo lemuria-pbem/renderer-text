@@ -16,7 +16,7 @@ $trade = $this->variables[0];
 <?php else: ?>
 	Gesuch:
 <?php endif ?>
-<?= $this->deal($trade->Goods()) ?> für <?= $this->deal($trade->Price(), true) ?>
+<?= $this->deal($trade->Goods(), true) ?> für <?= $this->deal($trade->Price(), true) ?>
 <?php if ($trade->IsRepeat()): ?>
 	(wiederholt)
 <?php endif ?>
