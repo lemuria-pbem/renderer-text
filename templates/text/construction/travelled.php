@@ -17,4 +17,3 @@ $owner        = $construction->Inhabitants()->Owner()?->Party();
   >> <?= $construction ?>, <?= $this->get('building', $construction->Building()) ?> der Größe <?= $this->number($construction->Size()) ?>
  . Besitzer ist <?= $owner ? 'die Partei ' . $owner : 'niemand' ?>
 .<?= line(description($construction)) ?>
-<?= $this->template('report', $construction) ?>
