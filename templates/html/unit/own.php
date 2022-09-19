@@ -133,18 +133,18 @@ foreach ($allTrades as $trade /* @var Trade $trade */) {
 		</p>
 		<ol class="collapse" id="<?= $merchant ?>">
 			<?php foreach ($trades as $trade): ?>
-				<li class="active" title="aktives Angebot">
-					<?= $this->template('trade/own', $trade) ?>
+				<li>
+					<?= $this->template('trade/own', $trade, Sales::AVAILABLE) ?>
 				</li>
 			<?php endforeach ?>
 			<?php foreach ($impossible as $trade): ?>
-				<li class="inactive" title="Ware nicht vorrätig">
-					<?= $this->template('trade/own', $trade) ?>
+				<li>
+					<?= $this->template('trade/own', $trade, Sales::UNSATISFIABLE) ?>
 				</li>
 			<?php endforeach ?>
 			<?php foreach ($forbidden as $trade): ?>
-				<li class="forbidden" title="Handel untersagt">
-					<?= $this->template('trade/own', $trade) ?>
+				<li>
+					<?= $this->template('trade/own', $trade, Sales::FORBIDDEN) ?>
 				</li>
 			<?php endforeach ?>
 		</ol>
@@ -156,13 +156,13 @@ foreach ($allTrades as $trade /* @var Trade $trade */) {
 		</p>
 		<ol class="collapse" id="<?= $merchant ?>">
 			<?php foreach ($trades as $trade): ?>
-				<li class="active" title="Ware vorrätig">
-					<?= $this->template('trade/own', $trade) ?>
+				<li>
+					<?= $this->template('trade/own', $trade, Sales::AVAILABLE) ?>
 				</li>
 			<?php endforeach ?>
 			<?php foreach ($impossible as $trade): ?>
-				<li class="inactive" title="Ware nicht vorrätig">
-					<?= $this->template('trade/own', $trade) ?>
+				<li>
+					<?= $this->template('trade/own', $trade, Sales::UNSATISFIABLE) ?>
 				</li>
 			<?php endforeach ?>
 		</ol>
