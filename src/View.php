@@ -220,15 +220,20 @@ abstract class View
 	 * Get a neighbour description.
 	 */
 	public function neighbour(Region $region = null, bool $hasRoad = false): string {
-		$landscape = $region->Landscape();
-		$article   = $this->get('article', $landscape);
+		$landscape   = $region->Landscape();
+		$article     = $this->get('article', $landscape);
+		$description = $this->get('landscape', $landscape);
 		if ($hasRoad) {
 			$preposition = $this->get('preposition.zu', $article);
-			$text        = $preposition . ' ' . $this->get('landscape', $landscape);
+			$text        = $preposition . ' ' . $description;
 		} else {
-			$text = $article . ' ' . $this->get('landscape', $landscape);
+			$text = $article . ' ' . $description;
 		}
-		if ($region->Name() && !($landscape instanceof Ocean && $region->Name() === 'Ozean')) {
+		$name = $region->Name();
+		$id   = (string)$region->Id();
+		if ($name === $description . ' ' . $id) {
+			$text .= ' ' . $id;
+		} elseif ($name && !($landscape instanceof Ocean && $name === 'Ozean')) {
 			$text .= ' ' . $region->Name();
 		}
 		return $text;
