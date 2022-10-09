@@ -14,6 +14,8 @@ use Lemuria\Renderer\Text\View\Html;
 
 /** @var Vessel $vessel */
 $vessel     = $this->variables[0];
+$ship       = $vessel->Ship();
+$size       = $ship->Captain();
 $passengers = $this->people($vessel);
 $people     = $passengers === 1 ? 'Passagier' : 'Passagieren';
 $treasury   = $vessel->Treasury();
@@ -25,7 +27,7 @@ $i           = 0;
 ?>
 <h5 id="vessel-<?= $vessel->Id()->Id() ?>"><?= $vessel->Name() ?> <span class="badge badge-info"><?= $vessel->Id() ?></span></h5>
 <p>
-	<?= $this->get('ship', $vessel->Ship()) ?> mit <?= $this->number($passengers) ?> <?= $people ?>, Zustand <?= $this->number((int)round(100.0 * $vessel->Completion())) ?>%, <?php if ($vessel->Space() < 0): ?>überladen mit<?php else: ?>freier Platz<?php endif ?> <?= $this->number((int)ceil(abs($vessel->Space()) / 100)) ?> GE.
+	<?= $this->get('ship', $ship) ?> mit <?= $this->number($passengers) ?> <?= $people ?>, Zustand <?= $this->number((int)round(100.0 * $vessel->Completion())) ?>%, <?php if ($vessel->Space() < 0): ?>überladen mit<?php else: ?>freier Platz<?php endif ?> <?= $this->number((int)ceil(abs($vessel->Space()) / 100)) ?> GE.
 	Kapitän ist
 	<?php if (count($unitsInside)): ?>
 		<?= $captain->Name() ?> <span class="badge badge-primary"><?= $captain->Id() ?></span>.
@@ -34,9 +36,17 @@ $i           = 0;
 	<?php endif ?>
 	<?php if (!($vessel->Region()->Landscape() instanceof Ocean)): ?>
 		<?php if ($vessel->Anchor() === Direction::NONE): ?>
-			Das Schiff liegt im Dock.
+			<?php if ($vessel->Port()): ?>
+				Das Schiff liegt im Hafendock und belegt <?= $size > 1 ? $size . ' Ankerplätze' : '1 Ankerplatz' ?>.
+			<?php else: ?>
+				Das Schiff liegt im Dock.
+			<?php endif ?>
 		<?php else: ?>
-			Das Schiff ankert im <?= $this->get('world', $vessel->Anchor()) ?>.
+			<?php if ($vessel->Port()): ?>
+				Das Schiff ankert im <?= $this->get('world', $vessel->Anchor()) ?> und belegt <?= $size > 1 ? $size . ' Ankerplätze' : '1 Ankerplatz' ?> im Hafen.
+			<?php else: ?>
+				Das Schiff ankert im <?= $this->get('world', $vessel->Anchor()) ?>.
+			<?php endif ?>
 		<?php endif ?>
 	<?php endif ?>
 	<?= $this->template('description', $vessel) ?>

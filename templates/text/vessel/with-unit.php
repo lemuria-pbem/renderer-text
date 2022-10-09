@@ -12,18 +12,27 @@ use Lemuria\Renderer\Text\View\Text;
 
 /** @var Vessel $vessel */
 $vessel     = $this->variables[0];
+$ship       = $vessel->Ship();
+$size       = $ship->Captain();
 $passengers = $this->people($vessel);
 $people     = $passengers === 1 ? 'Passagier' : 'Passagieren';
 $treasury   = $vessel->Treasury();
 
 ?>
 
-  >> <?= $vessel ?>, <?= $this->get('ship', $vessel->Ship()) ?> mit <?= $this->number($passengers) ?> <?= $people ?>, Zustand <?= $this->number((int)round(100.0 * $vessel->Completion())) ?>%, <?php if ($vessel->Space() < 0): ?>überladen mit<?php else: ?>freier Platz<?php endif ?> <?= $this->number((int)ceil(abs($vessel->Space()) / 100)) ?>
+  >> <?= $vessel ?>, <?= $this->get('ship', $ship) ?> mit <?= $this->number($passengers) ?> <?= $people ?>, Zustand <?= $this->number((int)round(100.0 * $vessel->Completion())) ?>%, <?php if ($vessel->Space() < 0): ?>überladen mit<?php else: ?>freier Platz<?php endif ?> <?= $this->number((int)ceil(abs($vessel->Space()) / 100)) ?>
  GE. Kapitän ist <?= count($vessel->Passengers()) ? $vessel->Passengers()->Owner() : 'niemand' ?>
 <?php if (!($vessel->Region()->Landscape() instanceof Ocean)): ?>
 <?php if ($vessel->Anchor() === Direction::NONE): ?>
-. Das Schiff liegt im Dock<?php else: ?>
+<?php if ($vessel->Port()): ?>
+. Das Schiff liegt im Hafendock und belegt <?= $size > 1 ? $size . ' Ankerplätze' : '1 Ankerplatz' ?><?php else: ?>
+. Das Schiff liegt im Dock
+<?php endif ?>
+<?php else: ?>
+<?php if ($vessel->Port()): ?>
+. Das Schiff ankert im <?= $this->get('world', $vessel->Anchor()) ?> und belegt <?= $size > 1 ? $size . ' Ankerplätze' : '1 Ankerplatz' ?> im Hafen<?php else: ?>
 . Das Schiff ankert im <?= $this->get('world', $vessel->Anchor()) ?>
+<?php endif ?>
 <?php endif ?>
 <?php endif ?>
 .<?= line(description($vessel)) ?>
