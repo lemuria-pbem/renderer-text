@@ -148,6 +148,11 @@ Handel untersagt: <?= $this->template('trade/own', $trade) ?>
 nicht vorrätig: <?= $this->template('trade/own', $trade) ?>
 
 <?php endforeach ?>
+<?php elseif ($sales): ?>
+
+<?= center('Aktuelle Marktangebote') ?>
+
+Wir haben aktuell nichts anzubieten.
 <?php endif ?>
 <?php if (!empty($orders->comments)): ?>
 

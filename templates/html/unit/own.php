@@ -167,6 +167,13 @@ foreach ($allTrades as $trade /* @var Trade $trade */) {
 			<?php endforeach ?>
 		</ol>
 	</div>
+<?php elseif ($sales): ?>
+	<div class="market">
+		<p class="h7">
+			<a data-toggle="collapse" href="#<?= $merchant ?>" role="button" aria-expanded="true" aria-controls="market">Aktuelle Marktangebote</a>
+		</p>
+		<p>Wir haben aktuell nichts anzubieten.</p>
+	</div>
 <?php endif ?>
 <?php if (!empty($orders->comments)): ?>
 	<p class="h7">Notizen:</p>
