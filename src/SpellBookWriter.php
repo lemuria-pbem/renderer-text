@@ -9,6 +9,7 @@ use Lemuria\Id;
 use Lemuria\Model\Fantasya\Exception\JsonException;
 use Lemuria\Model\Fantasya\Party;
 use Lemuria\Model\Fantasya\Spell;
+use Lemuria\Model\Fantasya\SpellBook;
 use Lemuria\Renderer\Writer;
 
 class SpellBookWriter extends AbstractWriter
@@ -33,8 +34,9 @@ class SpellBookWriter extends AbstractWriter
 	protected function generate(Party $party): string {
 		$output = '';
 		$n      = 0;
-		foreach ($party->SpellBook() as $spell /* @var Spell $spell */) {
-			$details    = new SpellDetails($spell);
+		$spells = $this->getSortedSpells($party->SpellBook());
+		foreach ($spells as $details) {
+			$spell      = $details->Spell();
 			$components = $details->Components();
 
 			if ($n++ > 0) {
@@ -69,5 +71,30 @@ class SpellBookWriter extends AbstractWriter
 			$output .= 'Syntax: ' . $details->Syntax() . PHP_EOL;
 		}
 		return $output;
+	}
+
+	/**
+	 * @return array<SpellDetails>
+	 * @throws JsonException
+	 */
+	protected function getSortedSpells(SpellBook $spellBook): array {
+		$sortedSpells = [];
+		foreach ($spellBook as $spell/* @var Spell $spell */) {
+			$details                     = new SpellDetails($spell);
+			$name                        = $details->Name();
+			$level                       = $spell->Difficulty();
+			$sortedSpells[$level][$name] = $details;
+		}
+		ksort($sortedSpells);
+
+		$spells = [];
+		foreach (array_keys($sortedSpells) as $level) {
+			$levelSpells = $sortedSpells[$level];
+			ksort($levelSpells);
+			foreach ($levelSpells as $spellDetails) {
+				$spells[] = $spellDetails;
+			}
+		}
+		return $spells;
 	}
 }
