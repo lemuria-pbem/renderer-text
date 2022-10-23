@@ -13,6 +13,7 @@ $status   = $this->variables[1];
 $isPPP    = $trade->Goods()->IsVariable();
 $isVar    = $trade->Price()->IsVariable();
 $isRepeat = $trade->IsRepeat();
+$isOffer  = $trade->Trade() === Trade::OFFER;
 $badge    = match ($status) {
 	Sales::FORBIDDEN => 'danger',
 	Sales::UNSATISFIABLE => 'light',
@@ -29,9 +30,9 @@ $title    = match ($status) {
 <span class="trade-flag ppp-<?= (int)$isPPP ?>" title="<?= $isPPP ? 'Stückpreisangebot' : 'Fixangebot' ?>">∞</span>
 <span class="trade-flag var-<?= (int)$isVar ?>" title="<?= $isVar ? 'Verhandlungsbasis' : 'Festpreis' ?>">⇵</span>
 <span class="trade-flag rep-<?= (int)$isRepeat ?>" title="<?= $isRepeat ? 'wird wiederholt' : 'einmalig angeboten' ?>">🗘</span>
-<?php if ($trade->Trade() === Trade::OFFER): ?>
+<?php if ($isOffer): ?>
 	Angebot:
 <?php else: ?>
 	Gesuch:
 <?php endif ?>
-<?= $this->deal($trade->Goods(), true) ?> für <?= $this->deal($trade->Price(), true) ?>
+<?= $this->deal($trade->Goods(), $isOffer, true) ?> für <?= $this->deal($trade->Price(), $isOffer, true) ?>

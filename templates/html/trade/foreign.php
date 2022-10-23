@@ -7,19 +7,20 @@ use Lemuria\Renderer\Text\View\Html;
 /** @var Html $this */
 
 /** @var Trade $trade */
-$trade = $this->variables[0];
-$goods = $trade->Goods();
-$isPPP = $goods->IsVariable();
-$price = $trade->Price();
-$isVar = $price->IsVariable();
+$trade   = $this->variables[0];
+$goods   = $trade->Goods();
+$isPPP   = $goods->IsVariable();
+$price   = $trade->Price();
+$isVar   = $price->IsVariable();
+$isOffer = $trade->Trade() === Trade::OFFER;
 
 ?>
 <span class="badge badge-secondary"><?= $trade->Id() ?></span>
 <span class="trade-flag ppp-<?= (int)$isPPP ?>" title="<?= $isPPP ? 'Stückpreisangebot' : 'Fixangebot' ?>">∞</span>
 <span class="trade-flag var-<?= (int)$isVar ?>" title="<?= $isVar ? 'Verhandlungsbasis' : 'Festpreis' ?>">⇵</span>
-<?php if ($trade->Trade() === Trade::OFFER): ?>
+<?php if ($isOffer): ?>
 	Angebot:
 <?php else: ?>
 	Gesuch:
 <?php endif ?>
-<?= $this->deal($goods, true) ?> für <?= $this->deal($price) ?>
+<?= $this->deal($goods, $isOffer, true) ?> für <?= $this->deal($price, $isOffer) ?>

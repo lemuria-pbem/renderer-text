@@ -152,14 +152,17 @@ abstract class View
 	}
 
 	/**
-	 * Formast a Deal.
+	 * Format a Deal.
 	 */
-	public function deal(Deal $deal, bool $withMinimum = false): string {
-		$maximum = $this->number($deal->Maximum(), 'resource', $deal->Commodity());
-		if ($deal->IsVariable() && $withMinimum) {
-			return formatNumber($deal->Minimum()) . '–' . $maximum;
+	public function deal(Deal $deal, bool $isMaximum, bool $forceBoth = false): string {
+		if ($deal->IsVariable() && $forceBoth) {
+			$isMaximum = null;
 		}
-		return $maximum;
+		return match ($isMaximum) {
+			false   => $this->number($deal->Minimum(), 'resource', $deal->Commodity()),
+			true    => $this->number($deal->Maximum(), 'resource', $deal->Commodity()),
+			default => formatNumber($deal->Minimum()) . '–' . $this->number($deal->Maximum(), 'resource', $deal->Commodity())
+		};
 	}
 
 	/**
