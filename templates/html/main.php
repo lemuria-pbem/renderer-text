@@ -37,33 +37,37 @@ $continent = Continent::get(new Id(1));
 
 	<hr>
 
-	<?php if ($isPlayer): ?>
-		<?= $this->template('header/player') ?>
-	<?php else: ?>
-		<?= $this->template('header/other') ?>
-	<?php endif ?>
+	<section id="header">
+		<?php if ($isPlayer): ?>
+			<?= $this->template('header/player') ?>
+		<?php else: ?>
+			<?= $this->template('header/other') ?>
+		<?php endif ?>
 
-	<?php if ($isPlayer): ?>
-		<?= $this->template('acquaintances', $party) ?>
-	<?php endif ?>
+		<?php if ($isPlayer): ?>
+			<?= $this->template('acquaintances', $party) ?>
+		<?php endif ?>
+	</section>
 
 	<hr>
 
-	<?php foreach ($travelLog as $continent => $atlas): ?>
-		<?php if ($atlas->count() > 0): ?>
-			<?php if ($isPlayer): ?>
-				<?= $this->template('continent/player', $continent) ?>
-			<?php else: ?>
-				<?= $this->template('continent/other', $continent) ?>
+	<section id="world">
+		<?php foreach ($travelLog as $continent => $atlas): ?>
+			<?php if ($atlas->count() > 0): ?>
+				<?php if ($isPlayer): ?>
+					<?= $this->template('continent/player', $continent) ?>
+				<?php else: ?>
+					<?= $this->template('continent/other', $continent) ?>
+				<?php endif ?>
+
+				<?php foreach ($atlas as $region): ?>
+					<?= $this->template('region', $region) ?>
+				<?php endforeach ?>
+
+				<hr>
 			<?php endif ?>
-
-			<?php foreach ($atlas as $region): ?>
-				<?= $this->template('region', $region) ?>
-			<?php endforeach ?>
-
-			<hr>
-		<?php endif ?>
-	<?php endforeach ?>
+		<?php endforeach ?>
+	</section>
 
 	<?= $this->template('footer') ?>
 </body>
