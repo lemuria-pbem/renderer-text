@@ -21,10 +21,10 @@ $i            = 0;
 <?php else: ?>
 	<div class="container-fluid">
 		<div class="row">
-			<div class="col-12 col-md-6">
+			<div class="col-12 col-md-6 p-0 pr-md-3">
 				<?= $this->template('construction/part/description', $construction) ?>
 			</div>
-			<div class="col-12 col-md-6">
+			<div class="col-12 col-md-6 p-0 pl-md-3">
 				<?= $this->template('treasury/construction', $treasury) ?>
 			</div>
 		</div>
