@@ -20,54 +20,62 @@ $banner    = $party->Banner() ? 'Unser Banner: ' . linkEmail($party->Banner()) :
 $continent = Continent::get(new Id(1));
 
 ?>
-<body class="non-responsive" data-spy="scroll" data-offset="250" data-target="#navbar">
-	<header>
-		<h1 class="text-center">Lemuria-Auswertung</h1>
+<body class="non-responsive" data-bs-spy="scroll" data-bs-target="#navbar">
+	<div id="loading-indicator" class="d-flex justify-content-center mt-5">
+		<div class="spinner-border" role="status">
+			<span class="visually-hidden">Auswertung wird geladen...</span>
+		</div>
+	</div>
 
-		<p class="text-center">
-			für die <?= $calendar->Week() ?>. Woche des Monats <?= $month ?> im <?= $season ?> des Jahres <?= $calendar->Year() ?><br>
-			(Runde <?= $calendar->Round() ?>)
-		</p>
+	<div id="lemuria-report" class="visually-hidden">
+		<header>
+			<h1 class="text-center">Lemuria-Auswertung</h1>
 
-		<button id="toggle-responsive" class="btn btn-light" title="Taste: #">Ansicht umschalten</button>
-		<?= $this->template('goto'); ?>
-		<button id="toggle-goto" class="btn btn-light" data-toggle="modal" data-target="#modal-goto" title="Taste: G">Gehe zu…</button>
-		<?= $this->template('navigation') ?>
-	</header>
+			<p class="text-center">
+				für die <?= $calendar->Week() ?>. Woche des Monats <?= $month ?> im <?= $season ?> des Jahres <?= $calendar->Year() ?><br>
+				(Runde <?= $calendar->Round() ?>)
+			</p>
 
-	<hr>
+			<button id="toggle-responsive" class="btn btn-light" title="Taste: #">Ansicht umschalten</button>
+			<?= $this->template('goto'); ?>
+			<button id="toggle-goto" class="btn btn-light" data-bs-toggle="modal" data-bs-target="#modal-goto" title="Taste: G">Gehe zu…</button>
+			<?= $this->template('navigation') ?>
+		</header>
 
-	<section id="header">
-		<?php if ($isPlayer): ?>
-			<?= $this->template('header/player') ?>
-		<?php else: ?>
-			<?= $this->template('header/other') ?>
-		<?php endif ?>
+		<hr>
 
-		<?php if ($isPlayer): ?>
-			<?= $this->template('acquaintances', $party) ?>
-		<?php endif ?>
-	</section>
-
-	<hr>
-
-	<section id="world">
-		<?php foreach ($travelLog as $continent => $atlas): ?>
-			<?php if ($atlas->count() > 0): ?>
-				<?php if ($isPlayer): ?>
-					<?= $this->template('continent/player', $continent) ?>
-				<?php else: ?>
-					<?= $this->template('continent/other', $continent) ?>
-				<?php endif ?>
-
-				<?php foreach ($atlas as $region): ?>
-					<?= $this->template('region', $region) ?>
-				<?php endforeach ?>
-
-				<hr>
+		<section id="header">
+			<?php if ($isPlayer): ?>
+				<?= $this->template('header/player') ?>
+			<?php else: ?>
+				<?= $this->template('header/other') ?>
 			<?php endif ?>
-		<?php endforeach ?>
-	</section>
 
-	<?= $this->template('footer') ?>
+			<?php if ($isPlayer): ?>
+				<?= $this->template('acquaintances', $party) ?>
+			<?php endif ?>
+		</section>
+
+		<hr>
+
+		<section id="world">
+			<?php foreach ($travelLog as $continent => $atlas): ?>
+				<?php if ($atlas->count() > 0): ?>
+					<?php if ($isPlayer): ?>
+						<?= $this->template('continent/player', $continent) ?>
+					<?php else: ?>
+						<?= $this->template('continent/other', $continent) ?>
+					<?php endif ?>
+
+					<?php foreach ($atlas as $region): ?>
+						<?= $this->template('region', $region) ?>
+					<?php endforeach ?>
+
+					<hr>
+				<?php endif ?>
+			<?php endforeach ?>
+		</section>
+
+		<?= $this->template('footer') ?>
+	</div>
 </body>
