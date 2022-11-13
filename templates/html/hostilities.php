@@ -14,12 +14,12 @@ $i           = 0;
 foreach ($this->hostilities() as $battle /* @var BattleLog $battle */):
 	$participants = [];
 	foreach ($battle->Participants() as $party):
-		$participants[] = $party->Name() . ' <span class="badge badge-primary">' . $party->Id() . '</span>';
+		$participants[] = $party->Name() . ' <span class="badge text-bg-primary">' . $party->Id() . '</span>';
 	endforeach;
 
 	/** @var Region $location */
 	$location = $battle->Location();
-	$name     = $location->Name() . ' <span class="badge badge-secondary">' . $location->Id() . '</span>';
+	$name     = $location->Name() . ' <span class="badge text-bg-secondary">' . $location->Id() . '</span>';
 
 	$hostilities[$name] = $this->toAndString($participants);
 	$links[]            = $this->battleLogPath($battle);

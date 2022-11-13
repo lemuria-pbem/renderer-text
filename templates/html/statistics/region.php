@@ -70,7 +70,7 @@ if (!empty($luxuries)) {
 <?php if ($cols <= 1): ?>
 	<tr>
 		<th scope="rowgroup" colspan="3">
-			<a href=".<?= $class ?>" title="Details..." data-toggle="collapse" role="button" aria-expanded="false" aria-controls="<?= $ids ?>"><?= $this->get('landscape', $region->Landscape()) ?> <?= $region->Name() ?></a>
+			<a href=".<?= $class ?>" title="Details..." data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="<?= $ids ?>"><?= $this->get('landscape', $region->Landscape()) ?> <?= $region->Name() ?></a>
 			&nbsp;<a href="#region-<?= $region->Id()->Id() ?>" title="zur Region" class="text-body">⮞</a>
 		</th>
 	</tr>
@@ -167,7 +167,7 @@ if (!empty($luxuries)) {
 <?php elseif ($cols === 2): ?>
 	<tr>
 		<th scope="rowgroup" colspan="3">
-			<a href=".<?= $class ?>" title="Details..." data-toggle="collapse" role="button" aria-expanded="false" aria-controls="<?= $ids ?>"><?= $this->get('landscape', $region->Landscape()) ?> <?= $region->Name() ?></a>
+			<a href=".<?= $class ?>" title="Details..." data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="<?= $ids ?>"><?= $this->get('landscape', $region->Landscape()) ?> <?= $region->Name() ?></a>
 			&nbsp;<a href="#region-<?= $region->Id()->Id() ?>" title="zur Region" class="text-body">⮞</a>
 		</th>
 		<th scope="row">Bevölkerung</th>
@@ -274,7 +274,7 @@ if (!empty($luxuries)) {
 <?php elseif ($cols === 3): ?>
 	<tr>
 		<th scope="rowgroup" colspan="3">
-			<a href=".<?= $class ?>" title="Details..." data-toggle="collapse" role="button" aria-expanded="false" aria-controls="<?= $ids ?>"><?= $this->get('landscape', $region->Landscape()) ?> <?= $region->Name() ?></a>
+			<a href=".<?= $class ?>" title="Details..." data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="<?= $ids ?>"><?= $this->get('landscape', $region->Landscape()) ?> <?= $region->Name() ?></a>
 			&nbsp;<a href="#region-<?= $region->Id()->Id() ?>" title="zur Region" class="text-body">⮞</a>
 		</th>
 		<th scope="row">Bevölkerung</th>
@@ -393,7 +393,7 @@ if (!empty($luxuries)) {
 <?php else: ?>
 	<tr>
 		<th scope="rowgroup" colspan="3">
-			<a href=".<?= $class ?>" title="Details..." data-toggle="collapse" role="button" aria-expanded="false" aria-controls="<?= $ids ?>"><?= $this->get('landscape', $region->Landscape()) ?> <?= $region->Name() ?></a>
+			<a href=".<?= $class ?>" title="Details..." data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="<?= $ids ?>"><?= $this->get('landscape', $region->Landscape()) ?> <?= $region->Name() ?></a>
 			&nbsp;<a href="#region-<?= $region->Id()->Id() ?>" title="zur Region" class="text-body">⮞</a>
 		</th>
 		<th scope="row">Bevölkerung</th>

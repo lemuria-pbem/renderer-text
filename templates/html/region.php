@@ -30,8 +30,8 @@ $fleet = View::sortedFleet($region);
 			<div class="col-12 col-lg-6 col-xl-4 p-0 pr-lg-3">
 				<h4 id="region-<?= $region->Id()->Id() ?>">
 					<?= $region->Name() ?>
-					<span class="badge badge-light"><?= $map->getCoordinates($region) ?></span>
-					<span class="badge badge-secondary"><?= $region->Id() ?></span>
+					<span class="badge text-bg-light"><?= $map->getCoordinates($region) ?></span>
+					<span class="badge text-bg-secondary"><?= $region->Id() ?></span>
 				</h4>
 				<?= $this->template('region/with-unit', $region) ?>
 			</div>
@@ -73,8 +73,8 @@ $fleet = View::sortedFleet($region);
 			<div class="col-12 col-lg-6 col-xl-4 p-0 pr-lg-3">
 				<h4 id="region-<?= $region->Id()->Id() ?>">
 					<?= $region->Name() ?>
-					<span class="badge badge-light"><?= $map->getCoordinates($region) ?></span>
-					<span class="badge badge-secondary"><?= $region->Id() ?></span>
+					<span class="badge text-bg-light"><?= $map->getCoordinates($region) ?></span>
+					<span class="badge text-bg-secondary"><?= $region->Id() ?></span>
 				</h4>
 				<?= $this->template('region/with-unit', $region) ?>
 			</div>
@@ -93,8 +93,8 @@ $fleet = View::sortedFleet($region);
 			<div class="col-12 col-lg-6 pl-0">
 				<h4 id="region-<?= $region->Id()->Id() ?>">
 					<?= $region->Name() ?>
-					<span class="badge badge-light"><?= $map->getCoordinates($region) ?></span>
-					<span class="badge badge-secondary"><?= $region->Id() ?></span>
+					<span class="badge text-bg-light"><?= $map->getCoordinates($region) ?></span>
+					<span class="badge text-bg-secondary"><?= $region->Id() ?></span>
 				</h4>
 				<?= $this->template('region/with-unit', $region) ?>
 			</div>
@@ -116,8 +116,8 @@ $fleet = View::sortedFleet($region);
 <?php elseif ($visibility === Visibility::LIGHTHOUSE): ?>
 	<h4 id="region-<?= $region->Id()->Id() ?>">
 		<?= $region->Name() ?>
-		<span class="badge badge-light"><?= $map->getCoordinates($region) ?></span>
-		<span class="badge badge-secondary"><?= $region->Id() ?></span>
+		<span class="badge text-bg-light"><?= $map->getCoordinates($region) ?></span>
+		<span class="badge text-bg-secondary"><?= $region->Id() ?></span>
 	</h4>
 	<?= $this->template('region/from-lighthouse', $region) ?>
 	<?php foreach ($estate as $construction): ?>
@@ -130,8 +130,8 @@ $fleet = View::sortedFleet($region);
 <?php else: ?>
 	<h4 id="region-<?= $region->Id()->Id() ?>">
 		<?= $region->Name() ?>
-		<span class="badge badge-light"><?= $map->getCoordinates($region) ?></span>
-		<span class="badge badge-secondary"><?= $region->Id() ?></span>
+		<span class="badge text-bg-light"><?= $map->getCoordinates($region) ?></span>
+		<span class="badge text-bg-secondary"><?= $region->Id() ?></span>
 	</h4>
 	<?= $this->template('region/neighbour', $region) ?>
 <?php endif ?>

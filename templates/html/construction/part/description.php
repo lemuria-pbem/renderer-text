@@ -22,13 +22,13 @@ $owner       = $unitsInside->Owner();
 ?>
 <h5 id="construction-<?= $construction->Id()->Id() ?>">
 	<?= $construction->Name() ?>
-	<span class="badge badge-secondary"><?= $construction->Id() ?></span>
+	<span class="badge text-bg-secondary"><?= $construction->Id() ?></span>
 </h5>
 <p>
 	<?= $this->get('building', $building) ?> der Größe <?= $this->number($construction->Size()) ?> mit <?= $this->number($inhabitants) ?> <?= $people ?>.
 	Besitzer ist
 	<?php if (count($unitsInside)): ?>
-		<?= $owner->Name() ?> <span class="badge badge-primary"><?= $owner->Id() ?></span>.
+		<?= $owner->Name() ?> <span class="badge text-bg-primary"><?= $owner->Id() ?></span>.
 	<?php else: ?>
 		niemand.
 	<?php endif ?>

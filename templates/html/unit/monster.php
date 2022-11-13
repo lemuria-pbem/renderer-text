@@ -22,7 +22,7 @@ endif;
 
 ?>
 <h6>
-	<?= $unit->Name() ?> <span class="badge badge-primary"><?= $unit->Id() ?></span>
+	<?= $unit->Name() ?> <span class="badge text-bg-primary"><?= $unit->Id() ?></span>
 </h6>
 <p>
 	<?= $this->number($unit->Size(), 'race', $unit->Race()) ?><?php if ($unit->IsGuarding()): ?>, bewacht die Region<?php endif ?>.

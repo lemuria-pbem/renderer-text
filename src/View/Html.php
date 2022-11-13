@@ -98,7 +98,7 @@ class Html extends View
 		$level = $message->Level();
 		$badge = self::BADGE[$level] ?? self::BADGE_UNDEFINED;
 		$b     = self::LEVEL[$level] ?? self::LEVEL_UNDEFINED;
-		return '<span class="badge badge-' . $badge . ' text-monospace">' . $b . '</span>&nbsp;' . $message;
+		return '<span class="badge text-bg-' . $badge . ' font-monospace">' . $b . '</span>&nbsp;' . $message;
 	}
 
 	public function numberStatistics(Subject $subject, Identifiable $entity): HtmlNumber {

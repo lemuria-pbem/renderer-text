@@ -16,12 +16,12 @@ $owner        = $construction->Inhabitants()->Owner()?->Party();
 		<div class="col-12 p-0">
 			<h5 id="construction-<?= $construction->Id()->Id() ?>">
 				<?= $construction->Name() ?>
-				<span class="badge badge-secondary"><?= $construction->Id() ?></span>
+				<span class="badge text-bg-secondary"><?= $construction->Id() ?></span>
 			</h5>
 			<p>
 				<?= $this->get('building', $construction->Building()) ?> der Größe <?= $this->number($construction->Size()) ?>.
 				<?php if ($owner): ?>
-					Besitzer ist die Partei <?= $owner->Name() ?> <span class="badge badge-primary"><?= $owner->Id() ?></span>.
+					Besitzer ist die Partei <?= $owner->Name() ?> <span class="badge text-bg-primary"><?= $owner->Id() ?></span>.
 				<?php else: ?>
 					Besitzer ist niemand.
 				<?php endif ?>

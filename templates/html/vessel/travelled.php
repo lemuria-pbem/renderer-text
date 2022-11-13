@@ -18,12 +18,12 @@ $captain = $vessel->Passengers()->Owner()?->Party();
 <div class="container-fluid">
 	<div class="row">
 		<div class="col-12 p-0">
-			<h5 id="vessel-<?= $vessel->Id()->Id() ?>"><?= $vessel->Name() ?> <span class="badge badge-info"><?= $vessel->Id() ?></span></h5>
+			<h5 id="vessel-<?= $vessel->Id()->Id() ?>"><?= $vessel->Name() ?> <span class="badge text-bg-info"><?= $vessel->Id() ?></span></h5>
 			<p>
 				<?= $this->get('ship', $ship) ?>, Zustand <?= $this->number((int)round(100.0 * $vessel->Completion())) ?>%.
 				Kapitän ist
 				<?php if ($captain): ?>
-					die Partei <?= $captain->Name() ?> <span class="badge badge-primary"><?= $captain->Id() ?></span>.
+					die Partei <?= $captain->Name() ?> <span class="badge text-bg-primary"><?= $captain->Id() ?></span>.
 				<?php else: ?>
 					niemand.
 				<?php endif ?>

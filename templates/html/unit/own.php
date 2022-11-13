@@ -40,9 +40,9 @@ foreach ($unit->Knowledge() as $ability /* @var Ability $ability */):
 	$knowledge  = '<span>' . $this->get('talent', $talent) . '&nbsp;' . $ability->Level() . '</span>';
 	$change     = $statistics[getClass($talent)] ?? 0;
 	if ($change > 0) {
-		$knowledge .= '<span class="badge badge-inverse badge-success">+' . $change . '</span>';
+		$knowledge .= '<span class="badge text-bg-inverse badge-success">+' . $change . '</span>';
 	} elseif ($change < 0) {
-		$knowledge .= '<span class="badge badge-inverse badge-danger">' . $change . '</span>';
+		$knowledge .= '<span class="badge text-bg-inverse badge-danger">' . $change . '</span>';
 	}
 	$knowledge .= '&nbsp;<span>(' . $this->number($experience) . ')</span>';
 	$talents[]  = $knowledge;
@@ -103,9 +103,9 @@ foreach ($allTrades as $trade /* @var Trade $trade */) {
 
 ?>
 <h6>
-	<?= $unit->Name() ?> <span class="badge badge-primary"><?= $unit->Id() ?></span>
+	<?= $unit->Name() ?> <span class="badge text-bg-primary"><?= $unit->Id() ?></span>
 	<?php if ($mark): ?>
-		<span class="badge badge-danger"><?= $mark ?></span>
+		<span class="badge text-bg-danger"><?= $mark ?></span>
 	<?php endif ?>
 </h6>
 <p>
@@ -129,7 +129,7 @@ foreach ($allTrades as $trade /* @var Trade $trade */) {
 <?php if ($sales && $allTrades->count() > 0): ?>
 	<div class="market">
 		<p class="h7">
-			<a data-toggle="collapse" href="#<?= $merchant ?>" role="button" aria-expanded="true" aria-controls="market">Aktuelle Marktangebote</a>
+			<a data-bs-toggle="collapse" href="#<?= $merchant ?>" role="button" aria-expanded="true" aria-controls="market">Aktuelle Marktangebote</a>
 		</p>
 		<ol class="collapse" id="<?= $merchant ?>">
 			<?php foreach ($trades as $trade): ?>
@@ -152,7 +152,7 @@ foreach ($allTrades as $trade /* @var Trade $trade */) {
 <?php elseif ($allTrades->count() > 0): ?>
 	<div class="market">
 		<p class="h7">
-			<a data-toggle="collapse" href="#<?= $merchant ?>" role="button" aria-expanded="true" aria-controls="market">Angebote für den Markthandel</a>
+			<a data-bs-toggle="collapse" href="#<?= $merchant ?>" role="button" aria-expanded="true" aria-controls="market">Angebote für den Markthandel</a>
 		</p>
 		<ol class="collapse" id="<?= $merchant ?>">
 			<?php foreach ($trades as $trade): ?>
@@ -170,7 +170,7 @@ foreach ($allTrades as $trade /* @var Trade $trade */) {
 <?php elseif ($sales): ?>
 	<div class="market">
 		<p class="h7">
-			<a data-toggle="collapse" href="#<?= $merchant ?>" role="button" aria-expanded="true" aria-controls="market">Aktuelle Marktangebote</a>
+			<a data-bs-toggle="collapse" href="#<?= $merchant ?>" role="button" aria-expanded="true" aria-controls="market">Aktuelle Marktangebote</a>
 		</p>
 		<p>Wir haben aktuell nichts anzubieten.</p>
 	</div>
@@ -189,9 +189,9 @@ foreach ($allTrades as $trade /* @var Trade $trade */) {
 <?php endif ?>
 <?php if (!empty($orders->orders)): ?>
 	<p class="h8">
-		<a data-toggle="collapse" href="#orders-<?= $unit->Id()->Id() ?>" role="button" aria-expanded="false" aria-controls="orders-<?= $unit->Id()->Id() ?>">Befehle</a>
+		<a data-bs-toggle="collapse" href="#orders-<?= $unit->Id()->Id() ?>" role="button" aria-expanded="false" aria-controls="orders-<?= $unit->Id()->Id() ?>">Befehle</a>
 	</p>
-	<ol id="orders-<?= $unit->Id()->Id() ?>" class="small collapse">
+	<ol id="orders-<?= $unit->Id()->Id() ?>" class="small collapse mb-2">
 		<?php foreach ($orders->orders as $order): ?>
 			<li><?= $order ?></li>
 		<?php endforeach ?>

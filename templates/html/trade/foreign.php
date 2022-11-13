@@ -15,7 +15,7 @@ $isVar   = $price->IsVariable();
 $isOffer = $trade->Trade() === Trade::OFFER;
 
 ?>
-<span class="badge badge-secondary"><?= $trade->Id() ?></span>
+<span class="badge text-bg-secondary"><?= $trade->Id() ?></span>
 <span class="trade-flag ppp-<?= (int)$isPPP ?>" title="<?= $isPPP ? 'Stückpreisangebot' : 'Fixangebot' ?>">∞</span>
 <span class="trade-flag var-<?= (int)$isVar ?>" title="<?= $isVar ? 'Verhandlungsbasis' : 'Festpreis' ?>">⇵</span>
 <?php if ($isOffer): ?>

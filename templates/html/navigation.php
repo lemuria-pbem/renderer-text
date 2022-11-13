@@ -14,7 +14,7 @@ $travelLog = $this->travelLog;
 
 ?>
 <div class="fixed-top vh-100">
-	<a id="navbar-toggle" class="btn btn-small btn-light fixed-top" data-toggle="collapse" href="#navbar" role="button" aria-expanded="true" aria-controls="navbar" title="Taste: I">Inhalt</a>
+	<a id="navbar-toggle" class="btn btn-small btn-light fixed-top" data-bs-toggle="collapse" href="#navbar" role="button" aria-expanded="true" aria-controls="navbar" title="Taste: I">Inhalt</a>
 	<nav id="navbar" class="navbar navbar-light bg-light collapse">
 		<nav class="nav nav-pills flex-column">
 			<?php foreach ($travelLog as $continent => $atlas): ?>

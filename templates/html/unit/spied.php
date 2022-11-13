@@ -51,9 +51,9 @@ if ($sales) {
 
 ?>
 <h6>
-	<?= $unit->Name() ?> <span class="badge badge-primary"><?= $unit->Id() ?></span>
+	<?= $unit->Name() ?> <span class="badge text-bg-primary"><?= $unit->Id() ?></span>
 	<?php if ($foreign): ?>
-		von <?= $foreign->Name() ?> <span class="badge badge-secondary"><?= $foreign->Id() ?></span>
+		von <?= $foreign->Name() ?> <span class="badge text-bg-secondary"><?= $foreign->Id() ?></span>
 	<?php else: ?>
 		(unbekannte Partei)
 	<?php endif ?>
@@ -70,7 +70,7 @@ if ($sales) {
 <?php if ($sales): ?>
 	<div class="market">
 		<p class="h7">
-			<a data-toggle="collapse" href="#<?= $merchant ?>" role="button" aria-expanded="true" aria-controls="market">Marktangebote</a>
+			<a data-bs-toggle="collapse" href="#<?= $merchant ?>" role="button" aria-expanded="true" aria-controls="market">Marktangebote</a>
 		</p>
 		<?php if (count($trades) > 0): ?>
 			<ol class="collapse" id="<?= $merchant ?>">
