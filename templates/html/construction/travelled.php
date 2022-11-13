@@ -13,7 +13,7 @@ $owner        = $construction->Inhabitants()->Owner()?->Party();
 ?>
 <div class="container-fluid">
 	<div class="row">
-		<div class="col-12">
+		<div class="col-12 p-0">
 			<h5 id="construction-<?= $construction->Id()->Id() ?>">
 				<?= $construction->Name() ?>
 				<span class="badge badge-secondary"><?= $construction->Id() ?></span>
