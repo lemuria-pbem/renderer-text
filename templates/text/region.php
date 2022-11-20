@@ -2,6 +2,7 @@
 declare (strict_types = 1);
 
 use Lemuria\Engine\Fantasya\Factory\Model\Visibility;
+use Lemuria\Model\Fantasya\Party\Type;
 use Lemuria\Model\Fantasya\Region;
 use Lemuria\Renderer\Text\View;
 use Lemuria\Renderer\Text\View\Text;
@@ -22,7 +23,9 @@ $fleet      = View::sortedFleet($region);
 
 <?= $this->template('statistics/region', $region) ?>
 
+<?php if ($this->party->Type() === Type::PLAYER): ?>
 <?= $this->template('material-pool', $region) ?>
+<?php endif ?>
 <?php foreach ($estate as $construction): ?>
 <?= $this->template('construction/with-unit', $construction) ?>
 <?php endforeach ?>
