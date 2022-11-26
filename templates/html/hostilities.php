@@ -32,9 +32,7 @@ endforeach;
 
 		<?php foreach ($hostilities as $location => $participants): ?>
 		In <?= $location ?> gab es einen Kampf zwischen den Parteien <?= $participants ?>.
-		<?php if ($this->party->Type() === Type::PLAYER): ?>
-			<a href="<?= $links[$i++] ?>">Kampfbericht anzeigen</a>
-		<?php endif ?>
+		<a href="<?= $links[$i++] ?>">Kampfbericht anzeigen</a>
 		<br>
 		<?php endforeach ?>
 	</div>
