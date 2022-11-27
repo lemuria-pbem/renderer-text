@@ -9,6 +9,7 @@ use Lemuria\Model\Fantasya\Market\Sales;
 use Lemuria\Model\Fantasya\Market\Trade;
 use Lemuria\Model\Fantasya\Quantity;
 use Lemuria\Model\Fantasya\Unit;
+use Lemuria\Model\World\SortMode;
 use Lemuria\Renderer\Text\View\Text;
 
 /** @var Text $this */
@@ -47,7 +48,7 @@ $total  = (int)ceil(($payload + $unit->Size() * $unit->Race()->Weight()) / 100);
 
 $trades = [];
 if ($sales) {
-	foreach ($unit->Trades() as $trade/* @var Trade $trade */) {
+	foreach ($unit->Trades()->sort(SortMode::BY_TYPE) as $trade/* @var Trade $trade */) {
 		if ($sales->getStatus($trade) === Sales::AVAILABLE) {
 			$trades[$trade->Id()->Id()] = $trade;
 		}
