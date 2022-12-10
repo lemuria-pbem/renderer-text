@@ -17,13 +17,13 @@ $estate     = View::sortedEstate($region);
 $fleet      = View::sortedFleet($region);
 
 ?>
-<?php if ($visibility === Visibility::WITH_UNIT): ?>
+<?php if ($visibility === Visibility::WithUnit): ?>
 <?= $this->template('region/with-unit', $region) ?>
 <?= $this->template('report', $region) ?>
 
 <?= $this->template('statistics/region', $region) ?>
 
-<?php if ($this->party->Type() === Type::PLAYER): ?>
+<?php if ($this->party->Type() === Type::Player): ?>
 <?= $this->template('material-pool', $region) ?>
 <?php endif ?>
 <?php foreach ($estate as $construction): ?>
@@ -33,7 +33,7 @@ $fleet      = View::sortedFleet($region);
 <?= $this->template('vessel/with-unit', $vessel) ?>
 <?php endforeach ?>
 <?= $this->template('apparitions/with-unit', $region) ?>
-<?php elseif ($visibility === Visibility::FARSIGHT): ?>
+<?php elseif ($visibility === Visibility::Farsight): ?>
 <?= $this->template('region/with-unit', $region) ?>
 
 <?php foreach ($estate as $construction): ?>
@@ -43,7 +43,7 @@ $fleet      = View::sortedFleet($region);
 <?= $this->template('vessel/foreign', $vessel) ?>
 <?php endforeach ?>
 <?= $this->template('apparitions/with-unit', $region) ?>
-<?php elseif ($visibility === Visibility::TRAVELLED): ?>
+<?php elseif ($visibility === Visibility::Travelled): ?>
 <?= $this->template('region/with-unit', $region) ?>
 <?= $this->template('report', $region) ?>
 <?php foreach ($estate as $construction): ?>
@@ -53,7 +53,7 @@ $fleet      = View::sortedFleet($region);
 <?= $this->template('vessel/travelled', $vessel) ?>
 <?php endforeach ?>
 <?= $this->template('apparitions/travelled', $region) ?>
-<?php elseif ($visibility === Visibility::LIGHTHOUSE): ?>
+<?php elseif ($visibility === Visibility::Lighthouse): ?>
 <?= $this->template('region/from-lighthouse', $region) ?>
 <?php foreach ($estate as $construction): ?>
 <?= $this->template('construction/travelled', $construction) ?>

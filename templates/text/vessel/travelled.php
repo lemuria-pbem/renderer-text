@@ -21,7 +21,7 @@ $captain = $vessel->Passengers()->Owner()?->Party();
   >> <?= $vessel ?>, <?= $this->get('ship', $ship) ?>, Zustand <?= $this->number((int)round(100.0 * $vessel->Completion())) ?>
 %. Kapitän ist <?= $captain ? 'die Partei ' . $captain : 'niemand' ?>
 <?php if (!($vessel->Region()->Landscape() instanceof Ocean)): ?>
-<?php if ($vessel->Anchor() === Direction::NONE): ?>
+<?php if ($vessel->Anchor() === Direction::None): ?>
 <?php if ($vessel->Port()): ?>
 . Das Schiff liegt im Hafendock und belegt <?= $size > 1 ? $size . ' Ankerplätze' : '1 Ankerplatz' ?><?php else: ?>
 . Das Schiff liegt im Dock

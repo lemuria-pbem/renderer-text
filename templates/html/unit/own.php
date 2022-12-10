@@ -11,7 +11,6 @@ use Lemuria\Model\Fantasya\Market\Trade;
 use Lemuria\Model\Fantasya\Quantity;
 use Lemuria\Model\Fantasya\Unicum;
 use Lemuria\Model\Fantasya\Unit;
-use Lemuria\Model\World\SortMode;
 use Lemuria\Renderer\Text\View\Html;
 
 /** @var Html $this */
@@ -84,7 +83,7 @@ endif;
 $trades     = [];
 $impossible = [];
 $forbidden  = [];
-$allTrades  = $unit->Trades()->sort(SortMode::BY_TYPE);
+$allTrades  = $unit->Trades()->sort();
 foreach ($allTrades as $trade /* @var Trade $trade */) {
 	$id = $trade->Id()->Id();
 	if ($sales) {

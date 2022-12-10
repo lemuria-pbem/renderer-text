@@ -5,8 +5,8 @@ use function Lemuria\Renderer\Text\View\p3;
 use Lemuria\Model\Fantasya\People;
 use Lemuria\Model\Fantasya\Region;
 use Lemuria\Model\Fantasya\Unit;
-use Lemuria\Model\World\SortMode;
 use Lemuria\Renderer\Text\View\Html;
+use Lemuria\SortMode;
 
 /** @var Html $this */
 
@@ -27,7 +27,7 @@ $i = 0;
 	<br>
 	<div class="container-fluid">
 		<div class="row">
-			<?php foreach ($units->sort(SortMode::BY_PARTY, $this->party) as $unit): ?>
+			<?php foreach ($units->sort(SortMode::ByParty, $this->party) as $unit): ?>
 			<div class="col-12 col-md-6 col-xl-4 <?= p3(++$i) ?>">
 				<?= $this->template('unit/foreign', $unit) ?>
 			</div>

@@ -1,18 +1,17 @@
 <?php
-/** @noinspection PhpPossiblePolymorphicInvocationInspection */
 declare (strict_types = 1);
 
 use function Lemuria\Renderer\Text\View\p3;
 use Lemuria\Model\Fantasya\Construction;
-use Lemuria\Model\World\SortMode;
 use Lemuria\Renderer\Text\View\Html;
+use Lemuria\SortMode;
 
 /** @var Html $this */
 
 /** @var Construction $construction */
 $construction = $this->variables[0];
 $treasury     = $construction->Treasury();
-$unitsInside  = $construction->Inhabitants()->sort(SortMode::BY_PARTY, $this->party);
+$unitsInside  = $construction->Inhabitants()->sort(SortMode::ByParty, $this->party);
 $i            = 0;
 
 ?>

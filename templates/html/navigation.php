@@ -1,8 +1,10 @@
 <?php
 declare (strict_types = 1);
 
+use Lemuria\Model\Fantasya\Construction;
 use Lemuria\Model\Fantasya\Landscape\Ocean;
 use Lemuria\Model\Fantasya\Region;
+use Lemuria\Model\Fantasya\Vessel;
 use Lemuria\Renderer\Text\View;
 use Lemuria\Renderer\Text\View\Html;
 
@@ -23,17 +25,17 @@ $travelLog = $this->travelLog;
 					<?php foreach ($atlas as $region /* @var Region $region */): ?>
 						<?php if ($census->has($region->Id())): ?>
 							<?php if ($region->Landscape() instanceof Ocean): ?>
-								<?php foreach (View::sortedFleet($region) as $vessel): ?>
+								<?php foreach (View::sortedFleet($region) as $vessel /* @var Vessel $vessel */): ?>
 									<a class="vessel nav-link pb-0" href="#vessel-<?= $vessel->Id()->Id() ?>"><?= $vessel->Name() ?></a>
 								<?php endforeach ?>
 							<?php else: ?>
 								<a class="region nav-link" href="#region-<?= $region->Id()->Id() ?>"><?= $region->Name() ?></a>
 								<?php if ($region->Estate()->count() > 0 || $region->Fleet()->count() > 0): ?>
 									<nav id="nav-region-<?= $region->Id()->Id() ?>" class="nav nav-pills flex-column">
-										<?php foreach (View::sortedEstate($region) as $construction): ?>
+										<?php foreach (View::sortedEstate($region) as $construction /* @var Construction $construction */): ?>
 											<a class="construction nav-link ml-3 py-0" href="#construction-<?= $construction->Id()->Id() ?>"><?= $construction->Name() ?></a>
 										<?php endforeach ?>
-										<?php foreach (View::sortedFleet($region) as $vessel): ?>
+										<?php foreach (View::sortedFleet($region) as $vessel /* @var Vessel $vessel */): ?>
 											<a class="vessel nav-link ml-3 py-0" href="#vessel-<?= $vessel->Id()->Id() ?>"><?= $vessel->Name() ?></a>
 										<?php endforeach ?>
 									</nav>

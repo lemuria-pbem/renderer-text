@@ -45,7 +45,7 @@ use Lemuria\Statistics;
 use Lemuria\Statistics\Data;
 use Lemuria\Statistics\Fantasya\PartyEntityRecord;
 use Lemuria\Statistics\Record;
-use Lemuria\Version;
+use Lemuria\Version\Module;
 
 /**
  * A view object that contains variables and helper functions for view scripts.
@@ -196,7 +196,7 @@ abstract class View
 		$roads      = $region->Roads();
 		foreach ($this->map->getNeighbours($region) as $direction => $neighbour) {
 			$visibility = $this->atlas->getVisibility($neighbour)->value;
-			if ($visibility > Visibility::UNKNOWN->value) {
+			if ($visibility > Visibility::Unknown->value) {
 				if ($region->hasRoad($direction)) {
 					$predicate = ' führt eine Straße ';
 					$neighbour = $this->neighbour($neighbour, true);
@@ -293,13 +293,13 @@ abstract class View
 		}
 		foreach ($this->atlas as $region /* @var Region $region */) {
 			$visibility = $this->atlas->getVisibility($region);
-			if (in_array($visibility, [Visibility::WITH_UNIT, Visibility::TRAVELLED])) {
+			if (in_array($visibility, [Visibility::WithUnit, Visibility::Travelled])) {
 				foreach (Lemuria::Report()->getAll($region) as $message/* @var LemuriaMessage $message */) {
 					if (!$filter->retains($message)) {
 						$announcements[] = new Announcement($message, $this->dictionary);
 					}
 				}
-				if ($visibility === Visibility::WITH_UNIT) {
+				if ($visibility === Visibility::WithUnit) {
 					foreach (self::sortedEstate($region) as $construction/* @var Construction $construction */) {
 						foreach (Lemuria::Report()->getAll($construction) as $message/* @var LemuriaMessage $message */) {
 							if (!$filter->retains($message)) {
@@ -451,20 +451,20 @@ abstract class View
 	public function gameVersions(): array {
 		$version  = Lemuria::Version();
 		$versions = [];
-		foreach ($version[Version::BASE] as $versionTag) {
-			$versions[] = $versionTag->name . ': ' . $versionTag->version;
+		foreach ($version[Module::Base->value] as $versionTag) {
+			$versions[] = $versionTag->name->value . ': ' . $versionTag->version;
 		}
-		foreach ($version[Version::MODEL] as $versionTag) {
-			$versions[] = $versionTag->name . ': ' . $versionTag->version;
+		foreach ($version[Module::Model->value] as $versionTag) {
+			$versions[] = $versionTag->name->value . ': ' . $versionTag->version;
 		}
-		foreach ($version[Version::ENGINE] as $versionTag) {
-			$versions[] = $versionTag->name . ': ' . $versionTag->version;
+		foreach ($version[Module::Engine->value] as $versionTag) {
+			$versions[] = $versionTag->name->value . ': ' . $versionTag->version;
 		}
-		foreach ($version[Version::RENDERERS] as $versionTag) {
-			$versions[] = $versionTag->name . ': ' . $versionTag->version;
+		foreach ($version[Module::Renderers->value] as $versionTag) {
+			$versions[] = $versionTag->name->value . ': ' . $versionTag->version;
 		}
-		foreach ($version[Version::STATISTICS] as $versionTag) {
-			$versions[] = $versionTag->name . ': ' . $versionTag->version;
+		foreach ($version[Module::Statistics->value] as $versionTag) {
+			$versions[] = $versionTag->name->value . ': ' . $versionTag->version;
 		}
 		return $versions;
 	}

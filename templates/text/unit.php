@@ -18,7 +18,7 @@ $party = $unit->Party();
 
 <?php if ($party === $this->party): ?>
 <?= $this->template('unit/own', $unit, $sales) ?>
-<?php elseif ($party->Type() === Type::MONSTER): ?>
+<?php elseif ($party->Type() === Type::Monster): ?>
 <?= $this->template('unit/monster', $unit) ?>
 <?php elseif ($this->spyLevel($unit)): ?>
 <?= $this->template('unit/spied', $unit, $sales) ?>

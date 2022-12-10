@@ -4,9 +4,9 @@ declare (strict_types = 1);
 
 use Lemuria\Model\Fantasya\Building\Port;
 use Lemuria\Model\Fantasya\Construction;
-use Lemuria\Model\World\SortMode;
 use Lemuria\Renderer\Text\Model\PortSpace;
 use Lemuria\Renderer\Text\View\Html;
+use Lemuria\SortMode;
 
 /** @var Html $this */
 
@@ -16,7 +16,7 @@ $building     = $construction->Building();
 $inhabitants  = $this->people($construction);
 $people       = $inhabitants === 1 ? 'Bewohner' : 'Bewohnern';
 
-$unitsInside = $construction->Inhabitants()->sort(SortMode::BY_PARTY, $this->party);
+$unitsInside = $construction->Inhabitants()->sort(SortMode::ByParty, $this->party);
 $owner       = $unitsInside->Owner();
 
 ?>

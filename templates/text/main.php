@@ -13,11 +13,11 @@ use Lemuria\Renderer\Text\View\Text;
 /** @var Text $this */
 
 $party     = $this->party;
-$isPlayer  = $party->Type() === Type::PLAYER;
+$isPlayer  = $party->Type() === Type::Player;
 $banner    = $this->party->Banner() ? 'Unser Banner: ' . $this->party->Banner() : '(kein Banner gesetzt)';
 $travelLog = $this->travelLog;
 $calendar  = Lemuria::Calendar();
-$season    = $this->get('calendar.season', $calendar->Season() - 1);
+$season    = $this->get('calendar.season', $calendar->Season()->value - 1);
 $month     = $this->get('calendar.month', $calendar->Month() - 1);
 $continent = Continent::get(new Id(1));
 

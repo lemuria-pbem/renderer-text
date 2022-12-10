@@ -59,25 +59,25 @@ class UnicumWriter extends AbstractWriter
 		$output .= PHP_EOL;
 
 		$output .= 'Aktionen: ' . PHP_EOL . PHP_EOL;
-		if ($composition->supports(Practice::APPLY)) {
+		if ($composition->supports(Practice::Apply)) {
 			$output .= $details->ApplyCommand() . PHP_EOL;
 		}
-		if ($composition->supports(Practice::GIVE)) {
+		if ($composition->supports(Practice::Give)) {
 			$output .= $details->BestowCommand() . PHP_EOL;
 		}
-		if ($composition->supports(Practice::TAKE)) {
+		if ($composition->supports(Practice::Take)) {
 			$output .= $details->TakeCommand() . PHP_EOL;
 		}
-		if ($composition->supports(Practice::LOSE)) {
+		if ($composition->supports(Practice::Lose)) {
 			$output .= $details->LoseCommand() . PHP_EOL;
 		}
-		if ($composition->supports(Practice::DESTROY)) {
+		if ($composition->supports(Practice::Destroy)) {
 			$output .= $details->DestroyCommand() . PHP_EOL;
 		}
-		if ($composition->supports(Practice::READ)) {
+		if ($composition->supports(Practice::Read)) {
 			$output .= $details->ReadCommand() . PHP_EOL;
 		}
-		if ($composition->supports(Practice::WRITE)) {
+		if ($composition->supports(Practice::Write)) {
 			$output .= $details->WriteCommand() . PHP_EOL;
 		}
 

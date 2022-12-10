@@ -7,8 +7,8 @@ use Lemuria\Model\Fantasya\Landscape\Ocean;
 use Lemuria\Model\Fantasya\Unit;
 use Lemuria\Model\Fantasya\Vessel;
 use Lemuria\Model\World\Direction;
-use Lemuria\Model\World\SortMode;
 use Lemuria\Renderer\Text\View\Html;
+use Lemuria\SortMode;
 
 /** @var Html $this */
 
@@ -20,7 +20,7 @@ $passengers = $this->people($vessel);
 $people     = $passengers === 1 ? 'Passagier' : 'Passagieren';
 $treasury   = $vessel->Treasury();
 
-$unitsInside = $vessel->Passengers()->sort(SortMode::BY_PARTY, $this->party);
+$unitsInside = $vessel->Passengers()->sort(SortMode::ByParty, $this->party);
 $captain     = $unitsInside->Owner();
 $i           = 0;
 
@@ -35,7 +35,7 @@ $i           = 0;
 		niemand.
 	<?php endif ?>
 	<?php if (!($vessel->Region()->Landscape() instanceof Ocean)): ?>
-		<?php if ($vessel->Anchor() === Direction::NONE): ?>
+		<?php if ($vessel->Anchor() === Direction::None): ?>
 			<?php if ($vessel->Port()): ?>
 				Das Schiff liegt im Hafendock und belegt <?= $size > 1 ? $size . ' Ankerplätze' : '1 Ankerplatz' ?>.
 			<?php else: ?>

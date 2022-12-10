@@ -14,8 +14,8 @@ use Lemuria\Model\Fantasya\HerbalBook;
 use Lemuria\Model\Fantasya\Party;
 use Lemuria\Model\Fantasya\Region;
 use Lemuria\Model\Fantasya\World\FantasyaAtlas;
-use Lemuria\Model\World\SortMode;
 use Lemuria\Renderer\Writer;
+use Lemuria\SortMode;
 
 class HerbalBookWriter extends AbstractWriter
 {
@@ -67,13 +67,13 @@ class HerbalBookWriter extends AbstractWriter
 	 */
 	private function getContinents(HerbalBook $herbalBook): array {
 		$continents = [];
-		foreach (Lemuria::Catalog()->getAll(Domain::CONTINENT) as $continent /* @var Continent $continent */) {
+		foreach (Lemuria::Catalog()->getAll(Domain::Continent) as $continent /* @var Continent $continent */) {
 			$atlas = new FantasyaAtlas();
 			$atlas->forContinent($continent);
 			foreach ($herbalBook as $region /* @var Region $region */) {
 				$atlas->add($region);
 			}
-			$atlas->sort(SortMode::NORTH_TO_SOUTH);
+			$atlas->sort(SortMode::NorthToSouth);
 			$continents[$continent->Id()->Id()] = $atlas;
 		}
 		return $continents;

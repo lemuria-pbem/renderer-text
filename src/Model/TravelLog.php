@@ -28,7 +28,7 @@ class TravelLog implements \Iterator
 	private int $index;
 
 	public function __construct(Party $party) {
-		foreach (Lemuria::Catalog()->getAll(Domain::CONTINENT) as $continent) {
+		foreach (Lemuria::Catalog()->getAll(Domain::Continent) as $continent) {
 			$this->continents[] = $continent;
 			$atlas              = new FantasyaAtlas();
 			$this->atlas[]      = $atlas->forContinent($continent);

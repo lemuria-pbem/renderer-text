@@ -48,12 +48,12 @@ class Announcement
 			$sender = $type->Sender();
 			if (empty($sender)) {
 				$this->sender = 'Anonyme Einheit';
-			} elseif ($domain === Domain::UNIT) {
+			} elseif ($domain === Domain::Unit) {
 				$this->sender = $this->setFrom($type->Sender());
 			} else {
-				$this->sender = $dictionary->get('domain.' . Domain::PARTY->name) . ' ' . $this->setFrom($type->Sender());
+				$this->sender = $dictionary->get('domain.' . Domain::Party->name) . ' ' . $this->setFrom($type->Sender());
 			}
-			if ($domain === Domain::UNIT) {
+			if ($domain === Domain::Unit) {
 				$this->recipient = $this->setTo($type->Recipient());
 			} else {
 				$this->recipient = $dictionary->get('domain.' . $domain->name) . ' ' . $this->setTo($type->Recipient());

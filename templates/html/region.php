@@ -16,7 +16,7 @@ $atlas      = $this->atlas;
 $map        = $this->map;
 $type       = $this->party->Type();
 $visibility = $atlas->getVisibility($region);
-if ($visibility === Visibility::WITH_UNIT) {
+if ($visibility === Visibility::WithUnit) {
 	$people        = $this->census->getPeople($region);
 	$qualification = $this->qualificationStatistics(Subject::Qualification, $people->getFirst());
 }
@@ -25,7 +25,7 @@ $fleet = View::sortedFleet($region);
 
 
 ?>
-<?php if ($visibility === Visibility::WITH_UNIT): ?>
+<?php if ($visibility === Visibility::WithUnit): ?>
 	<div class="container-fluid">
 		<div class="row">
 			<div class="col-12 col-lg-6 col-xl-4 p-0 pr-lg-3">
@@ -42,14 +42,14 @@ $fleet = View::sortedFleet($region);
 					<?= $this->template('report', $region) ?>
 				<?php endif ?>
 			</div>
-			<?php if ($type === Type::PLAYER): ?>
+			<?php if ($type === Type::Player): ?>
 				<div class="col-12 col-xl-4 p-0 pl-xl-3 pr-xl-0">
 					<?= $this->template('material-pool', $region) ?>
 				</div>
 			<?php endif ?>
 		</div>
 	</div>
-	<?php if ($type === Type::PLAYER && !empty($qualification)): ?>
+	<?php if ($type === Type::Player && !empty($qualification)): ?>
 		<div class="table-responsive d-md-none">
 			<?= $this->template('statistics/qualification', $qualification, 1) ?>
 		</div>
@@ -70,7 +70,7 @@ $fleet = View::sortedFleet($region);
 		<?= $this->template('vessel/with-unit', $vessel) ?>
 	<?php endforeach ?>
 	<?= $this->template('apparitions/with-unit', $region) ?>
-<?php elseif ($visibility === Visibility::FARSIGHT): ?>
+<?php elseif ($visibility === Visibility::Farsight): ?>
 	<div class="container-fluid">
 		<div class="row">
 			<div class="col-12 col-lg-6 col-xl-4 p-0 pr-lg-3">
@@ -90,7 +90,7 @@ $fleet = View::sortedFleet($region);
 		<?= $this->template('vessel/farsight', $vessel) ?>
 	<?php endforeach ?>
 	<?= $this->template('apparitions/with-unit', $region) ?>
-<?php elseif ($visibility === Visibility::TRAVELLED): ?>
+<?php elseif ($visibility === Visibility::Travelled): ?>
 	<div class="container-fluid">
 		<div class="row">
 			<div class="col-12 col-lg-6 pl-0">
@@ -116,7 +116,7 @@ $fleet = View::sortedFleet($region);
 		<?= $this->template('vessel/travelled', $vessel) ?>
 	<?php endforeach ?>
 	<?= $this->template('apparitions/travelled', $region) ?>
-<?php elseif ($visibility === Visibility::LIGHTHOUSE): ?>
+<?php elseif ($visibility === Visibility::Lighthouse): ?>
 	<h4 id="region-<?= $region->Id()->Id() ?>">
 		<?= $region->Name() ?>
 		<span class="badge text-bg-light"><?= $map->getCoordinates($region) ?></span>

@@ -23,7 +23,7 @@ $treasury   = $vessel->Treasury();
   >> <?= $vessel ?>, <?= $this->get('ship', $ship) ?> mit <?= $this->number($passengers) ?> <?= $people ?>, Zustand <?= $this->number((int)round(100.0 * $vessel->Completion())) ?>%, <?php if ($vessel->Space() < 0): ?>überladen mit<?php else: ?>freier Platz<?php endif ?> <?= $this->number((int)ceil(abs($vessel->Space()) / 100)) ?>
  GE. Kapitän ist <?= count($vessel->Passengers()) ? $vessel->Passengers()->Owner() : 'niemand' ?>
 <?php if (!($vessel->Region()->Landscape() instanceof Ocean)): ?>
-<?php if ($vessel->Anchor() === Direction::NONE): ?>
+<?php if ($vessel->Anchor() === Direction::None): ?>
 <?php if ($vessel->Port()): ?>
 . Das Schiff liegt im Hafendock und belegt <?= $size > 1 ? $size . ' Ankerplätze' : '1 Ankerplatz' ?><?php else: ?>
 . Das Schiff liegt im Dock

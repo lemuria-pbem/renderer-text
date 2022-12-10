@@ -4,15 +4,15 @@ declare (strict_types = 1);
 use function Lemuria\Renderer\Text\View\p3;
 use Lemuria\Model\Fantasya\Region;
 use Lemuria\Model\Fantasya\Unit;
-use Lemuria\Model\World\SortMode;
 use Lemuria\Renderer\Text\View\Html;
+use Lemuria\SortMode;
 
 /** @var Html $this */
 
 /** @var Region $region */
 $region         = $this->variables[0];
 $outlook        = $this->outlook;
-$apparitions    = $outlook->getApparitions($region)->sort(SortMode::BY_PARTY, $this->party);
+$apparitions    = $outlook->getApparitions($region)->sort(SortMode::ByParty, $this->party);
 $unitsInRegions = 0;
 
 ?>

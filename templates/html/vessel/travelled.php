@@ -28,7 +28,7 @@ $captain = $vessel->Passengers()->Owner()?->Party();
 					niemand.
 				<?php endif ?>
 				<?php if (!($vessel->Region()->Landscape() instanceof Ocean)): ?>
-					<?php if ($vessel->Anchor() === Direction::NONE): ?>
+					<?php if ($vessel->Anchor() === Direction::None): ?>
 						<?php if ($vessel->Port()): ?>
 							Das Schiff liegt im Hafendock und belegt <?= $size > 1 ? $size . ' Ankerplätze' : '1 Ankerplatz' ?>.
 						<?php else: ?>

@@ -15,7 +15,7 @@ use Lemuria\Renderer\Text\Statistics\Data\TextMaterial;
 use Lemuria\Renderer\Text\Statistics\Data\TextNumber;
 use Lemuria\Renderer\Text\View;
 use Lemuria\Statistics\Data\Number;
-use Lemuria\Version;
+use Lemuria\Version\Module;
 
 /**
  * Create a description line.
@@ -82,9 +82,9 @@ function wrap(string $output): string {
 function footer(array $versions): string {
 	$footer  = str_pad('', 80, '-');
 	$version = Lemuria::Version();
-	if (isset($version[Version::GAME])) {
-		$game    = $version[Version::GAME][0];
-		$footer .= PHP_EOL . 'Version: ' . $game->name . ' ' . $game->version . ' (';
+	if (isset($version[Module::Game->value])) {
+		$game    = $version[Module::Game->value][0];
+		$footer .= PHP_EOL . 'Version: ' . $game->name->value . ' ' . $game->version . ' (';
 		$footer .= implode(', ', $versions);
 		$footer .= ') | ' . date('d.m.Y H:i:s');
 	}

@@ -6,6 +6,7 @@ use function Lemuria\getClass;
 use Lemuria\Engine\Fantasya\Combat\BattleLog;
 use Lemuria\Engine\Fantasya\Statistics\Subject;
 use Lemuria\Engine\Message;
+use Lemuria\Engine\Message\Result;
 use Lemuria\Identifiable;
 use Lemuria\Model\Fantasya\Luxuries;
 use Lemuria\Model\Fantasya\Party;
@@ -63,17 +64,17 @@ class Html extends View
 	protected const BADGE_UNDEFINED = 'dark';
 
 	protected const BADGE = [
-		Message::DEBUG   => 'light',
-		Message::ERROR   => 'danger',
-		Message::EVENT   => 'info',
-		Message::FAILURE => 'warning',
-		Message::SUCCESS => 'success'
+		Result::Debug->value   => 'light',
+		Result::Error->value   => 'danger',
+		Result::Event->value   => 'info',
+		Result::Failure->value => 'warning',
+		Result::Success->value => 'success'
 	];
 
 	protected const LEVEL_UNDEFINED = 'U';
 
 	protected const LEVEL = [
-		Message::DEBUG => 'D', Message::ERROR => 'F', Message::EVENT => 'E', Message::FAILURE => 'W', Message::SUCCESS => 'M'
+		Result::Debug->value => 'D', Result::Error->value => 'F', Result::Event->value => 'E', Result::Failure->value => 'W', Result::Success->value => 'M'
 	];
 
 	private PathFactory $pathFactory;
@@ -95,7 +96,7 @@ class Html extends View
 	 * Render a report message.
 	 */
 	public function message(Message $message): string {
-		$level = $message->Level();
+		$level = $message->Result()->value;
 		$badge = self::BADGE[$level] ?? self::BADGE_UNDEFINED;
 		$b     = self::LEVEL[$level] ?? self::LEVEL_UNDEFINED;
 		return '<span class="badge text-bg-' . $badge . ' font-monospace">' . $b . '</span>&nbsp;' . $message;
