@@ -14,6 +14,7 @@ use Lemuria\Renderer\Text\View\Html;
 $region     = $this->variables[0];
 $atlas      = $this->atlas;
 $map        = $this->map;
+$type       = $this->party->Type();
 $visibility = $atlas->getVisibility($region);
 if ($visibility === Visibility::WITH_UNIT) {
 	$people        = $this->census->getPeople($region);
@@ -41,12 +42,14 @@ $fleet = View::sortedFleet($region);
 					<?= $this->template('report', $region) ?>
 				<?php endif ?>
 			</div>
-			<div class="col-12 col-xl-4 p-0 pl-xl-3 pr-xl-0">
-				<?= $this->template('material-pool', $region) ?>
-			</div>
+			<?php if ($type === Type::PLAYER): ?>
+				<div class="col-12 col-xl-4 p-0 pl-xl-3 pr-xl-0">
+					<?= $this->template('material-pool', $region) ?>
+				</div>
+			<?php endif ?>
 		</div>
 	</div>
-	<?php if ($this->party->Type() === Type::PLAYER && !empty($qualification)): ?>
+	<?php if ($type === Type::PLAYER && !empty($qualification)): ?>
 		<div class="table-responsive d-md-none">
 			<?= $this->template('statistics/qualification', $qualification, 1) ?>
 		</div>
