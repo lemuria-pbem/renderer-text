@@ -50,12 +50,12 @@ function linkEmail(string $input): string {
  */
 function p3(int $i, string $bp = 'md'): string {
 	return match (--$i % 6) {
-		0       => 'p-0 pr-' . $bp . '-3',
-		1       => 'p-0 pl-' . $bp . '-3 pr-xl-3',
-		2       => 'p-0 pr-' . $bp . '-3 pl-xl-3 pr-xl-0',
-		3       => 'p-0 pl-' . $bp . '-3 pl-xl-0 pr-xl-3',
-		4       => 'p-0 pr-' . $bp . '-3 pl-xl-3',
-		default => 'p-0 pl-' . $bp . '-3 pl-xl-3 pr-xl-0'
+		0       => 'p-0 pe-' . $bp . '-3',
+		1       => 'p-0 ps-' . $bp . '-3 pe-xl-3',
+		2       => 'p-0 pe-' . $bp . '-3 ps-xl-3 pe-xl-0',
+		3       => 'p-0 ps-' . $bp . '-3 ps-xl-0 pe-xl-3',
+		4       => 'p-0 pe-' . $bp . '-3 ps-xl-3',
+		default => 'p-0 ps-' . $bp . '-3 ps-xl-3 pe-xl-0'
 	};
 }
 

@@ -14,7 +14,7 @@ $banner = $party->Banner() ? 'Parteibanner: ' . linkEmail($party->Banner()) : '(
 ?>
 <div class="container-fluid">
 	<div class="row">
-		<div class="col-12 col-lg-6 p-0 pr-lg-3">
+		<div class="col-12 col-lg-6 p-0 pe-lg-3">
 			<h2><?= $party->Name() ?> <span class="badge text-bg-primary font-monospace"><?= $party->Id() ?></span></h2>
 
 			<blockquote class="blockquote"><?= $party->Description() ?></blockquote>
@@ -31,7 +31,7 @@ $banner = $party->Banner() ? 'Parteibanner: ' . linkEmail($party->Banner()) : '(
 			</ul>
 			<?php endif ?>
 		</div>
-		<div class="col-12 col-lg-6 p-0 pl-lg-3">
+		<div class="col-12 col-lg-6 p-0 ps-lg-3">
 			<h3>Ereignisse</h3>
 
 			<?= $this->template('report', $party) ?>

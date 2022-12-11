@@ -28,7 +28,7 @@ $fleet = View::sortedFleet($region);
 <?php if ($visibility === Visibility::WithUnit): ?>
 	<div class="container-fluid">
 		<div class="row">
-			<div class="col-12 col-lg-6 col-xl-4 p-0 pr-lg-3">
+			<div class="col-12 col-lg-6 col-xl-4 p-0 pe-lg-3">
 				<h4 id="region-<?= $region->Id()->Id() ?>">
 					<?= $region->Name() ?>
 					<span class="badge text-bg-light"><?= $map->getCoordinates($region) ?></span>
@@ -36,14 +36,14 @@ $fleet = View::sortedFleet($region);
 				</h4>
 				<?= $this->template('region/with-unit', $region) ?>
 			</div>
-			<div class="col-12 col-lg-6 col-xl-4 p-0 pl-lg-3 pr-xl-3">
+			<div class="col-12 col-lg-6 col-xl-4 p-0 ps-lg-3 pe-xl-3">
 				<?php if (count($this->messages($region))): ?>
 					<h5>Ereignisse</h5>
 					<?= $this->template('report', $region) ?>
 				<?php endif ?>
 			</div>
 			<?php if ($type === Type::Player): ?>
-				<div class="col-12 col-xl-4 p-0 pl-xl-3 pr-xl-0">
+				<div class="col-12 col-xl-4 p-0 ps-xl-3 pe-xl-0">
 					<?= $this->template('material-pool', $region) ?>
 				</div>
 			<?php endif ?>
@@ -73,7 +73,7 @@ $fleet = View::sortedFleet($region);
 <?php elseif ($visibility === Visibility::Farsight): ?>
 	<div class="container-fluid">
 		<div class="row">
-			<div class="col-12 col-lg-6 col-xl-4 p-0 pr-lg-3">
+			<div class="col-12 col-lg-6 col-xl-4 p-0 pe-lg-3">
 				<h4 id="region-<?= $region->Id()->Id() ?>">
 					<?= $region->Name() ?>
 					<span class="badge text-bg-light"><?= $map->getCoordinates($region) ?></span>
@@ -93,7 +93,7 @@ $fleet = View::sortedFleet($region);
 <?php elseif ($visibility === Visibility::Travelled): ?>
 	<div class="container-fluid">
 		<div class="row">
-			<div class="col-12 col-lg-6 pl-0">
+			<div class="col-12 col-lg-6 ps-0">
 				<h4 id="region-<?= $region->Id()->Id() ?>">
 					<?= $region->Name() ?>
 					<span class="badge text-bg-light"><?= $map->getCoordinates($region) ?></span>
@@ -101,7 +101,7 @@ $fleet = View::sortedFleet($region);
 				</h4>
 				<?= $this->template('region/with-unit', $region) ?>
 			</div>
-			<div class="col-12 col-lg-6 pr-0">
+			<div class="col-12 col-lg-6 pe-0">
 				<?php if (count($this->messages($region))): ?>
 					<h5>Ereignisse</h5>
 					<?= $this->template('report', $region) ?>
