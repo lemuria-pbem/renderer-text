@@ -35,11 +35,11 @@ $g = 0;
 						<?php foreach ($relations as $relation /* @var Relation $relation */): ?>
 							<li>
 							<?php if ($relation->Region()): ?>
-								Allianzrechte in <?= $relation->Region() ?>:
-								<?= $this->relation($relation) ?>
+								Allianzrechte in <?= $relation->Region()->Name() ?> <span class="badge text-bg-secondary font-monospace"><?= $relation->Region()->Id() ?></span>
+								<span class="relation font-monospace ps-1"><?= $this->relation($relation) ?></span>
 							<?php else: ?>
 								Allianzrechte:
-								<?= $this->relation($relation) ?>
+								<span class="relation font-monospace"><?= $this->relation($relation) ?></span>
 							<?php endif ?>
 							</li>
 						<?php endforeach ?>
@@ -60,11 +60,11 @@ $g = 0;
 				<?php foreach ($generalRelations as $relation /* @var Relation $relation */): ?>
 					<div class="col-12 col-lg-6 col-xl-4 <?= p3(++$g, 'lg') ?>">
 						<?php if ($relation->Region()): ?>
-							Allgemeine Rechte in <?= $relation->Region() ?>:
-							<?= $this->relation($relation) ?>
+							Allgemeine Rechte in <?= $relation->Region()->Name() ?> <span class="badge text-bg-secondary font-monospace"><?= $relation->Region()->Id() ?></span>
+							<span class="relation font-monospace ps-1"><?= $this->relation($relation) ?></span>
 						<?php else: ?>
 							Allgemeine Rechte:
-							<?= $this->relation($relation) ?>
+							<span class="relation font-monospace"><?= $this->relation($relation) ?></span>
 						<?php endif ?>
 					</div>
 				<?php endforeach ?>
