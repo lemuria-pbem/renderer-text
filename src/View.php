@@ -451,20 +451,20 @@ abstract class View
 	public function gameVersions(): array {
 		$version  = Lemuria::Version();
 		$versions = [];
-		foreach ($version[Module::Base->value] as $versionTag) {
-			$versions[] = $versionTag->name->value . ': ' . $versionTag->version;
+		foreach ($version[Module::Base] as $versionTag) {
+			$versions[] = $versionTag->name . ': ' . $versionTag->version;
 		}
-		foreach ($version[Module::Model->value] as $versionTag) {
-			$versions[] = $versionTag->name->value . ': ' . $versionTag->version;
+		foreach ($version[Module::Model] as $versionTag) {
+			$versions[] = $versionTag->name . ': ' . $versionTag->version;
 		}
-		foreach ($version[Module::Engine->value] as $versionTag) {
-			$versions[] = $versionTag->name->value . ': ' . $versionTag->version;
+		foreach ($version[Module::Engine] as $versionTag) {
+			$versions[] = $versionTag->name . ': ' . $versionTag->version;
 		}
-		foreach ($version[Module::Renderers->value] as $versionTag) {
-			$versions[] = $versionTag->name->value . ': ' . $versionTag->version;
+		foreach ($version[Module::Renderers] as $versionTag) {
+			$versions[] = $versionTag->name . ': ' . $versionTag->version;
 		}
-		foreach ($version[Module::Statistics->value] as $versionTag) {
-			$versions[] = $versionTag->name->value . ': ' . $versionTag->version;
+		foreach ($version[Module::Statistics] as $versionTag) {
+			$versions[] = $versionTag->name . ': ' . $versionTag->version;
 		}
 		return $versions;
 	}

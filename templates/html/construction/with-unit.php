@@ -26,7 +26,8 @@ $columns      = 1 + ($m > 0 || $h ? 1 : 0) + ($sales ? 1 : 0);
 <?php else: ?>
 	<div class="container-fluid">
 		<div class="row">
-			<?php if ($columns === 2): ?>
+			<?php /** @noinspection PhpConditionAlreadyCheckedInspection */
+			if ($columns === 2): ?>
 				<div class="col-12 col-md-6 p-0 pr-md-3">
 					<?= $this->template('construction/part/description', $construction) ?>
 				</div>

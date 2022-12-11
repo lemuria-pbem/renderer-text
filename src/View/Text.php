@@ -82,9 +82,9 @@ function wrap(string $output): string {
 function footer(array $versions): string {
 	$footer  = str_pad('', 80, '-');
 	$version = Lemuria::Version();
-	if (isset($version[Module::Game->value])) {
-		$game    = $version[Module::Game->value][0];
-		$footer .= PHP_EOL . 'Version: ' . $game->name->value . ' ' . $game->version . ' (';
+	if (isset($version[Module::Game])) {
+		$game    = $version[Module::Game][0];
+		$footer .= PHP_EOL . 'Version: ' . $game->name . ' ' . $game->version . ' (';
 		$footer .= implode(', ', $versions);
 		$footer .= ') | ' . date('d.m.Y H:i:s');
 	}

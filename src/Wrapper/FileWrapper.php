@@ -24,7 +24,7 @@ class FileWrapper implements Wrapper
 	public function wrap(string $report): string {
 		$version = Lemuria::Version();
 		$report  = str_replace(Wrapper::REPORT, $report, $this->wrapperText);
-		$report  = str_replace(Wrapper::VERSION, $version[Module::Game->value][0]->version, $report);
+		$report  = str_replace(Wrapper::VERSION, $version[Module::Game][0]->version, $report);
 		return $report;
 	}
 }
