@@ -32,7 +32,7 @@ $fleet = View::sortedFleet($region);
 				<h4 id="region-<?= $region->Id()->Id() ?>">
 					<?= $region->Name() ?>
 					<span class="badge text-bg-light"><?= $map->getCoordinates($region) ?></span>
-					<span class="badge text-bg-secondary"><?= $region->Id() ?></span>
+					<span class="badge text-bg-secondary font-monospace"><?= $region->Id() ?></span>
 				</h4>
 				<?= $this->template('region/with-unit', $region) ?>
 			</div>
@@ -77,7 +77,7 @@ $fleet = View::sortedFleet($region);
 				<h4 id="region-<?= $region->Id()->Id() ?>">
 					<?= $region->Name() ?>
 					<span class="badge text-bg-light"><?= $map->getCoordinates($region) ?></span>
-					<span class="badge text-bg-secondary"><?= $region->Id() ?></span>
+					<span class="badge text-bg-secondary font-monospace"><?= $region->Id() ?></span>
 				</h4>
 				<?= $this->template('region/with-unit', $region) ?>
 			</div>
@@ -97,7 +97,7 @@ $fleet = View::sortedFleet($region);
 				<h4 id="region-<?= $region->Id()->Id() ?>">
 					<?= $region->Name() ?>
 					<span class="badge text-bg-light"><?= $map->getCoordinates($region) ?></span>
-					<span class="badge text-bg-secondary"><?= $region->Id() ?></span>
+					<span class="badge text-bg-secondary font-monospace"><?= $region->Id() ?></span>
 				</h4>
 				<?= $this->template('region/with-unit', $region) ?>
 			</div>
@@ -120,7 +120,7 @@ $fleet = View::sortedFleet($region);
 	<h4 id="region-<?= $region->Id()->Id() ?>">
 		<?= $region->Name() ?>
 		<span class="badge text-bg-light"><?= $map->getCoordinates($region) ?></span>
-		<span class="badge text-bg-secondary"><?= $region->Id() ?></span>
+		<span class="badge text-bg-secondary font-monospace"><?= $region->Id() ?></span>
 	</h4>
 	<?= $this->template('region/from-lighthouse', $region) ?>
 	<?php foreach ($estate as $construction): ?>
@@ -134,7 +134,7 @@ $fleet = View::sortedFleet($region);
 	<h4 id="region-<?= $region->Id()->Id() ?>">
 		<?= $region->Name() ?>
 		<span class="badge text-bg-light"><?= $map->getCoordinates($region) ?></span>
-		<span class="badge text-bg-secondary"><?= $region->Id() ?></span>
+		<span class="badge text-bg-secondary font-monospace"><?= $region->Id() ?></span>
 	</h4>
 	<?= $this->template('region/neighbour', $region) ?>
 <?php endif ?>

@@ -36,9 +36,7 @@ endforeach;
 ?>
 <h3 id="continent-<?= $continent->Id() ?>">
 	<?= $name ?>
-	<?php if ($hasOwnName): ?>
-		<span class="badge text-bg-primary"><?= $party->Id() ?></span>
-	<?php endif ?>
+	<span class="badge text-bg-primary font-monospace"><?= $party->Id() ?></span>
 </h3>
 
 <blockquote class="blockquote"><?= $description ?></blockquote>
@@ -47,14 +45,14 @@ endforeach;
 	<?php if (isset($info['name'])): ?>
 		<?php if (isset($info['description'])): ?>
 			<p>
-				Von der Partei <?= $info['party'] ?> <span class="badge text-bg-primary"><?= $id ?></span> wird dieser Teil der Welt <em><?= $info['name'] ?></em> genannt.
+				Von der Partei <?= $info['party'] ?> <span class="badge text-bg-primary font-monospace"><?= $id ?></span> wird dieser Teil der Welt <em><?= $info['name'] ?></em> genannt.
 				<em>„<?= $info['description'] ?>“</em>
 			</p>
 		<?php else: ?>
-			<p>Von der Partei <?= $info['party'] ?> <span class="badge text-bg-primary"><?= $id ?></span> wird dieser Teil der Welt <em><?= $info['name'] ?></em> genannt.</p>
+			<p>Von der Partei <?= $info['party'] ?> <span class="badge text-bg-primary font-monospace"><?= $id ?></span> wird dieser Teil der Welt <em><?= $info['name'] ?></em> genannt.</p>
 		<?php endif ?>
 	<?php else: ?>
-		<p>Das Volk der Partei <?= $info['party'] ?> <span class="badge text-bg-primary"><?= $id ?></span> sagt über dieses Land: <em>„<?= $info['description'] ?>“</em></p>
+		<p>Das Volk der Partei <?= $info['party'] ?> <span class="badge text-bg-primary font-monospace"><?= $id ?></span> sagt über dieses Land: <em>„<?= $info['description'] ?>“</em></p>
 	<?php endif ?>
 <?php endforeach ?>
 <?php if ($hasOwnName): ?>

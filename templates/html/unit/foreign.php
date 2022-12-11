@@ -49,9 +49,9 @@ if ($sales) {
 
 ?>
 <h6>
-	<?= $unit->Name() ?> <span class="badge text-bg-primary"><?= $unit->Id() ?></span>
+	<?= $unit->Name() ?> <span class="badge text-bg-primary font-monospace"><?= $unit->Id() ?></span>
 	<?php if ($foreign): ?>
-		von <?= $foreign->Name() ?> <span class="badge text-bg-secondary"><?= $foreign->Id() ?></span>
+		von <?= $foreign->Name() ?> <span class="badge text-bg-secondary font-monospace"><?= $foreign->Id() ?></span>
 	<?php else: ?>
 		(unbekannte Partei)
 	<?php endif ?>

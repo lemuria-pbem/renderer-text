@@ -20,7 +20,7 @@ $people = $this->numberStatistics(Subject::People, $party);
 <div class="container-fluid">
 	<div class="row">
 		<div class="col-12 col-lg-6 p-0 pr-lg-3">
-			<h2><?= $party->Name() ?> <span class="badge text-bg-primary"><?= $party->Id() ?></span></h2>
+			<h2><?= $party->Name() ?> <span class="badge text-bg-primary font-monospace"><?= $party->Id() ?></span></h2>
 
 			<blockquote class="blockquote"><?= $party->Description() ?></blockquote>
 

@@ -26,7 +26,7 @@ $title    = match ($status) {
 };
 
 ?>
-<span class="badge text-bg-<?= $badge ?>" title="<?= $title ?>"><?= $trade->Id() ?></span>
+<span class="badge text-bg-<?= $badge ?> font-monospace" title="<?= $title ?>"><?= $trade->Id() ?></span>
 <span class="trade-flag ppp-<?= (int)$isPPP ?>" title="<?= $isPPP ? 'Stückpreisangebot' : 'Fixangebot' ?>">∞</span>
 <span class="trade-flag var-<?= (int)$isVar ?>" title="<?= $isVar ? 'Verhandlungsbasis' : 'Festpreis' ?>">⇵</span>
 <span class="trade-flag rep-<?= (int)$isRepeat ?>" title="<?= $isRepeat ? 'wird wiederholt' : 'einmalig angeboten' ?>">🗘</span>

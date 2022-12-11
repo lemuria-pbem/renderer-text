@@ -18,16 +18,16 @@ Besondere Gegenstände:
 	<?php endif ?>
 	<?php if ($unicum->Description()): ?>
 		<?php if ($unicum->Name()): ?>
-			<?= $unicum->Name() ?> <span class="badge text-bg-magic"><?= $unicum->Id() ?></span>, <?= $this->composition($unicum->Composition()) ?>:
+			<?= $unicum->Name() ?> <span class="badge text-bg-magic font-monospace"><?= $unicum->Id() ?></span>, <?= $this->composition($unicum->Composition()) ?>:
 		<?php else: ?>
-			<?= $this->composition($unicum->Composition()) ?> <span class="badge text-bg-magic"><?= $unicum->Id() ?></span>:
+			<?= $this->composition($unicum->Composition()) ?> <span class="badge text-bg-magic font-monospace"><?= $unicum->Id() ?></span>:
 		<?php endif ?>
 		<?= $this->template('description', $unicum) ?>
 	<?php else: ?>
 		<?php if ($unicum->Name()): ?>
-			<?= $unicum->Name() ?> <span class="badge text-bg-magic"><?= $unicum->Id() ?></span>, <?= $this->composition($unicum->Composition()) ?>
+			<?= $unicum->Name() ?> <span class="badge text-bg-magic font-monospace"><?= $unicum->Id() ?></span>, <?= $this->composition($unicum->Composition()) ?>
 		<?php else: ?>
-			<?= $this->composition($unicum->Composition()) ?> <span class="badge text-bg-magic"><?= $unicum->Id() ?></span>
+			<?= $this->composition($unicum->Composition()) ?> <span class="badge text-bg-magic font-monospace"><?= $unicum->Id() ?></span>
 		<?php endif ?>
 	<?php endif ?>
 <?php endforeach ?>

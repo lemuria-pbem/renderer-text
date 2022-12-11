@@ -25,7 +25,7 @@ $g = 0;
 		<div class="row">
 			<?php foreach ($acquaintances as $acquaintance /* @var Party $acquaintance */): ?>
 				<div class="col-12 col-lg-6 col-xl-4 <?= p3(++$a, 'lg') ?>">
-					<?= $acquaintance->Name() ?> <span class="badge text-bg-primary"><?= $acquaintance->Id() ?></span>
+					<?= $acquaintance->Name() ?> <span class="badge text-bg-primary font-monospace"><?= $acquaintance->Id() ?></span>
 					<?php if ($acquaintance->Banner()): ?> - <?= linkEmail($acquaintance->Banner()) ?><?php endif ?>
 					<br>
 					<small><?= $acquaintance->Description() ?></small>

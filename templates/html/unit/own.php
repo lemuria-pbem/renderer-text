@@ -103,7 +103,7 @@ foreach ($allTrades as $trade /* @var Trade $trade */) {
 
 ?>
 <h6>
-	<?= $unit->Name() ?> <span class="badge text-bg-primary"><?= $unit->Id() ?></span>
+	<?= $unit->Name() ?> <span class="badge text-bg-primary font-monospace"><?= $unit->Id() ?></span>
 	<?php if ($mark): ?>
 		<span class="badge text-bg-danger"><?= $mark ?></span>
 	<?php endif ?>
