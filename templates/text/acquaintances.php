@@ -7,9 +7,10 @@ use Lemuria\Renderer\Text\View\Text;
 
 /** @var Text $this */
 
+/** @var Party $party */
 $party            = $this->variables[0];
 $diplomacy        = $party->Diplomacy();
-$acquaintances    = $diplomacy->Acquaintances();
+$acquaintances    = $diplomacy->Acquaintances()->sort();
 $generalRelations = $diplomacy->search($party);
 
 $i = 0
