@@ -4,10 +4,10 @@ declare (strict_types = 1);
 use function Lemuria\getClass;
 use Lemuria\Engine\Fantasya\Calculus;
 use Lemuria\Engine\Fantasya\Factory\Model\Orders;
+use Lemuria\Engine\Fantasya\Factory\Model\Trades;
 use Lemuria\Engine\Fantasya\Statistics\Subject;
 use Lemuria\Model\Fantasya\Ability;
 use Lemuria\Model\Fantasya\Market\Sales;
-use Lemuria\Model\Fantasya\Market\Trade;
 use Lemuria\Model\Fantasya\Quantity;
 use Lemuria\Model\Fantasya\Unicum;
 use Lemuria\Model\Fantasya\Unit;
@@ -17,8 +17,8 @@ use Lemuria\Renderer\Text\View\Html;
 
 /** @var Unit $unit */
 $unit = $this->variables[0];
-/** @var Sales|null $sales */
-$sales     = $this->variables[1];
+/** @var Trades|null $trades */
+$trades    = $this->variables[1];
 $merchant  = 'merchant-' . $unit->Id();
 $party     = $this->party;
 $census    = $this->census;
@@ -80,27 +80,6 @@ if ($battleSpells):
 	endif;
 endif;
 
-$trades     = [];
-$impossible = [];
-$forbidden  = [];
-$allTrades  = $unit->Trades()->sort();
-foreach ($allTrades as $trade /* @var Trade $trade */) {
-	$id = $trade->Id()->Id();
-	if ($sales) {
-		match ($sales->getStatus($trade)) {
-			Sales::FORBIDDEN     => $forbidden[$id] = $trade,
-			Sales::UNSATISFIABLE => $impossible[$id] = $trade,
-			default              => $trades[$id] = $trade
-		};
-	} else {
-		if ($trade->IsSatisfiable()) {
-			$trades[$id] = $trade;
-		} else {
-			$impossible[$id] = $trade;
-		}
-	}
-}
-
 ?>
 <h6>
 	<?= $unit->Name() ?> <span class="badge text-bg-primary font-monospace"><?= $unit->Id() ?></span>
@@ -126,48 +105,48 @@ foreach ($allTrades as $trade /* @var Trade $trade */) {
 		Eingesetzte Kampfzauber: <?= implode(', ', $spells) ?>.
 	<?php endif ?>
 </p>
-<?php if ($sales && $allTrades->count() > 0): ?>
+<?php if ($trades && $trades->HasMarket() && $trades->count() > 0): ?>
 	<div class="market">
 		<p class="h7">
 			<a data-bs-toggle="collapse" href="#<?= $merchant ?>" role="button" aria-expanded="true" aria-controls="market">Aktuelle Marktangebote</a>
 		</p>
 		<ol class="collapse" id="<?= $merchant ?>">
-			<?php foreach ($trades as $trade): ?>
+			<?php foreach ($trades->Available() as $trade): ?>
 				<li>
 					<?= $this->template('trade/own', $trade, Sales::AVAILABLE) ?>
 				</li>
 			<?php endforeach ?>
-			<?php foreach ($impossible as $trade): ?>
+			<?php foreach ($trades->Impossible() as $trade): ?>
 				<li>
 					<?= $this->template('trade/own', $trade, Sales::UNSATISFIABLE) ?>
 				</li>
 			<?php endforeach ?>
-			<?php foreach ($forbidden as $trade): ?>
+			<?php foreach ($trades->Forbidden() as $trade): ?>
 				<li>
 					<?= $this->template('trade/own', $trade, Sales::FORBIDDEN) ?>
 				</li>
 			<?php endforeach ?>
 		</ol>
 	</div>
-<?php elseif ($allTrades->count() > 0): ?>
+<?php elseif ($trades && $trades->count() > 0): ?>
 	<div class="market">
 		<p class="h7">
 			<a data-bs-toggle="collapse" href="#<?= $merchant ?>" role="button" aria-expanded="true" aria-controls="market">Angebote für den Markthandel</a>
 		</p>
 		<ol class="collapse" id="<?= $merchant ?>">
-			<?php foreach ($trades as $trade): ?>
+			<?php foreach ($trades->Available() as $trade): ?>
 				<li>
 					<?= $this->template('trade/own', $trade, Sales::AVAILABLE) ?>
 				</li>
 			<?php endforeach ?>
-			<?php foreach ($impossible as $trade): ?>
+			<?php foreach ($trades->Impossible() as $trade): ?>
 				<li>
 					<?= $this->template('trade/own', $trade, Sales::UNSATISFIABLE) ?>
 				</li>
 			<?php endforeach ?>
 		</ol>
 	</div>
-<?php elseif ($sales): ?>
+<?php elseif ($trades && $trades->HasMarket()): ?>
 	<div class="market">
 		<p class="h7">
 			<a data-bs-toggle="collapse" href="#<?= $merchant ?>" role="button" aria-expanded="true" aria-controls="market">Aktuelle Marktangebote</a>

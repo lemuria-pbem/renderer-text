@@ -3,10 +3,10 @@ declare (strict_types = 1);
 
 use function Lemuria\Renderer\Text\View\description;
 use function Lemuria\Renderer\Text\View\line;
+use Lemuria\Engine\Fantasya\Factory\Model\Trades;
 use Lemuria\Model\Fantasya\Building\Port;
 use Lemuria\Model\Fantasya\Construction;
-use Lemuria\Model\Fantasya\Extension\Market;
-use Lemuria\Model\Fantasya\Market\Sales;
+use Lemuria\Model\Fantasya\Unit;
 use Lemuria\Renderer\Text\Model\PortSpace;
 use Lemuria\Renderer\Text\View\Text;
 
@@ -18,7 +18,7 @@ $building     = $construction->Building();
 $inhabitants  = $this->people($construction);
 $people       = $inhabitants === 1 ? 'Bewohner' : 'Bewohnern';
 $treasury     = $construction->Treasury();
-$sales        = $construction->Extensions()->offsetExists(Market::class) ? new Sales($construction) : null;
+$trades       = new Trades($construction);
 
 ?>
 
@@ -30,11 +30,11 @@ $sales        = $construction->Extensions()->offsetExists(Market::class) ? new S
 .<?= line(description($construction)) ?>
 <?php endif ?>
 <?php if (!$treasury->isEmpty()): ?><?= $this->template('treasury/region', $treasury) ?><?php endif ?>
-<?php if ($sales): ?>
+<?php if ($trades->HasMarket()): ?>
 
-<?= $this->template('construction/building/market', $construction, $sales) ?>
+<?= $this->template('construction/building/market', $construction, $trades) ?>
 <?php endif ?>
 <?= $this->template('report', $construction) ?>
-<?php foreach ($construction->Inhabitants() as $unit): ?>
-<?= $this->template('unit', $unit, $sales) ?>
+<?php foreach ($construction->Inhabitants() as $unit /* @var Unit $unit */): ?>
+<?= $this->template('unit', $unit, $trades->forUnit($unit)) ?>
 <?php endforeach ?>

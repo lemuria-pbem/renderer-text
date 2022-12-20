@@ -6,10 +6,9 @@ use function Lemuria\Renderer\Text\View\center;
 use function Lemuria\Renderer\Text\View\description;
 use Lemuria\Engine\Fantasya\Calculus;
 use Lemuria\Engine\Fantasya\Factory\Model\Orders;
+use Lemuria\Engine\Fantasya\Factory\Model\Trades;
 use Lemuria\Engine\Fantasya\Statistics\Subject;
 use Lemuria\Model\Fantasya\Ability;
-use Lemuria\Model\Fantasya\Market\Sales;
-use Lemuria\Model\Fantasya\Market\Trade;
 use Lemuria\Model\Fantasya\Quantity;
 use Lemuria\Model\Fantasya\Unicum;
 use Lemuria\Model\Fantasya\Unit;
@@ -19,8 +18,8 @@ use Lemuria\Renderer\Text\View\Text;
 
 /** @var Unit $unit */
 $unit = $this->variables[0];
-/** @var Sales|null $sales */
-$sales     = $this->variables[1];
+/** @var Trades|null $trades */
+$trades    = $this->variables[1];
 $prefix    = $unit->Construction() || $unit->Vessel() ? '   * ' : '  -- ';
 $aura      = $unit->Aura();
 $disguised = $unit->Disguise();
@@ -81,27 +80,6 @@ if ($battleSpells):
 	endif;
 endif;
 
-$trades     = [];
-$impossible = [];
-$forbidden  = [];
-$allTrades  = $unit->Trades()->sort();
-foreach ($allTrades as $trade /* @var Trade $trade */) {
-	$id = $trade->Id()->Id();
-	if ($sales) {
-		match ($sales->getStatus($trade)) {
-			Sales::FORBIDDEN     => $forbidden[$id] = $trade,
-			Sales::UNSATISFIABLE => $impossible[$id] = $trade,
-			default              => $trades[$id] = $trade
-		};
-	} else {
-		if ($trade->IsSatisfiable()) {
-			$trades[$id] = $trade;
-		} else {
-			$impossible[$id] = $trade;
-		}
-	}
-}
-
 ?>
 <?= $prefix . $unit ?>, <?= $this->number($unit->Size(), 'race', $unit->Race()) ?>
 <?php if ($aura): ?>, Aura <?= $aura->Aura() ?>/<?= $aura->Maximum() ?><?php endif ?>
@@ -120,35 +98,35 @@ Hat <?= empty($inventory) ? 'nichts' : implode(', ', $inventory) ?>
 <?php if (!empty($spells)): ?>Eingesetzte Kampfzauber: <?= implode(', ', $spells) ?>
 .
 <?php endif ?>
-<?php if ($sales && $allTrades->count() > 0): ?>
+<?php if ($trades && $trades->HasMarket() && $trades->count() > 0): ?>
 
 <?= center('Aktuelle Marktangebote') ?>
 
-<?php foreach ($trades as $trade): ?>
+<?php foreach ($trades->Available() as $trade): ?>
 <?= $this->template('trade/own', $trade) ?>
 
 <?php endforeach ?>
-<?php foreach ($impossible as $trade): ?>
+<?php foreach ($trades->Impossible() as $trade): ?>
 nicht vorrätig: <?= $this->template('trade/own', $trade) ?>
 
 <?php endforeach ?>
-<?php foreach ($forbidden as $trade): ?>
+<?php foreach ($trades->Forbidden() as $trade): ?>
 Handel untersagt: <?= $this->template('trade/own', $trade) ?>
 
 <?php endforeach ?>
-<?php elseif ($allTrades->count() > 0): ?>
+<?php elseif ($trades && $trades->count() > 0): ?>
 
 <?= center('Angebote für den Markthandel') ?>
 
-<?php foreach ($trades as $trade): ?>
+<?php foreach ($trades->Available() as $trade): ?>
 <?= $this->template('trade/own', $trade) ?>
 
 <?php endforeach ?>
-<?php foreach ($impossible as $trade): ?>
+<?php foreach ($trades->Impossible() as $trade): ?>
 nicht vorrätig: <?= $this->template('trade/own', $trade) ?>
 
 <?php endforeach ?>
-<?php elseif ($sales): ?>
+<?php elseif ($trades && $trades->HasMarket()): ?>
 
 <?= center('Aktuelle Marktangebote') ?>
 

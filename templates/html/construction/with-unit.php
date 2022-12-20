@@ -2,9 +2,9 @@
 declare (strict_types = 1);
 
 use function Lemuria\Renderer\Text\View\p3;
+use Lemuria\Engine\Fantasya\Factory\Model\Trades;
 use Lemuria\Model\Fantasya\Construction;
-use Lemuria\Model\Fantasya\Extension\Market;
-use Lemuria\Model\Fantasya\Market\Sales;
+use Lemuria\Model\Fantasya\Unit;
 use Lemuria\Renderer\Text\View\Html;
 use Lemuria\SortMode;
 
@@ -17,8 +17,9 @@ $unitsInside  = $construction->Inhabitants()->sort(SortMode::ByParty, $this->par
 $i            = 0;
 $m            = count($this->messages($construction));
 $h            = $treasury->isEmpty() ? 0 : 1;
-$sales        = $construction->Extensions()->offsetExists(Market::class) ? new Sales($construction) : null;
-$columns      = 1 + ($m > 0 || $h ? 1 : 0) + ($sales ? 1 : 0);
+$trades       = new Trades($construction);
+$hasMarket    = $trades->HasMarket();
+$columns      = 1 + ($m > 0 || $h ? 1 : 0) + ($hasMarket ? 1 : 0);
 
 ?>
 <?php if ($columns === 1): ?>
@@ -32,8 +33,8 @@ $columns      = 1 + ($m > 0 || $h ? 1 : 0) + ($sales ? 1 : 0);
 					<?= $this->template('construction/part/description', $construction) ?>
 				</div>
 				<div class="col-12 col-md-6 p-0 ps-md-3 pt-md-5">
-					<?php if ($sales): ?>
-						<?= $this->template('construction/building/market', $construction, $sales) ?>
+					<?php if ($hasMarket): ?>
+						<?= $this->template('construction/building/market', $construction) ?>
 					<?php else: ?>
 						<?php if ($h): ?>
 							<?= $this->template('treasury/construction', $treasury) ?>
@@ -49,7 +50,7 @@ $columns      = 1 + ($m > 0 || $h ? 1 : 0) + ($sales ? 1 : 0);
 					<?= $this->template('construction/part/description', $construction) ?>
 				</div>
 				<div class="col-12 col-md-6 col-xl-4 p-0 ps-md-3 pe-xl-3 pt-md-5">
-					<?= $this->template('construction/building/market', $construction, $sales) ?>
+					<?= $this->template('construction/building/market', $construction) ?>
 				</div>
 				<div class="col-12 col-md-6 col-xl-4 p-0 pe-md-4 ps-xl-3 pe-xl-0 pt-xl-5">
 					<?php if ($h): ?>
@@ -68,9 +69,9 @@ $columns      = 1 + ($m > 0 || $h ? 1 : 0) + ($sales ? 1 : 0);
 <?php if ($unitsInside->count() > 0): ?>
 	<div class="container-fluid">
 		<div class="row">
-		<?php foreach ($unitsInside as $unit): ?>
+		<?php foreach ($unitsInside as $unit /* @var Unit $unit */): ?>
 			<div class="col-12 col-md-6 col-xl-4 <?= p3(++$i) ?>">
-				<?= $this->template('unit', $unit, $sales) ?>
+				<?= $this->template('unit', $unit, $trades->forUnit($unit)) ?>
 			</div>
 		<?php endforeach ?>
 		</div>

@@ -4,9 +4,8 @@ declare (strict_types = 1);
 use function Lemuria\Renderer\Text\View\center;
 use function Lemuria\Renderer\Text\View\description;
 use Lemuria\Engine\Fantasya\Factory\Model\Observables;
+use Lemuria\Engine\Fantasya\Factory\Model\Trades;
 use Lemuria\Model\Fantasya\Intelligence;
-use Lemuria\Model\Fantasya\Market\Sales;
-use Lemuria\Model\Fantasya\Market\Trade;
 use Lemuria\Model\Fantasya\Quantity;
 use Lemuria\Model\Fantasya\Unit;
 use Lemuria\Renderer\Text\View\Text;
@@ -15,8 +14,8 @@ use Lemuria\Renderer\Text\View\Text;
 
 /** @var Unit $unit */
 $unit    = $this->variables[0];
-/** @var Sales|null $sales */
-$sales   = $this->variables[1];
+/** @var Trades|null $trades */
+$trades  = $this->variables[1];
 $census  = $this->census;
 $prefix  = $unit->Construction() || $unit->Vessel() ? '   * ' : '  -- ';
 $foreign = $census->getParty($unit);
@@ -43,15 +42,6 @@ if ($isGuarding):
 	endif;
 endif;
 
-$trades = [];
-if ($sales) {
-	foreach ($unit->Trades()->sort() as $trade/* @var Trade $trade */) {
-		if ($sales->getStatus($trade) === Sales::AVAILABLE) {
-			$trades[$trade->Id()->Id()] = $trade;
-		}
-	}
-}
-
 ?>
 <?= $prefix . $unit ?> von <?= $foreign ?>, <?= $this->number($unit->Size(), 'race', $unit->Race()) ?>
 <?php if ($unit->IsGuarding()): ?>, bewacht die Region<?php endif ?>
@@ -60,12 +50,12 @@ if ($sales) {
 <?php if (count($resources) > 0): ?>
 Reist mit <?= implode(', ', $resources) ?>.
 <?php endif ?>
-<?php if ($sales): ?>
+<?php if ($trades && $trades->HasMarket()): ?>
 
 <?= center('Marktangebote') ?>
 
-<?php if (count($trades) > 0): ?>
-<?php foreach ($trades as $trade): ?>
+<?php if ($trades && count($trades->Available()) > 0): ?>
+<?php foreach ($trades->Available() as $trade): ?>
 <?= $this->template('trade/foreign', $trade) ?>
 
 <?php endforeach ?>

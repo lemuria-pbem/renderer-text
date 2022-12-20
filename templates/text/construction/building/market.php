@@ -5,7 +5,6 @@ use function Lemuria\Renderer\Text\View\center;
 use Lemuria\Model\Fantasya\Commodity;
 use Lemuria\Model\Fantasya\Construction;
 use Lemuria\Model\Fantasya\Extension\Market;
-use Lemuria\Model\Fantasya\Market\Sales;
 use Lemuria\Model\Fantasya\Quantity;
 use Lemuria\Renderer\Text\View\Text;
 
@@ -13,8 +12,6 @@ use Lemuria\Renderer\Text\View\Text;
 
 /** @var Construction $construction */
 $construction = $this->variables[0];
-/** @var Sales $sales */
-$sales = $this->variables[1];
 /** @var Market $market */
 $market     = $construction->Extensions()->offsetGet(Market::class);
 $fee        = $market->Fee();
