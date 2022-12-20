@@ -2,7 +2,6 @@
 declare (strict_types = 1);
 
 use Lemuria\Engine\Fantasya\Combat\BattleLog;
-use Lemuria\Model\Fantasya\Party\Type;
 use Lemuria\Model\Fantasya\Region;
 use Lemuria\Renderer\Text\View\Html;
 

@@ -4,7 +4,6 @@ declare (strict_types = 1);
 use Lemuria\Model\Fantasya\Commodity;
 use Lemuria\Model\Fantasya\Construction;
 use Lemuria\Model\Fantasya\Extension\Market;
-use Lemuria\Model\Fantasya\Market\Sales;
 use Lemuria\Model\Fantasya\Quantity;
 use Lemuria\Renderer\Text\View\Html;
 
@@ -12,8 +11,6 @@ use Lemuria\Renderer\Text\View\Html;
 
 /** @var Construction $construction */
 $construction = $this->variables[0];
-/** @var Sales $sales */
-$sales = $this->variables[1];
 /** @var Market $market */
 $market     = $construction->Extensions()->offsetGet(Market::class);
 $fee        = $market->Fee();
