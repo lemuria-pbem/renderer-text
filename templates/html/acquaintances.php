@@ -9,9 +9,10 @@ use Lemuria\Renderer\Text\View\Html;
 
 /** @var Html $this */
 
+/** @var Party $party */
 $party            = $this->variables[0];
 $diplomacy        = $party->Diplomacy();
-$acquaintances    = $diplomacy->Acquaintances();
+$acquaintances    = $diplomacy->Acquaintances()->sort();
 $generalRelations = $diplomacy->search($party);
 
 $a = 0;
