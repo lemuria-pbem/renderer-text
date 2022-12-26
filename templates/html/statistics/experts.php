@@ -23,7 +23,9 @@ $e        = 0;
 		<tr>
 			<?php for (; $h < $n; $h++): ?>
 				<?php $c = $h === $last ? ($items - $h % $items) * 2 : 2 ?>
-				<th scope="col" colspan="<?= $c ?>"><?= $this->get('talent.' . $experts[$h]->class) ?></th>
+				<th scope="col" colspan="<?= $c ?>">
+					<a data-bs-toggle="modal" data-bs-target="#talent-statistics-<?= strtolower($experts[$h]->class) ?>" href="#"><?= $this->get('talent.' . $experts[$h]->class) ?></a>
+				</th>
 			<?php endfor ?>
 		</tr>
 		<tr class="<?= $rowClass ?>">

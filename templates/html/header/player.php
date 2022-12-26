@@ -50,3 +50,5 @@ $people = $this->numberStatistics(Subject::People, $party);
 <h3 id="statistics" title="Taste: S">Statistik</h3>
 
 <?= $this->template('statistics/table') ?>
+
+<?= $this->template('statistics/talents') ?>
