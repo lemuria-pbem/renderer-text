@@ -23,4 +23,4 @@ $isOffer = $trade->Trade() === Trade::OFFER;
 <?php else: ?>
 	Gesuch:
 <?php endif ?>
-<?= $this->deal($goods, $isOffer, true) ?> für <?= $this->deal($price, $isOffer) ?>
+<?= $this->deal($trade, $goods, true) ?> für <?= $this->deal($trade, $price) ?>

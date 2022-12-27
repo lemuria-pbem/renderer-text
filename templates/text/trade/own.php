@@ -12,5 +12,5 @@ $isOffer = $trade->Trade() === Trade::OFFER;
 
 ?>
 <?php if ($isOffer): ?>Angebot <?php else: ?>Gesuch <?php endif ?>
-[<?= $trade->Id() ?>]: <?= $this->deal($trade->Goods(), $isOffer, true) ?> für <?= $this->deal($trade->Price(), $isOffer, true) ?>
+[<?= $trade->Id() ?>]: <?= $this->ownDeal($trade, $trade->Goods()) ?> für <?= $this->ownDeal($trade, $trade->Price()) ?>
 <?php if ($trade->IsRepeat()): ?> (wiederholt)<?php endif ?>

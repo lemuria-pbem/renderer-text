@@ -30,6 +30,7 @@ use Lemuria\Model\Fantasya\Landscape\Ocean;
 use Lemuria\Model\Fantasya\Herb;
 use Lemuria\Model\Fantasya\Loot;
 use Lemuria\Model\Fantasya\Market\Deal;
+use Lemuria\Model\Fantasya\Market\Trade;
 use Lemuria\Model\Fantasya\Potion;
 use Lemuria\Model\Fantasya\Quantity;
 use Lemuria\Model\Fantasya\Party;
@@ -154,14 +155,62 @@ abstract class View
 	/**
 	 * Format a Deal.
 	 */
-	public function deal(Deal $deal, bool $isMaximum, bool $forceBoth = false): string {
-		if ($deal->IsVariable() && $forceBoth) {
-			$isMaximum = null;
+	public function deal(Trade $trade, Deal $deal, bool $forceBoth = false): string {
+		$isOffer   = $trade->Trade() === Trade::OFFER;
+		$isMaximum = $deal->IsVariable() && $forceBoth ? null : $isOffer;
+		if ($isMaximum === null) {
+			if ($deal->IsAdapting()) {
+				$inventory = $trade->Unit()->Inventory();
+				if ($isOffer) {
+					$commodity = $deal->Commodity();
+					$maximum   = $inventory[$commodity]->Count();
+				} else {
+					$price     = $trade->Price();
+					$commodity = $price->Commodity();
+					$reserve   = $inventory[$commodity]->Count();
+					$maximum   = (int)floor($reserve / $price->Maximum());
+				}
+			} else {
+				$maximum = $deal->Maximum();
+			}
 		}
 		return match ($isMaximum) {
 			false   => $this->number($deal->Minimum(), 'resource', $deal->Commodity()),
 			true    => $this->number($deal->Maximum(), 'resource', $deal->Commodity()),
-			default => formatNumber($deal->Minimum()) . '–' . $this->number($deal->Maximum(), 'resource', $deal->Commodity())
+			default => formatNumber($deal->Minimum()) . '–' . $this->number($maximum, 'resource', $deal->Commodity())
+		};
+	}
+
+	/**
+	 * Format a Deal.
+	 */
+	public function ownDeal(Trade $trade, Deal $deal): string {
+		$isOffer   = $trade->Trade() === Trade::OFFER;
+		$isMaximum = $deal->IsVariable() ? null : $isOffer;
+		if ($isMaximum === null) {
+			if ($deal->IsAdapting()) {
+				$inventory = $trade->Unit()->Inventory();
+				if ($isOffer) {
+					$commodity = $deal->Commodity();
+					$maximum   = $inventory[$commodity]->Count();
+				} else {
+					$price     = $trade->Price();
+					$commodity = $price->Commodity();
+					$reserve   = $inventory[$commodity]->Count();
+					$maximum   = (int)floor($reserve / $price->Maximum());
+				}
+				if ($maximum <= 0) {
+					$isMaximum = 0;
+				}
+			} else {
+				$maximum = $deal->Maximum();
+			}
+		}
+		return match ($isMaximum) {
+			false   => $this->number($deal->Minimum(), 'resource', $deal->Commodity()),
+			true    => $this->number($deal->Maximum(), 'resource', $deal->Commodity()),
+			0       => '* ' . $this->get('resource', $deal->Commodity()),
+			default => formatNumber($deal->Minimum()) . '–' . $this->number($maximum, 'resource', $deal->Commodity())
 		};
 	}
 
