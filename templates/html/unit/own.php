@@ -40,9 +40,9 @@ foreach ($unit->Knowledge() as $ability /* @var Ability $ability */):
 	$knowledge  = '<span>' . $this->get('talent', $talent) . '&nbsp;' . $ability->Level() . '</span>';
 	$change     = $statistics[getClass($talent)] ?? 0;
 	if ($change > 0) {
-		$knowledge .= '<span class="badge text-bg-inverse badge-success">+' . $change . '</span>';
+		$knowledge .= '<span class="badge badge-inverse badge-success">+' . $change . '</span>';
 	} elseif ($change < 0) {
-		$knowledge .= '<span class="badge text-bg-inverse badge-danger">' . $change . '</span>';
+		$knowledge .= '<span class="badge badge-inverse badge-danger">' . $change . '</span>';
 	}
 	$knowledge .= '&nbsp;<span>(' . $this->number($experience) . ')</span>';
 	$talents[]  = $knowledge;
