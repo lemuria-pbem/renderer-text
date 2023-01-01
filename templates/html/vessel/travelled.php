@@ -1,7 +1,7 @@
 <?php
 declare (strict_types = 1);
 
-use Lemuria\Model\Fantasya\Landscape\Ocean;
+use Lemuria\Model\Fantasya\Navigable;
 use Lemuria\Model\Fantasya\Vessel;
 use Lemuria\Model\World\Direction;
 use Lemuria\Renderer\Text\View\Html;
@@ -27,7 +27,7 @@ $captain = $vessel->Passengers()->Owner()?->Party();
 				<?php else: ?>
 					niemand.
 				<?php endif ?>
-				<?php if (!($vessel->Region()->Landscape() instanceof Ocean)): ?>
+				<?php if (!($vessel->Region()->Landscape() instanceof Navigable)): ?>
 					<?php if ($vessel->Anchor() === Direction::None): ?>
 						<?php if ($vessel->Port()): ?>
 							Das Schiff liegt im Hafendock und belegt <?= $size > 1 ? $size . ' Ankerplätze' : '1 Ankerplatz' ?>.

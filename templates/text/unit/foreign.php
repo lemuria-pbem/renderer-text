@@ -54,7 +54,7 @@ Reist mit <?= implode(', ', $resources) ?>.
 
 <?= center('Marktangebote') ?>
 
-<?php if ($trades && count($trades->Available()) > 0): ?>
+<?php if (count($trades->Available()) > 0): ?>
 <?php foreach ($trades->Available() as $trade): ?>
 <?= $this->template('trade/foreign', $trade) ?>
 

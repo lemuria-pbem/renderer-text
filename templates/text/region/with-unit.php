@@ -17,7 +17,9 @@ use Lemuria\Model\Fantasya\Commodity\Silver;
 use Lemuria\Model\Fantasya\Commodity\Stone;
 use Lemuria\Model\Fantasya\Commodity\Wood;
 use Lemuria\Model\Fantasya\Intelligence;
+use Lemuria\Model\Fantasya\Landscape\Lake;
 use Lemuria\Model\Fantasya\Landscape\Ocean;
+use Lemuria\Model\Fantasya\Navigable;
 use Lemuria\Model\Fantasya\Offer;
 use Lemuria\Model\Fantasya\Region;
 use Lemuria\Model\Fantasya\Unit;
@@ -33,6 +35,7 @@ $outlook    = $this->outlook;
 $atlas      = $this->atlas;
 $map        = $this->map;
 $landscape  = $region->Landscape();
+$name       = $region->Name();
 $resources  = $region->Resources();
 $neighbours = $this->neighbours($region);
 $treasury   = $region->Treasury();
@@ -97,14 +100,14 @@ if ($hasMarket):
 endif;
 
 ?>
-<?php if ($landscape instanceof Ocean): ?>
-<?php if ($region->Name() === 'Ozean'): ?>
+<?php if ($landscape instanceof Navigable): ?>
+<?php if ($landscape instanceof Ocean && $name === 'Ozean' || $landscape instanceof Lake && $name === 'See'): ?>
 >> <?= $region ?> <?= $map->getCoordinates($region) ?>.
 <?php else: ?>
->> <?= $region ?> <?= $map->getCoordinates($region) ?>, <?= $this->get('landscape', $region->Landscape()) ?>.
+>> <?= $region ?> <?= $map->getCoordinates($region) ?>, <?= $this->get('landscape', $landscape) ?>.
 <?php endif ?>
 <?php else: ?>
->> <?= $region ?> <?= $map->getCoordinates($region) ?>, <?= $this->get('landscape', $region->Landscape()) ?>, <?= $this->item(Peasant::class, $resources) ?>, <?= $this->item(Silver::class, $resources) ?>
+>> <?= $region ?> <?= $map->getCoordinates($region) ?>, <?= $this->get('landscape', $landscape) ?>, <?= $this->item(Peasant::class, $resources) ?>, <?= $this->item(Silver::class, $resources) ?>
 .<?php if ($r > 0): ?> <?= $recruits ?> <?= $r === 1 ? 'kann' : 'können' ?> rekrutiert werden.<?php endif ?>
 <?php if ($t && $m): ?>
  Hier <?= $t === 1 ? 'kann' : 'können' ?> <?= $trees ?> geerntet sowie <?= $mining ?> abgebaut werden.<?php

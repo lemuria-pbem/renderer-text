@@ -26,6 +26,7 @@ use Lemuria\Model\Fantasya\Composition;
 use Lemuria\Model\Fantasya\Construction;
 use Lemuria\Model\Fantasya\Estate;
 use Lemuria\Model\Fantasya\Fleet;
+use Lemuria\Model\Fantasya\Landscape\Lake;
 use Lemuria\Model\Fantasya\Landscape\Ocean;
 use Lemuria\Model\Fantasya\Herb;
 use Lemuria\Model\Fantasya\Loot;
@@ -285,8 +286,12 @@ abstract class View
 		$id   = (string)$region->Id();
 		if ($name === $description . ' ' . $id) {
 			$text .= ' ' . $id;
-		} elseif ($name && !($landscape instanceof Ocean && $name === 'Ozean')) {
-			$text .= ' ' . $region->Name();
+		} elseif ($name) {
+			$isOcean = $landscape instanceof Ocean && $name === 'Ozean';
+			$isLake  = $landscape instanceof Lake && $name === 'See';
+			if (!$isOcean && !$isLake) {
+				$text .= ' ' . $region->Name();
+			}
 		}
 		return $text;
 	}

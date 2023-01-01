@@ -15,7 +15,9 @@ use Lemuria\Model\Fantasya\Commodity\Silver;
 use Lemuria\Model\Fantasya\Commodity\Stone;
 use Lemuria\Model\Fantasya\Commodity\Wood;
 use Lemuria\Model\Fantasya\Intelligence;
+use Lemuria\Model\Fantasya\Landscape\Lake;
 use Lemuria\Model\Fantasya\Landscape\Ocean;
+use Lemuria\Model\Fantasya\Navigable;
 use Lemuria\Model\Fantasya\Offer;
 use Lemuria\Model\Fantasya\Region;
 use Lemuria\Model\Fantasya\Unit;
@@ -29,6 +31,7 @@ $party      = $this->party;
 $atlas      = $this->atlas;
 $map        = $this->map;
 $landscape  = $region->Landscape();
+$name       = $region->Name();
 $resources  = $region->Resources();
 $neighbours = $this->neighbours($region);
 $treasury   = $region->Treasury();
@@ -94,13 +97,13 @@ endif;
 
 ?>
 <p>
-	<?php if ($landscape instanceof Ocean): ?>
-		<?php if ($region->Name() !== 'Ozean'): ?>
-			<?= $this->get('landscape', $region->Landscape()) ?>.
+	<?php if ($landscape instanceof Navigable): ?>
+		<?php if ($landscape instanceof Ocean && $name !== 'Ozean' || $landscape instanceof Lake && $name !== 'See'): ?>
+			<?= $this->get('landscape', $landscape) ?>.
 			<br>
 		<?php endif ?>
 	<?php else: ?>
-		<?= $this->get('landscape', $region->Landscape()) ?>,
+		<?= $this->get('landscape', $landscape) ?>,
 		<?= $this->item(Peasant::class, $resources) ?>,
 		<?= $this->item(Silver::class, $resources) ?>.
 		<?php if ($r > 0): ?>

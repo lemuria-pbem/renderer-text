@@ -1,7 +1,9 @@
 <?php
 declare (strict_types = 1);
 
+use Lemuria\Model\Fantasya\Landscape\Lake;
 use Lemuria\Model\Fantasya\Landscape\Ocean;
+use Lemuria\Model\Fantasya\Navigable;
 use Lemuria\Model\Fantasya\Region;
 use Lemuria\Renderer\Text\View\Html;
 
@@ -11,20 +13,21 @@ use Lemuria\Renderer\Text\View\Html;
 $region     = $this->variables[0];
 $map        = $this->map;
 $landscape  = $region->Landscape();
+$name       = $region->Name();
 $neighbours = $this->neighbours($region);
 
 ?>
 <p>
-	<?php if ($landscape instanceof Ocean): ?>
-		<?php if ($region->Name() === 'Ozean'): ?>
+	<?php if ($landscape instanceof Navigable): ?>
+		<?php if ($landscape instanceof Ocean && $name === 'Ozean' || $landscape instanceof Lake && $name === 'See'): ?>
 			Vom Leuchtturm gesehen.
 			<br>
 		<?php else: ?>
-			<?= $this->get('landscape', $region->Landscape()) ?>, vom Leuchtturm gesehen.
+			<?= $this->get('landscape', $landscape) ?>, vom Leuchtturm gesehen.
 			<br>
 		<?php endif ?>
 	<?php else: ?>
-		<?= $this->get('landscape', $region->Landscape()) ?>, vom Leuchtturm gesehen.
+		<?= $this->get('landscape', $landscape) ?>, vom Leuchtturm gesehen.
 		<br>
 	<?php endif ?>
 	<?= ucfirst(implode(', ', $neighbours)) ?>.

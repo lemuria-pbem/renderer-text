@@ -2,7 +2,7 @@
 declare (strict_types = 1);
 
 use Lemuria\Model\Fantasya\Construction;
-use Lemuria\Model\Fantasya\Landscape\Ocean;
+use Lemuria\Model\Fantasya\Navigable;
 use Lemuria\Model\Fantasya\Region;
 use Lemuria\Model\Fantasya\Vessel;
 use Lemuria\Renderer\Text\View;
@@ -24,7 +24,7 @@ $travelLog = $this->travelLog;
 					<a class="navbar-brand" href="#continent-<?= $continent->Id() ?>"><?= $continent->Name() ?></a>
 					<?php foreach ($atlas as $region /* @var Region $region */): ?>
 						<?php if ($census->has($region->Id())): ?>
-							<?php if ($region->Landscape() instanceof Ocean): ?>
+							<?php if ($region->Landscape() instanceof Navigable): ?>
 								<?php foreach (View::sortedFleet($region) as $vessel /* @var Vessel $vessel */): ?>
 									<a class="vessel nav-link pb-0" href="#vessel-<?= $vessel->Id()->Id() ?>"><?= $vessel->Name() ?></a>
 								<?php endforeach ?>
