@@ -21,11 +21,11 @@ $unitsInRegions = 0;
 		<h5>Einheiten in der Region</h5>
 		<br>
 		<div class="container-fluid">
-		<div class="row">
-	<?php endif ?>
-		<div class="col-12 col-md-6 col-xl-4 <?= p3($unitsInRegions) ?>">
-			<?= $this->template('unit', $unit) ?>
+			<div class="row">
+				<div class="col-12 col-md-6 col-xl-4 <?= p3($unitsInRegions) ?>">
+					<?= $this->template('unit', $unit) ?>
+				</div>
+			</div>
 		</div>
+	<?php endif ?>
 <?php endforeach ?>
-</div>
-</div>
