@@ -36,9 +36,11 @@ $continent = Continent::get(new Id(1));
 				(Runde <?= $calendar->Round() ?>)
 			</p>
 
+			<button id="toggle-help" class="btn btn-light" data-bs-toggle="modal" data-bs-target="#modal-help" title="Taste: ?">❓</button>
+			<?= $this->template('help'); ?>
 			<button id="toggle-responsive" class="btn btn-light" title="Taste: #">Ansicht umschalten</button>
 			<?= $this->template('goto'); ?>
-			<button id="toggle-goto" class="btn btn-light" data-bs-toggle="modal" data-bs-target="#modal-goto" title="Taste: G">Gehe zu…</button>
+			<button id="toggle-goto" class="btn btn-light float-end" data-bs-toggle="modal" data-bs-target="#modal-goto" title="Taste: G">Gehe zu…</button>
 			<?= $this->template('navigation') ?>
 		</header>
 

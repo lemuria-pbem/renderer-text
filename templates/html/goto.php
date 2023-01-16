@@ -6,8 +6,8 @@ use Lemuria\Renderer\Text\View\Html;
 /** @var Html $this */
 
 ?>
-<div class="modal" id="modal-goto" tabindex="-1" aria-labelledby="modal-goto-label" aria-hidden="true">
-	<div class="modal-dialog modal-dialog-centere modal-sm">
+<div class="modal" id="modal-goto" tabindex="-1" aria-hidden="true">
+	<div class="modal-dialog modal-sm">
 		<div class="modal-content">
 			<div class="modal-body">
 				<label for="modal-goto-id">Nummer der Einheit</label>
