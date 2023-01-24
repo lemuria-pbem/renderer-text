@@ -39,7 +39,7 @@ $fleet = View::sortedFleet($region);
 			<div class="col-12 col-lg-6 col-xl-4 p-0 ps-lg-3 pe-xl-3">
 				<?php if (count($this->messages($region))): ?>
 					<h5>Ereignisse</h5>
-					<?= $this->template('report', $region) ?>
+					<?= $this->template('report/region', $region) ?>
 				<?php endif ?>
 			</div>
 			<?php if ($type === Type::Player): ?>
@@ -104,7 +104,7 @@ $fleet = View::sortedFleet($region);
 			<div class="col-12 col-lg-6 pe-0">
 				<?php if (count($this->messages($region))): ?>
 					<h5>Ereignisse</h5>
-					<?= $this->template('report', $region) ?>
+					<?= $this->template('report/region', $region) ?>
 				<?php endif ?>
 			</div>
 		</div>

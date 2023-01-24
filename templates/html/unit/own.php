@@ -177,5 +177,5 @@ endif;
 	</ol>
 <?php endif ?>
 <?php if (count($this->messages($unit))): ?>
-	<?= $this->template('report', $unit) ?>
+	<?= $this->template('report/default', $unit) ?>
 <?php endif ?>

@@ -58,7 +58,7 @@ $i           = 0;
 
 <?php if (count($this->messages($vessel))): ?>
 	<h6>Ereignisse</h6>
-	<?= $this->template('report', $vessel) ?>
+	<?= $this->template('report/default', $vessel) ?>
 <?php endif ?>
 
 <?php if ($unitsInside->count() > 0): ?>

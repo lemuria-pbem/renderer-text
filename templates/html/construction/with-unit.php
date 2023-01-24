@@ -41,7 +41,7 @@ $columns      = 1 + ($m > 0 || $h ? 1 : 0) + ($hasMarket ? 1 : 0);
 						<?php endif ?>
 						<?php if ($m > 0): ?>
 							<h6>Ereignisse</h6>
-							<?= $this->template('report', $construction) ?>
+							<?= $this->template('report/default', $construction) ?>
 						<?php endif ?>
 					<?php endif ?>
 				</div>
@@ -58,7 +58,7 @@ $columns      = 1 + ($m > 0 || $h ? 1 : 0) + ($hasMarket ? 1 : 0);
 					<?php endif ?>
 					<?php if ($m > 0): ?>
 						<h6>Ereignisse</h6>
-						<?= $this->template('report', $construction) ?>
+						<?= $this->template('report/default', $construction) ?>
 					<?php endif ?>
 				</div>
 			<?php endif ?>

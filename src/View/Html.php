@@ -102,6 +102,17 @@ class Html extends View
 		return '<span class="badge text-bg-' . $badge . ' font-monospace">' . $b . '</span>&nbsp;' . $message;
 	}
 
+	/**
+	 * Render a report message with section class.
+	 */
+	public function messageWithSection(Message $message): string {
+		$level   = $message->Result()->value;
+		$badge   = self::BADGE[$level] ?? self::BADGE_UNDEFINED;
+		$b       = self::LEVEL[$level] ?? self::LEVEL_UNDEFINED;
+		$section = strtolower($message->Section()->name);
+		return '<span class="badge text-bg-' . $badge . ' font-monospace" data-section="' . $section . '">' . $b . '</span>&nbsp;' . $message;
+	}
+
 	public function numberStatistics(Subject $subject, Identifiable $entity): HtmlNumber {
 		$data = $this->statistics($subject, $entity);
 		if (!($data instanceof Number)) {
