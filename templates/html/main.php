@@ -78,6 +78,12 @@ $continent = Continent::get(new Id(1));
 			<?php endforeach ?>
 		</section>
 
+		<?php if ($this->isDevelopment()): ?>
+			<section id="map">
+				<?= $this->template('map') ?>
+			</section>
+		<?php endif ?>
+
 		<?= $this->template('footer') ?>
 	</div>
 </body>
