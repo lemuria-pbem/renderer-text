@@ -1,6 +1,7 @@
 <?php
 declare (strict_types = 1);
 
+use function Lemuria\Renderer\Text\View\id;
 use Lemuria\Engine\Fantasya\Factory\Model\Visibility;
 use Lemuria\Engine\Fantasya\Statistics\Subject;
 use Lemuria\Model\Fantasya\Party\Type;
@@ -29,7 +30,7 @@ $fleet = View::sortedFleet($region);
 	<div class="container-fluid">
 		<div class="row">
 			<div class="col-12 col-lg-6 col-xl-4 p-0 pe-lg-3">
-				<h4 id="region-<?= $region->Id()->Id() ?>">
+				<h4 id="<?= id($region) ?>">
 					<?= $region->Name() ?>
 					<span class="badge text-bg-light"><?= $map->getCoordinates($region) ?></span>
 					<span class="badge text-bg-secondary font-monospace"><?= $region->Id() ?></span>
@@ -74,7 +75,7 @@ $fleet = View::sortedFleet($region);
 	<div class="container-fluid">
 		<div class="row">
 			<div class="col-12 col-lg-6 col-xl-4 p-0 pe-lg-3">
-				<h4 id="region-<?= $region->Id()->Id() ?>">
+				<h4 id="<?= id($region) ?>">
 					<?= $region->Name() ?>
 					<span class="badge text-bg-light"><?= $map->getCoordinates($region) ?></span>
 					<span class="badge text-bg-secondary font-monospace"><?= $region->Id() ?></span>
@@ -94,7 +95,7 @@ $fleet = View::sortedFleet($region);
 	<div class="container-fluid">
 		<div class="row">
 			<div class="col-12 col-lg-6 ps-0">
-				<h4 id="region-<?= $region->Id()->Id() ?>">
+				<h4 id="<?= id($region) ?>">
 					<?= $region->Name() ?>
 					<span class="badge text-bg-light"><?= $map->getCoordinates($region) ?></span>
 					<span class="badge text-bg-secondary font-monospace"><?= $region->Id() ?></span>
@@ -117,7 +118,7 @@ $fleet = View::sortedFleet($region);
 	<?php endforeach ?>
 	<?= $this->template('apparitions/travelled', $region) ?>
 <?php elseif ($visibility === Visibility::Lighthouse): ?>
-	<h4 id="region-<?= $region->Id()->Id() ?>">
+	<h4 id="<?= id($region) ?>">
 		<?= $region->Name() ?>
 		<span class="badge text-bg-light"><?= $map->getCoordinates($region) ?></span>
 		<span class="badge text-bg-secondary font-monospace"><?= $region->Id() ?></span>
@@ -131,7 +132,7 @@ $fleet = View::sortedFleet($region);
 	<?php endforeach ?>
 	<?= $this->template('apparitions/travelled', $region) ?>
 <?php else: ?>
-	<h4 id="region-<?= $region->Id()->Id() ?>">
+	<h4 id="<?= id($region) ?>">
 		<?= $region->Name() ?>
 		<span class="badge text-bg-light"><?= $map->getCoordinates($region) ?></span>
 		<span class="badge text-bg-secondary font-monospace"><?= $region->Id() ?></span>

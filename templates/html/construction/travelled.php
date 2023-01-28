@@ -1,6 +1,7 @@
 <?php
 declare (strict_types = 1);
 
+use function Lemuria\Renderer\Text\View\id;
 use Lemuria\Model\Fantasya\Construction;
 use Lemuria\Renderer\Text\View\Html;
 
@@ -14,7 +15,7 @@ $owner        = $construction->Inhabitants()->Owner()?->Party();
 <div class="container-fluid">
 	<div class="row">
 		<div class="col-12 p-0">
-			<h5 id="construction-<?= $construction->Id()->Id() ?>">
+			<h5 id="<?= id($construction) ?>">
 				<?= $construction->Name() ?>
 				<span class="badge text-bg-secondary font-monospace"><?= $construction->Id() ?></span>
 			</h5>

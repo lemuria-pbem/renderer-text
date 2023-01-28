@@ -1,6 +1,7 @@
 <?php /** @noinspection PhpPossiblePolymorphicInvocationInspection */
 declare (strict_types = 1);
 
+use function Lemuria\Renderer\Text\View\id;
 use Lemuria\Engine\Fantasya\Statistics\Subject;
 use Lemuria\Model\Fantasya\Region;
 use Lemuria\Renderer\Text\View\Html;
@@ -16,7 +17,7 @@ $prefix = match ($cols) {
 	4       => 'xl-stat-',
 	default => 'stat-'
 };
-$class  = $prefix . 'region-' . $region->Id()->Id();
+$class  = $prefix . id($region);
 
 $population  = $this->numberStatistics(Subject::Population, $region);
 $workers     = $this->numberStatistics(Subject::Workers, $region);
@@ -71,7 +72,7 @@ if (!empty($luxuries)) {
 	<tr>
 		<th scope="rowgroup" colspan="3">
 			<a href=".<?= $class ?>" title="Details..." data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="<?= $ids ?>"><?= $this->get('landscape', $region->Landscape()) ?> <?= $region->Name() ?></a>
-			&nbsp;<a href="#region-<?= $region->Id()->Id() ?>" title="zur Region" class="text-body">⮞</a>
+			&nbsp;<a href="#<?= id($region) ?>" title="zur Region" class="text-body">⮞</a>
 		</th>
 	</tr>
 	<tr id="<?= $class ?>-population" class="collapse <?= $population->movement ?> <?= $class ?>">
@@ -168,7 +169,7 @@ if (!empty($luxuries)) {
 	<tr>
 		<th scope="rowgroup" colspan="3">
 			<a href=".<?= $class ?>" title="Details..." data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="<?= $ids ?>"><?= $this->get('landscape', $region->Landscape()) ?> <?= $region->Name() ?></a>
-			&nbsp;<a href="#region-<?= $region->Id()->Id() ?>" title="zur Region" class="text-body">⮞</a>
+			&nbsp;<a href="#<?= id($region) ?>" title="zur Region" class="text-body">⮞</a>
 		</th>
 		<th scope="row">Bevölkerung</th>
 		<td><?= $population->value ?></td>
@@ -275,7 +276,7 @@ if (!empty($luxuries)) {
 	<tr>
 		<th scope="rowgroup" colspan="3">
 			<a href=".<?= $class ?>" title="Details..." data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="<?= $ids ?>"><?= $this->get('landscape', $region->Landscape()) ?> <?= $region->Name() ?></a>
-			&nbsp;<a href="#region-<?= $region->Id()->Id() ?>" title="zur Region" class="text-body">⮞</a>
+			&nbsp;<a href="#<?= id($region) ?>" title="zur Region" class="text-body">⮞</a>
 		</th>
 		<th scope="row">Bevölkerung</th>
 		<td><?= $population->value ?></td>
@@ -394,7 +395,7 @@ if (!empty($luxuries)) {
 	<tr>
 		<th scope="rowgroup" colspan="3">
 			<a href=".<?= $class ?>" title="Details..." data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="<?= $ids ?>"><?= $this->get('landscape', $region->Landscape()) ?> <?= $region->Name() ?></a>
-			&nbsp;<a href="#region-<?= $region->Id()->Id() ?>" title="zur Region" class="text-body">⮞</a>
+			&nbsp;<a href="#<?= id($region) ?>" title="zur Region" class="text-body">⮞</a>
 		</th>
 		<th scope="row">Bevölkerung</th>
 		<td><?= $population->value ?></td>

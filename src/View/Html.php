@@ -31,6 +31,13 @@ use Lemuria\Renderer\Text\UnicumWriter;
 use Lemuria\Renderer\Text\View;
 use Lemuria\Statistics\Data\Number;
 
+function id(Identifiable $entity, ?string $prefix = null): string {
+	if (!$prefix) {
+		$prefix = strtolower($entity->Catalog()->name);
+	}
+	return $prefix . '-' . $entity->Id();
+}
+
 /**
  * Replace email address with a mailto link.
  */

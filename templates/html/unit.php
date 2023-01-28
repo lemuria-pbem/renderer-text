@@ -1,6 +1,7 @@
 <?php
 declare (strict_types = 1);
 
+use function Lemuria\Renderer\Text\View\id;
 use Lemuria\Model\Fantasya\Party\Type;
 use Lemuria\Model\Fantasya\Unit;
 use Lemuria\Renderer\Text\View\Html;
@@ -13,7 +14,7 @@ $trades = $this->variables[1];
 $party  = $unit->Party();
 
 ?>
-<div id="unit-<?= $unit->Id() ?>" class="unit">
+<div id="<?= id($unit) ?>" class="unit">
 	<?php if ($unit->Party() === $this->party): ?>
 		<?= $this->template('unit/own', $unit, $trades) ?>
 	<?php elseif ($party->Type() === Type::Monster): ?>

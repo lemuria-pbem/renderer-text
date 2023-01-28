@@ -2,6 +2,7 @@
 /** @noinspection PhpPossiblePolymorphicInvocationInspection */
 declare (strict_types = 1);
 
+use function Lemuria\Renderer\Text\View\id;
 use Lemuria\Model\Fantasya\Building\Port;
 use Lemuria\Model\Fantasya\Construction;
 use Lemuria\Renderer\Text\Model\PortSpace;
@@ -20,7 +21,7 @@ $unitsInside = $construction->Inhabitants()->sort(SortMode::ByParty, $this->part
 $owner       = $unitsInside->Owner();
 
 ?>
-<h5 id="construction-<?= $construction->Id()->Id() ?>">
+<h5 id="<?= id($construction) ?>">
 	<?= $construction->Name() ?>
 	<span class="badge text-bg-secondary font-monospace"><?= $construction->Id() ?></span>
 </h5>

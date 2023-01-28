@@ -2,6 +2,7 @@
 /** @noinspection PhpPossiblePolymorphicInvocationInspection */
 declare (strict_types = 1);
 
+use function Lemuria\Renderer\Text\View\id;
 use function Lemuria\Renderer\Text\View\p3;
 use Lemuria\Model\Fantasya\Navigable;
 use Lemuria\Model\Fantasya\Unit;
@@ -25,7 +26,7 @@ $captain     = $unitsInside->Owner();
 $i           = 0;
 
 ?>
-<h5 id="vessel-<?= $vessel->Id()->Id() ?>"><?= $vessel->Name() ?> <span class="badge text-bg-info font-monospace"><?= $vessel->Id() ?></span></h5>
+<h5 id="<?= id($vessel) ?>"><?= $vessel->Name() ?> <span class="badge text-bg-info font-monospace"><?= $vessel->Id() ?></span></h5>
 <p>
 	<?= $this->get('ship', $ship) ?> mit <?= $this->number($passengers) ?> <?= $people ?>, Zustand <?= $this->number((int)round(100.0 * $vessel->Completion())) ?>%, <?php if ($vessel->Space() < 0): ?>überladen mit<?php else: ?>freier Platz<?php endif ?> <?= $this->number((int)ceil(abs($vessel->Space()) / 100)) ?> GE.
 	Kapitän ist

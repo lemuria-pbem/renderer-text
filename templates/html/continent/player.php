@@ -1,6 +1,7 @@
 <?php
 declare (strict_types = 1);
 
+use function Lemuria\Renderer\Text\View\id;
 use Lemuria\Model\Fantasya\Continent;
 use Lemuria\Model\Fantasya\Party;
 use Lemuria\Renderer\Text\View\Html;
@@ -34,7 +35,7 @@ foreach ($acquaintances as $acquaintance /* @var Party $acquaintance */):
 endforeach;
 
 ?>
-<h3 id="continent-<?= $continent->Id() ?>">
+<h3 id="<?= id($continent) ?>">
 	<?= $name ?>
 	<span class="badge text-bg-primary font-monospace"><?= $party->Id() ?></span>
 </h3>

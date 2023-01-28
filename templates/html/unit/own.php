@@ -2,6 +2,7 @@
 declare (strict_types = 1);
 
 use function Lemuria\getClass;
+use function Lemuria\Renderer\Text\View\id;
 use Lemuria\Engine\Fantasya\Calculus;
 use Lemuria\Engine\Fantasya\Factory\Model\Orders;
 use Lemuria\Engine\Fantasya\Factory\Model\Trades;
@@ -168,9 +169,9 @@ endif;
 <?php endif ?>
 <?php if (!empty($orders->orders)): ?>
 	<p class="h8">
-		<a data-bs-toggle="collapse" href="#orders-<?= $unit->Id()->Id() ?>" role="button" aria-expanded="false" aria-controls="orders-<?= $unit->Id()->Id() ?>">Befehle</a>
+		<a data-bs-toggle="collapse" href="#<?= id($unit, 'orders') ?>" role="button" aria-expanded="false" aria-controls="orders-<?= $unit->Id()->Id() ?>">Befehle</a>
 	</p>
-	<ol id="orders-<?= $unit->Id()->Id() ?>" class="small collapse mb-2">
+	<ol id="<?= id($unit, 'orders') ?>" class="small collapse mb-2">
 		<?php foreach ($orders->orders as $order): ?>
 			<li><?= $order ?></li>
 		<?php endforeach ?>
