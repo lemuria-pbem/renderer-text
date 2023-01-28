@@ -11,6 +11,7 @@ use Lemuria\Renderer\Text\View\Html;
 		<div class="modal-content">
 			<div class="modal-header">
 				<h1 id="modal-help-label" class="modal-title fs-5">Tastenfunktionen</h1>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Schließen"></button>
 			</div>
 			<div class="modal-body">
 				<p>Die interaktiven Funktionen in dieser Auswertung können auch über einen
@@ -42,6 +43,10 @@ use Lemuria\Renderer\Text\View\Html;
 						<strong>Statistik</strong> aufrufen
 					</li>
 					<li>
+						<span class="font-monospace">W</span>
+						<strong>Weltkarte</strong> einblenden
+					</li>
+					<li>
 						<span class="font-monospace">Z</span>
 						<strong>Zauberbuch anzeigen</strong> aufrufen
 					</li>
@@ -54,9 +59,6 @@ use Lemuria\Renderer\Text\View\Html;
 						Dieses Hilfefenster aufrufen
 					</li>
 				</ul>
-			</div>
-			<div class="modal-footer">
-				<button type="button" class="btn btn-light" data-bs-dismiss="modal">OK</button>
 			</div>
 		</div>
 	</div>

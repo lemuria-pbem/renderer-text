@@ -1,6 +1,7 @@
 <?php
 declare (strict_types = 1);
 
+use function Lemuria\Renderer\Text\View\id;
 use function Lemuria\Renderer\Text\View\linkEmail;
 use Lemuria\Id;
 use Lemuria\Lemuria;
@@ -62,27 +63,27 @@ $continent = Continent::get(new Id(1));
 
 		<section id="world">
 			<?php foreach ($travelLog as $continent => $atlas): ?>
-				<?php if ($atlas->count() > 0): ?>
-					<?php if ($isPlayer): ?>
-						<?= $this->template('continent/player', $continent) ?>
-					<?php else: ?>
-						<?= $this->template('continent/other', $continent) ?>
+				<section class="continent" data-first-location="<?= $atlas->rewind() || $atlas->current() ? id($atlas->current()) : '' ?>">
+					<?php if ($atlas->count() > 0): ?>
+						<?php if ($isPlayer): ?>
+							<?= $this->template('continent/player', $continent) ?>
+						<?php else: ?>
+							<?= $this->template('continent/other', $continent) ?>
+						<?php endif ?>
+
+						<?php foreach ($atlas as $region): ?>
+							<?= $this->template('region', $region) ?>
+						<?php endforeach ?>
+
+						<hr>
 					<?php endif ?>
-
-					<?php foreach ($atlas as $region): ?>
-						<?= $this->template('region', $region) ?>
-					<?php endforeach ?>
-
-					<hr>
-				<?php endif ?>
+				</section>
 			<?php endforeach ?>
 		</section>
 
-		<?php if ($this->isDevelopment()): ?>
-			<section id="map">
-				<?= $this->template('map') ?>
-			</section>
-		<?php endif ?>
+		<section id="map">
+			<?= $this->template('map') ?>
+		</section>
 
 		<?= $this->template('footer') ?>
 	</div>

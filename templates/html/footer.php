@@ -16,6 +16,8 @@ $versions = $this->gameVersions();
 	<?php if ($game): ?>
 		<p>
 			<em>Version: <?= $game->name ?> <?= $game->version ?> (<?= implode(', ', $versions) ?>) | <?= date('d.m.Y H:i:s') ?></em>
+			<br>
+			<em>Grafiken der Kartenansicht entnommen/bearbeitet aus Magellan (magellan.narabi.de)</em>
 		</p>
 	<?php endif ?>
 </footer>

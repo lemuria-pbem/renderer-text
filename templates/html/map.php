@@ -1,23 +1,29 @@
 <?php
 declare (strict_types = 1);
 
-use Lemuria\Model\Fantasya\Region;
+use function Lemuria\Renderer\Text\View\id;
+use Lemuria\Renderer\Text\Model\HtmlMap;
 use Lemuria\Renderer\Text\View\Html;
 
 /** @var Html $this */
 
-$atlas = $this->atlas;
-$map   = $this->map;
+$map = new HtmlMap($this);
 
 ?>
-<div style="position: relative; width: 600px; height: 600px;">
-	<?php foreach ($atlas as $region /* @var Region $region */): ?>
-		<?php $pos = $map->getCoordinates($region) ?>
-		<img
-			src="/img/<?= strtolower((string)$region->Landscape()) ?>.png"
-			title="<?= $pos . ' ' . $region ?>"
-			alt="<?= $this->get('landscape', $region->Landscape()) ?>"
-			style="position: absolute; left: <?= $pos->X() * 64 + $pos->Y() * 32 + 300 ?>px; top: <?= 300 - $pos->Y() * 48 ?>px;"
-		/>
-	<?php endforeach ?>
+<div class="modal" id="modal-map" tabindex="-1" aria-labelledby="modal-map-label" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h1 id="modal-map-label" class="modal-title fs-5">Weltkarte</h1>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Schließen"></button>
+			</div>
+			<div class="modal-body <?= $map->mapClass() ?>" <?= $map->offset() ?>>
+				<?php foreach ($map as $region => $tile/* @var HtmlMap $tile */): ?>
+					<a href="#<?= id($region) ?>">
+						<div id="<?= $tile->id() ?>" class="<?= $tile->landscape() ?>" title="<?= $tile->title() ?>" <?= $tile->location() ?> <?= $tile->coordinates() ?>><?= $tile->name() ?></div>
+					</a>
+				<?php endforeach ?>
+			</div>
+		</div>
+	</div>
 </div>
