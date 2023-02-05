@@ -4,22 +4,20 @@ namespace Lemuria\Renderer\Text\Model;
 
 use Lemuria\Engine\Fantasya\Factory\Model\TravelAtlas;
 use Lemuria\Lemuria;
-use Lemuria\Model\Domain;
 use Lemuria\Model\Fantasya\Continent;
 use Lemuria\Model\Fantasya\Party;
 use Lemuria\Model\Fantasya\World\FantasyaAtlas;
-use Lemuria\Model\Location;
 use Lemuria\Model\World\Atlas;
 
 class TravelLog implements \Iterator
 {
 	/**
-	 * @var Continent[]
+	 * @var array<Continent>
 	 */
 	private array $continents = [];
 
 	/**
-	 * @var Atlas[]
+	 * @var array<Atlas>
 	 */
 	private array $atlas = [];
 
@@ -28,7 +26,7 @@ class TravelLog implements \Iterator
 	private int $index;
 
 	public function __construct(Party $party) {
-		foreach (Lemuria::Catalog()->getAll(Domain::Continent) as $continent) {
+		foreach (Continent::all() as $continent) {
 			$this->continents[] = $continent;
 			$atlas              = new FantasyaAtlas();
 			$this->atlas[]      = $atlas->forContinent($continent);
@@ -50,7 +48,7 @@ class TravelLog implements \Iterator
 	}
 
 	public function rewind(): void {
-		foreach ($this->travelAtlas as $location /* @var Location $location */) {
+		foreach ($this->travelAtlas as $location) {
 			foreach ($this->atlas as $atlas) {
 				$atlas->add($location);
 			}

@@ -5,10 +5,8 @@ namespace Lemuria\Renderer\Text\Statistics\Talent;
 use function Lemuria\getClass;
 use Lemuria\Engine\Fantasya\Calculus;
 use Lemuria\Model\Dictionary;
-use Lemuria\Model\Fantasya\Ability;
 use Lemuria\Model\Fantasya\Party;
 use Lemuria\Model\Fantasya\Talent;
-use Lemuria\Model\Fantasya\Unit;
 
 class Talents
 {
@@ -26,9 +24,9 @@ class Talents
 
 	public function __construct(Party $party) {
 		$this->dictionary = new Dictionary();
-		foreach ($party->People() as $unit /* @var Unit $unit */) {
+		foreach ($party->People() as $unit) {
 			$calculus = new Calculus($unit);
-			foreach ($unit->Knowledge() as $ability /* @var Ability $ability */) {
+			foreach ($unit->Knowledge() as $ability) {
 				$talent                           = $ability->Talent();
 				$this->talents[getClass($talent)] = $talent;
 				$this->getMatrix($talent)->add($calculus);

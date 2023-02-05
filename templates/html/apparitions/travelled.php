@@ -4,7 +4,6 @@ declare (strict_types = 1);
 use function Lemuria\Renderer\Text\View\p3;
 use Lemuria\Model\Fantasya\People;
 use Lemuria\Model\Fantasya\Region;
-use Lemuria\Model\Fantasya\Unit;
 use Lemuria\Renderer\Text\View\Html;
 use Lemuria\SortMode;
 
@@ -13,7 +12,7 @@ use Lemuria\SortMode;
 /** @var Region $region */
 $region = $this->variables[0];
 $units  = new People();
-foreach ($region->Residents() as $unit /* @var Unit $unit */) {
+foreach ($region->Residents() as $unit) {
 	if (!$unit->IsHiding() && !$unit->Construction() && !$unit->Vessel() && !$this->hasTravelled($unit)) {
 		$units->add($unit);
 	}

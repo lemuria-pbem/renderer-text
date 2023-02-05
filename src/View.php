@@ -5,13 +5,13 @@ namespace Lemuria\Renderer\Text;
 use function Lemuria\getClass;
 use function Lemuria\number as formatNumber;
 use Lemuria\Engine\Fantasya\Census;
+use Lemuria\Engine\Fantasya\Combat\BattleLog;
 use Lemuria\Engine\Fantasya\Effect\Hunger;
 use Lemuria\Engine\Fantasya\Effect\SpyEffect;
 use Lemuria\Engine\Fantasya\Effect\TravelEffect;
 use Lemuria\Engine\Fantasya\Factory\Model\TravelAtlas;
 use Lemuria\Engine\Fantasya\Factory\Model\Visibility;
 use Lemuria\Engine\Fantasya\Message\Filter\NoAnnouncementFilter;
-use Lemuria\Engine\Fantasya\Message\LemuriaMessage;
 use Lemuria\Engine\Fantasya\Outlook;
 use Lemuria\Engine\Fantasya\State;
 use Lemuria\Engine\Fantasya\Statistics\Subject;
@@ -239,7 +239,7 @@ abstract class View
 	/**
 	 * Get all neighbours of a region.
 	 *
-	 * @return string[]
+	 * @return array<string>
 	 */
 	public function neighbours(Region $region): array {
 		$neighbours = [];
@@ -299,7 +299,7 @@ abstract class View
 	public function people(Construction|Vessel $entity): int {
 		$count  = 0;
 		$people = $entity instanceof Construction ? $entity->Inhabitants() : $entity->Passengers();
-		foreach ($people as $unit /* @var Unit $unit */) {
+		foreach ($people as $unit) {
 			$count += $unit->Size();
 		}
 		return $count;
@@ -307,7 +307,7 @@ abstract class View
 
 	public function races(Party $party): array {
 		$races = [];
-		foreach ($party->People() as $unit /* @var Unit $unit */) {
+		foreach ($party->People() as $unit) {
 			$race = $unit->Race();
 			$key  = $this->get('race', $race);
 			if (!isset($races[$key])) {
@@ -321,11 +321,11 @@ abstract class View
 	}
 
 	/**
-	 * @return Message[]
+	 * @return array<Message>
 	 */
 	public function messages(Identifiable $entity): array {
 		$messages = [];
-		foreach (Lemuria::Report()->getAll($entity) as $message /* @var LemuriaMessage $message */) {
+		foreach (Lemuria::Report()->getAll($entity) as $message) {
 			if (!$this->messageFilter->retains($message)) {
 				$messages[] = $message;
 			}
@@ -334,35 +334,35 @@ abstract class View
 	}
 
 	/**
-	 * @return Announcement[]
+	 * @return array<Announcement>
 	 */
 	public function announcements(): array {
 		$announcements = [];
 		$atlas         = $this->census->getAtlas();
 		$filter        = new NoAnnouncementFilter();
-		foreach (Lemuria::Report()->getAll($this->party) as $message /* @var LemuriaMessage $message */) {
+		foreach (Lemuria::Report()->getAll($this->party) as $message) {
 			if (!$filter->retains($message)) {
 				$announcements[] = new Announcement($message, $this->dictionary);
 			}
 		}
-		foreach ($this->atlas as $region /* @var Region $region */) {
+		foreach ($this->atlas as $region) {
 			$visibility = $this->atlas->getVisibility($region);
 			if (in_array($visibility, [Visibility::WithUnit, Visibility::Travelled])) {
-				foreach (Lemuria::Report()->getAll($region) as $message/* @var LemuriaMessage $message */) {
+				foreach (Lemuria::Report()->getAll($region) as $message) {
 					if (!$filter->retains($message)) {
 						$announcements[] = new Announcement($message, $this->dictionary);
 					}
 				}
 				if ($visibility === Visibility::WithUnit) {
-					foreach (self::sortedEstate($region) as $construction/* @var Construction $construction */) {
-						foreach (Lemuria::Report()->getAll($construction) as $message/* @var LemuriaMessage $message */) {
+					foreach (self::sortedEstate($region) as $construction) {
+						foreach (Lemuria::Report()->getAll($construction) as $message) {
 							if (!$filter->retains($message)) {
 								$announcements[] = new Announcement($message, $this->dictionary);
 							}
 						}
 					}
-					foreach (self::sortedFleet($region) as $vessel/* @var Vessel $vessel */) {
-						foreach (Lemuria::Report()->getAll($vessel) as $message/* @var LemuriaMessage $message */) {
+					foreach (self::sortedFleet($region) as $vessel) {
+						foreach (Lemuria::Report()->getAll($vessel) as $message) {
 							if (!$filter->retains($message)) {
 								$announcements[] = new Announcement($message, $this->dictionary);
 							}
@@ -371,8 +371,8 @@ abstract class View
 				}
 			}
 			if ($atlas->has($region->Id())) {
-				foreach ($this->census->getPeople($region) as $unit /* @var Unit $unit */) {
-					foreach (Lemuria::Report()->getAll($unit) as $message /* @var LemuriaMessage $message */) {
+				foreach ($this->census->getPeople($region) as $unit) {
+					foreach (Lemuria::Report()->getAll($unit) as $message) {
 						if (!$filter->retains($message)) {
 							$announcements[] = new Announcement($message, $this->dictionary);
 						}
@@ -383,6 +383,9 @@ abstract class View
 		return $announcements;
 	}
 
+	/**
+	 * @return array<BattleLog>
+	 */
 	public function hostilities(): array {
 		return Lemuria::Hostilities()->findFor($this->party);
 	}
@@ -555,13 +558,13 @@ abstract class View
 	}
 
 	/**
-	 * @return int[]
+	 * @return array<int>
 	 */
 	public function talentStatistics(Subject $subject, Unit $unit): array {
 		$statistics = [];
 		$talents    = $this->statistics($subject, $unit);
 		if ($talents) {
-			foreach ($talents as $class => $number /* @var Number $number */) {
+			foreach ($talents as $class => $number /** @var Number $number */) {
 				$statistics[$class] = $number->change;
 			}
 		}

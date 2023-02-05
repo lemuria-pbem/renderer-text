@@ -3,7 +3,6 @@ declare (strict_types = 1);
 
 use function Lemuria\Renderer\Text\View\id;
 use Lemuria\Model\Fantasya\Continent;
-use Lemuria\Model\Fantasya\Party;
 use Lemuria\Renderer\Text\View\Html;
 
 /** @var Html $this */
@@ -18,7 +17,7 @@ $hasOwnDescription = $continent->hasDescriptionFor($party);
 
 $acquaintances = $party->Diplomacy()->Acquaintances();
 $other         = [];
-foreach ($acquaintances as $acquaintance /* @var Party $acquaintance */):
+foreach ($acquaintances as $acquaintance):
 	$id  = (string)$acquaintance->Id();
 	$has = false;
 	if ($continent->hasNameFor($acquaintance)):

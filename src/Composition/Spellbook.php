@@ -23,7 +23,7 @@ final class Spellbook extends AbstractComposition
 
 		$content = PHP_EOL . hr() . PHP_EOL . center('Inhalt');
 		$n       = 1;
-		foreach ($spellbook->Spells() as $spell /* @var Spell $spell */) {
+		foreach ($spellbook->Spells() as $spell /** @var Spell $spell */) {
 			$details  = new SpellDetails($spell);
 			$title    = $details->Name() . ' (Stufe ' . $spell->Difficulty() . ')' . PHP_EOL;
 			$content .= PHP_EOL . $n++ . '. ' . $title . PHP_EOL;

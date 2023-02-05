@@ -1,7 +1,6 @@
 <?php
 declare (strict_types = 1);
 
-use Lemuria\Engine\Fantasya\Combat\BattleLog;
 use Lemuria\Model\Fantasya\Region;
 use Lemuria\Renderer\Text\View\Html;
 
@@ -10,7 +9,7 @@ use Lemuria\Renderer\Text\View\Html;
 $hostilities = [];
 $links       = [];
 $i           = 0;
-foreach ($this->hostilities() as $battle /* @var BattleLog $battle */):
+foreach ($this->hostilities() as $battle):
 	$participants = [];
 	foreach ($battle->Participants() as $party):
 		$participants[] = $party->Name() . ' <span class="badge text-bg-primary font-monospace">' . $party->Id() . '</span>';

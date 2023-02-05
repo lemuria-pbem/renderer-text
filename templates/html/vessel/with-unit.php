@@ -5,7 +5,6 @@ declare (strict_types = 1);
 use function Lemuria\Renderer\Text\View\id;
 use function Lemuria\Renderer\Text\View\p3;
 use Lemuria\Model\Fantasya\Navigable;
-use Lemuria\Model\Fantasya\Unit;
 use Lemuria\Model\Fantasya\Vessel;
 use Lemuria\Model\World\Direction;
 use Lemuria\Renderer\Text\View\Html;
@@ -65,7 +64,7 @@ $i           = 0;
 <?php if ($unitsInside->count() > 0): ?>
 	<div class="container-fluid">
 		<div class="row">
-			<?php foreach ($unitsInside as $unit /* @var Unit $unit */): ?>
+			<?php foreach ($unitsInside as $unit): ?>
 				<div class="col-12 col-md-6 col-xl-4 <?= p3(++$i) ?>">
 					<?= $this->template('unit', $unit) ?>
 				</div>

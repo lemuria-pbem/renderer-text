@@ -3,7 +3,6 @@ declare (strict_types = 1);
 
 use function Lemuria\Renderer\Text\View\p3;
 use Lemuria\Model\Fantasya\Region;
-use Lemuria\Model\Fantasya\Unit;
 use Lemuria\Renderer\Text\View\Html;
 use Lemuria\SortMode;
 
@@ -21,7 +20,7 @@ $i           = 0;
 	<br>
 	<div class="container-fluid">
 		<div class="row">
-			<?php foreach ($apparitions as $unit /* @var Unit $unit */): ?>
+			<?php foreach ($apparitions as $unit): ?>
 				<div class="col-12 col-md-6 col-xl-4 <?= p3(++$i) ?>">
 					<?= $this->template('unit', $unit) ?>
 				</div>

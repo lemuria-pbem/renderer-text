@@ -8,9 +8,6 @@ use Lemuria\Engine\Fantasya\Calculus;
 use Lemuria\Engine\Fantasya\Factory\Model\Orders;
 use Lemuria\Engine\Fantasya\Factory\Model\Trades;
 use Lemuria\Engine\Fantasya\Statistics\Subject;
-use Lemuria\Model\Fantasya\Ability;
-use Lemuria\Model\Fantasya\Quantity;
-use Lemuria\Model\Fantasya\Unicum;
 use Lemuria\Model\Fantasya\Unit;
 use Lemuria\Renderer\Text\View\Text;
 
@@ -31,7 +28,7 @@ $orders    = new Orders($unit);
 
 $talents    = [];
 $statistics = $this->talentStatistics(Subject::Talents, $unit);
-foreach ($unit->Knowledge() as $ability /* @var Ability $ability */):
+foreach ($unit->Knowledge() as $ability):
 	$experience = $ability->Experience();
 	$talent     = $ability->Talent();
 	$ability    = $calculus->knowledge($talent);
@@ -49,7 +46,7 @@ foreach ($unit->Knowledge() as $ability /* @var Ability $ability */):
 endforeach;
 
 $inventory = [];
-foreach ($unit->Inventory() as $quantity /* @var Quantity $quantity */):
+foreach ($unit->Inventory() as $quantity):
 	$inventory[] = $this->number($quantity->Count(), 'resource', $quantity->Commodity());
 	$payload     += $quantity->Weight();
 endforeach;
@@ -60,7 +57,7 @@ if ($n > 1):
 endif;
 
 $treasury = $unit->Treasury();
-foreach ($treasury as $unicum /* @var Unicum $unicum */):
+foreach ($treasury as $unicum):
 	$payload += $unicum->Composition()->Weight();
 endforeach;
 

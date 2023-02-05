@@ -141,7 +141,7 @@ class Html extends View
 	 * @return array<string, HtmlNumber>
 	 */
 	public function multipleStatistics(array $subjects, Region $region): array {
-		foreach ($region->Residents() as $unit /* @var Unit $unit */) {
+		foreach ($region->Residents() as $unit) {
 			if ($unit->Party() === $this->party) {
 				break;
 			}
@@ -159,7 +159,7 @@ class Html extends View
 	}
 
 	/**
-	 * @return HtmlCommodity[]
+	 * @return array<HtmlCommodity>
 	 */
 	public function animalStatistics(Subject $subject, Region $region): array {
 		$statistics = [];
@@ -181,7 +181,7 @@ class Html extends View
 	}
 
 	/**
-	 * @return HtmlCommodity[]
+	 * @return array<HtmlCommodity>
 	 */
 	public function materialPoolStatistics(Subject $subject, Party $party): array {
 		$statistics  = array_fill_keys(Resources::getAll(), null);
@@ -200,13 +200,13 @@ class Html extends View
 	}
 
 	/**
-	 * @return HtmlCommodity[]
+	 * @return array<HtmlCommodity>
 	 */
 	public function regionPoolStatistics(Subject $subject, Unit $unit): array {
 		$statistics  = array_fill_keys(Resources::getAll(), null);
 		$commodities = $this->statistics($subject, $unit);
 		if ($commodities) {
-			foreach ($commodities as $class => $number /* @var Number $number */) {
+			foreach ($commodities as $class => $number /** @var Number $number */) {
 				if ($number->value > 0) {
 					$statistics[$class] = new HtmlMaterial($number, $class, $this);
 				}
@@ -221,7 +221,7 @@ class Html extends View
 	}
 
 	/**
-	 * @return HtmlMarket[]
+	 * @return array<HtmlMarket>
 	 */
 	public function marketStatistics(Subject $subject, Region $region): array {
 		$statistics = [];
@@ -240,7 +240,7 @@ class Html extends View
 	}
 
 	/**
-	 * @return HtmlCommodity[]
+	 * @return array<HtmlCommodity>
 	 */
 	public function expertsStatistics(Subject $subject, Party $party): array {
 		$statistics = [];
@@ -256,7 +256,7 @@ class Html extends View
 	}
 
 	/**
-	 * @return HtmlQualification[]
+	 * @return array<HtmlQualification>
 	 */
 	public function qualificationStatistics(Subject $subject, Unit $unit): array {
 		$statistics    = [];

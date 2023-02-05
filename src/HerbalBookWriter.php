@@ -8,7 +8,6 @@ use Lemuria\Engine\Fantasya\Event\Visit;
 use Lemuria\Id;
 use Lemuria\Lemuria;
 use Lemuria\Model\Dictionary;
-use Lemuria\Model\Domain;
 use Lemuria\Model\Fantasya\Continent;
 use Lemuria\Model\Fantasya\HerbalBook;
 use Lemuria\Model\Fantasya\Party;
@@ -67,10 +66,10 @@ class HerbalBookWriter extends AbstractWriter
 	 */
 	private function getContinents(HerbalBook $herbalBook): array {
 		$continents = [];
-		foreach (Lemuria::Catalog()->getAll(Domain::Continent) as $continent /* @var Continent $continent */) {
+		foreach (Continent::all() as $continent) {
 			$atlas = new FantasyaAtlas();
 			$atlas->forContinent($continent);
-			foreach ($herbalBook as $region /* @var Region $region */) {
+			foreach ($herbalBook as $region) {
 				$atlas->add($region);
 			}
 			$atlas->sort(SortMode::NorthToSouth);
@@ -84,7 +83,7 @@ class HerbalBookWriter extends AbstractWriter
 	 */
 	private function sortByLandscape(FantasyaAtlas $atlas, Dictionary $dictionary): array {
 		$landscapes = [];
-		foreach ($atlas as $region /* @var Region $region */) {
+		foreach ($atlas as $region) {
 			$landscape = $dictionary->get('landscape.' . $region->Landscape());
 			if (!isset($landscapes[$landscape])) {
 				$landscapes[$landscape] = [];

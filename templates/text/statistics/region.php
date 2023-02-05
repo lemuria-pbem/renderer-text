@@ -6,7 +6,6 @@ use function Lemuria\number;
 use Lemuria\Engine\Fantasya\Statistics\Subject;
 use Lemuria\Lemuria;
 use Lemuria\Model\Fantasya\Region;
-use Lemuria\Model\Fantasya\Unit;
 use Lemuria\Renderer\Text\Text\TableRow;
 use Lemuria\Renderer\Text\View\Text;
 
@@ -14,7 +13,7 @@ use Lemuria\Renderer\Text\View\Text;
 
 /** @var Region $region */
 $region = $this->variables[0];
-foreach ($region->Residents() as $unit /* @var Unit $unit */) {
+foreach ($region->Residents() as $unit) {
 	if ($unit->Party() === $this->party) {
 		break;
 	}

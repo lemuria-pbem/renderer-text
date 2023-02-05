@@ -50,7 +50,7 @@ class BattleLogWriter extends AbstractWriter
 
 	protected function generate(Battle $log, Region $region): string {
 		$output = $this->generateHeader($region);
-		foreach ($log as $message /* @var Message $message */) {
+		foreach ($log as $message /** @var Message $message */) {
 			$class = getClass($message);
 			if (isset(self::START_SECTION[$class])) {
 				$output .= PHP_EOL;

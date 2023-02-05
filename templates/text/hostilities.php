@@ -3,13 +3,12 @@ declare (strict_types = 1);
 
 use function Lemuria\Renderer\Text\View\center;
 use function Lemuria\Renderer\Text\View\hr;
-use Lemuria\Engine\Fantasya\Combat\BattleLog;
 use Lemuria\Renderer\Text\View\Text;
 
 /** @var Text $this */
 
 $hostilities = [];
-foreach ($this->hostilities() as $battle /* @var BattleLog $battle */):
+foreach ($this->hostilities() as $battle):
 	$participants = [];
 	foreach ($battle->Participants() as $party):
 		$participants[] = (string)$party;

@@ -2,7 +2,6 @@
 declare (strict_types = 1);
 
 use Lemuria\Model\Fantasya\Party;
-use Lemuria\Model\Fantasya\Relation;
 use Lemuria\Renderer\Text\View\Text;
 
 /** @var Text $this */
@@ -17,7 +16,7 @@ $i = 0
 
 ?>
 <?php if ($acquaintances->count()): ?>
-<?php foreach ($acquaintances as $acquaintance /* @var Party $acquaintance */): ?>
+<?php foreach ($acquaintances as $acquaintance): ?>
 
 <?= $acquaintance ?><?php if ($acquaintance->Banner()): ?> - <?= $acquaintance->Banner() ?><?php endif ?>
 
@@ -25,7 +24,7 @@ $i = 0
 
 <?php $relations = $diplomacy->search($acquaintance) ?>
 <?php if ($relations): ?>
-<?php foreach ($relations as $relation /* @var Relation $relation */): ?>
+<?php foreach ($relations as $relation): ?>
 <?php if ($relation->Region()): ?>
 Allianzrechte in Region <?= $relation->Region() ?>: <?= $this->relation($relation) ?>
 <?php else: ?>
@@ -41,7 +40,7 @@ Allianzrechte: keine
 
 <?php endif ?>
 <?php if ($generalRelations): ?>
-<?php foreach ($generalRelations as $relation /* @var Relation $relation */): ?>
+<?php foreach ($generalRelations as $relation): ?>
 
 <?php if ($relation->Region()): ?>
 Allgemein vergebene Rechte in Region <?= $relation->Region() ?>: <?= $this->relation($relation) ?>

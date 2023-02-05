@@ -4,7 +4,6 @@ declare (strict_types = 1);
 use Lemuria\Engine\Fantasya\Statistics\Subject;
 use Lemuria\Lemuria;
 use Lemuria\Model\Fantasya\Navigable;
-use Lemuria\Model\Fantasya\Region;
 use Lemuria\Renderer\Text\View\Html;
 
 /** @var Html $this */
@@ -64,7 +63,7 @@ $experts   = $this->expertsStatistics(Subject::Experts, $party);
 					</td>
 				</tr>
 			<?php endif ?>
-			<?php foreach ($census->getAtlas() as $region /* @var Region $region */): ?>
+			<?php foreach ($census->getAtlas() as $region): ?>
 				<?php if (!($region->Landscape() instanceof Navigable)): ?>
 					<?= $this->template('statistics/region', $region, 1) ?>
 				<?php endif ?>
@@ -114,7 +113,7 @@ $experts   = $this->expertsStatistics(Subject::Experts, $party);
 				</td>
 			</tr>
 		<?php endif ?>
-		<?php foreach ($census->getAtlas() as $region /* @var Region $region */): ?>
+		<?php foreach ($census->getAtlas() as $region): ?>
 			<?php if (!($region->Landscape() instanceof Navigable)): ?>
 				<?= $this->template('statistics/region', $region, 2) ?>
 			<?php endif ?>
@@ -167,7 +166,7 @@ $experts   = $this->expertsStatistics(Subject::Experts, $party);
 				</td>
 			</tr>
 		<?php endif ?>
-		<?php foreach ($census->getAtlas() as $region /* @var Region $region */): ?>
+		<?php foreach ($census->getAtlas() as $region): ?>
 			<?php if (!($region->Landscape() instanceof Navigable)): ?>
 				<?= $this->template('statistics/region', $region, 3) ?>
 			<?php endif ?>
@@ -221,7 +220,7 @@ $experts   = $this->expertsStatistics(Subject::Experts, $party);
 				</td>
 			</tr>
 		<?php endif ?>
-		<?php foreach ($census->getAtlas() as $region /* @var Region $region */): ?>
+		<?php foreach ($census->getAtlas() as $region): ?>
 			<?php if (!($region->Landscape() instanceof Navigable)): ?>
 				<?= $this->template('statistics/region', $region, 4) ?>
 			<?php endif ?>

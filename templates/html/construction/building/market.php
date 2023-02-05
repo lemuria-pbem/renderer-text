@@ -16,7 +16,7 @@ $market     = $construction->Extensions()->offsetGet(Market::class);
 $fee        = $market->Fee();
 $tradeables = $market->Tradeables();
 $goods      = [];
-foreach ($tradeables as $commodity /* @var Commodity $commodity */) {
+foreach ($tradeables as $commodity /** @var Commodity $commodity */) {
 	$goods[] = $this->things($commodity);
 }
 

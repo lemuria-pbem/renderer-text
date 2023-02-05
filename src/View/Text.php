@@ -134,7 +134,7 @@ class Text extends View
 	}
 
 	/**
-	 * @return array(string=>TextNumber)
+	 * @return array<string, TextNumber>
 	 */
 	public function materialPoolStatistics(Subject $subject, Party $party): array {
 		$statistics  = array_fill_keys(Resources::getAll(), null);
@@ -154,13 +154,13 @@ class Text extends View
 	}
 
 	/**
-	 * @return TextMaterial[]
+	 * @return array<TextMaterial>
 	 */
 	public function regionPoolStatistics(Subject $subject, Unit $unit): array {
 		$statistics  = array_fill_keys(Resources::getAll(), null);
 		$commodities = $this->statistics($subject, $unit);
 		if ($commodities) {
-			foreach ($commodities as $class => $number /* @var Number $number */) {
+			foreach ($commodities as $class => $number /** @var Number $number */) {
 				if ($number->value > 0) {
 					$statistics[$class] = new TextMaterial($number, $class, $this);
 				}
@@ -175,7 +175,7 @@ class Text extends View
 	}
 
 	/**
-	 * @return array(string=>TextNumber)
+	 * @return array<string, TextNumber>
 	 */
 	public function expertsStatistics(Subject $subject, Party $party): array {
 		$statistics = [];

@@ -43,15 +43,15 @@ class OrderWriter extends AbstractWriter
 		$census    = new Census($party);
 		$template  = $this->createHeader($party);
 		$template .= $this->createRegionDivider();
-		foreach ($census->getAtlas() as $region /* @var Region $region */) {
+		foreach ($census->getAtlas() as $region) {
 			$inConstruction = null;
 			$inVessel       = null;
 
 			$template .= $this->createRegion($region);
 
-			foreach (View::sortedEstate($region) as $construction /* @var Construction $construction */) {
+			foreach (View::sortedEstate($region) as $construction) {
 				$units = new People();
-				foreach ($construction->Inhabitants() as $unit /* @var Unit $unit */) {
+				foreach ($construction->Inhabitants() as $unit) {
 					if ($unit->Party() === $party) {
 						$units->add($unit);
 					}
@@ -59,15 +59,15 @@ class OrderWriter extends AbstractWriter
 				if ($units->count()) {
 					$inConstruction = true;
 					$template      .= $this->createConstruction($construction);
-					foreach ($units as $unit /* @var Unit $unit */) {
+					foreach ($units as $unit) {
 						$template .= $this->createUnit($unit);
 					}
 				}
 			}
 
-			foreach (View::sortedFleet($region) as $vessel /* @var Vessel $vessel */) {
+			foreach (View::sortedFleet($region) as $vessel) {
 				$units = new People();
-				foreach ($vessel->Passengers() as $unit /* @var Unit $unit */) {
+				foreach ($vessel->Passengers() as $unit) {
 					if ($unit->Party() === $party) {
 						$units->add($unit);
 					}
@@ -75,14 +75,14 @@ class OrderWriter extends AbstractWriter
 				if ($units->count()) {
 					$inVessel  = true;
 					$template .= $this->createVessel($vessel);
-					foreach ($vessel->Passengers() as $unit /* @var Unit $unit */) {
+					foreach ($vessel->Passengers() as $unit) {
 						$template .= $this->createUnit($unit);
 					}
 				}
 			}
 
 			$writeSeparator = $inConstruction || $inVessel;
-			foreach ($region->Residents() as $unit /* @var Unit $unit */) {
+			foreach ($region->Residents() as $unit) {
 				if ($unit->Party() === $party && !$unit->Construction() && !$unit->Vessel()) {
 					if ($writeSeparator) {
 						$template .= $this->createSeparator();

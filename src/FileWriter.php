@@ -14,7 +14,7 @@ abstract class FileWriter extends AbstractWriter
 	use VersionTrait;
 
 	/**
-	 * @var Wrapper[]
+	 * @var array<Wrapper>
 	 */
 	protected array $wrapper = [];
 

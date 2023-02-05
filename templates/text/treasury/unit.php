@@ -2,7 +2,6 @@
 declare (strict_types = 1);
 
 use Lemuria\Model\Fantasya\Treasury;
-use Lemuria\Model\Fantasya\Unicum;
 use Lemuria\Renderer\Text\View\Html;
 
 /** @var Html $this */
@@ -11,7 +10,7 @@ use Lemuria\Renderer\Text\View\Html;
 $treasury = $this->variables[0];
 
 ?>
-. Besondere Gegenstände: <?php foreach ($treasury as $unicum /* @var Unicum $unicum */): ?>
+. Besondere Gegenstände: <?php foreach ($treasury as $unicum): ?>
 <?php if ($unicum->Description()): ?>
 <?php if ($unicum->Name()): ?>
 <?= $unicum->Name() ?> [<?= $unicum->Id() ?>], <?= $this->composition($unicum->Composition()) ?>

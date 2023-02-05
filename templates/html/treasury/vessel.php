@@ -2,7 +2,6 @@
 declare (strict_types = 1);
 
 use Lemuria\Model\Fantasya\Treasury;
-use Lemuria\Model\Fantasya\Unicum;
 use Lemuria\Renderer\Text\View\Html;
 
 /** @var Html $this */
@@ -13,7 +12,7 @@ $i        = 0;
 
 ?>
 Besondere Gegenstände:
-<?php foreach ($treasury as $unicum /* @var Unicum $unicum */): ?>
+<?php foreach ($treasury as $unicum): ?>
 	<?php if ($i++): ?>·<?php endif ?>
 	<?= $this->composition($unicum->Composition()) ?> <span class="badge text-bg-magic font-monospace"><?= $unicum->Id() ?></span>
 <?php endforeach ?>

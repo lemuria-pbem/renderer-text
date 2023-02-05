@@ -6,7 +6,6 @@ use function Lemuria\Renderer\Text\View\line;
 use Lemuria\Engine\Fantasya\Factory\Model\Trades;
 use Lemuria\Model\Fantasya\Building\Port;
 use Lemuria\Model\Fantasya\Construction;
-use Lemuria\Model\Fantasya\Unit;
 use Lemuria\Renderer\Text\Model\PortSpace;
 use Lemuria\Renderer\Text\View\Text;
 
@@ -35,6 +34,6 @@ $trades       = new Trades($construction);
 <?= $this->template('construction/building/market', $construction, $trades) ?>
 <?php endif ?>
 <?= $this->template('report', $construction) ?>
-<?php foreach ($construction->Inhabitants() as $unit /* @var Unit $unit */): ?>
+<?php foreach ($construction->Inhabitants() as $unit): ?>
 <?= $this->template('unit', $unit, $trades->forUnit($unit)) ?>
 <?php endforeach ?>

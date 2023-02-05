@@ -4,7 +4,6 @@ declare (strict_types = 1);
 use function Lemuria\Renderer\Text\View\p3;
 use Lemuria\Engine\Fantasya\Factory\Model\Trades;
 use Lemuria\Model\Fantasya\Construction;
-use Lemuria\Model\Fantasya\Unit;
 use Lemuria\Renderer\Text\View\Html;
 use Lemuria\SortMode;
 
@@ -69,7 +68,7 @@ $columns      = 1 + ($m > 0 || $h ? 1 : 0) + ($hasMarket ? 1 : 0);
 <?php if ($unitsInside->count() > 0): ?>
 	<div class="container-fluid">
 		<div class="row">
-		<?php foreach ($unitsInside as $unit /* @var Unit $unit */): ?>
+		<?php foreach ($unitsInside as $unit): ?>
 			<div class="col-12 col-md-6 col-xl-4 <?= p3(++$i) ?>">
 				<?= $this->template('unit', $unit, $trades->forUnit($unit)) ?>
 			</div>

@@ -3,7 +3,6 @@ declare(strict_types = 1);
 namespace Lemuria\Renderer\Text\Statistics\Talent;
 
 use Lemuria\Engine\Fantasya\Calculus;
-use Lemuria\Model\Fantasya\Region;
 use Lemuria\Model\Fantasya\Talent;
 use Lemuria\Model\World\Atlas;
 use Lemuria\SortMode;
@@ -69,7 +68,7 @@ class Matrix
 	protected function sort(): Matrix {
 		$this->atlas->sort(SortMode::NorthToSouth);
 		$max = $this->Maximum();
-		foreach ($this->atlas as $region /* @var Region $region */) {
+		foreach ($this->atlas as $region) {
 			for ($i = 0; $i <= $max; $i++) {
 				$this->regions[$region->Id()->Id()][] = new Value();
 			}

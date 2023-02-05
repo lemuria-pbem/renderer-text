@@ -3,11 +3,8 @@ declare (strict_types = 1);
 
 use function Lemuria\getClass;
 use function Lemuria\Renderer\Text\View\id;
-use Lemuria\Model\Fantasya\Construction;
 use Lemuria\Model\Fantasya\Navigable;
 use Lemuria\Model\Fantasya\Party\Type;
-use Lemuria\Model\Fantasya\Region;
-use Lemuria\Model\Fantasya\Vessel;
 use Lemuria\Renderer\Text\View;
 use Lemuria\Renderer\Text\View\Html;
 
@@ -27,23 +24,23 @@ $travelLog = $this->travelLog;
 			<?php foreach ($travelLog as $continent => $atlas): ?>
 				<?php if ($atlas->count() > 0): ?>
 					<a class="navbar-brand" href="#<?= id($continent) ?>"><?= $continent->Name() ?></a>
-					<?php foreach ($atlas as $region /* @var Region $region */): ?>
+					<?php foreach ($atlas as $region): ?>
 						<?php if ($census->has($region->Id())): ?>
 							<?php if ($region->Landscape() instanceof Navigable): ?>
 								<?php if ($isMonster || !$region->Fleet()->isEmpty()): ?>
 									<a class="navigable nav-link" href="#<?= id($region) ?>"><?= $region->Name() ?></a>
 								<?php endif ?>
-								<?php foreach (View::sortedFleet($region) as $vessel /* @var Vessel $vessel */): ?>
+								<?php foreach (View::sortedFleet($region) as $vessel): ?>
 									<a class="vessel nav-link ml-3 py-0" href="#<?= id($vessel) ?>"><?= $vessel->Name() ?></a>
 								<?php endforeach ?>
 							<?php else: ?>
 								<a class="location <?= strtolower(getClass($region->Landscape())) ?> nav-link" href="#<?= id($region) ?>"><?= $region->Name() ?></a>
 								<?php if (!$region->Estate()->isEmpty() || !$region->Fleet()->isEmpty()): ?>
 									<nav id="nav-<?= id($region) ?>" class="nav nav-pills flex-column">
-										<?php foreach (View::sortedEstate($region) as $construction /* @var Construction $construction */): ?>
+										<?php foreach (View::sortedEstate($region) as $construction): ?>
 											<a class="construction nav-link ml-3 py-0" href="#<?= id($construction) ?>"><?= $construction->Name() ?></a>
 										<?php endforeach ?>
-										<?php foreach (View::sortedFleet($region) as $vessel /* @var Vessel $vessel */): ?>
+										<?php foreach (View::sortedFleet($region) as $vessel): ?>
 											<a class="vessel nav-link ml-3 py-0" href="#<?= id($vessel) ?>"><?= $vessel->Name() ?></a>
 										<?php endforeach ?>
 									</nav>

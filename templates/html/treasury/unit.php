@@ -2,7 +2,6 @@
 declare (strict_types = 1);
 
 use Lemuria\Model\Fantasya\Treasury;
-use Lemuria\Model\Fantasya\Unicum;
 use Lemuria\Renderer\Text\View\Html;
 
 /** @var Html $this */
@@ -12,7 +11,7 @@ $treasury = $this->variables[0];
 
 ?>
 Besondere Gegenstände:
-<?php foreach ($treasury as $unicum /* @var Unicum $unicum */): ?>
+<?php foreach ($treasury as $unicum): ?>
 	<?php if ($treasury->count() > 1): ?>
 		<br>
 	<?php endif ?>

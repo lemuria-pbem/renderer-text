@@ -20,9 +20,7 @@ use Lemuria\Model\Fantasya\Intelligence;
 use Lemuria\Model\Fantasya\Landscape\Lake;
 use Lemuria\Model\Fantasya\Landscape\Ocean;
 use Lemuria\Model\Fantasya\Navigable;
-use Lemuria\Model\Fantasya\Offer;
 use Lemuria\Model\Fantasya\Region;
-use Lemuria\Model\Fantasya\Unit;
 use Lemuria\Renderer\Text\View\Text;
 
 /** @var Text $this */
@@ -79,7 +77,7 @@ $guards       = $intelligence->getGuards();
 $gs           = count($guards);
 if ($gs > 0):
 	$guardNames = [];
-	foreach ($guards as $unit /* @var Unit $unit */):
+	foreach ($guards as $unit):
 		$guardNames[] = $unit->Name();
 	endforeach;
 	if ($gs > 1):
@@ -94,7 +92,7 @@ $castle    = $intelligence->getGovernment();
 $hasMarket = $luxuries && $castle?->Size() > Site::MAX_SIZE;
 if ($hasMarket):
 	$demand = [];
-	foreach ($luxuries as $luxury /* @var Offer $luxury */):
+	foreach ($luxuries as $luxury):
 		$demand[] = $this->get('resource', $luxury->Commodity()) . ' $' . $this->number($luxury->Price());
 	endforeach;
 endif;

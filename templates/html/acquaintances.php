@@ -4,7 +4,6 @@ declare (strict_types = 1);
 use function Lemuria\Renderer\Text\View\linkEmail;
 use function Lemuria\Renderer\Text\View\p3;
 use Lemuria\Model\Fantasya\Party;
-use Lemuria\Model\Fantasya\Relation;
 use Lemuria\Renderer\Text\View\Html;
 
 /** @var Html $this */
@@ -24,7 +23,7 @@ $g = 0;
 <?php if ($acquaintances->count()): ?>
 	<div id="acquaintances" class="container-fluid">
 		<div class="row">
-			<?php foreach ($acquaintances as $acquaintance /* @var Party $acquaintance */): ?>
+			<?php foreach ($acquaintances as $acquaintance): ?>
 				<div class="col-12 col-lg-6 col-xl-4 <?= p3(++$a, 'lg') ?>">
 					<?= $acquaintance->Name() ?> <span class="badge text-bg-primary font-monospace"><?= $acquaintance->Id() ?></span>
 					<?php if ($acquaintance->Banner()): ?> - <?= linkEmail($acquaintance->Banner()) ?><?php endif ?>
@@ -33,7 +32,7 @@ $g = 0;
 					<?php $relations = $diplomacy->search($acquaintance) ?>
 					<?php if ($relations): ?>
 						<ul>
-						<?php foreach ($relations as $relation /* @var Relation $relation */): ?>
+						<?php foreach ($relations as $relation): ?>
 							<li>
 							<?php if ($relation->Region()): ?>
 								Allianzrechte in <?= $relation->Region()->Name() ?> <span class="badge text-bg-secondary font-monospace"><?= $relation->Region()->Id() ?></span>
@@ -58,7 +57,7 @@ $g = 0;
 				<div class="col-12 p-0">
 					<h4>Diplomatische Grundhaltung</h4>
 				</div>
-				<?php foreach ($generalRelations as $relation /* @var Relation $relation */): ?>
+				<?php foreach ($generalRelations as $relation): ?>
 					<div class="col-12 col-lg-6 col-xl-4 <?= p3(++$g, 'lg') ?>">
 						<?php if ($relation->Region()): ?>
 							Allgemeine Rechte in <?= $relation->Region()->Name() ?> <span class="badge text-bg-secondary font-monospace"><?= $relation->Region()->Id() ?></span>

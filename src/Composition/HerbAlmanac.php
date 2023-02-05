@@ -9,7 +9,6 @@ use Lemuria\Engine\Fantasya\Event\Visit;
 use Lemuria\Lemuria;
 use Lemuria\Model\Dictionary;
 use Lemuria\Model\Fantasya\Composition\HerbAlmanac as Almanac;
-use Lemuria\Model\Fantasya\Region;
 
 final class HerbAlmanac extends AbstractComposition
 {
@@ -22,7 +21,7 @@ final class HerbAlmanac extends AbstractComposition
 		$content    = PHP_EOL . hr() . PHP_EOL . center('Inhalt') . PHP_EOL;
 		$dictionary = new Dictionary();
 		$round      = Lemuria::Calendar()->Round() - 1;
-		foreach ($herbalBook as $region /* @var Region $region */) {
+		foreach ($herbalBook as $region) {
 			$herbage  = $herbalBook->getHerbage($region);
 			$rounds   = $herbalBook->getVisit($region)->Round() - $round;
 			$content .= $dictionary->get('landscape.' . $region->Landscape()) . ' ' . $region->Name() . ': ';

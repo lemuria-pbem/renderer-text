@@ -2,7 +2,6 @@
 declare (strict_types = 1);
 
 use Lemuria\Engine\Fantasya\Factory\PartyUnica;
-use Lemuria\Model\Fantasya\Unicum;
 use Lemuria\Renderer\Text\View\Html;
 
 /** @var Html $this */
@@ -25,7 +24,7 @@ $i        = $spells;
 			<?= $i++ > 0 ? '·' : '' ?>
 			<a id="herbal-book" href="<?= $this->herbalBookPath() ?>" title="Taste: K">Kräutervorkommen anzeigen</a>
 		<?php endif ?>
-		<?php foreach ($treasury as $unicum /* @var Unicum $unicum */): ?>
+		<?php foreach ($treasury as $unicum): ?>
 			<?= $i++ > 0 ? '·' : '' ?>
 			<a href="<?= $this->unicumPath($unicum) ?>"><?= $this->composition($unicum->Composition()) ?> „<?= $unicum->Name() ?>”</a>
 		<?php endforeach ?>

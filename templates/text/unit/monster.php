@@ -2,7 +2,6 @@
 declare (strict_types = 1);
 
 use function Lemuria\Renderer\Text\View\description;
-use Lemuria\Model\Fantasya\Quantity;
 use Lemuria\Model\Fantasya\Unit;
 use Lemuria\Renderer\Text\View\Text;
 
@@ -13,7 +12,7 @@ $unit   = $this->variables[0];
 $prefix = $unit->Construction() || $unit->Vessel() ? '   * ' : '  -- ';
 
 $inventory = [];
-foreach ($unit->Inventory() as $quantity /* @var Quantity $quantity */):
+foreach ($unit->Inventory() as $quantity):
 	$inventory[] = $this->quantity($quantity, $unit);
 endforeach;
 $n = count($inventory);
