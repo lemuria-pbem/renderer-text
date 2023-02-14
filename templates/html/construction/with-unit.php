@@ -17,8 +17,8 @@ $i            = 0;
 $m            = count($this->messages($construction));
 $h            = $treasury->isEmpty() ? 0 : 1;
 $trades       = new Trades($construction);
-$hasMarket    = $trades->HasMarket();
-$columns      = 1 + ($m > 0 || $h ? 1 : 0) + ($hasMarket ? 1 : 0);
+$building     = $this->building($trades, $construction);
+$columns      = 1 + ($m > 0 || $h ? 1 : 0) + ($building ? 1 : 0);
 
 ?>
 <?php if ($columns === 1): ?>
@@ -32,8 +32,8 @@ $columns      = 1 + ($m > 0 || $h ? 1 : 0) + ($hasMarket ? 1 : 0);
 					<?= $this->template('construction/part/description', $construction) ?>
 				</div>
 				<div class="col-12 col-md-6 p-0 ps-md-3 pt-md-5">
-					<?php if ($hasMarket): ?>
-						<?= $this->template('construction/building/market', $construction) ?>
+					<?php if ($building): ?>
+						<?= $this->template('construction/building/' . $building, $construction) ?>
 					<?php else: ?>
 						<?php if ($h): ?>
 							<?= $this->template('treasury/construction', $treasury) ?>

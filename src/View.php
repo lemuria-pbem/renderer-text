@@ -9,6 +9,8 @@ use Lemuria\Engine\Fantasya\Combat\BattleLog;
 use Lemuria\Engine\Fantasya\Effect\Hunger;
 use Lemuria\Engine\Fantasya\Effect\SpyEffect;
 use Lemuria\Engine\Fantasya\Effect\TravelEffect;
+use Lemuria\Engine\Fantasya\Effect\Unmaintained;
+use Lemuria\Engine\Fantasya\Factory\Model\Trades;
 use Lemuria\Engine\Fantasya\Factory\Model\TravelAtlas;
 use Lemuria\Engine\Fantasya\Factory\Model\Visibility;
 use Lemuria\Engine\Fantasya\Message\Filter\NoAnnouncementFilter;
@@ -21,6 +23,8 @@ use Lemuria\Identifiable;
 use Lemuria\ItemSet;
 use Lemuria\Lemuria;
 use Lemuria\Model\Dictionary;
+use Lemuria\Model\Fantasya\Building\Canal;
+use Lemuria\Model\Fantasya\Building\Port;
 use Lemuria\Model\Fantasya\Commodity;
 use Lemuria\Model\Fantasya\Composition;
 use Lemuria\Model\Fantasya\Construction;
@@ -569,6 +573,22 @@ abstract class View
 			}
 		}
 		return $statistics;
+	}
+
+	public function building(Trades $trades, Construction $construction): ?string {
+		if ($trades->HasMarket()) {
+			return 'market';
+		}
+		return match ($construction->Building()::class) {
+			Canal::class => 'canal',
+			Port::class  => 'port',
+			default      => null
+		};
+	}
+
+	public function isMaintained(Construction $construction): bool {
+		$effect = new Unmaintained(State::getInstance());
+		return !Lemuria::Score()->find($effect->setConstruction($construction));
 	}
 
 	/**

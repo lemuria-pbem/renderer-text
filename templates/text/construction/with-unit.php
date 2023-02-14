@@ -18,6 +18,7 @@ $inhabitants  = $this->people($construction);
 $people       = $inhabitants === 1 ? 'Bewohner' : 'Bewohnern';
 $treasury     = $construction->Treasury();
 $trades       = new Trades($construction);
+$additional   = $this->building($trades, $construction);
 
 ?>
 
@@ -29,9 +30,12 @@ $trades       = new Trades($construction);
 .<?= line(description($construction)) ?>
 <?php endif ?>
 <?php if (!$treasury->isEmpty()): ?><?= $this->template('treasury/region', $treasury) ?><?php endif ?>
-<?php if ($trades->HasMarket()): ?>
+<?php if ($additional === 'market'): ?>
 
 <?= $this->template('construction/building/market', $construction, $trades) ?>
+<?php elseif ($additional): ?>
+
+<?= $this->template('construction/building/' . $additional, $construction) ?>
 <?php endif ?>
 <?= $this->template('report', $construction) ?>
 <?php foreach ($construction->Inhabitants() as $unit): ?>
