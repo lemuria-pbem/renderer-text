@@ -12,6 +12,7 @@ use Lemuria\Renderer\Text\View\Text;
 
 /** @var Construction $construction */
 $construction = $this->variables[0];
+$isMaintained = $this->isMaintained($construction);
 /** @var Market $market */
 $market     = $construction->Extensions()->offsetGet(Market::class);
 $fee        = $market->Fee();
@@ -22,6 +23,7 @@ foreach ($tradeables as $commodity /** @var Commodity $commodity */) {
 }
 
 ?>
+<?php if ($isMaintained): ?>
 <?= center('Marktordnung') ?>
 
 <?php if ($fee instanceof Quantity): ?>
@@ -39,4 +41,7 @@ Auf diesem Markt dürfen nur die folgenden Waren gehandelt werden: <?= implode('
 <?php endif ?>
 <?php else: ?>
 Es gibt keine Handelsbeschränkungen.
+<?php endif ?>
+<?php else: ?>
+Der Markt ist geschlossen.
 <?php endif ?>
