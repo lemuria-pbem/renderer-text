@@ -19,7 +19,6 @@ $travelLog = $this->travelLog;
 $calendar  = Lemuria::Calendar();
 $season    = $this->get('calendar.season', $calendar->Season()->value - 1);
 $month     = $this->get('calendar.month', $calendar->Month() - 1);
-$continent = Continent::get(new Id(1));
 
 ?>
 <?= center('Lemuria-Auswertung') ?>

@@ -18,7 +18,6 @@ $calendar  = Lemuria::Calendar();
 $season    = $this->get('calendar.season', $calendar->Season()->value - 1);
 $month     = $this->get('calendar.month', $calendar->Month() - 1);
 $banner    = $party->Banner() ? 'Unser Banner: ' . linkEmail($party->Banner()) : '(kein Banner gesetzt)';
-$continent = Continent::get(new Id(1));
 
 ?>
 <body class="non-responsive" data-bs-spy="scroll" data-bs-target="#navbar">
