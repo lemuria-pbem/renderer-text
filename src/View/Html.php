@@ -8,6 +8,7 @@ use Lemuria\Engine\Fantasya\Statistics\Subject;
 use Lemuria\Engine\Message;
 use Lemuria\Engine\Message\Result;
 use Lemuria\Identifiable;
+use Lemuria\Model\Fantasya\Commodity\Silver;
 use Lemuria\Model\Fantasya\Luxuries;
 use Lemuria\Model\Fantasya\Party;
 use Lemuria\Model\Fantasya\Region;
@@ -202,9 +203,9 @@ class Html extends View
 	/**
 	 * @return array<HtmlCommodity>
 	 */
-	public function regionPoolStatistics(Subject $subject, Unit $unit): array {
+	public function regionPoolStatistics(Unit $unit): array {
 		$statistics  = array_fill_keys(Resources::getAll(), null);
-		$commodities = $this->statistics($subject, $unit);
+		$commodities = $this->statistics(Subject::RegionPool, $unit);
 		if ($commodities) {
 			foreach ($commodities as $class => $number /** @var Number $number */) {
 				if ($number->value > 0) {
@@ -218,6 +219,16 @@ class Html extends View
 			}
 		}
 		return array_values($statistics);
+	}
+
+	public function regionSilverStatistics(?Unit $unit): HtmlNumber {
+		if (!$unit) {
+			return new HtmlNumber(new Number());
+		}
+		$commodities = $this->statistics(Subject::RegionPool, $unit);
+		$class       = getClass(Silver::class);
+		$silver      = $commodities[$class] ?? new Number();
+		return new HtmlNumber($silver);
 	}
 
 	/**

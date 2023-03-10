@@ -41,6 +41,11 @@ $trees       = $this->numberStatistics(Subject::Trees, $region);
 $animals     = $this->animalStatistics(Subject::Animals, $region);
 $luxuries    = $this->marketStatistics(Subject::Market, $region);
 
+$representant = $this->census->getPeople($region)->getFirst();
+$unitForce    = $this->numberStatisticsOrNull(Subject::UnitForce, $representant);
+$peopleForce  = $this->numberStatisticsOrNull(Subject::PeopleForce, $representant);
+$reserve      = $this->regionSilverStatistics($representant);
+
 if ($cols <= 1) {
 	$ids = $class . '-population ' . $class . '-workers ' . $class . '-recruits ' . $class . '-births ' .
 		   $class . '-migration ' . $class . '-wealth ' . $class . '-income ' . $class . '-trees';
@@ -57,7 +62,14 @@ foreach ($animals as $i => $animal) {
 		$ids .= ' ' . $class . '-' . $animal->key;
 	}
 }
-$i = 0;
+if ($cols <= 1) {
+	$ids .= ' ' . $class . '-unit-force ' . $class . '-people-force ' . $class . '-reserve';
+} elseif ($cols === 2) {
+	$ids .= ' ' . $class . '-unit-force ' . $class . '-reserve';
+} else {
+	$ids .= ' ' . $class . '-unit-force';
+}
+$i = 3;
 foreach ($expenses as $name => $expense) {
 	if ($i++ % $cols === 0) {
 		$ids .= ' ' . $class . '-' . $expense->class;
@@ -137,6 +149,21 @@ if (!empty($luxuries)) {
 			<td class="more-is-good"><?= $animal->change ?></td>
 		</tr>
 	<?php endforeach ?>
+	<tr id="<?= $class ?>-unit-force" class="collapse <?= $unitForce->movement ?> <?= $class ?>">
+		<th scope="row">Einheiten</th>
+		<td><?= $unitForce->value ?></td>
+		<td class="more-is-good"><?= $unitForce->change ?></td>
+	</tr>
+	<tr id="<?= $class ?>-people-force" class="collapse <?= $peopleForce->movement ?> <?= $class ?>">
+		<th scope="row">Personen</th>
+		<td><?= $peopleForce->value ?></td>
+		<td class="more-is-good"><?= $peopleForce->change ?></td>
+	</tr>
+	<tr id="<?= $class ?>-reserve" class="collapse <?= $reserve->movement ?> <?= $class ?>">
+		<th scope="row">Silberreserve</th>
+		<td><?= $reserve->value ?></td>
+		<td class="more-is-good"><?= $reserve->change ?></td>
+	</tr>
 	<?php foreach ($expenses as $name => $expense): ?>
 		<tr id="<?= $class . '-' . $expense->class ?>" class="collapse <?= $expense->movement ?> <?= $class ?>">
 			<th scope="row"><?= $name ?></th>
@@ -232,6 +259,19 @@ if (!empty($luxuries)) {
 			</tr>
 		<?php endif ?>
 	<?php endforeach ?>
+	<tr id="<?= $class ?>-unit-force" class="collapse <?= $class ?>">
+		<th scope="row">Einheiten</th>
+		<td><?= $unitForce->value ?></td>
+		<td class="<?= $unitForce->movement ?> more-is-good"><?= $unitForce->change ?></td>
+		<th scope="row">Personen</th>
+		<td><?= $peopleForce->value ?></td>
+		<td class="<?= $peopleForce->movement ?> more-is-good"><?= $peopleForce->change ?></td>
+	</tr>
+	<tr id="<?= $class ?>-reserve" class="collapse <?= $class ?>">
+		<th scope="row">Silberreserve</th>
+		<td><?= $reserve->value ?></td>
+		<td class="<?= $reserve->movement ?> more-is-good" colspan="4"><?= $reserve->change ?></td>
+	</tr>
 	<?php $i = 0 ?>
 	<?php foreach ($expenses as $name => $expense): ?>
 		<?php if ($i % $cols === 0): ?>
@@ -343,6 +383,17 @@ if (!empty($luxuries)) {
 			</tr>
 		<?php endif ?>
 	<?php endforeach ?>
+	<tr id="<?= $class ?>-unit-force" class="collapse <?= $class ?>">
+		<th scope="row">Einheiten</th>
+		<td><?= $unitForce->value ?></td>
+		<td class="<?= $unitForce->movement ?> more-is-good"><?= $unitForce->change ?></td>
+		<th scope="row">Personen</th>
+		<td><?= $peopleForce->value ?></td>
+		<td class="<?= $peopleForce->movement ?> more-is-good"><?= $peopleForce->change ?></td>
+		<th scope="row">Silberreserve</th>
+		<td><?= $reserve->value ?></td>
+		<td class="<?= $reserve->movement ?> more-is-good"><?= $reserve->change ?></td>
+	</tr>
 	<?php $i = 0 ?>
 	<?php foreach ($expenses as $name => $expense): ?>
 		<?php if ($i % $cols === 0): ?>
@@ -468,6 +519,17 @@ if (!empty($luxuries)) {
 			</tr>
 		<?php endif ?>
 	<?php endforeach ?>
+	<tr id="<?= $class ?>-unit-force" class="collapse <?= $class ?>">
+		<th scope="row">Einheiten</th>
+		<td><?= $unitForce->value ?></td>
+		<td class="<?= $unitForce->movement ?> more-is-good"><?= $unitForce->change ?></td>
+		<th scope="row">Personen</th>
+		<td><?= $peopleForce->value ?></td>
+		<td class="<?= $peopleForce->movement ?> more-is-good"><?= $peopleForce->change ?></td>
+		<th scope="row">Silberreserve</th>
+		<td><?= $reserve->value ?></td>
+		<td class="<?= $reserve->movement ?> more-is-good" colspan="4"><?= $reserve->change ?></td>
+	</tr>
 	<?php $i = 0 ?>
 	<?php foreach ($expenses as $name => $expense): ?>
 		<?php if ($i % $cols === 0): ?>
