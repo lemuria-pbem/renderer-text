@@ -106,7 +106,7 @@ final class HtmlMap implements \Iterator
 			$this->xOffset = 0;
 			return;
 		}
-		$this->xOffset  = -(64 * $this->xOffset + 32 * ($this->yOffset + $minY) - 96);
+		$this->xOffset  = abs(64 * $this->xOffset + 32 * ($this->yOffset + $minY) - 96);
 		$this->yOffset *= 48;
 	}
 }
