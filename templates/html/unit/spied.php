@@ -23,7 +23,7 @@ $talents   = [];
 foreach ($unit->Knowledge() as $ability/* @var Ability $ability */):
 	$experience = $ability->Experience();
 	$ability    = $calculus->knowledge($ability->Talent());
-	$talents[]  = $this->get('talent', $ability->Talent()) . ' ' . $ability->Level() . ' (' . $this->number($experience) . ')';
+	$talents[]  = $this->get('talent', $ability->Talent()) . ' ' . $ability->Level() . ' (' . Ability::getLevel($experience) . '/' . $this->number($experience) . ')';
 endforeach;
 $inventory = [];
 $payload   = 0;

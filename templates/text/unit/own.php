@@ -8,6 +8,7 @@ use Lemuria\Engine\Fantasya\Calculus;
 use Lemuria\Engine\Fantasya\Factory\Model\Orders;
 use Lemuria\Engine\Fantasya\Factory\Model\Trades;
 use Lemuria\Engine\Fantasya\Statistics\Subject;
+use Lemuria\Model\Fantasya\Ability;
 use Lemuria\Model\Fantasya\Unit;
 use Lemuria\Renderer\Text\View\Text;
 
@@ -41,7 +42,7 @@ foreach ($unit->Knowledge() as $ability):
 	} else {
 		$knowledge .= ' (';
 	}
-	$knowledge .= $this->number($experience) . ')';
+	$knowledge .= Ability::getLevel($experience) . '/' . $this->number($experience) . ')';
 	$talents[]  = $knowledge;
 endforeach;
 
