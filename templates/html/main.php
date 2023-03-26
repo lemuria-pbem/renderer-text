@@ -3,9 +3,7 @@ declare (strict_types = 1);
 
 use function Lemuria\Renderer\Text\View\id;
 use function Lemuria\Renderer\Text\View\linkEmail;
-use Lemuria\Id;
 use Lemuria\Lemuria;
-use Lemuria\Model\Fantasya\Continent;
 use Lemuria\Model\Fantasya\Party\Type;
 use Lemuria\Renderer\Text\View\Html;
 
