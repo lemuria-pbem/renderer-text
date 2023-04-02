@@ -4,9 +4,7 @@ declare (strict_types = 1);
 use function Lemuria\Renderer\Text\View\center;
 use function Lemuria\Renderer\Text\View\footer;
 use function Lemuria\Renderer\Text\View\hr;
-use Lemuria\Id;
 use Lemuria\Lemuria;
-use Lemuria\Model\Fantasya\Continent;
 use Lemuria\Model\Fantasya\Party\Type;
 use Lemuria\Renderer\Text\View\Text;
 
@@ -62,4 +60,4 @@ $month     = $this->get('calendar.month', $calendar->Month() - 1);
 <?php endforeach ?>
 <?php endif ?>
 <?php endforeach ?>
-<?= footer($this->gameVersions()) ?>
+<?= footer($this->gameVersions(), $this->createdString()) ?>

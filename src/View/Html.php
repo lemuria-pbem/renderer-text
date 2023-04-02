@@ -86,8 +86,8 @@ class Html extends View
 
 	private PathFactory $pathFactory;
 
-	public function __construct(Party $party, FileWriter $writer) {
-		parent::__construct($party, $writer);
+	public function __construct(FileWriter $writer) {
+		parent::__construct($writer);
 		$this->pathFactory = $writer->getPathFactory();
 	}
 

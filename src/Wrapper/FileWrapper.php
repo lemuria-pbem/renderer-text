@@ -5,12 +5,13 @@ namespace Lemuria\Renderer\Text\Wrapper;
 use Lemuria\Exception\FileNotFoundException;
 use Lemuria\Lemuria;
 use Lemuria\Model\Fantasya\Party;
+use Lemuria\Renderer\Text\FileWriter;
 use Lemuria\Renderer\Text\Wrapper;
 use Lemuria\Version\Module;
 
 class FileWrapper implements Wrapper
 {
-	protected Party $party;
+	protected FileWriter $writer;
 
 	protected string $wrapperText;
 
@@ -21,8 +22,8 @@ class FileWrapper implements Wrapper
 		$this->wrapperText = file_get_contents($path);
 	}
 
-	public function setParty(Party $party): FileWrapper {
-		$this->party = $party;
+	public function setWriter(FileWriter $writer): FileWrapper {
+		$this->writer = $writer;
 		return $this;
 	}
 
@@ -30,9 +31,12 @@ class FileWrapper implements Wrapper
 	 * @noinspection PhpUnnecessaryLocalVariableInspection
 	 */
 	public function wrap(string $report): string {
+		$party   = $this->writer->getParty();
+		$created = $this->writer->getView()->createdIso8601();
 		$version = Lemuria::Version();
-		$wrapper = str_replace(Wrapper::VERSION, $version[Module::Game][0]->version, $this->wrapperText);
-		$wrapper = str_replace(Wrapper::UUID, $this->party->Uuid(), $wrapper);
+		$wrapper = str_replace(Wrapper::CREATED, $created, $this->wrapperText);
+		$wrapper = str_replace(Wrapper::VERSION, $version[Module::Game][0]->version, $wrapper);
+		$wrapper = str_replace(Wrapper::UUID, $party->Uuid(), $wrapper);
 		$report  = str_replace(Wrapper::REPORT, $report, $wrapper);
 		return $report;
 	}

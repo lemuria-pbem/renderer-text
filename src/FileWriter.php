@@ -13,6 +13,10 @@ abstract class FileWriter extends AbstractWriter
 {
 	use VersionTrait;
 
+	protected Party $party;
+
+	protected View $view;
+
 	/**
 	 * @var array<Wrapper>
 	 */
@@ -38,16 +42,24 @@ abstract class FileWriter extends AbstractWriter
 		return $this;
 	}
 
+	public function getParty(): Party {
+		return $this->party;
+	}
+
+	public function getView(): View {
+		return $this->view;
+	}
+
 	public function render(Id $entity): Writer {
-		$party  = Party::get($entity);
-		$view   = $this->getView($party);
-		$report = $view->generate();
+		$this->party = Party::get($entity);
+		$this->view  = $this->createView();
+		$report      = $this->view->generate();
 
 		foreach ($this->wrapper as $wrapper) {
 			$report = $wrapper->wrap($report);
 		}
 
-		$path = $this->pathFactory->getPath($this, $party);
+		$path = $this->pathFactory->getPath($this, $this->party);
 		if (!file_put_contents($path, $report)) {
 			throw new \RuntimeException('Could not create report.');
 		}
@@ -60,5 +72,5 @@ abstract class FileWriter extends AbstractWriter
 		return $this;
 	}
 
-	abstract protected function getView(Party $party): View;
+	abstract protected function createView(): View;
 }

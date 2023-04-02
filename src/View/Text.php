@@ -79,14 +79,14 @@ function wrap(string $output): string {
 /**
  * Create the footer.
  */
-function footer(array $versions): string {
+function footer(array $versions, string $created): string {
 	$footer  = str_pad('', 80, '-');
 	$version = Lemuria::Version();
 	if (isset($version[Module::Game])) {
 		$game    = $version[Module::Game][0];
 		$footer .= PHP_EOL . 'Version: ' . $game->name . ' ' . $game->version . ' (';
 		$footer .= implode(', ', $versions);
-		$footer .= ') | ' . date('d.m.Y H:i:s');
+		$footer .= ') | ' . $created;
 	}
 	return $footer;
 }

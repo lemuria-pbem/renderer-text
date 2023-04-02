@@ -4,6 +4,8 @@ namespace Lemuria\Renderer\Text;
 
 interface Wrapper
 {
+	public final const CREATED = '%CREATED%';
+
 	public final const REPORT ='%WRAPPED_REPORT%';
 
 	public final const UUID = '%UUID%';

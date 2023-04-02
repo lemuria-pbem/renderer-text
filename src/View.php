@@ -64,6 +64,8 @@ abstract class View
 		'Silver' => 100
 	];
 
+	public readonly Party $party;
+
 	public readonly Census $census;
 
 	public readonly Outlook $outlook;
@@ -86,6 +88,8 @@ abstract class View
 
 	private readonly Filter $messageFilter;
 
+	private int $created = 0;
+
 	public static function sortedEstate(Region $region): Estate {
 		$estate = clone $region->Estate();
 		return $estate->sort();
@@ -96,13 +100,14 @@ abstract class View
 		return $fleet->sort();
 	}
 
-	public function __construct(public Party $party, FileWriter $writer) {
+	public function __construct(FileWriter $writer) {
+		$this->party         = $writer->getParty();
 		$this->messageFilter = $writer->getFilter();
 		$this->census        = new Census($this->party);
 		$this->outlook       = new Outlook($this->census);
 		$this->atlas         = new TravelAtlas($this->party);
 		$this->atlas->forRound(Lemuria::Calendar()->Round() - 1);
-		$this->travelLog  = new TravelLog($party);
+		$this->travelLog  = new TravelLog($this->party);
 		$this->map        = new PartyMap(Lemuria::World(), $this->party);
 		$this->dictionary = new Dictionary();
 		$this->spyEffect  = $this->getSpyEffect();
@@ -591,6 +596,14 @@ abstract class View
 		return !Lemuria::Score()->find($effect->setConstruction($construction));
 	}
 
+	public function createdString(): string {
+		return date('d.m.Y H:i:s', $this->getCreatedTimestamp());
+	}
+
+	public function createdIso8601(): string {
+		return gmdate('Y-m-d') . 'T' . gmdate('H:i:s') . '.000Z';
+	}
+
 	/**
 	 * Render a template.
 	 */
@@ -609,6 +622,13 @@ abstract class View
 			throw new \RuntimeException('Could not start output buffering.');
 		}
 		return $this->generateContent('main');
+	}
+
+	public function getCreatedTimestamp(): int {
+		if (!$this->created) {
+			$this->created = time();
+		}
+		return $this->created;
 	}
 
 	abstract protected function generateContent(string $template): string;
