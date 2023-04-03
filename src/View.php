@@ -53,6 +53,14 @@ use Lemuria\Statistics\Fantasya\PartyEntityRecord;
 use Lemuria\Statistics\Record;
 use Lemuria\Version\Module;
 
+function dateTimeString(int $timestamp): string {
+	return date('d.m.Y H:i:s', $timestamp);
+}
+
+function dateTimeIso8601(int $timestamp): string {
+	return gmdate('Y-m-d', $timestamp) . 'T' . gmdate('H:i:s', $timestamp) . '.000Z';
+}
+
 /**
  * A view object that contains variables and helper functions for view scripts.
  */
@@ -594,14 +602,6 @@ abstract class View
 	public function isMaintained(Construction $construction): bool {
 		$effect = new Unmaintained(State::getInstance());
 		return !Lemuria::Score()->find($effect->setConstruction($construction));
-	}
-
-	public function createdString(): string {
-		return date('d.m.Y H:i:s', $this->getCreatedTimestamp());
-	}
-
-	public function createdIso8601(): string {
-		return gmdate('Y-m-d') . 'T' . gmdate('H:i:s') . '.000Z';
 	}
 
 	/**

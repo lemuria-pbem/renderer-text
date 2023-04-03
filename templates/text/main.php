@@ -1,6 +1,7 @@
 <?php
 declare (strict_types = 1);
 
+use function Lemuria\Renderer\Text\dateTimeString;
 use function Lemuria\Renderer\Text\View\center;
 use function Lemuria\Renderer\Text\View\footer;
 use function Lemuria\Renderer\Text\View\hr;
@@ -60,4 +61,4 @@ $month     = $this->get('calendar.month', $calendar->Month() - 1);
 <?php endforeach ?>
 <?php endif ?>
 <?php endforeach ?>
-<?= footer($this->gameVersions(), $this->createdString()) ?>
+<?= footer($this->gameVersions(), dateTimeString($this->getCreatedTimestamp())) ?>

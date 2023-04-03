@@ -6,9 +6,11 @@ interface Wrapper
 {
 	public final const CREATED = '%CREATED%';
 
+	public final const MOVE = '%MOVE%';
+
 	public final const REPORT ='%WRAPPED_REPORT%';
 
-	public final const UUID = '%UUID%';
+	public final const PARTY = '%PARTY%';
 
 	public final const VERSION = '%VERSION%';
 
