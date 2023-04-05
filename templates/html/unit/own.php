@@ -63,8 +63,9 @@ foreach ($treasury as $unicum):
 	$payload += $unicum->Composition()->Weight();
 endforeach;
 
-$weight = (int)ceil($payload / 100);
-$total  = (int)ceil(($payload + $unit->Size() * $unit->Race()->Weight()) / 100);
+$weight  = (int)ceil($payload / 100);
+$total   = (int)ceil(($payload + $unit->Size() * $unit->Race()->Weight()) / 100);
+$payload = $calculus->payload() / 100;
 
 $spells       = [];
 $battleSpells = $unit->BattleSpells();
@@ -98,7 +99,7 @@ endif;
 		<br>
 	<?php endif ?>
 	Hat <?= empty($inventory) ? 'nichts' : implode(', ', $inventory) ?>,
-	Last <?= $this->number($weight) ?> GE, zusammen <?= $this->number($total) ?> GE.
+	Last <?= $this->number($weight) ?> GE, zusammen <?= $this->number($total) ?> GE, Tragkraft <?= $this->number($payload) ?> GE.
 	<?php if (!empty($spells)): ?>
 		<br>
 		Eingesetzte Kampfzauber: <?= implode(', ', $spells) ?>.
