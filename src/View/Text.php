@@ -156,9 +156,9 @@ class Text extends View
 	/**
 	 * @return array<TextMaterial>
 	 */
-	public function regionPoolStatistics(Subject $subject, Unit $unit): array {
+	public function regionPoolStatistics(Unit $unit): array {
 		$statistics  = array_fill_keys(Resources::getAll(), null);
-		$commodities = $this->statistics($subject, $unit);
+		$commodities = $this->statistics(Subject::RegionPool, $unit);
 		if ($commodities) {
 			foreach ($commodities as $class => $number /** @var Number $number */) {
 				if ($number->value > 0) {

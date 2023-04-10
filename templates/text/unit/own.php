@@ -33,7 +33,8 @@ foreach ($unit->Knowledge() as $ability):
 	$experience = $ability->Experience();
 	$talent     = $ability->Talent();
 	$ability    = $calculus->knowledge($talent);
-	$knowledge  = $this->get('talent', $ability->Talent()) . ' ' . $ability->Level();
+	$level      = $ability->Level();
+	$knowledge  = $this->get('talent', $ability->Talent()) . ' ' . $level;
 	$change     = $statistics[getClass($talent)] ?? 0;
 	if ($change > 0) {
 		$knowledge .= ' (+' . $change . '/';
@@ -42,7 +43,12 @@ foreach ($unit->Knowledge() as $ability):
 	} else {
 		$knowledge .= ' (';
 	}
-	$knowledge .= Ability::getLevel($experience) . '/' . $this->number($experience) . ')';
+	$rawLevel = Ability::getLevel($experience);
+	if ($rawLevel === $level) {
+		$knowledge .= $this->number($experience) . ')';
+	} else {
+		$knowledge .= $rawLevel . '/' . $this->number($experience) . ')';
+	}
 	$talents[]  = $knowledge;
 endforeach;
 

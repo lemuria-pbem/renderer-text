@@ -36,14 +36,20 @@ foreach ($unit->Knowledge() as $ability):
 	$experience = $ability->Experience();
 	$talent     = $ability->Talent();
 	$ability    = $calculus->knowledge($talent);
-	$knowledge  = '<span>' . $this->get('talent', $talent) . '&nbsp;' . $ability->Level() . '</span>';
+	$level      = $ability->Level();
+	$knowledge  = '<span>' . $this->get('talent', $talent) . '&nbsp;' . $level . '</span>';
 	$change     = $statistics[getClass($talent)] ?? 0;
 	if ($change > 0) {
 		$knowledge .= '<span class="badge badge-inverse badge-success">+' . $change . '</span>';
 	} elseif ($change < 0) {
 		$knowledge .= '<span class="badge badge-inverse badge-danger">' . $change . '</span>';
 	}
-	$knowledge .= '&nbsp;<span>(' . Ability::getLevel($experience) . '/' . $this->number($experience) . ')</span>';
+	$rawLevel = Ability::getLevel($experience);
+	if ($rawLevel === $level) {
+		$knowledge .= '&nbsp;<span>(' . $this->number($experience) . ')</span>';
+	} else {
+		$knowledge .= '&nbsp;<span>(' . $rawLevel . '/' . $this->number($experience) . ')</span>';
+	}
 	$talents[]  = $knowledge;
 endforeach;
 
