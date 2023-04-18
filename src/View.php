@@ -176,6 +176,7 @@ abstract class View
 	public function deal(Trade $trade, Deal $deal, bool $forceBoth = false): string {
 		$isOffer   = $trade->Trade() === Trade::OFFER;
 		$isMaximum = $deal->IsVariable() && $forceBoth ? null : $isOffer;
+		$maximum   = $deal->Maximum();
 		if ($isMaximum === null) {
 			if ($deal->IsAdapting()) {
 				$inventory = $trade->Unit()->Inventory();
@@ -188,8 +189,6 @@ abstract class View
 					$reserve   = $inventory[$commodity]->Count();
 					$maximum   = (int)floor($reserve / $price->Maximum());
 				}
-			} else {
-				$maximum = $deal->Maximum();
 			}
 		}
 		return match ($isMaximum) {
@@ -205,6 +204,7 @@ abstract class View
 	public function ownDeal(Trade $trade, Deal $deal): string {
 		$isOffer   = $trade->Trade() === Trade::OFFER;
 		$isMaximum = $deal->IsVariable() ? null : $isOffer;
+		$maximum   = $deal->Maximum();
 		if ($isMaximum === null) {
 			if ($deal->IsAdapting()) {
 				$inventory = $trade->Unit()->Inventory();
@@ -220,8 +220,6 @@ abstract class View
 				if ($maximum <= 0) {
 					$isMaximum = 0;
 				}
-			} else {
-				$maximum = $deal->Maximum();
 			}
 		}
 		return match ($isMaximum) {
