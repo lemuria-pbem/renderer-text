@@ -20,7 +20,7 @@ $owner        = $construction->Inhabitants()->Owner()?->Party();
 				<span class="badge text-bg-secondary font-monospace"><?= $construction->Id() ?></span>
 			</h5>
 			<p>
-				<?= $this->get('building', $construction->Building()) ?> der Größe <?= $this->number($construction->Size()) ?>.
+				<?= $this->translate($construction->Building()) ?> der Größe <?= $this->number($construction->Size()) ?>.
 				<?php if ($owner): ?>
 					Besitzer ist die Partei <?= $owner->Name() ?> <span class="badge text-bg-primary font-monospace"><?= $owner->Id() ?></span>.
 				<?php else: ?>

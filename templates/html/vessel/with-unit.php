@@ -27,7 +27,7 @@ $i           = 0;
 ?>
 <h5 id="<?= id($vessel) ?>"><?= $vessel->Name() ?> <span class="badge text-bg-info font-monospace"><?= $vessel->Id() ?></span></h5>
 <p>
-	<?= $this->get('ship', $ship) ?> mit <?= $this->number($passengers) ?> <?= $people ?>, Zustand <?= $this->number((int)round(100.0 * $vessel->Completion())) ?>%, <?php if ($vessel->Space() < 0): ?>überladen mit<?php else: ?>freier Platz<?php endif ?> <?= $this->number((int)ceil(abs($vessel->Space()) / 100)) ?> GE.
+	<?= $this->translate($ship) ?> mit <?= $this->number($passengers) ?> <?= $people ?>, Zustand <?= $this->number((int)round(100.0 * $vessel->Completion())) ?>%, <?php if ($vessel->Space() < 0): ?>überladen mit<?php else: ?>freier Platz<?php endif ?> <?= $this->number((int)ceil(abs($vessel->Space()) / 100)) ?> GE.
 	Kapitän ist
 	<?php if (count($unitsInside)): ?>
 		<?= $captain->Name() ?> <span class="badge text-bg-primary font-monospace"><?= $captain->Id() ?></span>.

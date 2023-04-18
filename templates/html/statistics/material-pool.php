@@ -23,7 +23,7 @@ $p        = 0;
 		<tr>
 			<?php for (; $h < $n; $h++): ?>
 				<?php $c = $h === $last ? ($items - $h % $items) * 2 : 2 ?>
-				<th scope="col" colspan="<?= $c ?>"><?= $this->get('resource.' . $pool[$h]->class) ?></th>
+				<th scope="col" colspan="<?= $c ?>"><?= $this->translate($pool[$h]->class) ?></th>
 			<?php endfor ?>
 		</tr>
 		<tr class="<?= $rowClass ?>">

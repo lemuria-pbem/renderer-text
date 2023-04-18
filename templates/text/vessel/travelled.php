@@ -18,7 +18,7 @@ $captain = $vessel->Passengers()->Owner()?->Party();
 
 ?>
 
-  >> <?= $vessel ?>, <?= $this->get('ship', $ship) ?>, Zustand <?= $this->number((int)round(100.0 * $vessel->Completion())) ?>
+  >> <?= $vessel ?>, <?= $this->translate($ship) ?>, Zustand <?= $this->number((int)round(100.0 * $vessel->Completion())) ?>
 %. Kapitän ist <?= $captain ? 'die Partei ' . $captain : 'niemand' ?>
 <?php if (!($vessel->Region()->Landscape() instanceof Navigable)): ?>
 <?php if ($vessel->Anchor() === Direction::None): ?>

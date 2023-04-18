@@ -26,7 +26,7 @@ $banner = $party->Banner() ? 'Parteibanner: ' . linkEmail($party->Banner()) : '(
 			<?php if ($count > 0): ?>
 			<ul>
 				<?php foreach ($this->races($party) as $race): ?>
-					<li><?= $this->number($race['persons'], 'race', $race['race']) ?> in <?= $this->number($race['units']) ?> Einheiten</li>
+					<li><?= $this->number($race['persons'], $race['race']) ?> in <?= $this->number($race['units']) ?> Einheiten</li>
 				<?php endforeach ?>
 			</ul>
 			<?php endif ?>

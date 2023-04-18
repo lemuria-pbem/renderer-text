@@ -20,7 +20,7 @@ $treasury   = $vessel->Treasury();
 
 ?>
 
-  >> <?= $vessel ?>, <?= $this->get('ship', $ship) ?> mit <?= $this->number($passengers) ?> <?= $people ?>, Zustand <?= $this->number((int)round(100.0 * $vessel->Completion())) ?>%, <?php if ($vessel->Space() < 0): ?>überladen mit<?php else: ?>freier Platz<?php endif ?> <?= $this->number((int)ceil(abs($vessel->Space()) / 100)) ?>
+  >> <?= $vessel ?>, <?= $this->translate($ship) ?> mit <?= $this->number($passengers) ?> <?= $people ?>, Zustand <?= $this->number((int)round(100.0 * $vessel->Completion())) ?>%, <?php if ($vessel->Space() < 0): ?>überladen mit<?php else: ?>freier Platz<?php endif ?> <?= $this->number((int)ceil(abs($vessel->Space()) / 100)) ?>
  GE. Kapitän ist <?= count($vessel->Passengers()) ? $vessel->Passengers()->Owner() : 'niemand' ?>
 <?php if (!($vessel->Region()->Landscape() instanceof Navigable)): ?>
 <?php if ($vessel->Anchor() === Direction::None): ?>

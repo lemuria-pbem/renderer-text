@@ -41,10 +41,10 @@ $trees       = $this->numberStatistics(Subject::Trees, $region);
 $animals     = $this->animalStatistics(Subject::Animals, $region);
 $luxuries    = $this->marketStatistics(Subject::Market, $region);
 
-$representant = $this->census->getPeople($region)->getFirst();
-$unitForce    = $this->numberStatisticsOrNull(Subject::UnitForce, $representant);
-$peopleForce  = $this->numberStatisticsOrNull(Subject::PeopleForce, $representant);
-$reserve      = $this->regionSilverStatistics($representant);
+$representative = $this->census->getPeople($region)->getFirst();
+$unitForce      = $this->numberStatisticsOrNull(Subject::UnitForce, $representative);
+$peopleForce    = $this->numberStatisticsOrNull(Subject::PeopleForce, $representative);
+$reserve        = $this->regionSilverStatistics($representative);
 
 if ($cols <= 1) {
 	$ids = $class . '-population ' . $class . '-workers ' . $class . '-recruits ' . $class . '-births ' .
@@ -83,7 +83,7 @@ if (!empty($luxuries)) {
 <?php if ($cols <= 1): ?>
 	<tr>
 		<th scope="rowgroup" colspan="3">
-			<a href=".<?= $class ?>" title="Details..." data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="<?= $ids ?>"><?= $this->get('landscape', $region->Landscape()) ?> <?= $region->Name() ?></a>
+			<a href=".<?= $class ?>" title="Details..." data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="<?= $ids ?>"><?= $this->translate($region->Landscape()) ?> <?= $region->Name() ?></a>
 			&nbsp;<a href="#<?= id($region) ?>" title="zur Region" class="text-body">⮞</a>
 		</th>
 	</tr>
@@ -144,7 +144,7 @@ if (!empty($luxuries)) {
 	</tr>
 	<?php foreach ($animals as $animal): ?>
 		<tr id="<?= $class . '-' . $animal->key ?>" class="collapse <?= $animal->movement ?> <?= $class ?>">
-			<th scope="row">Anzahl <?= $this->get('resource.' . $animal->class, 1) ?></th>
+			<th scope="row">Anzahl <?= $this->translate($animal->class, 1) ?></th>
 			<td><?= $animal->value ?></td>
 			<td class="more-is-good"><?= $animal->change ?></td>
 		</tr>
@@ -178,7 +178,7 @@ if (!empty($luxuries)) {
 					<caption>Marktpreise</caption>
 					<tr>
 						<?php foreach ($luxuries as $luxury): ?>
-							<th scope="col" colspan="2" class="<?= $luxury->offerDemand ?>"><?= $this->get('resource.' . $luxury->class) ?></th>
+							<th scope="col" colspan="2" class="<?= $luxury->offerDemand ?>"><?= $this->translate($luxury->class) ?></th>
 						<?php endforeach ?>
 					</tr>
 					<tr class="td-16">
@@ -195,7 +195,7 @@ if (!empty($luxuries)) {
 <?php elseif ($cols === 2): ?>
 	<tr>
 		<th scope="rowgroup" colspan="3">
-			<a href=".<?= $class ?>" title="Details..." data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="<?= $ids ?>"><?= $this->get('landscape', $region->Landscape()) ?> <?= $region->Name() ?></a>
+			<a href=".<?= $class ?>" title="Details..." data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="<?= $ids ?>"><?= $this->translate($region->Landscape()) ?> <?= $region->Name() ?></a>
 			&nbsp;<a href="#<?= id($region) ?>" title="zur Region" class="text-body">⮞</a>
 		</th>
 		<th scope="row">Bevölkerung</th>
@@ -245,7 +245,7 @@ if (!empty($luxuries)) {
 	<?php foreach ($animals as $i => $animal): ?>
 		<?php if ($i % $cols === 0): ?>
 			<tr id="<?= $class . '-' . $animal->key ?>" class="collapse <?= $class ?>">
-			<th scope="row">Anzahl <?= $this->get('resource.' . $animal->class, 1) ?></th>
+			<th scope="row">Anzahl <?= $this->translate($animal->class, 1) ?></th>
 			<td><?= $animal->value ?></td>
 			<?php if ($i === count($animals) - 1): ?>
 				<td class="<?= $animal->movement ?> more-is-good" colspan="4"><?= $animal->change ?></td>
@@ -253,7 +253,7 @@ if (!empty($luxuries)) {
 				<td class="<?= $animal->movement ?> more-is-good"><?= $animal->change ?></td>
 			<?php endif ?>
 		<?php else: ?>
-			<th scope="row">Anzahl <?= $this->get('resource.' . $animal->class, 1) ?></th>
+			<th scope="row">Anzahl <?= $this->translate($animal->class, 1) ?></th>
 			<td><?= $animal->value ?></td>
 			<td class="<?= $animal->movement ?> more-is-good"><?= $animal->change ?></td>
 			</tr>
@@ -298,7 +298,7 @@ if (!empty($luxuries)) {
 				<table class="market table">
 					<tr>
 						<?php foreach ($luxuries as $luxury): ?>
-							<th scope="col" colspan="2" class="<?= $luxury->offerDemand ?>"><?= $this->get('resource.' . $luxury->class) ?></th>
+							<th scope="col" colspan="2" class="<?= $luxury->offerDemand ?>"><?= $this->translate($luxury->class) ?></th>
 						<?php endforeach ?>
 					</tr>
 					<tr class="td-16">
@@ -315,7 +315,7 @@ if (!empty($luxuries)) {
 <?php elseif ($cols === 3): ?>
 	<tr>
 		<th scope="rowgroup" colspan="3">
-			<a href=".<?= $class ?>" title="Details..." data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="<?= $ids ?>"><?= $this->get('landscape', $region->Landscape()) ?> <?= $region->Name() ?></a>
+			<a href=".<?= $class ?>" title="Details..." data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="<?= $ids ?>"><?= $this->translate($region->Landscape()) ?> <?= $region->Name() ?></a>
 			&nbsp;<a href="#<?= id($region) ?>" title="zur Region" class="text-body">⮞</a>
 		</th>
 		<th scope="row">Bevölkerung</th>
@@ -361,7 +361,7 @@ if (!empty($luxuries)) {
 	<?php foreach ($animals as $i => $animal): ?>
 		<?php if ($i % $cols === 0): ?>
 			<tr id="<?= $class . '-' . $animal->key ?>" class="collapse <?= $class ?>">
-			<th scope="row">Anzahl <?= $this->get('resource.' . $animal->class, 1) ?></th>
+			<th scope="row">Anzahl <?= $this->translate($animal->class, 1) ?></th>
 			<td><?= $animal->value ?></td>
 			<?php if ($i === count($animals) - 1): ?>
 				<td class="<?= $animal->movement ?> more-is-good" colspan="7"><?= $animal->change ?></td>
@@ -369,7 +369,7 @@ if (!empty($luxuries)) {
 				<td class="<?= $animal->movement ?> more-is-good"><?= $animal->change ?></td>
 			<?php endif ?>
 		<?php elseif ($i % $cols === 1): ?>
-			<th scope="row">Anzahl <?= $this->get('resource.' . $animal->class, 1) ?></th>
+			<th scope="row">Anzahl <?= $this->translate($animal->class, 1) ?></th>
 			<td><?= $animal->value ?></td>
 			<?php if ($i === count($animals) - 1): ?>
 				<td class="<?= $animal->movement ?> more-is-good" colspan="4"><?= $animal->change ?></td>
@@ -377,7 +377,7 @@ if (!empty($luxuries)) {
 				<td class="<?= $animal->movement ?> more-is-good"><?= $animal->change ?></td>
 			<?php endif ?>
 		<?php else: ?>
-			<th scope="row">Anzahl <?= $this->get('resource.' . $animal->class, 1) ?></th>
+			<th scope="row">Anzahl <?= $this->translate($animal->class, 1) ?></th>
 			<td><?= $animal->value ?></td>
 			<td class="<?= $animal->movement ?> more-is-good"><?= $animal->change ?></td>
 			</tr>
@@ -428,7 +428,7 @@ if (!empty($luxuries)) {
 				<table class="market table">
 					<tr>
 						<?php foreach ($luxuries as $luxury): ?>
-							<th scope="col" colspan="2" class="<?= $luxury->offerDemand ?>"><?= $this->get('resource.' . $luxury->class) ?></th>
+							<th scope="col" colspan="2" class="<?= $luxury->offerDemand ?>"><?= $this->translate($luxury->class) ?></th>
 						<?php endforeach ?>
 					</tr>
 					<tr class="td-16">
@@ -445,7 +445,7 @@ if (!empty($luxuries)) {
 <?php else: ?>
 	<tr>
 		<th scope="rowgroup" colspan="3">
-			<a href=".<?= $class ?>" title="Details..." data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="<?= $ids ?>"><?= $this->get('landscape', $region->Landscape()) ?> <?= $region->Name() ?></a>
+			<a href=".<?= $class ?>" title="Details..." data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="<?= $ids ?>"><?= $this->translate($region->Landscape()) ?> <?= $region->Name() ?></a>
 			&nbsp;<a href="#<?= id($region) ?>" title="zur Region" class="text-body">⮞</a>
 		</th>
 		<th scope="row">Bevölkerung</th>
@@ -489,7 +489,7 @@ if (!empty($luxuries)) {
 	<?php foreach ($animals as $i => $animal): ?>
 		<?php if ($i % $cols === 0): ?>
 			<tr id="<?= $class . '-' . $animal->key ?>" class="collapse <?= $class ?>">
-			<th scope="row">Anzahl <?= $this->get('resource.' . $animal->class, 1) ?></th>
+			<th scope="row">Anzahl <?= $this->translate($animal->class, 1) ?></th>
 			<td><?= $animal->value ?></td>
 			<?php if ($i === count($animals) - 1): ?>
 				<td class="<?= $animal->movement ?> more-is-good" colspan="10"><?= $animal->change ?></td>
@@ -497,7 +497,7 @@ if (!empty($luxuries)) {
 				<td class="<?= $animal->movement ?> more-is-good"><?= $animal->change ?></td>
 			<?php endif ?>
 		<?php elseif ($i % $cols === 1): ?>
-			<th scope="row">Anzahl <?= $this->get('resource.' . $animal->class, 1) ?></th>
+			<th scope="row">Anzahl <?= $this->translate($animal->class, 1) ?></th>
 			<td><?= $animal->value ?></td>
 			<?php if ($i === count($animals) - 1): ?>
 				<td class="<?= $animal->movement ?> more-is-good" colspan="7"><?= $animal->change ?></td>
@@ -505,7 +505,7 @@ if (!empty($luxuries)) {
 				<td class="<?= $animal->movement ?> more-is-good"><?= $animal->change ?></td>
 			<?php endif ?>
 		<?php elseif ($i % $cols === 2): ?>
-			<th scope="row">Anzahl <?= $this->get('resource.' . $animal->class, 1) ?></th>
+			<th scope="row">Anzahl <?= $this->translate($animal->class, 1) ?></th>
 			<td><?= $animal->value ?></td>
 			<?php if ($i === count($animals) - 1): ?>
 				<td class="<?= $animal->movement ?> more-is-good" colspan="4"><?= $animal->change ?></td>
@@ -513,7 +513,7 @@ if (!empty($luxuries)) {
 				<td class="<?= $animal->movement ?> more-is-good"><?= $animal->change ?></td>
 			<?php endif ?>
 		<?php else: ?>
-			<th scope="row">Anzahl <?= $this->get('resource.' . $animal->class, 1) ?></th>
+			<th scope="row">Anzahl <?= $this->translate($animal->class, 1) ?></th>
 			<td><?= $animal->value ?></td>
 			<td class="<?= $animal->movement ?> more-is-good"><?= $animal->change ?></td>
 			</tr>
@@ -572,7 +572,7 @@ if (!empty($luxuries)) {
 				<table class="market table">
 					<tr>
 						<?php foreach ($luxuries as $luxury): ?>
-							<th scope="col" colspan="2" class="<?= $luxury->offerDemand ?>"><?= $this->get('resource.' . $luxury->class) ?></th>
+							<th scope="col" colspan="2" class="<?= $luxury->offerDemand ?>"><?= $this->translate($luxury->class) ?></th>
 						<?php endforeach ?>
 					</tr>
 					<tr class="td-16">

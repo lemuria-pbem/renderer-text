@@ -2,12 +2,12 @@
 declare(strict_types = 1);
 namespace Lemuria\Renderer\Text;
 
-use function Lemuria\getClass;
 use function Lemuria\mbStrPad;
 use Lemuria\Engine\Fantasya\Census;
+use Lemuria\Engine\Fantasya\Factory\GrammarTrait;
+use Lemuria\Engine\Fantasya\Message\Casus;
 use Lemuria\Id;
 use Lemuria\Lemuria;
-use Lemuria\Model\Dictionary;
 use Lemuria\Model\Fantasya\Construction;
 use Lemuria\Model\Fantasya\Party;
 use Lemuria\Model\Fantasya\People;
@@ -19,15 +19,14 @@ use Lemuria\Renderer\Writer;
 
 class OrderWriter extends AbstractWriter
 {
+	use GrammarTrait;
 	use VersionTrait;
 
 	protected final const SEPARATOR_LENGTH = 78;
 
-	protected readonly Dictionary $dictionary;
-
 	public function __construct(PathFactory $pathFactory) {
 		parent::__construct($pathFactory);
-		$this->dictionary = new Dictionary();
+		$this->initDictionary();
 	}
 
 	public function render(Id $entity): Writer {
@@ -110,13 +109,13 @@ class OrderWriter extends AbstractWriter
 	}
 
 	private function createConstruction(Construction $construction): string {
-		$building = $this->dictionary->get('building', getClass($construction->Building()));
+		$building = $this->translateSingleton($construction->Building(), casus: Casus::Nominative);
 		$name     = '; ' . $building . ' ' . $construction . ' ';
 		return $this->createBlock([mbStrPad($name, self::SEPARATOR_LENGTH, '-')]);
 	}
 
 	private function createVessel(Vessel $vessel): string {
-		$ship = $this->dictionary->get('ship', getClass($vessel->Ship()));
+		$ship = $this->translateSingleton($vessel->Ship(), casus: Casus::Nominative);
 		$name = '; ' . $ship . ' ' . $vessel . ' ';
 		return $this->createBlock([mbStrPad($name, self::SEPARATOR_LENGTH, '-')]);
 	}

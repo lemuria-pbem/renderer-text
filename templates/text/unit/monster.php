@@ -22,7 +22,7 @@ if ($n > 1):
 endif;
 
 ?>
-<?= $prefix . $unit ?>, <?= $this->number($unit->Size(), 'race', $unit->Race()) ?>
+<?= $prefix . $unit ?>, <?= $this->number($unit->Size(), $unit->Race()) ?>
 <?php if ($unit->IsGuarding()): ?>, bewacht die Region<?php endif ?>
 .<?= description($unit) ?>
 

@@ -20,11 +20,11 @@ $neighbours = $this->neighbours($region);
 <p>
 	<?php if ($landscape instanceof Navigable): ?>
 		<?php if ($landscape instanceof Ocean && $name !== 'Ozean' || $landscape instanceof Lake && $name !== 'See'): ?>
-			<?= $this->get('landscape', $region->Landscape()) ?>.
+			<?= $this->translate($region->Landscape()) ?>.
 			<br>
 		<?php endif ?>
 	<?php else: ?>
-		<?= $this->get('landscape', $region->Landscape()) ?>.
+		<?= $this->translate($region->Landscape()) ?>.
 		<br>
 	<?php endif ?>
 	<?= ucfirst(implode(', ', $neighbours)) ?>.

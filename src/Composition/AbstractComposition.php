@@ -5,16 +5,12 @@ namespace Lemuria\Renderer\Text\Composition;
 use function Lemuria\Renderer\Text\View\center;
 use function Lemuria\Renderer\Text\View\hr;
 use function Lemuria\Renderer\Text\View\wrap;
-use Lemuria\Model\Dictionary;
 use Lemuria\Model\Fantasya\Composition as CompositionModel;
 use Lemuria\Renderer\Text\Composition;
 
 abstract class AbstractComposition implements Composition
 {
-	protected Dictionary $dictionary;
-
 	public function __construct(protected CompositionModel $composition) {
-		$this->dictionary = new Dictionary();
 	}
 
 	protected function createContentHeader(string $content = null): string {

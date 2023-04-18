@@ -21,7 +21,7 @@ $captain = $vessel->Passengers()->Owner()?->Party();
 		<div class="col-12 p-0">
 			<h5 id="<?= id($vessel) ?>"><?= $vessel->Name() ?> <span class="badge text-bg-info font-monospace"><?= $vessel->Id() ?></span></h5>
 			<p>
-				<?= $this->get('ship', $ship) ?>, Zustand <?= $this->number((int)round(100.0 * $vessel->Completion())) ?>%.
+				<?= $this->translate($ship) ?>, Zustand <?= $this->number((int)round(100.0 * $vessel->Completion())) ?>%.
 				Kapitän ist
 				<?php if ($captain): ?>
 					die Partei <?= $captain->Name() ?> <span class="badge text-bg-primary font-monospace"><?= $captain->Id() ?></span>.

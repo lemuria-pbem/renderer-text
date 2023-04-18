@@ -141,7 +141,7 @@ class Text extends View
 		$commodities = $this->statistics($subject, $party);
 		if ($commodities) {
 			foreach ($commodities as $class => $number) {
-				$name               = $this->get('resource.' . $class, 1);
+				$name               = $this->translate($class, 1);
 				$statistics[$class] = new TextNumber($number, $name);
 			}
 		}

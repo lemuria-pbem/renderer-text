@@ -7,9 +7,10 @@ use function Lemuria\Renderer\Text\View\center;
 use function Lemuria\Renderer\Text\View\wrap;
 use Lemuria\Engine\Combat\Battle;
 use Lemuria\Engine\Fantasya\Combat\Log\Message;
+use Lemuria\Engine\Fantasya\Factory\GrammarTrait;
+use Lemuria\Engine\Fantasya\Message\Casus;
 use Lemuria\Id;
 use Lemuria\Lemuria;
-use Lemuria\Model\Dictionary;
 use Lemuria\Model\Fantasya\Party;
 use Lemuria\Model\Fantasya\Region;
 use Lemuria\Renderer\PathFactory;
@@ -17,9 +18,8 @@ use Lemuria\Renderer\Writer;
 
 class BattleLogWriter extends AbstractWriter
 {
+	use GrammarTrait;
 	use VersionTrait;
-
-	protected readonly Dictionary $dictionary;
 
 	protected final const START_SECTION = [
 		'BattleBeginsMessage'         => true, 'BattleEndsMessage'           => true,
@@ -33,7 +33,7 @@ class BattleLogWriter extends AbstractWriter
 
 	public function __construct(PathFactory $pathFactory) {
 		parent::__construct($pathFactory);
-		$this->dictionary = new Dictionary();
+		$this->initDictionary();
 	}
 
 	public function render(Id $entity): Writer {
@@ -67,7 +67,7 @@ class BattleLogWriter extends AbstractWriter
 	protected function generateHeader(Region $region): string {
 		$calendar  = Lemuria::Calendar();
 		$month     = $this->dictionary->get('calendar.month', $calendar->Month() - 1);
-		$landscape = $this->dictionary->get('landscape', $region->Landscape());
+		$landscape = $this->translateSingleton($region->Landscape(), casus: Casus::Nominative);
 		$where     = $landscape . ' ' . $region->Name();
 		$when      = $calendar->Week() . '. Woche im Monat ' . $month . ', Jahr ' . $calendar->Year();
 		$locality  = $where . ', ' . $when . ' (Runde ' . $calendar->Round() . ')';

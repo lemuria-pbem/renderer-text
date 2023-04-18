@@ -89,7 +89,7 @@ $hasMarket = $luxuries && $castle?->Size() > Site::MAX_SIZE;
 if ($hasMarket):
 	$demand = [];
 	foreach ($luxuries as $luxury):
-		$demand[] = $this->get('resource', $luxury->Commodity()) . ' $' . $this->number($luxury->Price());
+		$demand[] = $this->translate($luxury->Commodity()) . ' $' . $this->number($luxury->Price());
 	endforeach;
 endif;
 
@@ -97,11 +97,11 @@ endif;
 <p>
 	<?php if ($landscape instanceof Navigable): ?>
 		<?php if ($landscape instanceof Ocean && $name !== 'Ozean' || $landscape instanceof Lake && $name !== 'See'): ?>
-			<?= $this->get('landscape', $landscape) ?>.
+			<?= $this->translate($landscape) ?>.
 			<br>
 		<?php endif ?>
 	<?php else: ?>
-		<?= $this->get('landscape', $landscape) ?>,
+		<?= $this->translate($landscape) ?>,
 		<?= $this->item(Peasant::class, $resources) ?>,
 		<?= $this->item(Silver::class, $resources) ?>.
 		<?php if ($r > 0): ?>

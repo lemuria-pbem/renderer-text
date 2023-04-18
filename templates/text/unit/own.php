@@ -54,7 +54,7 @@ endforeach;
 
 $inventory = [];
 foreach ($unit->Inventory() as $quantity):
-	$inventory[] = $this->number($quantity->Count(), 'resource', $quantity->Commodity());
+	$inventory[] = $this->number($quantity->Count(), $quantity->Commodity());
 	$payload     += $quantity->Weight();
 endforeach;
 $n = count($inventory);
@@ -86,7 +86,7 @@ if ($battleSpells):
 endif;
 
 ?>
-<?= $prefix . $unit ?>, <?= $this->number($unit->Size(), 'race', $unit->Race()) ?>
+<?= $prefix . $unit ?>, <?= $this->number($unit->Size(), $unit->Race()) ?>
 <?php if ($aura): ?>, Aura <?= $aura->Aura() ?>/<?= $aura->Maximum() ?><?php endif ?>
 , <?= $this->battleRow($unit) ?>, <?= $this->health($unit) ?> (<?= $health ?>/<?= $hitpoints ?>)<?php if ($unit->IsHiding()): ?>, getarnt<?php endif ?>
 <?php if ($disguised): ?>, gibt sich als Angehöriger der Partei <?= $disguised->Name() ?> aus<?php endif ?>

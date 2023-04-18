@@ -27,7 +27,7 @@ $people = $this->numberStatistics(Subject::People, $party);
 			<p><?= $banner ?></p>
 
 			<p>
-				Dein Volk zählt <?= $this->number($census->count(), 'race', $party->Race()) ?> in <?= $this->number($party->People()->count()) ?> Einheiten.<br>
+				Dein Volk zählt <?= $this->number($census->count(), $party->Race()) ?> in <?= $this->number($party->People()->count()) ?> Einheiten.<br>
 				Deine Einheiten sammeln <?= $this->loot() ?>.<br>
 				Vorgaben für neue Einheiten: <?= implode(', ', $this->presettings()) ?>.<br>
 				Vorgaben für neue Handelsangebote: <?= $this->party->Presettings()->IsRepeat() ? 'WIEDERHOLEN' : 'WIEDERHOLEN Nicht' ?>.

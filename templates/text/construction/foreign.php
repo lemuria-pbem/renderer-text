@@ -19,7 +19,7 @@ $treasury     = $construction->Treasury();
 
 ?>
 
-  >> <?= $construction ?>, <?= $this->get('building', $building) ?> der Größe <?= $this->number($construction->Size()) ?> mit <?= $this->number($inhabitants) ?>
+  >> <?= $construction ?>, <?= $this->translate($building) ?> der Größe <?= $this->number($construction->Size()) ?> mit <?= $this->number($inhabitants) ?>
  <?= $people ?>. Besitzer ist <?= count($construction->Inhabitants()) ? $construction->Inhabitants()->Owner() : 'niemand' ?>
 <?php if ($building instanceof Port): ?>
 . <?= new PortSpace($construction) ?><?= line(description($construction)) ?>

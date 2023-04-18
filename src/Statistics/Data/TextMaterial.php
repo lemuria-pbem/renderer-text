@@ -11,7 +11,7 @@ class TextMaterial implements \Stringable
 	private string $translation;
 
 	public function __construct(private readonly Number $number, string $class, Text $view) {
-		$this->translation = $view->get('resource.' . $class, $number->value === 1 ? 0 : 1);
+		$this->translation = $view->translate($class, $number->value === 1 ? 0 : 1);
 	}
 
 	public function __toString(): string {

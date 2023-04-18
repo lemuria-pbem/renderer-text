@@ -32,7 +32,7 @@ endforeach;
 $resources = [];
 if ($isGuarding):
 	foreach (new Observables($unit->Inventory()) as $quantity):
-		$resources[] = $this->number($quantity->Count(), 'observable', $quantity->Commodity());
+		$resources[] = $this->number($quantity->Count(), $quantity->Commodity());
 	endforeach;
 	$n = count($resources);
 	if ($n > 1):
@@ -42,7 +42,7 @@ if ($isGuarding):
 endif;
 
 ?>
-<?= $prefix . $unit ?> von <?= $foreign ?>, <?= $this->number($unit->Size(), 'race', $unit->Race()) ?>
+<?= $prefix . $unit ?> von <?= $foreign ?>, <?= $this->number($unit->Size(), $unit->Race()) ?>
 <?php if ($unit->IsGuarding()): ?>, bewacht die Region<?php endif ?>
 .<?= description($unit) ?>
 

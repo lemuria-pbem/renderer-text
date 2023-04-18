@@ -17,7 +17,7 @@ $owner        = $construction->Inhabitants()->Owner()?->Party();
 
 ?>
 
-  >> <?= $construction ?>, <?= $this->get('building', $building) ?> der Größe <?= $this->number($construction->Size()) ?>
+  >> <?= $construction ?>, <?= $this->translate($building) ?> der Größe <?= $this->number($construction->Size()) ?>
  . Besitzer ist <?= $owner ? 'die Partei ' . $owner : 'niemand' ?>
 <?php if ($building instanceof Port): ?>
 . <?= new PortSpace($construction) ?><?= line(description($construction)) ?>

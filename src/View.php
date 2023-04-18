@@ -10,9 +10,11 @@ use Lemuria\Engine\Fantasya\Effect\Hunger;
 use Lemuria\Engine\Fantasya\Effect\SpyEffect;
 use Lemuria\Engine\Fantasya\Effect\TravelEffect;
 use Lemuria\Engine\Fantasya\Effect\Unmaintained;
+use Lemuria\Engine\Fantasya\Factory\GrammarTrait;
 use Lemuria\Engine\Fantasya\Factory\Model\Trades;
 use Lemuria\Engine\Fantasya\Factory\Model\TravelAtlas;
 use Lemuria\Engine\Fantasya\Factory\Model\Visibility;
+use Lemuria\Engine\Fantasya\Message\Casus;
 use Lemuria\Engine\Fantasya\Message\Filter\NoAnnouncementFilter;
 use Lemuria\Engine\Fantasya\Outlook;
 use Lemuria\Engine\Fantasya\State;
@@ -22,7 +24,6 @@ use Lemuria\Engine\Message\Filter;
 use Lemuria\Identifiable;
 use Lemuria\ItemSet;
 use Lemuria\Lemuria;
-use Lemuria\Model\Dictionary;
 use Lemuria\Model\Fantasya\Building\Canal;
 use Lemuria\Model\Fantasya\Building\Port;
 use Lemuria\Model\Fantasya\Commodity;
@@ -66,6 +67,8 @@ function dateTimeIso8601(int $timestamp): string {
  */
 abstract class View
 {
+	use GrammarTrait;
+
 	protected final const BATTLE_ROW = ['Fliehen', 'Nicht', 'Defensiv', 'Hinten', 'Vorsichtig', 'Vorne', 'Aggressiv'];
 
 	protected final const QUANTITY_FACTOR = [
@@ -83,8 +86,6 @@ abstract class View
 	public readonly TravelLog $travelLog;
 
 	public readonly PartyMap $map;
-
-	protected readonly Dictionary $dictionary;
 
 	protected readonly Statistics $statistics;
 
@@ -117,20 +118,21 @@ abstract class View
 		$this->atlas->forRound(Lemuria::Calendar()->Round() - 1);
 		$this->travelLog  = new TravelLog($this->party);
 		$this->map        = new PartyMap(Lemuria::World(), $this->party);
-		$this->dictionary = new Dictionary();
 		$this->spyEffect  = $this->getSpyEffect();
 		$this->statistics = Lemuria::Statistics();
+		$this->initDictionary();
 	}
 
 	public function isDevelopment(): bool {
 		return Lemuria::FeatureFlag()->IsDevelopment();
 	}
 
-	/**
-	 * Get a string.
-	 */
 	public function get(string $keyPath, $index = null): string {
 		return $this->dictionary->get($keyPath, $index);
+	}
+
+	public function translate(Singleton|string $singleton, int $index = 0): string {
+		return $this->translateSingleton($singleton, $index, Casus::Nominative);
 	}
 
 	public function toAndString(array $list): string {
@@ -147,27 +149,23 @@ abstract class View
 	/**
 	 * Format a number with optional string.
 	 */
-	public function number(int|float $number, ?string $keyPath = null, ?Singleton $singleton = null, string $delimiter = ' '): string {
-		if ($keyPath) {
-			if ($singleton) {
-				$keyPath .= '.' . getClass($singleton);
-			}
+	public function number(int|float $number, Singleton|string|null $singleton = null, string $delimiter = ' '): string {
+		if ($singleton) {
 			$index = $number == 1 ? 0 : 1;
-			return formatNumber($number) . $delimiter . $this->get($keyPath, $index);
+			return formatNumber($number) . $delimiter . $this->translateSingleton($singleton, $index);
 		}
 		return formatNumber($number);
 	}
 
 	public function things(Commodity $commodity): string {
-		$keyPath = 'resource.' . getClass($commodity);
-		return $this->get($keyPath, 1);
+		return $this->translateSingleton($commodity, 1);
 	}
 
 	/**
 	 * Format a Quantity.
 	 */
-	public function resource(Quantity $item, string $keyPath = 'resource'): string {
-		return $this->number($item->Count(), $keyPath, $item->getObject());
+	public function resource(Quantity $item): string {
+		return $this->number($item->Count(), $item->getObject());
 	}
 
 	/**
@@ -192,9 +190,9 @@ abstract class View
 			}
 		}
 		return match ($isMaximum) {
-			false   => $this->number($deal->Minimum(), 'resource', $deal->Commodity()),
-			true    => $this->number($deal->Maximum(), 'resource', $deal->Commodity()),
-			default => formatNumber($deal->Minimum()) . '–' . $this->number($maximum, 'resource', $deal->Commodity())
+			false   => $this->number($deal->Minimum(), $deal->Commodity()),
+			true    => $this->number($deal->Maximum(), $deal->Commodity()),
+			default => formatNumber($deal->Minimum()) . '–' . $this->number($maximum, $deal->Commodity())
 		};
 	}
 
@@ -223,29 +221,29 @@ abstract class View
 			}
 		}
 		return match ($isMaximum) {
-			false   => $this->number($deal->Minimum(), 'resource', $deal->Commodity()),
-			true    => $this->number($deal->Maximum(), 'resource', $deal->Commodity()),
-			0       => '* ' . $this->get('resource', $deal->Commodity()),
-			default => formatNumber($deal->Minimum()) . '–' . $this->number($maximum, 'resource', $deal->Commodity())
+			false   => $this->number($deal->Minimum(), $deal->Commodity()),
+			true    => $this->number($deal->Maximum(), $deal->Commodity()),
+			0       => '* ' . $this->translateSingleton($deal->Commodity(), casus: Casus::Nominative),
+			default => formatNumber($deal->Minimum()) . '–' . $this->number($maximum, $deal->Commodity())
 		};
 	}
 
 	/**
 	 * Get an Item from a set.
 	 */
-	public function item(string $class, ItemSet $set, string $keyPath = 'resource'): string {
+	public function item(string $class, ItemSet $set): string {
 		$item = $set[$class];
-		return $this->number($item->Count(), $keyPath, $item->getObject());
+		return $this->number($item->Count(), $item->getObject());
 	}
 
 	/**
 	 * Get a list of items from a set.
 	 */
-	public function items(array $classes, ItemSet $set, string $keyPath = 'resource'): string {
+	public function items(array $classes, ItemSet $set): string {
 		$items = [];
 		foreach ($classes as $class) {
 			if (isset($set[$class])) {
-				$items[] = $this->item($class, $set, $keyPath);
+				$items[] = $this->item($class, $set);
 			}
 		}
 		return $this->toAndString($items);
@@ -288,24 +286,19 @@ abstract class View
 	 * Get a neighbour description.
 	 */
 	public function neighbour(Region $region = null, bool $hasRoad = false): string {
-		$landscape   = $region->Landscape();
-		$article     = $this->get('article', $landscape);
-		$description = $this->get('landscape', $landscape);
-		if ($hasRoad) {
-			$preposition = $this->get('preposition.zu', $article);
-			$text        = $preposition . ' ' . $description;
-		} else {
-			$text = $article . ' ' . $description;
-		}
-		$name = $region->Name();
-		$id   = (string)$region->Id();
-		if ($name === $description . ' ' . $id) {
+		$landscape = $region->Landscape();
+		$text      = $this->combineGrammar($landscape, $hasRoad ? 'zum' : 'das', Casus::Nominative);
+
+		$id          = (string)$region->Id();
+		$defaultName = $this->translateSingleton($landscape, casus: Casus::Nominative) . ' ' . $id;
+		$name        = $region->Name();
+		if ($name === $defaultName) {
 			$text .= ' ' . $id;
 		} elseif ($name) {
 			$isOcean = $landscape instanceof Ocean && $name === 'Ozean';
 			$isLake  = $landscape instanceof Lake && $name === 'See';
 			if (!$isOcean && !$isLake) {
-				$text .= ' ' . $region->Name();
+				$text .= ' ' . $name;
 			}
 		}
 		return $text;
@@ -324,7 +317,7 @@ abstract class View
 		$races = [];
 		foreach ($party->People() as $unit) {
 			$race = $unit->Race();
-			$key  = $this->get('race', $race);
+			$key  = $this->translateSingleton($race, casus: Casus::Nominative);
 			if (!isset($races[$key])) {
 				$races[$key] = ['race' => $race, 'persons' => 0, 'units' => 0];
 			}
@@ -480,7 +473,7 @@ abstract class View
 			}
 		}
 		foreach ($loot->Classes() as $commodity) {
-			$items[] = $this->dictionary->get('resource.' . $commodity, 2);
+			$items[] = $this->translateSingleton($commodity, 1, Casus::Dative);
 		}
 		$n = count($items);
 		if ($n > 0) {
@@ -494,7 +487,7 @@ abstract class View
 	}
 
 	public function composition(Composition $composition): string {
-		return $this->dictionary->get('composition.' . $composition);
+		return $this->translateSingleton($composition, casus: Casus::Nominative);
 	}
 
 	public function quantity(Quantity $quantity, Unit $unit): string {
@@ -515,9 +508,9 @@ abstract class View
 				$amount >= 2.0  => 1,
 				default         => 0
 			};
-			return $this->dictionary->get($key, $index) . ' ' . $this->get('resource.' . $commodity, 1);
+			return $this->dictionary->get($key, $index) . ' ' . $this->translateSingleton($commodity, 1);
 		}
-		return $this->number($count, 'resource', $commodity);
+		return $this->number($count, $commodity);
 	}
 
 	public function gameVersions(): array {

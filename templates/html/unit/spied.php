@@ -28,7 +28,7 @@ endforeach;
 $inventory = [];
 $payload   = 0;
 foreach ($unit->Inventory() as $quantity/* @var Quantity $quantity */):
-	$inventory[] = $this->number($quantity->Count(), 'resource', $quantity->Commodity());
+	$inventory[] = $this->number($quantity->Count(), $quantity->Commodity());
 	$payload     += $quantity->Weight();
 endforeach;
 $n = count($inventory);
@@ -49,7 +49,7 @@ $total  = (int)ceil(($payload + $unit->Size() * $unit->Race()->Weight()) / 100);
 	<?php endif ?>
 </h6>
 <p>
-	<?= $this->number($unit->Size(), 'race', $unit->Race()) ?><?php if ($unit->IsHiding()): ?>, getarnt<?php endif ?><?php if ($disguised): ?>, gibt sich als Angehöriger der Partei <?= $disguised->Name() ?> aus<?php endif ?><?php if ($disguised === null): ?>, verheimlicht die Parteizugehörigkeit<?php endif ?><?php if ($unit->IsGuarding()): ?>, bewacht die Region<?php endif ?>.
+	<?= $this->number($unit->Size(), $unit->Race()) ?><?php if ($unit->IsHiding()): ?>, getarnt<?php endif ?><?php if ($disguised): ?>, gibt sich als Angehöriger der Partei <?= $disguised->Name() ?> aus<?php endif ?><?php if ($disguised === null): ?>, verheimlicht die Parteizugehörigkeit<?php endif ?><?php if ($unit->IsGuarding()): ?>, bewacht die Region<?php endif ?>.
 	<?= $this->template('description', $unit) ?>
 	<br>
 	Talente: <?= empty($talents) ? 'keine' : implode(', ', $talents) ?>.

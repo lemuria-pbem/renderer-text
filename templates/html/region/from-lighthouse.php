@@ -23,11 +23,11 @@ $neighbours = $this->neighbours($region);
 			Vom Leuchtturm gesehen.
 			<br>
 		<?php else: ?>
-			<?= $this->get('landscape', $landscape) ?>, vom Leuchtturm gesehen.
+			<?= $this->translate($landscape) ?>, vom Leuchtturm gesehen.
 			<br>
 		<?php endif ?>
 	<?php else: ?>
-		<?= $this->get('landscape', $landscape) ?>, vom Leuchtturm gesehen.
+		<?= $this->translate($landscape) ?>, vom Leuchtturm gesehen.
 		<br>
 	<?php endif ?>
 	<?= ucfirst(implode(', ', $neighbours)) ?>.

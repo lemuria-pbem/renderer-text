@@ -21,7 +21,7 @@ $neighbours = $this->neighbours($region);
 <?php if ($landscape instanceof Ocean && $name === 'Ozean' || $landscape instanceof Lake && $name === 'See'): ?>
 >> <?= $region ?> <?= $map->getCoordinates($region) ?>, vom Leuchtturm gesehen.
 <?php else: ?>
->> <?= $region ?> <?= $map->getCoordinates($region) ?>, <?= $this->get('landscape', $landscape) ?>, vom Leuchtturm gesehen.
+>> <?= $region ?> <?= $map->getCoordinates($region) ?>, <?= $this->translate($landscape) ?>, vom Leuchtturm gesehen.
 <?php endif ?>
 
 <?= ucfirst(implode(', ', $neighbours)) ?>

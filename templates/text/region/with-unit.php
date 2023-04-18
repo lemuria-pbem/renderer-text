@@ -93,7 +93,7 @@ $hasMarket = $luxuries && $castle?->Size() > Site::MAX_SIZE;
 if ($hasMarket):
 	$demand = [];
 	foreach ($luxuries as $luxury):
-		$demand[] = $this->get('resource', $luxury->Commodity()) . ' $' . $this->number($luxury->Price());
+		$demand[] = $this->translate($luxury->Commodity()) . ' $' . $this->number($luxury->Price());
 	endforeach;
 endif;
 
@@ -102,10 +102,10 @@ endif;
 <?php if ($landscape instanceof Ocean && $name === 'Ozean' || $landscape instanceof Lake && $name === 'See'): ?>
 >> <?= $region ?> <?= $map->getCoordinates($region) ?>.
 <?php else: ?>
->> <?= $region ?> <?= $map->getCoordinates($region) ?>, <?= $this->get('landscape', $landscape) ?>.
+>> <?= $region ?> <?= $map->getCoordinates($region) ?>, <?= $this->translate($landscape) ?>.
 <?php endif ?>
 <?php else: ?>
->> <?= $region ?> <?= $map->getCoordinates($region) ?>, <?= $this->get('landscape', $landscape) ?>, <?= $this->item(Peasant::class, $resources) ?>, <?= $this->item(Silver::class, $resources) ?>
+>> <?= $region ?> <?= $map->getCoordinates($region) ?>, <?= $this->translate($landscape) ?>, <?= $this->item(Peasant::class, $resources) ?>, <?= $this->item(Silver::class, $resources) ?>
 .<?php if ($r > 0): ?> <?= $recruits ?> <?= $r === 1 ? 'kann' : 'können' ?> rekrutiert werden.<?php endif ?>
 <?php if ($t && $m): ?>
  Hier <?= $t === 1 ? 'kann' : 'können' ?> <?= $trees ?> geerntet sowie <?= $mining ?> abgebaut werden.<?php

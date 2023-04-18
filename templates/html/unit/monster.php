@@ -24,7 +24,7 @@ endif;
 	<?= $unit->Name() ?> <span class="badge text-bg-danger font-monospace"><?= $unit->Id() ?></span>
 </h6>
 <p>
-	<?= $this->number($unit->Size(), 'race', $unit->Race()) ?><?php if ($unit->IsGuarding()): ?>, bewacht die Region<?php endif ?>.
+	<?= $this->number($unit->Size(), $unit->Race()) ?><?php if ($unit->IsGuarding()): ?>, bewacht die Region<?php endif ?>.
 	<?= $this->template('description', $unit) ?>
 	<?php if (!empty($inventory)): ?>
 		<br>

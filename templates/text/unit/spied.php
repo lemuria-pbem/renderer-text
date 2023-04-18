@@ -32,7 +32,7 @@ endforeach;
 $inventory = [];
 $payload   = 0;
 foreach ($unit->Inventory() as $quantity):
-	$inventory[] = $this->number($quantity->Count(), 'resource', $quantity->Commodity());
+	$inventory[] = $this->number($quantity->Count(), $quantity->Commodity());
 	$payload += $quantity->Weight();
 endforeach;
 $n = count($inventory);
@@ -44,7 +44,7 @@ $weight = (int)ceil($payload / 100);
 $total  = (int)ceil(($payload + $unit->Size() * $unit->Race()->Weight()) / 100);
 
 ?>
-<?= $prefix . $unit ?> von <?= $foreign ?>, <?= $this->number($unit->Size(), 'race', $unit->Race()) ?>
+<?= $prefix . $unit ?> von <?= $foreign ?>, <?= $this->number($unit->Size(), $unit->Race()) ?>
 <?php if ($unit->IsHiding()): ?>, getarnt<?php endif ?>
 <?php if ($disguised): ?>, gibt sich als Angehöriger der Partei <?= $disguised->Name() ?> aus<?php endif ?>
 <?php if ($disguised === null): ?>, verheimlicht die Parteizugehörigkeit<?php endif ?>

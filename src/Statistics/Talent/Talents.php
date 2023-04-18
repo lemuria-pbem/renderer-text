@@ -4,12 +4,14 @@ namespace Lemuria\Renderer\Text\Statistics\Talent;
 
 use function Lemuria\getClass;
 use Lemuria\Engine\Fantasya\Calculus;
-use Lemuria\Model\Dictionary;
+use Lemuria\Engine\Fantasya\Factory\GrammarTrait;
 use Lemuria\Model\Fantasya\Party;
 use Lemuria\Model\Fantasya\Talent;
 
 class Talents
 {
+	use GrammarTrait;
+
 	/**
 	 * @var array<string, Talent>
 	 */
@@ -20,10 +22,8 @@ class Talents
 	 */
 	protected array $matrices = [];
 
-	private Dictionary $dictionary;
-
 	public function __construct(Party $party) {
-		$this->dictionary = new Dictionary();
+		$this->initDictionary();
 		foreach ($party->People() as $unit) {
 			$calculus = new Calculus($unit);
 			foreach ($unit->Knowledge() as $ability) {
