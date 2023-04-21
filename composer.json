@@ -2,7 +2,7 @@
 	"name": "lemuria-pbem/renderer-text",
 	"description": "This library is part of the PbeM Lemuria. It creates human-readable game reports in text formats.",
 	"type": "library",
-	"keywords": ["eressea", "fantasya", "game", "lemuria", "pbem"],
+	"keywords": ["atlantis", "eressea", "fantasya", "game", "lemuria", "pbem", "renderer", "rpg", "strategy", "world"],
 	"license": "GPL-3.0",
 	"authors": [
 		{
@@ -11,15 +11,15 @@
 		}
 	],
 	"version": "1.3.0",
-	"time": "2023-04-19",
+	"time": "2023-04-21",
 
 	"require": {
 		"php": "~8.2",
 		"ext-mbstring": "~8.2",
-		"lemuria-pbem/engine-fantasya": "~1.3.0|dev-feature/release-1.3",
-		"lemuria-pbem/lemuria": "~1.3.0|dev-feature/release-1.3",
-		"lemuria-pbem/model-fantasya": "~1.3.0|dev-feature/release-1.3",
-		"lemuria-pbem/statistics-fantasya": "~1.3.0|dev-feature/release-1.3"
+		"lemuria-pbem/engine-fantasya": "~1.3.0|dev-master",
+		"lemuria-pbem/lemuria": "~1.3.0|dev-master",
+		"lemuria-pbem/model-fantasya": "~1.3.0|dev-master",
+		"lemuria-pbem/statistics-fantasya": "~1.3.0|dev-master"
 	},
 	"repositories": [
 		{
