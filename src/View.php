@@ -131,8 +131,8 @@ abstract class View
 		return $this->dictionary->get($keyPath, $index);
 	}
 
-	public function translate(Singleton|string $singleton, int $index = 0): string {
-		return $this->translateSingleton($singleton, $index, Casus::Nominative);
+	public function translate(Singleton|string $singleton, int $index = 0, Casus $casus = Casus::Adjective): string {
+		return $this->translateSingleton($singleton, $index, $casus);
 	}
 
 	public function toAndString(array $list): string {
@@ -223,7 +223,7 @@ abstract class View
 		return match ($isMaximum) {
 			false   => $this->number($deal->Minimum(), $deal->Commodity()),
 			true    => $this->number($deal->Maximum(), $deal->Commodity()),
-			0       => '* ' . $this->translateSingleton($deal->Commodity(), casus: Casus::Nominative),
+			0       => '* ' . $this->translateSingleton($deal->Commodity()),
 			default => formatNumber($deal->Minimum()) . '–' . $this->number($maximum, $deal->Commodity())
 		};
 	}
@@ -287,10 +287,14 @@ abstract class View
 	 */
 	public function neighbour(Region $region = null, bool $hasRoad = false): string {
 		$landscape = $region->Landscape();
-		$text      = $this->combineGrammar($landscape, $hasRoad ? 'zum' : 'das', Casus::Nominative);
+		if ($hasRoad) {
+			$text = $this->combineGrammar($landscape, 'zum', Casus::Dative);
+		} else {
+			$text = $this->combineGrammar($landscape, 'das', Casus::Nominative);
+		}
 
 		$id          = (string)$region->Id();
-		$defaultName = $this->translateSingleton($landscape, casus: Casus::Nominative) . ' ' . $id;
+		$defaultName = $this->translateSingleton($landscape) . ' ' . $id;
 		$name        = $region->Name();
 		if ($name === $defaultName) {
 			$text .= ' ' . $id;
@@ -317,7 +321,7 @@ abstract class View
 		$races = [];
 		foreach ($party->People() as $unit) {
 			$race = $unit->Race();
-			$key  = $this->translateSingleton($race, casus: Casus::Nominative);
+			$key  = $this->translateSingleton($race, casus: Casus::Accusative);
 			if (!isset($races[$key])) {
 				$races[$key] = ['race' => $race, 'persons' => 0, 'units' => 0];
 			}
@@ -487,7 +491,7 @@ abstract class View
 	}
 
 	public function composition(Composition $composition): string {
-		return $this->translateSingleton($composition, casus: Casus::Nominative);
+		return $this->translateSingleton($composition);
 	}
 
 	public function quantity(Quantity $quantity, Unit $unit): string {

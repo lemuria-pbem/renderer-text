@@ -54,7 +54,7 @@ endforeach;
 
 $inventory = [];
 foreach ($unit->Inventory() as $quantity):
-	$inventory[] = $this->number($quantity->Count(), $quantity->Commodity());
+	$inventory[]  = $this->number($quantity->Count(), $quantity->Commodity());
 	$payload     += $quantity->Weight();
 endforeach;
 $n = count($inventory);

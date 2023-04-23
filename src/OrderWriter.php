@@ -109,13 +109,13 @@ class OrderWriter extends AbstractWriter
 	}
 
 	private function createConstruction(Construction $construction): string {
-		$building = $this->translateSingleton($construction->Building(), casus: Casus::Nominative);
+		$building = $this->translateSingleton($construction->Building());
 		$name     = '; ' . $building . ' ' . $construction . ' ';
 		return $this->createBlock([mbStrPad($name, self::SEPARATOR_LENGTH, '-')]);
 	}
 
 	private function createVessel(Vessel $vessel): string {
-		$ship = $this->translateSingleton($vessel->Ship(), casus: Casus::Nominative);
+		$ship = $this->translateSingleton($vessel->Ship());
 		$name = '; ' . $ship . ' ' . $vessel . ' ';
 		return $this->createBlock([mbStrPad($name, self::SEPARATOR_LENGTH, '-')]);
 	}

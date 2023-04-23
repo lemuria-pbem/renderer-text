@@ -67,7 +67,7 @@ class BattleLogWriter extends AbstractWriter
 	protected function generateHeader(Region $region): string {
 		$calendar  = Lemuria::Calendar();
 		$month     = $this->dictionary->get('calendar.month', $calendar->Month() - 1);
-		$landscape = $this->translateSingleton($region->Landscape(), casus: Casus::Nominative);
+		$landscape = $this->translateSingleton($region->Landscape());
 		$where     = $landscape . ' ' . $region->Name();
 		$when      = $calendar->Week() . '. Woche im Monat ' . $month . ', Jahr ' . $calendar->Year();
 		$locality  = $where . ', ' . $when . ' (Runde ' . $calendar->Round() . ')';
