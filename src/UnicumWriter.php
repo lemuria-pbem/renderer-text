@@ -68,17 +68,17 @@ class UnicumWriter extends AbstractWriter
 		if ($composition->supports(Practice::Take)) {
 			$output .= $details->TakeCommand() . PHP_EOL;
 		}
-		if ($composition->supports(Practice::Lose)) {
-			$output .= $details->LoseCommand() . PHP_EOL;
-		}
-		if ($composition->supports(Practice::Destroy)) {
-			$output .= $details->DestroyCommand() . PHP_EOL;
-		}
 		if ($composition->supports(Practice::Read)) {
 			$output .= $details->ReadCommand() . PHP_EOL;
 		}
 		if ($composition->supports(Practice::Write)) {
 			$output .= $details->WriteCommand() . PHP_EOL;
+		}
+		if ($composition->supports(Practice::Lose)) {
+			$output .= $details->LoseCommand() . PHP_EOL;
+		}
+		if ($composition->supports(Practice::Destroy)) {
+			$output .= $details->DestroyCommand() . PHP_EOL;
 		}
 
 		$output .= $this->getContent($composition);
