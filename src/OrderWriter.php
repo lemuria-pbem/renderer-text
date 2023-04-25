@@ -5,7 +5,6 @@ namespace Lemuria\Renderer\Text;
 use function Lemuria\mbStrPad;
 use Lemuria\Engine\Fantasya\Census;
 use Lemuria\Engine\Fantasya\Factory\GrammarTrait;
-use Lemuria\Engine\Fantasya\Message\Casus;
 use Lemuria\Id;
 use Lemuria\Lemuria;
 use Lemuria\Model\Fantasya\Construction;

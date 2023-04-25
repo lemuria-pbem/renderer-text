@@ -290,7 +290,8 @@ abstract class View
 		if ($hasRoad) {
 			$text = $this->combineGrammar($landscape, 'zum', Casus::Dative);
 		} else {
-			$text = $this->combineGrammar($landscape, 'das', Casus::Nominative);
+			$article = $landscape instanceof Lake ? 'ein' : 'das';
+			$text    = $this->combineGrammar($landscape, $article, Casus::Nominative);
 		}
 
 		$id          = (string)$region->Id();

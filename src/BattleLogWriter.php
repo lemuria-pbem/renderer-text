@@ -8,7 +8,6 @@ use function Lemuria\Renderer\Text\View\wrap;
 use Lemuria\Engine\Combat\Battle;
 use Lemuria\Engine\Fantasya\Combat\Log\Message;
 use Lemuria\Engine\Fantasya\Factory\GrammarTrait;
-use Lemuria\Engine\Fantasya\Message\Casus;
 use Lemuria\Id;
 use Lemuria\Lemuria;
 use Lemuria\Model\Fantasya\Party;
