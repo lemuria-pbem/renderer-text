@@ -74,7 +74,7 @@ $gs           = count($guards);
 if ($gs > 0):
 	$guardNames = [];
 	foreach ($guards as $unit):
-		$guardNames[] = $unit->Name();
+		$guardNames[] = (string)$unit;
 	endforeach;
 	if ($gs > 1):
 		$guardNames[$gs - 2] .= ' und ' . $guardNames[$gs - 1];
