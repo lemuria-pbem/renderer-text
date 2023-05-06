@@ -38,7 +38,7 @@ $travelLog = $this->travelLog;
 								<?php if (!$region->Estate()->isEmpty() || !$region->Fleet()->isEmpty()): ?>
 									<nav id="nav-<?= id($region) ?>" class="nav nav-pills flex-column">
 										<?php foreach (View::sortedEstate($region) as $construction): ?>
-											<a class="construction nav-link ml-3 py-0" href="#<?= id($construction) ?>"><?= $construction->Name() ?></a>
+											<a class="construction <?= strtolower(getClass($construction->Building())) ?> nav-link ml-3 py-0" href="#<?= id($construction) ?>"><?= $construction->Name() ?></a>
 										<?php endforeach ?>
 										<?php foreach (View::sortedFleet($region) as $vessel): ?>
 											<a class="vessel nav-link ml-3 py-0" href="#<?= id($vessel) ?>"><?= $vessel->Name() ?></a>
