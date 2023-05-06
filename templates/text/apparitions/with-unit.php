@@ -7,10 +7,10 @@ use Lemuria\Renderer\Text\View\Text;
 /** @var Text $this */
 
 /** @var Region $region */
-$region     = $this->variables[0];
-$outlook    = $this->outlook;
+$region      = $this->variables[0];
+$apparitions = $this->outlook->getApparitions($region);
 
 ?>
-<?php foreach ($outlook->getApparitions($region) as $unit): ?>
+<?php foreach ($apparitions as $unit): ?>
 <?= $this->template('unit', $unit) ?>
 <?php endforeach ?>

@@ -10,8 +10,7 @@ use Lemuria\SortMode;
 
 /** @var Region $region */
 $region      = $this->variables[0];
-$outlook     = $this->outlook;
-$apparitions = $outlook->getApparitions($region)->sort(SortMode::ByParty, $this->party);
+$apparitions = $this->outlook->getApparitions($region)->sort(SortMode::ByParty, $this->party);
 $i           = 0;
 
 ?>

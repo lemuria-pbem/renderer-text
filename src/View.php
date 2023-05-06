@@ -8,7 +8,6 @@ use Lemuria\Engine\Fantasya\Census;
 use Lemuria\Engine\Fantasya\Combat\BattleLog;
 use Lemuria\Engine\Fantasya\Effect\Hunger;
 use Lemuria\Engine\Fantasya\Effect\SpyEffect;
-use Lemuria\Engine\Fantasya\Effect\TravelEffect;
 use Lemuria\Engine\Fantasya\Effect\Unmaintained;
 use Lemuria\Engine\Fantasya\Factory\GrammarTrait;
 use Lemuria\Engine\Fantasya\Factory\Model\Trades;
@@ -459,11 +458,6 @@ abstract class View
 			$health < 1.0  => 1,
 			default        => 0
 		};
-	}
-
-	public function hasTravelled(Unit $unit): bool {
-		$effect = new TravelEffect(State::getInstance());
-		return Lemuria::Score()->find($effect->setUnit($unit)) instanceof TravelEffect;
 	}
 
 	public function loot(): string {

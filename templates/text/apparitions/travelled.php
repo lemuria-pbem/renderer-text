@@ -7,16 +7,11 @@ use Lemuria\Renderer\Text\View\Text;
 /** @var Text $this */
 
 /** @var Region $region */
-$region = $this->variables[0];
-$units  = [];
-foreach ($region->Residents() as $unit):
-	if (!$unit->IsHiding() && !$unit->Construction() && !$unit->Vessel() && !$this->hasTravelled($unit)):
-		$units[] = $unit;
-	endif;
-endforeach
+$region    = $this->variables[0];
+$travelled = $this->outlook->getTravelled($region);
 
 ?>
-<?php foreach ($units as $unit): ?>
+<?php foreach ($travelled as $unit): ?>
 
 <?= $this->template('unit/foreign', $unit) ?>
 <?php endforeach ?>
