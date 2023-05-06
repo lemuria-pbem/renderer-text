@@ -22,6 +22,7 @@ class BattleLogWriter extends AbstractWriter
 
 	protected final const START_SECTION = [
 		'BattleBeginsMessage'         => true, 'BattleEndsMessage'           => true,
+		'AttackerSideMessage'         => true, 'DefenderSideMessage'         => true,
 		'AttackerTacticsRoundMessage' => true, 'DefenderTacticsRoundMessage' => true, 'NoTacticsRoundMessage' => true,
 		'AttackerOverrunMessage'      => true, 'DefenderOverrunMessage'      => true,
 		'CombatRoundMessage'          => true,
