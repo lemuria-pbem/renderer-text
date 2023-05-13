@@ -21,15 +21,15 @@ class BattleLogWriter extends AbstractWriter
 	use VersionTrait;
 
 	protected final const START_SECTION = [
-		'BattleBeginsMessage'         => true, 'BattleEndsMessage'           => true,
-		'AttackerSideMessage'         => true, 'DefenderSideMessage'         => true,
-		'AttackerTacticsRoundMessage' => true, 'DefenderTacticsRoundMessage' => true, 'NoTacticsRoundMessage' => true,
-		'AttackerOverrunMessage'      => true, 'DefenderOverrunMessage'      => true,
-		'CombatRoundMessage'          => true,
-		'BattleEndedInDrawMessage'    => true, 'BattleExhaustionMessage'     => true
+		'BattleBeginsMessage'      => true, 'BattleEndsMessage'       => true,
+		'AttackerSideMessage'      => true, 'DefenderSideMessage'     => true,
+		'TacticsRoundMessage'      => true, 'NoTacticsRoundMessage'   => true, 'CombatRoundMessage' => true,
+		'BattleEndedInDrawMessage' => true, 'BattleExhaustionMessage' => true
 	];
 
-	protected final const CENTER_MESSAGE = ['BattleEndsMessage' => true, 'CombatRoundMessage' => true];
+	protected final const CENTER_MESSAGE = [
+		'TacticsRoundMessage' => true, 'CombatRoundMessage' => true, 'BattleEndsMessage' => true
+	];
 
 	public function __construct(PathFactory $pathFactory) {
 		parent::__construct($pathFactory);
