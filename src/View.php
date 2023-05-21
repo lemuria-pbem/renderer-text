@@ -263,7 +263,7 @@ abstract class View
 					$predicate = ' führt eine Straße ';
 					$neighbour = $this->neighbour($neighbour, true);
 				} elseif ($roads && $roads[$direction] > 0.0) {
-					$percent   = (int)round(100.0 * $roads[$direction]);
+					$percent   = (int)floor(100.0 * $roads[$direction]);
 					$predicate = ' führt eine Straße (' . $percent . '% fertig) ';
 					$neighbour = $this->neighbour($neighbour, true);
 				} else {
