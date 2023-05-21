@@ -2,6 +2,7 @@
 declare (strict_types = 1);
 
 use function Lemuria\Renderer\Text\View\id;
+use Lemuria\Engine\Fantasya\Command\Trespass\Enter;
 use Lemuria\Model\Fantasya\Construction;
 use Lemuria\Renderer\Text\View\Html;
 
@@ -9,6 +10,8 @@ use Lemuria\Renderer\Text\View\Html;
 
 /** @var Construction $construction */
 $construction = $this->variables[0];
+$building     = $construction->Building();
+$canEnter     = !in_array($building::class, Enter::FORBIDDEN);
 $owner        = $construction->Inhabitants()->Owner()?->Party();
 
 ?>
@@ -20,11 +23,13 @@ $owner        = $construction->Inhabitants()->Owner()?->Party();
 				<span class="badge text-bg-secondary font-monospace"><?= $construction->Id() ?></span>
 			</h5>
 			<p>
-				<?= $this->translate($construction->Building()) ?> der Größe <?= $this->number($construction->Size()) ?>.
-				<?php if ($owner): ?>
-					Besitzer ist die Partei <?= $owner->Name() ?> <span class="badge text-bg-primary font-monospace"><?= $owner->Id() ?></span>.
-				<?php else: ?>
-					Besitzer ist niemand.
+				<?= $this->translate($building) ?> der Größe <?= $this->number($construction->Size()) ?>.
+				<?php if ($canEnter): ?>
+					<?php if ($owner): ?>
+						Besitzer ist die Partei <?= $owner->Name() ?> <span class="badge text-bg-primary font-monospace"><?= $owner->Id() ?></span>.
+					<?php else: ?>
+						Besitzer ist niemand.
+					<?php endif ?>
 				<?php endif ?>
 				<?= $this->template('description', $construction) ?>
 			</p>
