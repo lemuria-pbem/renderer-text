@@ -27,6 +27,7 @@ use Lemuria\Model\Fantasya\Building\Canal;
 use Lemuria\Model\Fantasya\Building\Port;
 use Lemuria\Model\Fantasya\Commodity;
 use Lemuria\Model\Fantasya\Composition;
+use Lemuria\Model\Fantasya\Composition\Carcass;
 use Lemuria\Model\Fantasya\Construction;
 use Lemuria\Model\Fantasya\Estate;
 use Lemuria\Model\Fantasya\Fleet;
@@ -39,8 +40,10 @@ use Lemuria\Model\Fantasya\Market\Trade;
 use Lemuria\Model\Fantasya\Potion;
 use Lemuria\Model\Fantasya\Quantity;
 use Lemuria\Model\Fantasya\Party;
+use Lemuria\Model\Fantasya\Party\Type;
 use Lemuria\Model\Fantasya\Region;
 use Lemuria\Model\Fantasya\Relation;
+use Lemuria\Model\Fantasya\Unicum;
 use Lemuria\Model\Fantasya\Unit;
 use Lemuria\Model\Fantasya\Vessel;
 use Lemuria\Model\Fantasya\World\PartyMap;
@@ -485,7 +488,14 @@ abstract class View
 		return $line;
 	}
 
-	public function composition(Composition $composition): string {
+	public function composition(Unicum|Composition $unicum): string {
+		$composition = $unicum instanceof Unicum ? $unicum->Composition() : $unicum;
+		if ($this->party->Type() !== Type::Player) {
+			switch ($composition::class) {
+				case Carcass::class :
+					return $unicum->Name();
+			}
+		}
 		return $this->translateSingleton($composition);
 	}
 

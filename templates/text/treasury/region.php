@@ -13,5 +13,5 @@ $i        = 0;
 ?>
 Besondere Gegenstände: <?php foreach ($treasury as $unicum): ?>
 <?php if ($i++): ?>, <?php endif ?>
-<?= $this->composition($unicum->Composition()) ?> [<?= $unicum->Id() ?>]
+<?= $this->composition($unicum) ?> [<?= $unicum->Id() ?>]
 <?php endforeach ?>
