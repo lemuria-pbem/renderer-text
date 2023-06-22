@@ -88,7 +88,7 @@ endif;
 
 $luxuries  = $region->Luxuries();
 $offer     = $luxuries?->Offer();
-$castle    = $intelligence->getGovernment();
+$castle    = $intelligence->getCastle();
 $hasMarket = $luxuries && $castle?->Size() > Site::MAX_SIZE;
 if ($hasMarket):
 	$demand = [];
