@@ -33,7 +33,7 @@ endforeach;
 
 		<?php foreach ($hostilities as $location => $participants): ?>
 			In <a href="#<?= id($locations[$location]) ?>"><?= $location ?></a> gab es einen Kampf zwischen den Parteien <?= $participants ?>.
-			<a href="<?= $links[$i++] ?>">Kampfbericht anzeigen</a>
+			<a href="<?= $links[$i] ?>" target="battle-<?= $i++ ?>">Kampfbericht anzeigen</a>
 			<br>
 		<?php endforeach ?>
 	</div>

@@ -18,15 +18,15 @@ $i        = $spells;
 <?php if ($hasLinks): ?>
 	<p>
 		<?php if ($spells > 0): ?>
-			<a id="spell-book" href="<?= $this->spellBookPath() ?>" title="Taste: Z">Zauberbuch anzeigen</a>
+			<a id="spell-book" href="<?= $this->spellBookPath() ?>" title="Taste: Z" target="spell-book">Zauberbuch anzeigen</a>
 		<?php endif ?>
 		<?php if ($herbs > 0): ?>
 			<?= $i++ > 0 ? '·' : '' ?>
-			<a id="herbal-book" href="<?= $this->herbalBookPath() ?>" title="Taste: K">Kräutervorkommen anzeigen</a>
+			<a id="herbal-book" href="<?= $this->herbalBookPath() ?>" title="Taste: K" target="herbal-book">Kräutervorkommen anzeigen</a>
 		<?php endif ?>
 		<?php foreach ($treasury as $unicum): ?>
 			<?= $i++ > 0 ? '·' : '' ?>
-			<a href="<?= $this->unicumPath($unicum) ?>"><?= $this->composition($unicum->Composition()) ?> „<?= $unicum->Name() ?>”</a>
+			<a href="<?= $this->unicumPath($unicum) ?>" target="unicum-<?= $unicum->Id() ?>"><?= $this->composition($unicum->Composition()) ?> „<?= $unicum->Name() ?>”</a>
 		<?php endforeach ?>
 	</p>
 <?php endif ?>
