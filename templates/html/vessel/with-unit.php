@@ -66,7 +66,11 @@ $i           = 0;
 		<div class="row">
 			<?php foreach ($unitsInside as $unit): ?>
 				<div class="col-12 col-md-6 col-xl-4 <?= p3(++$i) ?>">
-					<?= $this->template('unit', $unit) ?>
+					<?php if ($this->isShipbuilder($unit)): ?>
+						<?= $this->template('shipbuilder', $unit) ?>
+					<?php else: ?>
+						<?= $this->template('unit', $unit) ?>
+					<?php endif ?>
 				</div>
 			<?php endforeach ?>
 		</div>

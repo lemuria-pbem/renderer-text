@@ -7,6 +7,7 @@ use function Lemuria\number as formatNumber;
 use Lemuria\Engine\Fantasya\Census;
 use Lemuria\Engine\Fantasya\Combat\BattleLog;
 use Lemuria\Engine\Fantasya\Effect\Hunger;
+use Lemuria\Engine\Fantasya\Effect\ShipbuildingEffect;
 use Lemuria\Engine\Fantasya\Effect\SpyEffect;
 use Lemuria\Engine\Fantasya\Effect\Unmaintained;
 use Lemuria\Engine\Fantasya\Factory\GrammarTrait;
@@ -602,6 +603,14 @@ abstract class View
 	public function isMaintained(Construction $construction): bool {
 		$effect = new Unmaintained(State::getInstance());
 		return !Lemuria::Score()->find($effect->setConstruction($construction));
+	}
+
+	public function isShipbuilder(Unit $unit): bool {
+		if ($unit->Construction()) {
+			$effect = new ShipbuildingEffect(State::getInstance());
+			return (bool)Lemuria::Score()->find($effect->setUnit($unit));
+		}
+		return false;
 	}
 
 	/**

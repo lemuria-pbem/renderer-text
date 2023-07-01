@@ -23,14 +23,18 @@ $captain = $vessel->Passengers()->Owner()?->Party();
 <?php if (!($vessel->Region()->Landscape() instanceof Navigable)): ?>
 <?php if ($vessel->Anchor() === Direction::None): ?>
 <?php if ($vessel->Port()): ?>
-. Das Schiff liegt im Hafendock und belegt <?= $size > 1 ? $size . ' Ankerplätze' : '1 Ankerplatz' ?><?php else: ?>
-. Das Schiff liegt im Dock
+. Das Schiff liegt im Hafendock und belegt <?= $size > 1 ? $size . ' Ankerplätze' : '1 Ankerplatz' ?>.
+<?php else: ?>
+. Das Schiff liegt im Dock.
 <?php endif ?>
 <?php else: ?>
 <?php if ($vessel->Port()): ?>
-. Das Schiff ankert im <?= $this->get('world', $vessel->Anchor()) ?> und belegt <?= $size > 1 ? $size . ' Ankerplätze' : '1 Ankerplatz' ?> im Hafen<?php else: ?>
-. Das Schiff ankert im <?= $this->get('world', $vessel->Anchor()) ?>
+. Das Schiff ankert im <?= $this->get('world', $vessel->Anchor()) ?> und belegt <?= $size > 1 ? $size . ' Ankerplätze' : '1 Ankerplatz' ?> im Hafen.
+<?php else: ?>
+. Das Schiff ankert im <?= $this->get('world', $vessel->Anchor()) ?>.
 <?php endif ?>
 <?php endif ?>
 <?php endif ?>
-.<?= line(description($vessel)) ?>
+<?php if ($vessel->Description()): ?>
+<?= line(description($vessel)) ?>
+<?php endif ?>
