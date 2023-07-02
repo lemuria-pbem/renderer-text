@@ -23,6 +23,10 @@ use Lemuria\Renderer\Text\View\Html;
 						<strong>Bekannte Völker und Allianzen</strong> aufrufen
 					</li>
 					<li>
+						<span class="font-monospace">B</span>
+						<strong>Berichte anschauen</strong> und durchblättern
+					</li>
+					<li>
 						<span class="font-monospace">E</span>
 						<strong>Weitere Ereignisse</strong> - zur nächsten Meldung springen
 					</li>
