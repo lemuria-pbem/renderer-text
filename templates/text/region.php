@@ -18,7 +18,7 @@ $fleet      = View::sortedFleet($region);
 
 ?>
 <?php if ($visibility === Visibility::WithUnit): ?>
-<?= $this->template('region/with-unit', $region) ?>
+<?= $this->template('region/with-unit', $region, true) ?>
 <?= $this->template('report', $region) ?>
 
 <?= $this->template('statistics/region', $region) ?>
@@ -34,7 +34,7 @@ $fleet      = View::sortedFleet($region);
 <?php endforeach ?>
 <?= $this->template('apparitions/with-unit', $region) ?>
 <?php elseif ($visibility === Visibility::Farsight): ?>
-<?= $this->template('region/with-unit', $region) ?>
+<?= $this->template('region/with-unit', $region, false) ?>
 
 <?php foreach ($estate as $construction): ?>
 <?= $this->template('construction/foreign', $construction) ?>
@@ -44,7 +44,7 @@ $fleet      = View::sortedFleet($region);
 <?php endforeach ?>
 <?= $this->template('apparitions/with-unit', $region) ?>
 <?php elseif ($visibility === Visibility::Travelled): ?>
-<?= $this->template('region/with-unit', $region) ?>
+<?= $this->template('region/with-unit', $region, true) ?>
 <?= $this->template('report', $region) ?>
 <?php foreach ($estate as $construction): ?>
 <?= $this->template('construction/travelled', $construction) ?>

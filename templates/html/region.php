@@ -24,7 +24,6 @@ if ($visibility === Visibility::WithUnit) {
 $estate = View::sortedEstate($region);
 $fleet = View::sortedFleet($region);
 
-
 ?>
 <article data-id="<?= id($region) ?>" class="<?= strtolower($visibility->name) ?> region">
 	<?php if ($visibility === Visibility::WithUnit): ?>
@@ -36,6 +35,7 @@ $fleet = View::sortedFleet($region);
 						<span class="badge text-bg-light"><?= $map->getCoordinates($region) ?></span>
 						<span class="badge text-bg-secondary font-monospace"><?= $region->Id() ?></span>
 					</h4>
+					<?= $this->template('realm/header', $region) ?>
 					<?= $this->template('region/with-unit', $region) ?>
 				</div>
 				<div class="col-12 col-lg-6 col-xl-4 p-0 ps-lg-3 pe-xl-3">
@@ -101,6 +101,7 @@ $fleet = View::sortedFleet($region);
 						<span class="badge text-bg-light"><?= $map->getCoordinates($region) ?></span>
 						<span class="badge text-bg-secondary font-monospace"><?= $region->Id() ?></span>
 					</h4>
+					<?= $this->template('realm/header', $region) ?>
 					<?= $this->template('region/with-unit', $region) ?>
 				</div>
 				<div class="col-12 col-lg-6 pe-0">
