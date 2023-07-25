@@ -47,6 +47,7 @@ $fleet = View::sortedFleet($region);
 				<?php if ($type === Type::Player): ?>
 					<div class="col-12 col-xl-4 p-0 ps-xl-3 pe-xl-0">
 						<?= $this->template('material-pool', $region) ?>
+						<?= $this->template('quotas', $region) ?>
 					</div>
 				<?php endif ?>
 			</div>

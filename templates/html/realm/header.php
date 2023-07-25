@@ -1,7 +1,9 @@
 <?php
 declare (strict_types = 1);
 
+use function Lemuria\number;
 use function Lemuria\Renderer\Text\View\id;
+use Lemuria\Engine\Fantasya\State;
 use Lemuria\Model\Fantasya\Region;
 use Lemuria\Renderer\Text\View\Html;
 
@@ -16,7 +18,7 @@ $isCentral = $region === $central;
 ?>
 <?php if ($realm): ?>
 	<?php if ($isCentral): ?>
-		<p>Zentralregion des Reiches <?= $realm->Name() ?>.</p>
+		<p>Zentralregion des Reiches <?= $realm->Name() ?>. Maximale Transportkapazität: <?= number(State::getInstance()->getRealmFleet($realm)->Incoming()) ?> GE.</p>
 	<?php else: ?>
 		<p>
 			Die Region gehört zum Reich

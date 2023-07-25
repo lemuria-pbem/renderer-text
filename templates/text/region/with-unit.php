@@ -117,6 +117,7 @@ elseif ($g || $o): ?>
 endif ?><?php if ($a): ?> <?= $animals ?> <?= $a === 1 ? 'streift' : 'streifen' ?> durch die Wildnis.<?php
 endif ?><?php if ($gr): ?> <?= $griffin ?> <?= $gr === 1 ? ' nistet ' : 'nisten' ?> in den Bergen.<?php
 endif ?>
+<?= $this->template('quotas', $region) ?>
 <?php endif ?>
 
 <?= ucfirst(implode(', ', $neighbours)) ?>
