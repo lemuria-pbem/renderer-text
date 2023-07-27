@@ -38,6 +38,7 @@ Dein Volk zählt <?= $this->number($census->count(), $party->Race()) ?> in <?= $
 <?= wrap('Deine Einheiten sammeln ' . $this->loot() . '.') ?>
 <?= wrap('Vorgaben für neue Einheiten: ' . implode(', ', $this->presettings()) . '.') ?>
 <?= wrap('Vorgaben für neue Handelsangebote: ' . ($party->Presettings()->IsRepeat() ? 'WIEDERHOLEN' : 'WIEDERHOLEN Nicht') . '.') ?>
+<?= wrap('Vorgabe für Kundschafter/Kapitäne: ' . $this->dictionary->get('presetting.exploring', $this->party->Presettings()->Exploring()->name) . '.') ?>
 
 <?= hr() ?>
 
