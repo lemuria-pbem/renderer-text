@@ -1,6 +1,7 @@
 <?php
 declare (strict_types = 1);
 
+use function Lemuria\Renderer\Text\View\description;
 use Lemuria\Model\Fantasya\Region;
 use Lemuria\Renderer\Text\View\Text;
 
@@ -15,5 +16,5 @@ $isCentral = $region === $realm?->Territory()->Central();
 <?php if ($realm): ?>
 , <?= $realm->Name() ?>
 <?php if ($isCentral): ?>
- (Zentrale)<?php endif ?>
+ (Zentrale).<?= description($realm) ?><?php else: ?>,<?php endif ?>
 <?php endif ?>

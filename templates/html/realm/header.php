@@ -18,7 +18,10 @@ $isCentral = $region === $central;
 ?>
 <?php if ($realm): ?>
 	<?php if ($isCentral): ?>
-		<p>Zentralregion des Reiches <?= $realm->Name() ?>. Maximale Transportkapazität: <?= number(State::getInstance()->getRealmFleet($realm)->Incoming()) ?> GE.</p>
+		<p>
+			Zentralregion des Reiches <?= $realm->Name() ?>. Maximale Transportkapazität: <?= number(State::getInstance()->getRealmFleet($realm)->Incoming()) ?> GE.
+			<?= $this->template('description', $realm) ?>
+		</p>
 	<?php else: ?>
 		<p>
 			Die Region gehört zum Reich
