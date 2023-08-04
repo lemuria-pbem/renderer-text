@@ -17,7 +17,9 @@ $prefix = match ($cols) {
 	4       => 'xl-stat-',
 	default => 'stat-'
 };
-$class  = $prefix . id($region);
+$territory = $region->Realm()?->Territory();
+$realm     = $territory ? ($territory->Central() === $region ? ' realm center' : ' realm') : '';
+$class     = $prefix . id($region);
 
 $population  = $this->numberStatistics(Subject::Population, $region);
 $workers     = $this->numberStatistics(Subject::Workers, $region);
@@ -81,9 +83,11 @@ if (!empty($luxuries)) {
 
 ?>
 <?php if ($cols <= 1): ?>
-	<tr>
+	<tr class="region<?= $realm ?>">
 		<th scope="rowgroup" colspan="3">
-			<a href=".<?= $class ?>" title="Details..." data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="<?= $ids ?>"><?= $this->translate($region->Landscape()) ?> <?= $region->Name() ?></a>
+			<a href=".<?= $class ?>" title="Details..." data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="<?= $ids ?>">
+				<span><?= $this->translate($region->Landscape()) ?> <?= $region->Name() ?></span>
+			</a>
 			&nbsp;<a href="#<?= id($region) ?>" title="zur Region" class="text-body">⮞</a>
 		</th>
 	</tr>
@@ -193,9 +197,11 @@ if (!empty($luxuries)) {
 	<?php endif ?>
 
 <?php elseif ($cols === 2): ?>
-	<tr>
+	<tr class="region<?= $realm ?>">
 		<th scope="rowgroup" colspan="3">
-			<a href=".<?= $class ?>" title="Details..." data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="<?= $ids ?>"><?= $this->translate($region->Landscape()) ?> <?= $region->Name() ?></a>
+			<a href=".<?= $class ?>" title="Details..." data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="<?= $ids ?>">
+				<span><?= $this->translate($region->Landscape()) ?> <?= $region->Name() ?></span>
+			</a>
 			&nbsp;<a href="#<?= id($region) ?>" title="zur Region" class="text-body">⮞</a>
 		</th>
 		<th scope="row">Bevölkerung</th>
@@ -313,9 +319,11 @@ if (!empty($luxuries)) {
 	<?php endif ?>
 
 <?php elseif ($cols === 3): ?>
-	<tr>
+	<tr class="region<?= $realm ?>">
 		<th scope="rowgroup" colspan="3">
-			<a href=".<?= $class ?>" title="Details..." data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="<?= $ids ?>"><?= $this->translate($region->Landscape()) ?> <?= $region->Name() ?></a>
+			<a href=".<?= $class ?>" title="Details..." data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="<?= $ids ?>">
+				<span><?= $this->translate($region->Landscape()) ?> <?= $region->Name() ?></span>
+			</a>
 			&nbsp;<a href="#<?= id($region) ?>" title="zur Region" class="text-body">⮞</a>
 		</th>
 		<th scope="row">Bevölkerung</th>
@@ -443,9 +451,11 @@ if (!empty($luxuries)) {
 	<?php endif ?>
 
 <?php else: ?>
-	<tr>
+	<tr class="region<?= $realm ?>">
 		<th scope="rowgroup" colspan="3">
-			<a href=".<?= $class ?>" title="Details..." data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="<?= $ids ?>"><?= $this->translate($region->Landscape()) ?> <?= $region->Name() ?></a>
+			<a href=".<?= $class ?>" title="Details..." data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="<?= $ids ?>">
+				<span><?= $this->translate($region->Landscape()) ?> <?= $region->Name() ?></span>
+			</a>
 			&nbsp;<a href="#<?= id($region) ?>" title="zur Region" class="text-body">⮞</a>
 		</th>
 		<th scope="row">Bevölkerung</th>
