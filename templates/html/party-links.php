@@ -70,17 +70,17 @@ $i        = $spells;
 							<?php endif ?>
 							<?php if ($herbs > 0): ?>
 								<div class="tab-pane fade" id="herbal-book-tab-pane" role="tabpanel" aria-labelledby="herbal-book-tab" tabindex="0">
-									<iframe src="<?= $this->herbalBookPath() ?>" width="800" height="500"></iframe>
+									<iframe src="<?= $this->herbalBookPath() ?>" width="760" height="500"></iframe>
 								</div>
 							<?php endif ?>
 							<?php foreach ($treasury as $unicum): ?>
 								<div class="tab-pane fade" id="unicum-<?= $unicum->Id() ?>-tab-pane" role="tabpanel" aria-labelledby="unicum-<?= $unicum->Id() ?>-tab" tabindex="0">
-									<iframe src="<?= $this->unicumPath($unicum) ?>" width="800" height="500"></iframe>
+									<iframe src="<?= $this->unicumPath($unicum) ?>" width="760" height="500"></iframe>
 								</div>
 							<?php endforeach ?>
 							<?php foreach ($this->hostilities() as $battle): ?>
 								<div class="tab-pane fade" id="battle-<?= $battle->Location()->Id() . '-' . $battle->Battle()->counter ?>-tab-pane" role="tabpanel" aria-labelledby="battle-<?= $battle->Location()->Id() . '-' . $battle->Battle()->counter ?>-tab" tabindex="0">
-									<iframe src="<?= $this->battleLogPath($battle) ?>" width="800" height="500"></iframe>
+									<iframe src="<?= $this->battleLogPath($battle) ?>" width="760" height="500"></iframe>
 								</div>
 							<?php endforeach ?>
 						</div>
