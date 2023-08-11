@@ -3,7 +3,6 @@ declare(strict_types = 1);
 namespace Lemuria\Renderer\Text\Statistics\Data;
 
 use function Lemuria\direction;
-use Lemuria\Engine\Fantasya\Message\Casus;
 use Lemuria\Renderer\Text\View\Html;
 use Lemuria\Statistics\Data\Number;
 

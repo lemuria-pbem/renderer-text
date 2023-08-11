@@ -13,9 +13,9 @@ $party = $unit->Party();
 ?>
 
 <?php if ($party === $this->party): ?>
-<?= $this->template('shipbuilder/own', $unit, $trades) ?>
+<?= $this->template('shipbuilder/own', $unit) ?>
 <?php elseif ($this->spyLevel($unit)): ?>
-<?= $this->template('shipbuilder/spied', $unit, $trades) ?>
+<?= $this->template('shipbuilder/spied', $unit) ?>
 <?php else: ?>
-<?= $this->template('shipbuilder/foreign', $unit, $trades) ?>
+<?= $this->template('shipbuilder/foreign', $unit) ?>
 <?php endif ?>

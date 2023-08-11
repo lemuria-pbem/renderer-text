@@ -489,6 +489,9 @@ abstract class View
 		return $line;
 	}
 
+	/**
+	 * @noinspection PhpSwitchStatementWitSingleBranchInspection
+	 */
 	public function composition(Unicum|Composition $unicum): string {
 		$composition = $unicum instanceof Unicum ? $unicum->Composition() : $unicum;
 		if ($this->party->Type() !== Type::Player) {

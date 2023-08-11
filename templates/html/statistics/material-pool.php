@@ -1,7 +1,6 @@
 <?php
 declare (strict_types = 1);
 
-use Lemuria\Engine\Fantasya\Message\Casus;
 use Lemuria\Renderer\Text\View\Html;
 
 /** @var Html $this */
