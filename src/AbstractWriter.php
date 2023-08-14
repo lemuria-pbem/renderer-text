@@ -13,7 +13,7 @@ abstract class AbstractWriter implements Writer
 	public function __construct(protected PathFactory $pathFactory) {
 	}
 
-	public function setFilter(Filter $filter): Writer {
+	public function setFilter(Filter $filter): static {
 		return $this;
 	}
 }

@@ -14,7 +14,6 @@ use Lemuria\Model\Fantasya\Region;
 use Lemuria\Model\Fantasya\Unit;
 use Lemuria\Model\Fantasya\Vessel;
 use Lemuria\Renderer\PathFactory;
-use Lemuria\Renderer\Writer;
 
 class OrderWriter extends AbstractWriter
 {
@@ -28,7 +27,7 @@ class OrderWriter extends AbstractWriter
 		$this->initDictionary();
 	}
 
-	public function render(Id $entity): Writer {
+	public function render(Id $entity): static {
 		$party = Party::get($entity);
 		$path  = $this->pathFactory->getPath($this, $party);
 		if (!file_put_contents($path, $this->generate($party))) {

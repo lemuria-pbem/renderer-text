@@ -25,12 +25,12 @@ class FileWrapper implements Wrapper
 		$this->wrapperText = file_get_contents($path);
 	}
 
-	public function setWriter(FileWriter $writer): FileWrapper {
+	public function setWriter(FileWriter $writer): static {
 		$this->writer = $writer;
 		return $this;
 	}
 
-	public function setReceived(?int $received): FileWrapper {
+	public function setReceived(?int $received): static {
 		$this->received = $received;
 		return $this;
 	}

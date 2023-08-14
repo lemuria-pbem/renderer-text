@@ -7,7 +7,6 @@ use Lemuria\Engine\Message\Filter\NullFilter;
 use Lemuria\Id;
 use Lemuria\Model\Fantasya\Party;
 use Lemuria\Renderer\PathFactory;
-use Lemuria\Renderer\Writer;
 
 abstract class FileWriter extends AbstractWriter
 {
@@ -37,7 +36,7 @@ abstract class FileWriter extends AbstractWriter
 		return $this->messageFilter;
 	}
 
-	public function setFilter(Filter $filter): Writer {
+	public function setFilter(Filter $filter): static {
 		$this->messageFilter = $filter;
 		return $this;
 	}
@@ -50,7 +49,7 @@ abstract class FileWriter extends AbstractWriter
 		return $this->view;
 	}
 
-	public function render(Id $entity): Writer {
+	public function render(Id $entity): static {
 		$this->party = Party::get($entity);
 		$this->view  = $this->createView();
 		$report      = $this->view->generate();

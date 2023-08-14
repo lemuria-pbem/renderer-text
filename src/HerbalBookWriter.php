@@ -5,14 +5,13 @@ namespace Lemuria\Renderer\Text;
 use Lemuria\Id;
 use Lemuria\Model\Fantasya\Party;
 use Lemuria\Renderer\Text\Model\HerbalBookTrait;
-use Lemuria\Renderer\Writer;
 
 class HerbalBookWriter extends AbstractWriter
 {
 	use HerbalBookTrait;
 	use VersionTrait;
 
-	public function render(Id $entity): Writer {
+	public function render(Id $entity): static {
 		$party = Party::get($entity);
 		$path  = $this->pathFactory->getPath($this, $party);
 		if (!file_put_contents($path, $this->generate($party))) {

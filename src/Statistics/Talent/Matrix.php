@@ -46,7 +46,7 @@ class Matrix
 		return $this->sort()->regions;
 	}
 
-	public function add(Calculus $calculus): Matrix {
+	public function add(Calculus $calculus): static {
 		$region = $calculus->Unit()->Region();
 		$this->atlas->add($region);
 
@@ -65,7 +65,7 @@ class Matrix
 		return $this;
 	}
 
-	protected function sort(): Matrix {
+	protected function sort(): static {
 		$this->atlas->sort(SortMode::NorthToSouth);
 		$max = $this->Maximum();
 		foreach ($this->atlas as $region) {

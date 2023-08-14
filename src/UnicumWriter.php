@@ -21,7 +21,7 @@ class UnicumWriter extends AbstractWriter
 	/**
 	 * @throws JsonException
 	 */
-	public function render(Id $entity): UnicumWriter {
+	public function render(Id $entity): static {
 		$unicum = Unicum::get($entity);
 		$path   = $this->pathFactory->getPath($this, $unicum);
 		if (!file_put_contents($path, $this->generate($unicum))) {

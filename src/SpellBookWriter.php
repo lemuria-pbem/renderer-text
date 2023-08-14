@@ -10,7 +10,6 @@ use Lemuria\Model\Fantasya\Exception\JsonException;
 use Lemuria\Model\Fantasya\Party;
 use Lemuria\Model\Fantasya\Spell;
 use Lemuria\Model\Fantasya\SpellBook;
-use Lemuria\Renderer\Writer;
 
 class SpellBookWriter extends AbstractWriter
 {
@@ -19,7 +18,7 @@ class SpellBookWriter extends AbstractWriter
 	/**
 	 * @throws JsonException
 	 */
-	public function render(Id $entity): Writer {
+	public function render(Id $entity): static {
 		$party = Party::get($entity);
 		$path  = $this->pathFactory->getPath($this, $party);
 		if (!file_put_contents($path, $this->generate($party))) {

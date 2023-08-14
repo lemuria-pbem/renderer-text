@@ -13,7 +13,6 @@ use Lemuria\Lemuria;
 use Lemuria\Model\Fantasya\Party;
 use Lemuria\Model\Fantasya\Region;
 use Lemuria\Renderer\PathFactory;
-use Lemuria\Renderer\Writer;
 
 class BattleLogWriter extends AbstractWriter
 {
@@ -36,7 +35,7 @@ class BattleLogWriter extends AbstractWriter
 		$this->initDictionary();
 	}
 
-	public function render(Id $entity): Writer {
+	public function render(Id $entity): static {
 		foreach (Lemuria::Hostilities()->findFor(Party::get($entity)) as $battleLog) {
 			if ($battleLog->count()) {
 				/** @var Region $region */

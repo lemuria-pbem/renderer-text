@@ -13,7 +13,7 @@ class Value
 
 	private int $best = -1;
 
-	public function add(Calculus $calculus, int $experience): Value {
+	public function add(Calculus $calculus, int $experience): static {
 		$unit         = $calculus->Unit();
 		$this->count += $unit->Size();
 		if ($experience > $this->best) {
