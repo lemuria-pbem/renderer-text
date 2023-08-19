@@ -17,6 +17,7 @@ $prefix = match ($cols) {
 	4       => 'xl-stat-',
 	default => 'stat-'
 };
+$realmId   = $region->Realm()?->Identifier();
 $territory = $region->Realm()?->Territory();
 $realm     = $territory ? ($territory->Central() === $region ? ' realm center' : ' realm') : '';
 $class     = $prefix . id($region);
@@ -86,6 +87,9 @@ if (!empty($luxuries)) {
 	<tr class="region<?= $realm ?>">
 		<th scope="rowgroup" colspan="3">
 			<a href=".<?= $class ?>" title="Details..." data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="<?= $ids ?>">
+				<?php if ($realmId): ?>
+					<span class="badge text-bg-light font-monospace"><?= $realmId ?></span>
+				<?php endif ?>
 				<span><?= $this->translate($region->Landscape()) ?> <?= $region->Name() ?></span>
 			</a>
 			&nbsp;<a href="#<?= id($region) ?>" title="zur Region" class="text-body">⮞</a>
@@ -200,6 +204,9 @@ if (!empty($luxuries)) {
 	<tr class="region<?= $realm ?>">
 		<th scope="rowgroup" colspan="3">
 			<a href=".<?= $class ?>" title="Details..." data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="<?= $ids ?>">
+				<?php if ($realmId): ?>
+					<span class="badge text-bg-light font-monospace"><?= $realmId ?></span>
+				<?php endif ?>
 				<span><?= $this->translate($region->Landscape()) ?> <?= $region->Name() ?></span>
 			</a>
 			&nbsp;<a href="#<?= id($region) ?>" title="zur Region" class="text-body">⮞</a>
@@ -322,6 +329,9 @@ if (!empty($luxuries)) {
 	<tr class="region<?= $realm ?>">
 		<th scope="rowgroup" colspan="3">
 			<a href=".<?= $class ?>" title="Details..." data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="<?= $ids ?>">
+				<?php if ($realmId): ?>
+					<span class="badge text-bg-light font-monospace"><?= $realmId ?></span>
+				<?php endif ?>
 				<span><?= $this->translate($region->Landscape()) ?> <?= $region->Name() ?></span>
 			</a>
 			&nbsp;<a href="#<?= id($region) ?>" title="zur Region" class="text-body">⮞</a>
@@ -454,6 +464,9 @@ if (!empty($luxuries)) {
 	<tr class="region<?= $realm ?>">
 		<th scope="rowgroup" colspan="3">
 			<a href=".<?= $class ?>" title="Details..." data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="<?= $ids ?>">
+				<?php if ($realmId): ?>
+					<span class="badge text-bg-light font-monospace"><?= $realmId ?></span>
+				<?php endif ?>
 				<span><?= $this->translate($region->Landscape()) ?> <?= $region->Name() ?></span>
 			</a>
 			&nbsp;<a href="#<?= id($region) ?>" title="zur Region" class="text-body">⮞</a>
