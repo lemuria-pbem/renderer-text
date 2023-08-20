@@ -7,7 +7,6 @@ use Lemuria\Engine\Fantasya\Calculus;
 use Lemuria\Engine\Fantasya\Factory\Model\Orders;
 use Lemuria\Engine\Fantasya\Factory\Model\Trades;
 use Lemuria\Engine\Fantasya\Statistics\Subject;
-use Lemuria\Model\Fantasya\Ability;
 use Lemuria\Model\Fantasya\Market\Sales;
 use Lemuria\Model\Fantasya\Unit;
 use Lemuria\Renderer\Text\View\Html;
@@ -44,13 +43,13 @@ foreach ($unit->Knowledge() as $ability):
 	} elseif ($change < 0) {
 		$knowledge .= '<span class="badge badge-inverse badge-danger">' . $change . '</span>';
 	}
-	$rawLevel = Ability::getLevel($experience);
-	if ($rawLevel === $level) {
+	$rawLevel = $calculus->ability($talent)->Level();
+	if ($level === $rawLevel) {
 		$knowledge .= '&nbsp;<span>(' . $this->number($experience) . ')</span>';
 	} else {
 		$knowledge .= '&nbsp;<span>(' . $rawLevel . '/' . $this->number($experience) . ')</span>';
 	}
-	$talents[]  = $knowledge;
+	$talents[] = $knowledge;
 endforeach;
 
 $inventory = [];
