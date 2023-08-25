@@ -4,13 +4,14 @@ declare (strict_types = 1);
 use Lemuria\Engine\Fantasya\Statistics\Subject;
 use Lemuria\Lemuria;
 use Lemuria\Model\Fantasya\Navigable;
+use Lemuria\Renderer\Text\Model\World\SortedAtlas;
 use Lemuria\Renderer\Text\View\Html;
 
 /** @var Html $this */
 
-$party  = $this->party;
-$census = $this->census;
-$round  = Lemuria::Calendar()->Round();
+$party = $this->party;
+$atlas = new SortedAtlas($this->census);
+$round = Lemuria::Calendar()->Round();
 
 $units     = $this->numberStatistics(Subject::Units, $party);
 $people    = $this->numberStatistics(Subject::People, $party);
@@ -22,7 +23,7 @@ $experts   = $this->expertsStatistics(Subject::Experts, $party);
 
 ?>
 <div class="table-responsive d-md-none">
-	<table class="statistics table table-sm table-striped table-bordered">
+	<table class="statistics table table-sm table-bordered">
 		<thead class="table-light">
 			<tr>
 				<th scope="col">Deine Partei</th>
@@ -51,21 +52,21 @@ $experts   = $this->expertsStatistics(Subject::Experts, $party);
 				<td><?= $expenses->value ?></td>
 				<td class="less-is-good"><?= $expenses->change ?></td>
 			</tr>
-			<tr>
+			<tr class="table-light">
 				<td colspan="3">
 					<?= $this->template('statistics/experts', $experts, 4) ?>
 				</td>
 			</tr>
 			<?php if ($pCount > 0): ?>
-				<tr>
+				<tr class="table-light">
 					<td colspan="3">
 						<?= $this->template('statistics/material-pool', $pool, 4) ?>
 					</td>
 				</tr>
 			<?php endif ?>
-			<?php foreach ($census->getAtlas() as $region): ?>
+			<?php $r = 0; foreach ($atlas as $region): ?>
 				<?php if (!($region->Landscape() instanceof Navigable)): ?>
-					<?= $this->template('statistics/region', $region, 1) ?>
+					<?= $this->template('statistics/region', $region, 1, $r++) ?>
 				<?php endif ?>
 			<?php endforeach ?>
 		</tbody>
@@ -73,7 +74,7 @@ $experts   = $this->expertsStatistics(Subject::Experts, $party);
 </div>
 
 <div class="table-responsive d-none d-md-block d-lg-none">
-	<table class="statistics table table-sm table-striped table-bordered">
+	<table class="statistics table table-sm table-bordered">
 		<thead class="table-light">
 		<tr>
 			<th scope="col">Deine Partei</th>
@@ -101,21 +102,21 @@ $experts   = $this->expertsStatistics(Subject::Experts, $party);
 			<td><?= $expenses->value ?></td>
 			<td class="<?= $expenses->movement ?> less-is-good"><?= $expenses->change ?></td>
 		</tr>
-		<tr>
+		<tr class="table-light">
 			<td colspan="6">
 				<?= $this->template('statistics/experts', $experts, 6) ?>
 			</td>
 		</tr>
 		<?php if ($pCount > 0): ?>
-			<tr>
+			<tr class="table-light">
 				<td colspan="6">
 					<?= $this->template('statistics/material-pool', $pool, 6) ?>
 				</td>
 			</tr>
 		<?php endif ?>
-		<?php foreach ($census->getAtlas() as $region): ?>
+		<?php $r = 0; foreach ($atlas as $region): ?>
 			<?php if (!($region->Landscape() instanceof Navigable)): ?>
-				<?= $this->template('statistics/region', $region, 2) ?>
+				<?= $this->template('statistics/region', $region, 2, $r++) ?>
 			<?php endif ?>
 		<?php endforeach ?>
 		</tbody>
@@ -123,7 +124,7 @@ $experts   = $this->expertsStatistics(Subject::Experts, $party);
 </div>
 
 <div class="table-responsive d-none d-lg-block d-xl-none">
-	<table class="statistics table table-sm table-striped table-bordered">
+	<table class="statistics table table-sm table-bordered">
 		<thead class="table-light">
 		<tr>
 			<th scope="col">Deine Partei</th>
@@ -154,21 +155,21 @@ $experts   = $this->expertsStatistics(Subject::Experts, $party);
 			<td><?= $expenses->value ?></td>
 			<td class="<?= $expenses->movement ?> less-is-good" colspan="7"><?= $expenses->change ?></td>
 		</tr>
-		<tr>
+		<tr class="table-light">
 			<td colspan="9">
 				<?= $this->template('statistics/experts', $experts, 8) ?>
 			</td>
 		</tr>
 		<?php if ($pCount > 0): ?>
-			<tr>
+			<tr class="table-light">
 				<td colspan="9">
 					<?= $this->template('statistics/material-pool', $pool, 8) ?>
 				</td>
 			</tr>
 		<?php endif ?>
-		<?php foreach ($census->getAtlas() as $region): ?>
+		<?php $r = 0; foreach ($atlas as $region): ?>
 			<?php if (!($region->Landscape() instanceof Navigable)): ?>
-				<?= $this->template('statistics/region', $region, 3) ?>
+				<?= $this->template('statistics/region', $region, 3, $r++) ?>
 			<?php endif ?>
 		<?php endforeach ?>
 		</tbody>
@@ -176,7 +177,7 @@ $experts   = $this->expertsStatistics(Subject::Experts, $party);
 </div>
 
 <div class="table-responsive d-none d-xl-block">
-	<table class="statistics table table-sm table-striped table-bordered">
+	<table class="statistics table table-sm table-bordered">
 		<thead class="table-light">
 		<tr>
 			<th scope="col">Deine Partei</th>
@@ -208,21 +209,21 @@ $experts   = $this->expertsStatistics(Subject::Experts, $party);
 			<td><?= $expenses->value ?></td>
 			<td class="<?= $expenses->movement ?> less-is-good"><?= $expenses->change ?></td>
 		</tr>
-		<tr>
+		<tr class="table-light">
 			<td colspan="12">
 				<?= $this->template('statistics/experts', $experts, 10) ?>
 			</td>
 		</tr>
 		<?php if ($pCount > 0): ?>
-			<tr>
+			<tr class="table-light">
 				<td colspan="12">
 					<?= $this->template('statistics/material-pool', $pool, 10) ?>
 				</td>
 			</tr>
 		<?php endif ?>
-		<?php foreach ($census->getAtlas() as $region): ?>
+		<?php $r = 0; foreach ($atlas as $region): ?>
 			<?php if (!($region->Landscape() instanceof Navigable)): ?>
-				<?= $this->template('statistics/region', $region, 4) ?>
+				<?= $this->template('statistics/region', $region, 4, $r++) ?>
 			<?php endif ?>
 		<?php endforeach ?>
 		</tbody>

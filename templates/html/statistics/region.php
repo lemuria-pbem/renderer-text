@@ -17,6 +17,7 @@ $prefix = match ($cols) {
 	4       => 'xl-stat-',
 	default => 'stat-'
 };
+$stripe    = $this->variables[2] % 2 ? ' table-light' : '';
 $realmId   = $region->Realm()?->Identifier();
 $territory = $region->Realm()?->Territory();
 $realm     = $territory ? ($territory->Central() === $region ? ' realm center' : ' realm') : '';
@@ -84,7 +85,7 @@ if (!empty($luxuries)) {
 
 ?>
 <?php if ($cols <= 1): ?>
-	<tr class="region<?= $realm ?>">
+	<tr class="region<?= $realm . $stripe ?>">
 		<th scope="rowgroup" colspan="3">
 			<a href=".<?= $class ?>" title="Details..." data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="<?= $ids ?>">
 				<?php if ($realmId): ?>
@@ -95,92 +96,92 @@ if (!empty($luxuries)) {
 			&nbsp;<a href="#<?= id($region) ?>" title="zur Region" class="text-body">⮞</a>
 		</th>
 	</tr>
-	<tr id="<?= $class ?>-population" class="collapse <?= $population->movement ?> <?= $class ?>">
+	<tr id="<?= $class ?>-population" class="collapse <?= $population->movement ?> <?= $class . $stripe ?>">
 		<th scope="row">Bevölkerung</th>
 		<td><?= $population->value ?></td>
 		<td class="more-is-good"><?= $population->change ?></td>
 	</tr>
-	<tr id="<?= $class ?>-workplaces" class="collapse <?= $workplaces->movement ?> <?= $class ?>">
+	<tr id="<?= $class ?>-workplaces" class="collapse <?= $workplaces->movement ?> <?= $class . $stripe ?>">
 		<th scope="row">Arbeitsplätze</th>
 		<td><?= $workplaces->value ?></td>
 		<td class="more-is-good"><?= $workplaces->change ?></td>
 	</tr>
-	<tr id="<?= $class ?>-joblessness" class="collapse <?= $joblessness->movement ?> <?= $class ?>">
+	<tr id="<?= $class ?>-joblessness" class="collapse <?= $joblessness->movement ?> <?= $class . $stripe ?>">
 		<th scope="row">Arbeitslosigkeit</th>
 		<td><?= $joblessness->value ?> %</td>
 		<td class="less-is-good"><?= $joblessness->change ?></td>
 	</tr>
-	<tr id="<?= $class ?>-workers" class="collapse <?= $workers->movement ?> <?= $class ?>">
+	<tr id="<?= $class ?>-workers" class="collapse <?= $workers->movement ?> <?= $class . $stripe ?>">
 		<th scope="row">Arbeiter</th>
 		<td><?= $workers->value ?></td>
 		<td class="more-is-good"><?= $workers->change ?></td>
 	</tr>
-	<tr id="<?= $class ?>-recruits" class="collapse <?= $recruits->movement ?> <?= $class ?>">
+	<tr id="<?= $class ?>-recruits" class="collapse <?= $recruits->movement ?> <?= $class . $stripe ?>">
 		<th scope="row">Rekruten</th>
 		<td><?= $recruits->value ?></td>
 		<td class="more-is-good"><?= $recruits->change ?></td>
 	</tr>
-	<tr id="<?= $class ?>-births" class="collapse <?= $births->movement ?> <?= $class ?>">
+	<tr id="<?= $class ?>-births" class="collapse <?= $births->movement ?> <?= $class . $stripe ?>">
 		<th scope="row">Geburten</th>
 		<td><?= $births->value ?></td>
 		<td class="more-is-good"><?= $births->change ?></td>
 	</tr>
-	<tr id="<?= $class ?>-migration" class="collapse <?= $migration->movement ?> <?= $class ?>">
+	<tr id="<?= $class ?>-migration" class="collapse <?= $migration->movement ?> <?= $class . $stripe ?>">
 		<th scope="row">Bauernwanderung</th>
 		<td><?= $migration->value ?></td>
 		<td class="more-is-good"><?= $migration->change ?></td>
 	</tr>
-	<tr id="<?= $class ?>-prosperity" class="collapse <?= $prosperity->movement ?> <?= $class ?>">
+	<tr id="<?= $class ?>-prosperity" class="collapse <?= $prosperity->movement ?> <?= $class . $stripe ?>">
 		<th scope="row">Wohlstand</th>
 		<td><?= $prosperity->value ?> a</td>
 		<td class="more-is-good"><?= $prosperity->change ?></td>
 	</tr>
-	<tr id="<?= $class ?>-wealth" class="collapse <?= $wealth->movement ?> <?= $class ?>">
+	<tr id="<?= $class ?>-wealth" class="collapse <?= $wealth->movement ?> <?= $class . $stripe ?>">
 		<th scope="row">Silbervorrat</th>
 		<td><?= $wealth->value ?></td>
 		<td class="more-is-good"><?= $wealth->change ?></td>
 	</tr>
-	<tr id="<?= $class ?>-income" class="collapse <?= $income->movement ?> <?= $class ?>">
+	<tr id="<?= $class ?>-income" class="collapse <?= $income->movement ?> <?= $class . $stripe ?>">
 		<th scope="row">Einkommen</th>
 		<td><?= $income->value ?></td>
 		<td class="more-is-good"><?= $income->change ?></td>
 	</tr>
-	<tr id="<?= $class ?>-trees" class="collapse <?= $trees->movement ?> <?= $class ?>">
+	<tr id="<?= $class ?>-trees" class="collapse <?= $trees->movement ?> <?= $class . $stripe ?>">
 		<th scope="row">Baumbestand</th>
 		<td><?= $trees->value ?></td>
 		<td class="more-is-good"><?= $trees->change ?></td>
 	</tr>
 	<?php foreach ($animals as $animal): ?>
-		<tr id="<?= $class . '-' . $animal->key ?>" class="collapse <?= $animal->movement ?> <?= $class ?>">
+		<tr id="<?= $class . '-' . $animal->key ?>" class="collapse <?= $animal->movement ?> <?= $class . $stripe ?>">
 			<th scope="row">Anzahl <?= $this->translate($animal->class, 1) ?></th>
 			<td><?= $animal->value ?></td>
 			<td class="more-is-good"><?= $animal->change ?></td>
 		</tr>
 	<?php endforeach ?>
-	<tr id="<?= $class ?>-unit-force" class="collapse <?= $unitForce->movement ?> <?= $class ?>">
+	<tr id="<?= $class ?>-unit-force" class="collapse <?= $unitForce->movement ?> <?= $class . $stripe ?>">
 		<th scope="row">Einheiten</th>
 		<td><?= $unitForce->value ?></td>
 		<td class="more-is-good"><?= $unitForce->change ?></td>
 	</tr>
-	<tr id="<?= $class ?>-people-force" class="collapse <?= $peopleForce->movement ?> <?= $class ?>">
+	<tr id="<?= $class ?>-people-force" class="collapse <?= $peopleForce->movement ?> <?= $class . $stripe ?>">
 		<th scope="row">Personen</th>
 		<td><?= $peopleForce->value ?></td>
 		<td class="more-is-good"><?= $peopleForce->change ?></td>
 	</tr>
-	<tr id="<?= $class ?>-reserve" class="collapse <?= $reserve->movement ?> <?= $class ?>">
+	<tr id="<?= $class ?>-reserve" class="collapse <?= $reserve->movement ?> <?= $class . $stripe ?>">
 		<th scope="row">Silberreserve</th>
 		<td><?= $reserve->value ?></td>
 		<td class="more-is-good"><?= $reserve->change ?></td>
 	</tr>
 	<?php foreach ($expenses as $name => $expense): ?>
-		<tr id="<?= $class . '-' . $expense->class ?>" class="collapse <?= $expense->movement ?> <?= $class ?>">
+		<tr id="<?= $class . '-' . $expense->class ?>" class="collapse <?= $expense->movement ?> <?= $class . $stripe ?>">
 			<th scope="row"><?= $name ?></th>
 			<td><?= $expense->value ?></td>
 			<td class="less-is-good"><?= $expense->change ?></td>
 		</tr>
 	<?php endforeach ?>
 	<?php if (!empty($luxuries)): ?>
-		<tr id="<?= $class . '-market' ?>" class="collapse <?= $class ?>">
+		<tr id="<?= $class . '-market' ?>" class="collapse <?= $class . $stripe ?>">
 			<td colspan="3">
 				<table class="market table">
 					<caption>Marktpreise</caption>
@@ -201,7 +202,7 @@ if (!empty($luxuries)) {
 	<?php endif ?>
 
 <?php elseif ($cols === 2): ?>
-	<tr class="region<?= $realm ?>">
+	<tr class="region<?= $realm . $stripe ?>">
 		<th scope="rowgroup" colspan="3">
 			<a href=".<?= $class ?>" title="Details..." data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="<?= $ids ?>">
 				<?php if ($realmId): ?>
@@ -215,7 +216,7 @@ if (!empty($luxuries)) {
 		<td><?= $population->value ?></td>
 		<td class="<?= $population->movement ?> more-is-good"><?= $population->change ?></td>
 	</tr>
-	<tr id="<?= $class?>-joblessness" class="collapse <?= $class ?>">
+	<tr id="<?= $class?>-joblessness" class="collapse <?= $class . $stripe ?>">
 		<th scope="row">Arbeitslosigkeit</th>
 		<td><?= $joblessness->value ?> %</td>
 		<td class="<?= $joblessness->movement ?> less-is-good"><?= $joblessness->change ?></td>
@@ -223,7 +224,7 @@ if (!empty($luxuries)) {
 		<td><?= $workplaces->value ?></td>
 		<td class="<?= $workplaces->movement ?> more-is-good"><?= $workplaces->change ?></td>
 	</tr>
-	<tr id="<?= $class ?>-population" class="collapse <?= $class ?>">
+	<tr id="<?= $class ?>-population" class="collapse <?= $class . $stripe ?>">
 		<th scope="row">Rekruten</th>
 		<td><?= $recruits->value ?></td>
 		<td class="<?= $recruits->movement ?> more-is-good"><?= $recruits->change ?></td>
@@ -231,7 +232,7 @@ if (!empty($luxuries)) {
 		<td><?= $workers->value ?></td>
 		<td class="<?= $workers->movement ?> more-is-good"><?= $workers->change ?></td>
 	</tr>
-	<tr id="<?= $class ?>-peasants" class="collapse <?= $class ?>">
+	<tr id="<?= $class ?>-peasants" class="collapse <?= $class . $stripe ?>">
 		<th scope="row">Geburten</th>
 		<td><?= $births->value ?></td>
 		<td class="<?= $births->movement ?> more-is-good"><?= $births->change ?></td>
@@ -239,7 +240,7 @@ if (!empty($luxuries)) {
 		<td><?= $migration->value ?></td>
 		<td class="<?= $migration->movement ?> more-is-good"><?= $migration->change ?></td>
 	</tr>
-	<tr id="<?= $class ?>-wealth" class="collapse <?= $class ?>">
+	<tr id="<?= $class ?>-wealth" class="collapse <?= $class . $stripe ?>">
 		<th scope="row">Silbervorrat</th>
 		<td><?= $wealth->value ?></td>
 		<td class="<?= $wealth->movement ?> more-is-good"><?= $wealth->change ?></td>
@@ -247,7 +248,7 @@ if (!empty($luxuries)) {
 		<td><?= $income->value ?></td>
 		<td class="<?= $income->movement ?> more-is-good"><?= $income->change ?></td>
 	</tr>
-	<tr id="<?= $class ?>-prosperity" class="collapse <?= $class ?>">
+	<tr id="<?= $class ?>-prosperity" class="collapse <?= $class . $stripe ?>">
 		<th scope="row">Wohlstand</th>
 		<td><?= $prosperity->value ?> a</td>
 		<td class="<?= $prosperity->movement ?> more-is-good"><?= $prosperity->change ?></td>
@@ -257,7 +258,7 @@ if (!empty($luxuries)) {
 	</tr>
 	<?php foreach ($animals as $i => $animal): ?>
 		<?php if ($i % $cols === 0): ?>
-			<tr id="<?= $class . '-' . $animal->key ?>" class="collapse <?= $class ?>">
+			<tr id="<?= $class . '-' . $animal->key ?>" class="collapse <?= $class . $stripe ?>">
 			<th scope="row">Anzahl <?= $this->translate($animal->class, 1) ?></th>
 			<td><?= $animal->value ?></td>
 			<?php if ($i === count($animals) - 1): ?>
@@ -272,7 +273,7 @@ if (!empty($luxuries)) {
 			</tr>
 		<?php endif ?>
 	<?php endforeach ?>
-	<tr id="<?= $class ?>-unit-force" class="collapse <?= $class ?>">
+	<tr id="<?= $class ?>-unit-force" class="collapse <?= $class . $stripe ?>">
 		<th scope="row">Einheiten</th>
 		<td><?= $unitForce->value ?></td>
 		<td class="<?= $unitForce->movement ?> more-is-good"><?= $unitForce->change ?></td>
@@ -280,7 +281,7 @@ if (!empty($luxuries)) {
 		<td><?= $peopleForce->value ?></td>
 		<td class="<?= $peopleForce->movement ?> more-is-good"><?= $peopleForce->change ?></td>
 	</tr>
-	<tr id="<?= $class ?>-reserve" class="collapse <?= $class ?>">
+	<tr id="<?= $class ?>-reserve" class="collapse <?= $class . $stripe ?>">
 		<th scope="row">Silberreserve</th>
 		<td><?= $reserve->value ?></td>
 		<td class="<?= $reserve->movement ?> more-is-good" colspan="4"><?= $reserve->change ?></td>
@@ -288,7 +289,7 @@ if (!empty($luxuries)) {
 	<?php $i = 0 ?>
 	<?php foreach ($expenses as $name => $expense): ?>
 		<?php if ($i % $cols === 0): ?>
-			<tr id="<?= $class . '-' . $expense->class ?>" class="collapse <?= $class ?>">
+			<tr id="<?= $class . '-' . $expense->class ?>" class="collapse <?= $class . $stripe ?>">
 			<th scope="row"><?= $name ?></th>
 			<td><?= $expense->value ?></td>
 			<?php if ($i === count($expenses) - 1): ?>
@@ -305,7 +306,7 @@ if (!empty($luxuries)) {
 		<?php $i++ ?>
 	<?php endforeach ?>
 	<?php if (!empty($luxuries)): ?>
-		<tr id="<?= $class . '-market' ?>" class="collapse <?= $class ?>">
+		<tr id="<?= $class . '-market' ?>" class="collapse <?= $class . $stripe ?>">
 			<th scope="row">Marktpreise</th>
 			<td colspan="5">
 				<table class="market table">
@@ -326,7 +327,7 @@ if (!empty($luxuries)) {
 	<?php endif ?>
 
 <?php elseif ($cols === 3): ?>
-	<tr class="region<?= $realm ?>">
+	<tr class="region<?= $realm . $stripe ?>">
 		<th scope="rowgroup" colspan="3">
 			<a href=".<?= $class ?>" title="Details..." data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="<?= $ids ?>">
 				<?php if ($realmId): ?>
@@ -343,7 +344,7 @@ if (!empty($luxuries)) {
 		<td><?= $wealth->value ?></td>
 		<td class="<?= $wealth->movement ?> more-is-good"><?= $wealth->change ?></td>
 	</tr>
-	<tr id="<?= $class?>-joblessness" class="collapse <?= $class ?>">
+	<tr id="<?= $class?>-joblessness" class="collapse <?= $class . $stripe ?>">
 		<th scope="row">Arbeitslosigkeit</th>
 		<td><?= $joblessness->value ?> %</td>
 		<td class="<?= $joblessness->movement ?> less-is-good"><?= $joblessness->change ?></td>
@@ -354,7 +355,7 @@ if (!empty($luxuries)) {
 		<td><?= $prosperity->value ?> a</td>
 		<td class="<?= $prosperity->movement ?> more-is-good"><?= $prosperity->change ?></td>
 	</tr>
-	<tr id="<?= $class ?>-population" class="collapse <?= $class ?>">
+	<tr id="<?= $class ?>-population" class="collapse <?= $class . $stripe ?>">
 		<th scope="row">Rekruten</th>
 		<td><?= $recruits->value ?></td>
 		<td class="<?= $recruits->movement ?> more-is-good"><?= $recruits->change ?></td>
@@ -365,7 +366,7 @@ if (!empty($luxuries)) {
 		<td><?= $income->value ?></td>
 		<td class="<?= $income->movement ?> more-is-good"><?= $income->change ?></td>
 	</tr>
-	<tr id="<?= $class ?>-peasants" class="collapse <?= $class ?>">
+	<tr id="<?= $class ?>-peasants" class="collapse <?= $class . $stripe ?>">
 		<th scope="row">Geburten</th>
 		<td><?= $births->value ?></td>
 		<td class="<?= $births->movement ?> more-is-good"><?= $births->change ?></td>
@@ -378,7 +379,7 @@ if (!empty($luxuries)) {
 	</tr>
 	<?php foreach ($animals as $i => $animal): ?>
 		<?php if ($i % $cols === 0): ?>
-			<tr id="<?= $class . '-' . $animal->key ?>" class="collapse <?= $class ?>">
+			<tr id="<?= $class . '-' . $animal->key ?>" class="collapse <?= $class . $stripe ?>">
 			<th scope="row">Anzahl <?= $this->translate($animal->class, 1) ?></th>
 			<td><?= $animal->value ?></td>
 			<?php if ($i === count($animals) - 1): ?>
@@ -401,7 +402,7 @@ if (!empty($luxuries)) {
 			</tr>
 		<?php endif ?>
 	<?php endforeach ?>
-	<tr id="<?= $class ?>-unit-force" class="collapse <?= $class ?>">
+	<tr id="<?= $class ?>-unit-force" class="collapse <?= $class . $stripe ?>">
 		<th scope="row">Einheiten</th>
 		<td><?= $unitForce->value ?></td>
 		<td class="<?= $unitForce->movement ?> more-is-good"><?= $unitForce->change ?></td>
@@ -415,7 +416,7 @@ if (!empty($luxuries)) {
 	<?php $i = 0 ?>
 	<?php foreach ($expenses as $name => $expense): ?>
 		<?php if ($i % $cols === 0): ?>
-			<tr id="<?= $class . '-' . $expense->class ?>" class="collapse <?= $class ?>">
+			<tr id="<?= $class . '-' . $expense->class ?>" class="collapse <?= $class . $stripe ?>">
 			<th scope="row"><?= $name ?></th>
 			<td><?= $expense->value ?></td>
 			<?php if ($i === count($expenses) - 1): ?>
@@ -440,7 +441,7 @@ if (!empty($luxuries)) {
 		<?php $i++ ?>
 	<?php endforeach ?>
 	<?php if (!empty($luxuries)): ?>
-		<tr id="<?= $class . '-market' ?>" class="collapse <?= $class ?>">
+		<tr id="<?= $class . '-market' ?>" class="collapse <?= $class . $stripe ?>">
 			<th scope="row">Marktpreise</th>
 			<td colspan="8">
 				<table class="market table">
@@ -461,7 +462,7 @@ if (!empty($luxuries)) {
 	<?php endif ?>
 
 <?php else: ?>
-	<tr class="region<?= $realm ?>">
+	<tr class="region<?= $realm . $stripe ?>">
 		<th scope="rowgroup" colspan="3">
 			<a href=".<?= $class ?>" title="Details..." data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="<?= $ids ?>">
 				<?php if ($realmId): ?>
@@ -481,7 +482,7 @@ if (!empty($luxuries)) {
 		<td><?= $income->value ?></td>
 		<td class="<?= $income->movement ?> more-is-good"><?= $income->change ?></td>
 	</tr>
-	<tr id="<?= $class?>-joblessness" class="collapse <?= $class ?>">
+	<tr id="<?= $class?>-joblessness" class="collapse <?= $class . $stripe ?>">
 		<th scope="row">Arbeitslosigkeit</th>
 		<td><?= $joblessness->value ?> %</td>
 		<td class="<?= $joblessness->movement ?> less-is-good"><?= $joblessness->change ?></td>
@@ -495,7 +496,7 @@ if (!empty($luxuries)) {
 		<td><?= $births->value ?></td>
 		<td class="<?= $births->movement ?> more-is-good"><?= $births->change ?></td>
 	</tr>
-	<tr id="<?= $class ?>-population" class="collapse <?= $class ?>">
+	<tr id="<?= $class ?>-population" class="collapse <?= $class . $stripe ?>">
 		<th scope="row">Rekruten</th>
 		<td><?= $recruits->value ?></td>
 		<td class="<?= $recruits->movement ?> more-is-good"><?= $recruits->change ?></td>
@@ -511,7 +512,7 @@ if (!empty($luxuries)) {
 	</tr>
 	<?php foreach ($animals as $i => $animal): ?>
 		<?php if ($i % $cols === 0): ?>
-			<tr id="<?= $class . '-' . $animal->key ?>" class="collapse <?= $class ?>">
+			<tr id="<?= $class . '-' . $animal->key ?>" class="collapse <?= $class . $stripe ?>">
 			<th scope="row">Anzahl <?= $this->translate($animal->class, 1) ?></th>
 			<td><?= $animal->value ?></td>
 			<?php if ($i === count($animals) - 1): ?>
@@ -542,7 +543,7 @@ if (!empty($luxuries)) {
 			</tr>
 		<?php endif ?>
 	<?php endforeach ?>
-	<tr id="<?= $class ?>-unit-force" class="collapse <?= $class ?>">
+	<tr id="<?= $class ?>-unit-force" class="collapse <?= $class . $stripe ?>">
 		<th scope="row">Einheiten</th>
 		<td><?= $unitForce->value ?></td>
 		<td class="<?= $unitForce->movement ?> more-is-good"><?= $unitForce->change ?></td>
@@ -556,7 +557,7 @@ if (!empty($luxuries)) {
 	<?php $i = 0 ?>
 	<?php foreach ($expenses as $name => $expense): ?>
 		<?php if ($i % $cols === 0): ?>
-			<tr id="<?= $class . '-' . $expense->class ?>" class="collapse <?= $class ?>">
+			<tr id="<?= $class . '-' . $expense->class ?>" class="collapse <?= $class . $stripe ?>">
 			<th scope="row"><?= $name ?></th>
 			<td><?= $expense->value ?></td>
 			<?php if ($i === count($expenses) - 1): ?>
@@ -589,7 +590,7 @@ if (!empty($luxuries)) {
 		<?php $i++ ?>
 	<?php endforeach ?>
 	<?php if (!empty($luxuries)): ?>
-		<tr id="<?= $class . '-market' ?>" class="collapse <?= $class ?>">
+		<tr id="<?= $class . '-market' ?>" class="collapse <?= $class . $stripe ?>">
 			<th scope="row">Marktpreise</th>
 			<td colspan="11">
 				<table class="market table">
