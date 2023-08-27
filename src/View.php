@@ -6,6 +6,7 @@ use function Lemuria\getClass;
 use function Lemuria\number as formatNumber;
 use Lemuria\Engine\Fantasya\Census;
 use Lemuria\Engine\Fantasya\Combat\BattleLog;
+use Lemuria\Engine\Fantasya\Context;
 use Lemuria\Engine\Fantasya\Effect\Hunger;
 use Lemuria\Engine\Fantasya\Effect\ShipbuildingEffect;
 use Lemuria\Engine\Fantasya\Effect\SpyEffect;
@@ -14,6 +15,8 @@ use Lemuria\Engine\Fantasya\Factory\GrammarTrait;
 use Lemuria\Engine\Fantasya\Factory\Model\Trades;
 use Lemuria\Engine\Fantasya\Factory\Model\TravelAtlas;
 use Lemuria\Engine\Fantasya\Factory\Model\Visibility;
+use Lemuria\Engine\Fantasya\Factory\Model\Wage;
+use Lemuria\Engine\Fantasya\Factory\RealmTrait;
 use Lemuria\Engine\Fantasya\Message\Casus;
 use Lemuria\Engine\Fantasya\Message\Filter\NoAnnouncementFilter;
 use Lemuria\Engine\Fantasya\Outlook;
@@ -71,6 +74,7 @@ function dateTimeIso8601(int $timestamp): string {
 abstract class View
 {
 	use GrammarTrait;
+	use RealmTrait;
 
 	protected final const BATTLE_ROW = ['Fliehen', 'Nicht', 'Defensiv', 'Hinten', 'Vorsichtig', 'Vorne', 'Aggressiv'];
 
@@ -98,6 +102,8 @@ abstract class View
 
 	protected array $statisticsCache = [];
 
+	private readonly Context $context;
+
 	private readonly Filter $messageFilter;
 
 	private int $created = 0;
@@ -113,6 +119,7 @@ abstract class View
 	}
 
 	public function __construct(FileWriter $writer) {
+		$this->context       = new Context(State::getInstance());
 		$this->party         = $writer->getParty();
 		$this->messageFilter = $writer->getFilter();
 		$this->census        = new Census($this->party);
@@ -434,7 +441,7 @@ abstract class View
 	}
 
 	public function health(Unit $unit): string {
-		$effect = new Hunger(new State());
+		$effect = new Hunger(State::getInstance());
 		if (Lemuria::Score()->find($effect->setUnit($unit))) {
 			$key = 'hunger';
 		} else {
@@ -614,6 +621,12 @@ abstract class View
 			return (bool)Lemuria::Score()->find($effect->setUnit($unit));
 		}
 		return false;
+	}
+
+	public function wage(Region $region): int {
+		$infrastructure = $this->calculateInfrastructure($region);
+		$wage           = new Wage($infrastructure);
+		return $wage->getWage();
 	}
 
 	/**

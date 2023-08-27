@@ -35,6 +35,7 @@ $atlas      = $this->atlas;
 $map        = $this->map;
 $landscape  = $region->Landscape();
 $name       = $region->Name();
+$wage       = $this->wage($region);
 $resources  = $region->Resources();
 $neighbours = $this->neighbours($region);
 $treasury   = $region->Treasury();
@@ -107,7 +108,8 @@ endif;
 <?php endif ?>
 <?php else: ?>
 >> <?= $region ?> <?= $map->getCoordinates($region) ?><?= $this->template('realm/header', $region) ?> <?= $this->translate($landscape) ?>, <?= $this->item(Peasant::class, $resources) ?>, <?= $this->item(Silver::class, $resources) ?>
-.<?php if ($r > 0): ?> <?= $recruits ?> <?= $r === 1 ? 'kann' : 'können' ?> rekrutiert werden.<?php endif ?>
+. Der Arbeitslohn beträgt <?= $wage ?>
+ Silber.<?php if ($r > 0): ?> <?= $recruits ?> <?= $r === 1 ? 'kann' : 'können' ?> rekrutiert werden.<?php endif ?>
 <?php if ($t && $m): ?>
  Hier <?= $t === 1 ? 'kann' : 'können' ?> <?= $trees ?> geerntet sowie <?= $mining ?> abgebaut werden.<?php
 elseif ($t): ?>

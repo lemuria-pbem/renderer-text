@@ -23,17 +23,18 @@ $territory = $region->Realm()?->Territory();
 $realm     = $territory ? ($territory->Central() === $region ? ' realm center' : ' realm') : '';
 $class     = $prefix . id($region);
 
-$population  = $this->numberStatistics(Subject::Population, $region);
-$workers     = $this->numberStatistics(Subject::Workers, $region);
-$workplaces  = $this->numberStatistics(Subject::Workplaces, $region);
-$recruits    = $this->numberStatistics(Subject::Unemployment, $region);
-$births      = $this->numberStatistics(Subject::Births, $region);
-$migration   = $this->numberStatistics(Subject::Migration, $region);
-$wealth      = $this->numberStatistics(Subject::Wealth, $region);
-$income      = $this->numberStatistics(Subject::Income, $region);
-$joblessness = $this->numberStatistics(Subject::Joblessness, $region);
-$prosperity  = $this->numberStatistics(Subject::Prosperity, $region);
-$expenses    = $this->multipleStatistics([
+$population     = $this->numberStatistics(Subject::Population, $region);
+$workers        = $this->numberStatistics(Subject::Workers, $region);
+$infrastructure = $this->numberStatistics(Subject::Infrastructure, $region);
+$workplaces     = $this->numberStatistics(Subject::Workplaces, $region);
+$recruits       = $this->numberStatistics(Subject::Unemployment, $region);
+$births         = $this->numberStatistics(Subject::Births, $region);
+$migration      = $this->numberStatistics(Subject::Migration, $region);
+$wealth         = $this->numberStatistics(Subject::Wealth, $region);
+$income         = $this->numberStatistics(Subject::Income, $region);
+$joblessness    = $this->numberStatistics(Subject::Joblessness, $region);
+$prosperity     = $this->numberStatistics(Subject::Prosperity, $region);
+$expenses       = $this->multipleStatistics([
 	'Ausgaben für Unterhalt'    => Subject::Support,
 	'Ausgaben für Gebäude'      => Subject::Maintenance,
 	'Ausgaben für Rekrutierung' => Subject::Recruiting,
@@ -41,18 +42,17 @@ $expenses    = $this->multipleStatistics([
 	'Handelseinkäufe'           => Subject::Purchase,
 	'Almosen an Fremdeinheiten' => Subject::Charity
 ], $region);
-$trees       = $this->numberStatistics(Subject::Trees, $region);
-$animals     = $this->animalStatistics(Subject::Animals, $region);
-$luxuries    = $this->marketStatistics(Subject::Market, $region);
-
+$trees          = $this->numberStatistics(Subject::Trees, $region);
+$animals        = $this->animalStatistics(Subject::Animals, $region);
+$luxuries       = $this->marketStatistics(Subject::Market, $region);
 $representative = $this->census->getPeople($region)->getFirst();
 $unitForce      = $this->numberStatisticsOrNull(Subject::UnitForce, $representative);
 $peopleForce    = $this->numberStatisticsOrNull(Subject::PeopleForce, $representative);
 $reserve        = $this->regionSilverStatistics($representative);
 
 if ($cols <= 1) {
-	$ids = $class . '-population ' . $class . '-workers ' . $class . '-recruits ' . $class . '-births ' .
-		   $class . '-migration ' . $class . '-wealth ' . $class . '-income ' . $class . '-trees';
+	$ids = $class . '-population ' . $class . '-infrastructure ' . $class . '-workers ' . $class . '-recruits ' .
+		   $class . '-births ' . $class . '-migration ' . $class . '-wealth ' . $class . '-income ' . $class . '-trees';
 } elseif ($cols === 2) {
 	$ids = $class . '-joblessness ' . $class . '-population ' . $class . '-peasants ' . $class . '-wealth ' .
 		   $class . '-prosperity';
@@ -69,7 +69,7 @@ foreach ($animals as $i => $animal) {
 if ($cols <= 1) {
 	$ids .= ' ' . $class . '-unit-force ' . $class . '-people-force ' . $class . '-reserve';
 } elseif ($cols === 2) {
-	$ids .= ' ' . $class . '-unit-force ' . $class . '-reserve';
+	$ids .= ' ' . $class . '-unit-force ' . $class . '-infrastructure ' . $class . '-reserve';
 } else {
 	$ids .= ' ' . $class . '-unit-force';
 }
@@ -100,6 +100,11 @@ if (!empty($luxuries)) {
 		<th scope="row">Bevölkerung</th>
 		<td><?= $population->value ?></td>
 		<td class="more-is-good"><?= $population->change ?></td>
+	</tr>
+	<tr id="<?= $class ?>-infrastructure" class="collapse <?= $infrastructure->movement ?> <?= $class . $stripe ?>">
+		<th scope="row">Baupunkte</th>
+		<td><?= $infrastructure->value ?></td>
+		<td class="more-is-good"><?= $infrastructure->change ?></td>
 	</tr>
 	<tr id="<?= $class ?>-workplaces" class="collapse <?= $workplaces->movement ?> <?= $class . $stripe ?>">
 		<th scope="row">Arbeitsplätze</th>
@@ -284,7 +289,10 @@ if (!empty($luxuries)) {
 	<tr id="<?= $class ?>-reserve" class="collapse <?= $class . $stripe ?>">
 		<th scope="row">Silberreserve</th>
 		<td><?= $reserve->value ?></td>
-		<td class="<?= $reserve->movement ?> more-is-good" colspan="4"><?= $reserve->change ?></td>
+		<td class="<?= $reserve->movement ?> more-is-good"><?= $reserve->change ?></td>
+		<th scope="row">Baupunkte</th>
+		<td><?= $infrastructure->value ?></td>
+		<td class="<?= $infrastructure->movement ?> more-is-good"><?= $infrastructure->change ?></td>
 	</tr>
 	<?php $i = 0 ?>
 	<?php foreach ($expenses as $name => $expense): ?>
@@ -412,6 +420,11 @@ if (!empty($luxuries)) {
 		<th scope="row">Silberreserve</th>
 		<td><?= $reserve->value ?></td>
 		<td class="<?= $reserve->movement ?> more-is-good"><?= $reserve->change ?></td>
+	</tr>
+	<tr id="<?= $class ?>-infrastructure" class="collapse <?= $class . $stripe ?>">
+		<th scope="row">Baupunkte</th>
+		<td><?= $infrastructure->value ?></td>
+		<td class="<?= $infrastructure->movement ?> more-is-good" colspan="7"><?= $infrastructure->change ?></td>
 	</tr>
 	<?php $i = 0 ?>
 	<?php foreach ($expenses as $name => $expense): ?>
@@ -552,7 +565,10 @@ if (!empty($luxuries)) {
 		<td class="<?= $peopleForce->movement ?> more-is-good"><?= $peopleForce->change ?></td>
 		<th scope="row">Silberreserve</th>
 		<td><?= $reserve->value ?></td>
-		<td class="<?= $reserve->movement ?> more-is-good" colspan="4"><?= $reserve->change ?></td>
+		<td class="<?= $reserve->movement ?> more-is-good"><?= $reserve->change ?></td>
+		<th scope="row">Baupunkte</th>
+		<td><?= $infrastructure->value ?></td>
+		<td class="<?= $infrastructure->movement ?> more-is-good"><?= $infrastructure->change ?></td>
 	</tr>
 	<?php $i = 0 ?>
 	<?php foreach ($expenses as $name => $expense): ?>
