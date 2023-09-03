@@ -5,6 +5,7 @@ use function Lemuria\Renderer\Text\View\center;
 use function Lemuria\Renderer\Text\View\description;
 use Lemuria\Engine\Fantasya\Factory\Model\Observables;
 use Lemuria\Engine\Fantasya\Factory\Model\Trades;
+use Lemuria\Engine\Fantasya\Message\Casus;
 use Lemuria\Model\Fantasya\Intelligence;
 use Lemuria\Model\Fantasya\Unit;
 use Lemuria\Renderer\Text\View\Text;
@@ -32,7 +33,7 @@ endforeach;
 $resources = [];
 if ($isGuarding):
 	foreach (new Observables($unit->Inventory()) as $quantity):
-		$resources[] = $this->number($quantity->Count(), $quantity->Commodity());
+		$resources[] = $this->number($quantity->Count(), $quantity->Commodity(), Casus::Dative);
 	endforeach;
 	$n = count($resources);
 	if ($n > 1):

@@ -159,10 +159,10 @@ abstract class View
 	/**
 	 * Format a number with optional string.
 	 */
-	public function number(int|float $number, Singleton|string|null $singleton = null, string $delimiter = ' '): string {
+	public function number(int|float $number, Singleton|string|null $singleton = null, Casus $casus = Casus::Adjective, string $delimiter = ' '): string {
 		if ($singleton) {
 			$index = $number == 1 ? 0 : 1;
-			return formatNumber($number) . $delimiter . $this->translateSingleton($singleton, $index);
+			return formatNumber($number) . $delimiter . $this->translateSingleton($singleton, $index, $casus);
 		}
 		return formatNumber($number);
 	}
