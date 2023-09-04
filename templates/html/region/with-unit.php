@@ -36,6 +36,7 @@ $resources  = $region->Resources();
 $neighbours = $this->neighbours($region);
 $treasury   = $region->Treasury();
 
+$tr      = $treasury->count();
 $t       = $resources[Wood::class]->Count();
 $g       = $resources[Stone::class]->Count();
 $o       = $resources[Iron::class]->Count();
@@ -127,7 +128,7 @@ endif;
 	<?= ucfirst(implode(', ', $neighbours)) ?>.
 	<?= $this->template('description', $region) ?>
 </p>
-<?php if ($luxuries && $hasPeasants || $gs > 0): ?>
+<?php if ($luxuries && $hasPeasants || $tr > 0 || $gs > 0): ?>
 	<p>
 		<?php if ($hasMarket && $hasPeasants): ?>
 			Die Bauern produzieren <?= $this->things($offer->Commodity()) ?> und verlangen pro Stück $<?= $this->number($offer->Price()) ?>.
@@ -135,7 +136,7 @@ endif;
 		<?php elseif ($offer && $hasPeasants): ?>
 			Die Bauern produzieren <?= $this->things($offer->Commodity()) ?>.<br>
 		<?php endif ?>
-		<?php if (!$treasury->isEmpty()): ?>
+		<?php if ($tr > 0): ?>
 			<?= $this->template('treasury/region', $treasury) ?>
 			<br>
 		<?php endif ?>
