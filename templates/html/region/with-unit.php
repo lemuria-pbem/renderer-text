@@ -2,6 +2,7 @@
 /** @noinspection PhpUndefinedVariableInspection */
 declare (strict_types = 1);
 
+use function Lemuria\number;
 use Lemuria\Engine\Fantasya\Availability;
 use Lemuria\Model\Fantasya\Building\Site;
 use Lemuria\Model\Fantasya\Commodity\Camel;
@@ -39,7 +40,7 @@ $t       = $resources[Wood::class]->Count();
 $g       = $resources[Stone::class]->Count();
 $o       = $resources[Iron::class]->Count();
 $m       = $g && $o;
-$trees   = $this->item(Wood::class, $resources);
+$trees   = $t === 1 ? '1 Baum' : number($t) . ' Bäume';
 $granite = $this->item(Stone::class, $resources);
 $ore     = $this->item(Iron::class, $resources);
 $mining	 = null;
@@ -109,9 +110,9 @@ endif;
 			<?= $recruits ?> <?= $r === 1 ? 'kann' : 'können' ?> rekrutiert werden.
 		<?php endif ?>
 		<?php if ($t && $m): ?>
-			Hier <?= $t === 1 ? 'kann' : 'können' ?> <?= $trees ?> geerntet sowie <?= $mining ?> abgebaut werden.
+			Hier <?= $t === 1 ? 'kann' : 'können' ?> <?= $trees ?> gefällt sowie <?= $mining ?> abgebaut werden.
 		<?php elseif ($t): ?>
-			Hier <?= $t === 1 ? 'kann' : 'können' ?> <?= $trees ?> geerntet werden.
+			Hier <?= $t === 1 ? 'kann' : 'können' ?> <?= $trees ?> gefällt werden.
 		<?php elseif ($g || $o): ?>
 			Hier <?= $g + $o === 1 ? 'kann' : 'können' ?> <?= $mining ?> abgebaut werden.
 		<?php endif ?>

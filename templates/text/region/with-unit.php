@@ -2,6 +2,7 @@
 /** @noinspection PhpUndefinedVariableInspection */
 declare (strict_types = 1);
 
+use function Lemuria\number;
 use function Lemuria\Renderer\Text\View\description;
 use function Lemuria\Renderer\Text\View\line;
 use Lemuria\Engine\Fantasya\Availability;
@@ -44,7 +45,7 @@ $t       = $resources[Wood::class]->Count();
 $g       = $resources[Stone::class]->Count();
 $o       = $resources[Iron::class]->Count();
 $m       = $g && $o;
-$trees   = $this->item(Wood::class, $resources);
+$trees   = $t === 1 ? '1 Baum' : number($t) . ' Bäume';
 $granite = $this->item(Stone::class, $resources);
 $ore     = $this->item(Iron::class, $resources);
 $mining  = null;
@@ -111,9 +112,9 @@ endif;
 . Der Arbeitslohn beträgt <?= $wage ?>
  Silber.<?php if ($r > 0): ?> <?= $recruits ?> <?= $r === 1 ? 'kann' : 'können' ?> rekrutiert werden.<?php endif ?>
 <?php if ($t && $m): ?>
- Hier <?= $t === 1 ? 'kann' : 'können' ?> <?= $trees ?> geerntet sowie <?= $mining ?> abgebaut werden.<?php
+ Hier <?= $t === 1 ? 'kann' : 'können' ?> <?= $trees ?> gefällt sowie <?= $mining ?> abgebaut werden.<?php
 elseif ($t): ?>
- Hier <?= $t === 1 ? 'kann' : 'können' ?> <?= $trees ?> geerntet werden.<?php
+ Hier <?= $t === 1 ? 'kann' : 'können' ?> <?= $trees ?> gefällt werden.<?php
 elseif ($g || $o): ?>
  Hier <?= $g + $o === 1 ? 'kann' : 'können' ?> <?= $mining ?> abgebaut werden.<?php
 endif ?><?php if ($a): ?> <?= $animals ?> <?= $a === 1 ? 'streift' : 'streifen' ?> durch die Wildnis.<?php
