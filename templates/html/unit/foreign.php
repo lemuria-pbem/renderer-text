@@ -5,6 +5,7 @@ use Lemuria\Engine\Fantasya\Factory\Model\Observables;
 use Lemuria\Engine\Fantasya\Factory\Model\Trades;
 use Lemuria\Engine\Fantasya\Message\Casus;
 use Lemuria\Model\Fantasya\Intelligence;
+use Lemuria\Model\Fantasya\Party\Type;
 use Lemuria\Model\Fantasya\Unit;
 use Lemuria\Renderer\Text\View\Html;
 
@@ -36,10 +37,11 @@ if ($isGuarding):
 		unset($resources[$n - 1]);
 	endif;
 endif;
+$unitClass = $this->party->Type() === Type::Monster && $unit->Party()->Type() !== Type::Monster ? 'danger' : 'primary';
 
 ?>
 <h6>
-	<?= $unit->Name() ?> <span class="badge text-bg-primary font-monospace"><?= $unit->Id() ?></span>
+	<?= $unit->Name() ?> <span class="badge text-bg-<?= $unitClass ?> font-monospace"><?= $unit->Id() ?></span>
 	<?php if ($foreign): ?>
 		von <?= $foreign->Name() ?> <span class="badge text-bg-secondary font-monospace"><?= $foreign->Id() ?></span>
 	<?php else: ?>
