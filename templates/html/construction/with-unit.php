@@ -18,7 +18,7 @@ $m            = count($this->messages($construction));
 $h            = $treasury->isEmpty() ? 0 : 1;
 $trades       = new Trades($construction);
 $building     = $this->building($trades, $construction);
-$columns      = 1 + ($m > 0 || $h ? 1 : 0) + ($building ? 1 : 0);
+$columns      = 1 + ($m > 0 || $h ? 1 : 0) + ($building === 'market' ? 1 : 0);
 
 ?>
 <?php if ($columns === 1): ?>
