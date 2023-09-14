@@ -22,6 +22,8 @@ $pCount    = count($pool);
 $experts   = $this->expertsStatistics(Subject::Experts, $party);
 
 ?>
+<p>Wähle ein Talent, um eine vollständige Übersicht zu erhalten.</p>
+
 <div class="table-responsive d-md-none">
 	<table class="statistics table table-sm table-bordered">
 		<thead class="table-light">
@@ -64,11 +66,6 @@ $experts   = $this->expertsStatistics(Subject::Experts, $party);
 					</td>
 				</tr>
 			<?php endif ?>
-			<?php $r = 0; foreach ($atlas as $region): ?>
-				<?php if (!($region->Landscape() instanceof Navigable)): ?>
-					<?= $this->template('statistics/region', $region, 1, $r++) ?>
-				<?php endif ?>
-			<?php endforeach ?>
 		</tbody>
 	</table>
 </div>
@@ -114,11 +111,6 @@ $experts   = $this->expertsStatistics(Subject::Experts, $party);
 				</td>
 			</tr>
 		<?php endif ?>
-		<?php $r = 0; foreach ($atlas as $region): ?>
-			<?php if (!($region->Landscape() instanceof Navigable)): ?>
-				<?= $this->template('statistics/region', $region, 2, $r++) ?>
-			<?php endif ?>
-		<?php endforeach ?>
 		</tbody>
 	</table>
 </div>
@@ -167,11 +159,6 @@ $experts   = $this->expertsStatistics(Subject::Experts, $party);
 				</td>
 			</tr>
 		<?php endif ?>
-		<?php $r = 0; foreach ($atlas as $region): ?>
-			<?php if (!($region->Landscape() instanceof Navigable)): ?>
-				<?= $this->template('statistics/region', $region, 3, $r++) ?>
-			<?php endif ?>
-		<?php endforeach ?>
 		</tbody>
 	</table>
 </div>
@@ -221,11 +208,6 @@ $experts   = $this->expertsStatistics(Subject::Experts, $party);
 				</td>
 			</tr>
 		<?php endif ?>
-		<?php $r = 0; foreach ($atlas as $region): ?>
-			<?php if (!($region->Landscape() instanceof Navigable)): ?>
-				<?= $this->template('statistics/region', $region, 4, $r++) ?>
-			<?php endif ?>
-		<?php endforeach ?>
 		</tbody>
 	</table>
 </div>

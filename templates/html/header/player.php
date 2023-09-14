@@ -50,6 +50,6 @@ $people = $this->numberStatistics(Subject::People, $party);
 
 <h3 id="statistics" title="Taste: S">Statistik</h3>
 
-<?= $this->template('statistics/table') ?>
-
+<?= $this->template('statistics/party') ?>
+<?= $this->template('statistics/regions') ?>
 <?= $this->template('statistics/talents') ?>
