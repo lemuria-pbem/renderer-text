@@ -24,7 +24,7 @@ $duty          = (int)floor($dutyExtension->Duty() * 100.0);
 
 <?php if ($isMaintained): ?>
 	<?php if ($fee instanceof Quantity): ?>
-		<p>Die Liegegebühr beträgt <?= $this->resource($fee) ?>.</p>
+		<p>Die Liegegebühr beträgt <?= $this->resource($fee) ?> pro Ankerplatz.</p>
 	<?php else: ?>
 		<p>Es gibt keine Liegegebühr.</p>
 	<?php endif ?>
