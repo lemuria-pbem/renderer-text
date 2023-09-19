@@ -22,6 +22,7 @@ use Lemuria\Model\Fantasya\Landscape\Lake;
 use Lemuria\Model\Fantasya\Landscape\Ocean;
 use Lemuria\Model\Fantasya\Navigable;
 use Lemuria\Model\Fantasya\Region;
+use Lemuria\Model\World\Direction;
 use Lemuria\Renderer\Text\View\Text;
 
 /** @var Text $this */
@@ -81,7 +82,12 @@ $gs           = count($guards);
 if ($gs > 0):
 	$guardNames = [];
 	foreach ($guards as $unit):
-		$guardNames[] = (string)$unit;
+		$guard  = (string)$unit;
+		$border = $unit->GuardDirection();
+		if ($border !== Direction::None) {
+			$guard .= ' im ' . $this->dictionary->get('world', $border->value);
+		}
+		$guardNames[] = $guard;
 	endforeach;
 	if ($gs > 1):
 		$guardNames[$gs - 2] .= ' und ' . $guardNames[$gs - 1];
