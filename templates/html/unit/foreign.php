@@ -20,6 +20,7 @@ $census       = $this->census;
 $foreign      = $census->getParty($unit);
 $intelligence = new Intelligence($unit->Region());
 $isGuarding   = false;
+$unitIsGuard  = $unit->IsGuarding();
 foreach ($intelligence->getGuards() as $guard):
 	if ($guard->Party() === $this->party):
 		$isGuarding = true;
@@ -27,9 +28,10 @@ foreach ($intelligence->getGuards() as $guard):
 	endif;
 endforeach;
 $resources = [];
-if ($isGuarding):
+if ($isGuarding || $unitIsGuard):
+	$casus = $unitIsGuard ? Casus::Accusative : Casus::Dative;
 	foreach (new Observables($unit->Inventory()) as $quantity):
-		$resources[] = $this->number($quantity->Count(), $quantity->Commodity(), Casus::Dative);
+		$resources[] = $this->number($quantity->Count(), $quantity->Commodity(), $casus);
 	endforeach;
 	$n = count($resources);
 	if ($n > 1):
@@ -53,7 +55,11 @@ $unitClass = $this->party->Type() === Type::Monster && $unit->Party()->Type() !=
 	<?= $this->template('description', $unit) ?>
 </p>
 <?php if (count($resources) > 0): ?>
-	<p>Reist mit <?= implode(', ', $resources) ?>.</p>
+	<?php if ($unitIsGuard): ?>
+		<p>Besitzt <?= implode(', ', $resources) ?>.</p>
+	<?php else: ?>
+		<p>Reist mit <?= implode(', ', $resources) ?>.</p>
+	<?php endif ?>
 <?php endif ?>
 <?php if ($trades && $trades->HasMarket()): ?>
 	<div class="market">

@@ -24,6 +24,7 @@ if (!$foreign):
 endif;
 $intelligence = new Intelligence($unit->Region());
 $isGuarding   = false;
+$unitIsGuard  = $unit->IsGuarding();
 foreach ($intelligence->getGuards() as $guard):
 	if ($guard->Party() === $this->party):
 		$isGuarding = true;
@@ -31,9 +32,10 @@ foreach ($intelligence->getGuards() as $guard):
 	endif;
 endforeach;
 $resources = [];
-if ($isGuarding):
+if ($isGuarding || $unitIsGuard):
+	$casus = $unitIsGuard ? Casus::Accusative : Casus::Dative;
 	foreach (new Observables($unit->Inventory()) as $quantity):
-		$resources[] = $this->number($quantity->Count(), $quantity->Commodity(), Casus::Dative);
+		$resources[] = $this->number($quantity->Count(), $quantity->Commodity(), $casus);
 	endforeach;
 	$n = count($resources);
 	if ($n > 1):
@@ -48,7 +50,11 @@ endif;
 .<?= description($unit) ?>
 
 <?php if (count($resources) > 0): ?>
+<?php if ($unitIsGuard): ?>
+Besitzt <?= implode(', ', $resources) ?>.
+<?php else: ?>
 Reist mit <?= implode(', ', $resources) ?>.
+<?php endif ?>
 <?php endif ?>
 <?php if ($trades && $trades->HasMarket()): ?>
 
