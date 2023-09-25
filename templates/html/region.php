@@ -48,6 +48,7 @@ $fleet = View::sortedFleet($region);
 					<div class="col-12 col-xl-4 p-0 ps-xl-3 pe-xl-0">
 						<?= $this->template('material-pool', $region) ?>
 						<?= $this->template('quotas', $region) ?>
+						<?= $this->template('transport-capacity', $region) ?>
 					</div>
 				<?php endif ?>
 			</div>

@@ -25,6 +25,7 @@ $fleet      = View::sortedFleet($region);
 
 <?php if ($this->party->Type() === Type::Player): ?>
 <?= $this->template('material-pool', $region) ?>
+<?= $this->template('transport-capacity', $region) ?>
 <?php endif ?>
 <?php foreach ($estate as $construction): ?>
 <?= $this->template('construction/with-unit', $construction) ?>
