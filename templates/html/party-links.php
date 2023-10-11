@@ -11,8 +11,18 @@ $spells   = $party->SpellBook()->count();
 $herbs    = $party->HerbalBook()->count();
 $unica    = new PartyUnica($party);
 $treasury = $unica->Treasury();
-$hasLinks = $spells + $herbs + $treasury->count();
+$battles  = $this->hostilities();
+$hasLinks = $spells + $herbs + $treasury->count() + count($battles);
 $i        = $spells;
+
+$hostilities = [];
+foreach ($battles as $battle):
+	$key = [(string)$battle->Location()->Id(), (string)$battle->Counter()];
+	foreach ($battle->Participants() as $participant):
+		$key[] = (string)$participant->Id();
+	endforeach;
+	$hostilities[implode('-', $key)] = $battle;
+endforeach
 
 ?>
 <?php if ($hasLinks): ?>
@@ -56,7 +66,7 @@ $i        = $spells;
 									<button class="nav-link" id="unicum-<?= $unicum->Id() ?>-tab" data-bs-toggle="tab" data-bs-target="#unicum-<?= $unicum->Id() ?>-tab-pane" type="button" role="tab" aria-controls="unicum-<?= $unicum->Id() ?>-tab-pane" aria-selected="false"><?= $unicum->Name() ?></button>
 								</li>
 							<?php endforeach ?>
-							<?php foreach ($this->hostilities() as $battle): ?>
+							<?php foreach ($hostilities as $battle): ?>
 								<li class="nav-item" role="presentation">
 									<button class="nav-link" id="battle-<?= $battle->Location()->Id() . '-' . $battle->Battle()->counter ?>-tab" data-bs-toggle="tab" data-bs-target="#battle-<?= $battle->Location()->Id() . '-' . $battle->Battle()->counter ?>-tab-pane" type="button" role="tab" aria-controls="battle-<?= $battle->Location()->Id() . '-' . $battle->Battle()->counter ?>-tab-pane" aria-selected="false">Kampf in <?= $battle->Location()->Name() ?></button>
 								</li>
@@ -78,7 +88,7 @@ $i        = $spells;
 									<iframe src="<?= $this->unicumPath($unicum) ?>" width="760" height="500"></iframe>
 								</div>
 							<?php endforeach ?>
-							<?php foreach ($this->hostilities() as $battle): ?>
+							<?php foreach ($hostilities as $battle): ?>
 								<div class="tab-pane fade" id="battle-<?= $battle->Location()->Id() . '-' . $battle->Battle()->counter ?>-tab-pane" role="tabpanel" aria-labelledby="battle-<?= $battle->Location()->Id() . '-' . $battle->Battle()->counter ?>-tab" tabindex="0">
 									<iframe src="<?= $this->battleLogPath($battle) ?>" width="760" height="500"></iframe>
 								</div>
