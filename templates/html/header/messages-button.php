@@ -12,21 +12,39 @@ declare (strict_types = 1);
   	</button>
 	<ul id="messages-button-config" class="dropdown-menu dropdown-menu-end">
 		<li>
+			<a class="dropdown-item" href="#" data-option="guard">
+				<span></span>
+				Bewachung/Durchreise
+			</a>
+		</li>
+		<li>
+			<a class="dropdown-item" href="#" data-option="filter-layabout">
+				<span></span>
+				Faulenzen
+			</a>
+		</li>
+		<li>
 			<a class="dropdown-item" href="#" data-option="battle">
 				<span></span>
 				Kämpfe
 			</a>
 		</li>
 		<li>
-			<a class="dropdown-item" href="#" data-option="movement">
+			<a class="dropdown-item" href="#" data-option="filter-aboard">
 				<span></span>
-				Schiffssichtungen
+				Lernen an Bord
 			</a>
 		</li>
 		<li>
-			<a class="dropdown-item" href="#" data-option="guard">
+			<a class="dropdown-item" href="#" data-option="filter-recreate">
 				<span></span>
-				Bewachung/Durchreise
+				Regenerierung
+			</a>
+		</li>
+		<li>
+			<a class="dropdown-item" href="#" data-option="movement">
+				<span></span>
+				Schiffssichtungen
 			</a>
 		</li>
 	</ul>

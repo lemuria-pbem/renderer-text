@@ -182,5 +182,5 @@ endif;
 	</ol>
 <?php endif ?>
 <?php if (count($this->messages($unit))): ?>
-	<?= $this->template('report/default', $unit) ?>
+	<?= $this->template('report/with-filter', $unit) ?>
 <?php endif ?>

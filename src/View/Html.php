@@ -2,6 +2,7 @@
 declare(strict_types = 1);
 namespace Lemuria\Renderer\Text\View;
 
+use Lemuria\Renderer\Text\Engine\SectionFilter;
 use function Lemuria\getClass;
 use Lemuria\Engine\Fantasya\Combat\BattleLog;
 use Lemuria\Engine\Fantasya\Statistics\Subject;
@@ -87,9 +88,12 @@ class Html extends View
 
 	private PathFactory $pathFactory;
 
+	private SectionFilter $sectionFilter;
+
 	public function __construct(FileWriter $writer) {
 		parent::__construct($writer);
-		$this->pathFactory = $writer->getPathFactory();
+		$this->pathFactory   = $writer->getPathFactory();
+		$this->sectionFilter = new SectionFilter();
 	}
 
 	/**
@@ -114,11 +118,16 @@ class Html extends View
 	 * Render a report message with section class.
 	 */
 	public function messageWithSection(Message $message): string {
-		$level   = $message->Result()->value;
-		$badge   = self::BADGE[$level] ?? self::BADGE_UNDEFINED;
-		$b       = self::LEVEL[$level] ?? self::LEVEL_UNDEFINED;
 		$section = strtolower($message->Section()->name);
-		return '<span class="badge text-bg-' . $badge . ' font-monospace" data-section="' . $section . '">' . $b . '</span>&nbsp;' . $message;
+		return $this->createMessageWithSection($message, $section);
+	}
+
+	/**
+	 * Render a report message with optional section class based on specific filter.
+	 */
+	public function messageWithFilter(Message $message): string {
+		$section = $this->sectionFilter->getSection($message);
+		return $section ? $this->createMessageWithSection($message, $section) : $this->message($message);
 	}
 
 	public function numberStatistics(Subject $subject, Identifiable $entity): HtmlNumber {
@@ -309,5 +318,12 @@ class Html extends View
 			return $output;
 		}
 		throw new \RuntimeException('Template error.' . ($output ? PHP_EOL . $output : ''));
+	}
+
+	private function createMessageWithSection(Message $message, string $section): string {
+		$level = $message->Result()->value;
+		$badge = self::BADGE[$level] ?? self::BADGE_UNDEFINED;
+		$b     = self::LEVEL[$level] ?? self::LEVEL_UNDEFINED;
+		return '<span class="badge text-bg-' . $badge . ' font-monospace" data-section="' . $section . '">' . $b . '</span>&nbsp;' . $message;
 	}
 }
