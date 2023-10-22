@@ -2,7 +2,9 @@
 declare(strict_types = 1);
 
 use function Lemuria\number;
+use Lemuria\Engine\Fantasya\Calculus;
 use Lemuria\Engine\Fantasya\Realm\Wagoner;
+use Lemuria\Engine\Fantasya\Travel\Transport;
 use Lemuria\Model\Fantasya\Region;
 use Lemuria\Renderer\Text\View\Html;
 
@@ -12,14 +14,21 @@ use Lemuria\Renderer\Text\View\Html;
 $region   = $this->variables[0];
 $realm    = $region->Realm();
 $isOwn    = $realm?->Party() === $this->party && $region === $realm->Territory()->Central();
-$fleet    = [];
-$capacity = 0;
 if ($isOwn):
+	$fleet    = [];
+	$wagoners = [];
+	$capacity = 0;
 	foreach ($this->census->getPeople($region) as $unit):
 		if ($unit->IsTransporting()):
-			$wagoner                  = new Wagoner($unit);
-			$fleet[$unit->Id()->Id()] = $wagoner;
-			$capacity                += $wagoner->Maximum();
+			$calculus      = new Calculus($unit);
+			$transport     = Transport::check($calculus->getTrip());
+			$wagoner       = new Wagoner($unit);
+			$id            = $unit->Id()->Id();
+			$fleet[$id]    = $wagoner;
+			$wagoners[$id] = $transport;
+			if ($transport === Transport::LAND):
+				$capacity += $wagoner->Maximum();
+			endif;
 		endif;
 	endforeach;
 	ksort($fleet);
@@ -31,8 +40,14 @@ endif;
 
 	<?php if (!empty($fleet)): ?>
 		<ul>
-			<?php foreach ($fleet as $wagoner): ?>
-				<li><?= $wagoner->Unit() ?>: <?= number($wagoner->Maximum() / 100) ?> GE</li>
+			<?php foreach ($fleet as $id => $wagoner): ?>
+				<li>
+					<?php if ($wagoners[$id] === Transport::NO_RIDING): ?>
+						<?= $wagoner->Unit() ?>: <s><?= number($wagoner->Maximum() / 100) ?> GE</s> (Reittalent zu niedrig)
+					<?php else: ?>
+						<?= $wagoner->Unit() ?>: <?= number($wagoner->Maximum() / 100) ?> GE
+					<?php endif ?>
+				</li>
 			<?php endforeach ?>
 		</ul>
 	<?php endif ?>
