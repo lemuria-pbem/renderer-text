@@ -22,14 +22,6 @@ $banner = $party->Banner() ? 'Parteibanner: ' . linkEmail($party->Banner()) : '(
 			<p><?= $banner ?></p>
 
 			<p>Die Partei besteht aus insgesamt <?= $this->number($count) ?> Individuen in <?= $this->number($party->People()->count()) ?> Einheiten.</p>
-
-			<?php if ($count > 0): ?>
-			<ul>
-				<?php foreach ($this->races($party) as $race): ?>
-					<li><?= $this->number($race['persons'], $race['race']) ?> in <?= $this->number($race['units']) ?> Einheiten</li>
-				<?php endforeach ?>
-			</ul>
-			<?php endif ?>
 		</div>
 		<div class="col-12 col-lg-6 p-0 ps-lg-3">
 			<h3>Ereignisse</h3>
@@ -41,3 +33,7 @@ $banner = $party->Banner() ? 'Parteibanner: ' . linkEmail($party->Banner()) : '(
 		<?= $this->template('hostilities', $party) ?>
 	</div>
 </div>
+
+<h3 id="statistics" title="Taste: S">Statistik</h3>
+
+<?= $this->template('statistics/other') ?>

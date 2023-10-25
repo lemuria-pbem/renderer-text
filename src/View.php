@@ -328,21 +328,6 @@ abstract class View
 		return $count;
 	}
 
-	public function races(Party $party): array {
-		$races = [];
-		foreach ($party->People() as $unit) {
-			$race = $unit->Race();
-			$key  = $this->translateSingleton($race, casus: Casus::Accusative);
-			if (!isset($races[$key])) {
-				$races[$key] = ['race' => $race, 'persons' => 0, 'units' => 0];
-			}
-			$races[$key]['persons'] += $unit->Size();
-			$races[$key]['units']++;
-		}
-		ksort($races);
-		return $races;
-	}
-
 	/**
 	 * @return array<Message>
 	 */
