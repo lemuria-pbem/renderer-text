@@ -12,6 +12,7 @@ use Lemuria\Renderer\Text\View\Text;
 /** @var Region $region */
 $region     = $this->variables[0];
 $atlas      = $this->atlas;
+$type       = $this->party->Type();
 $visibility = $atlas->getVisibility($region);
 $estate     = View::sortedEstate($region);
 $fleet      = View::sortedFleet($region);
@@ -23,7 +24,7 @@ $fleet      = View::sortedFleet($region);
 
 <?= $this->template('statistics/region', $region) ?>
 
-<?php if ($this->party->Type() === Type::Player): ?>
+<?php if ($type === Type::Player): ?>
 <?= $this->template('material-pool', $region) ?>
 <?= $this->template('transport-capacity', $region) ?>
 <?php endif ?>
@@ -44,7 +45,7 @@ $fleet      = View::sortedFleet($region);
 <?= $this->template('vessel/foreign', $vessel) ?>
 <?php endforeach ?>
 <?= $this->template('apparitions/with-unit', $region) ?>
-<?php elseif ($visibility === Visibility::Travelled): ?>
+<?php elseif ($visibility === Visibility::Travelled && $type === Type::Player): ?>
 <?= $this->template('region/with-unit', $region, true) ?>
 <?= $this->template('report', $region) ?>
 <?php foreach ($estate as $construction): ?>
@@ -63,6 +64,6 @@ $fleet      = View::sortedFleet($region);
 <?= $this->template('vessel/travelled', $vessel) ?>
 <?php endforeach ?>
 <?= $this->template('apparitions/travelled', $region) ?>
-<?php else: ?>
+<?php elseif ($type === Type::Player): ?>
 <?= $this->template('region/neighbour', $region) ?>
 <?php endif ?>

@@ -12,14 +12,17 @@ use Lemuria\Renderer\Text\View\Html;
 /** @var Html $this */
 
 /** @var Region $region */
-$region     = $this->variables[0];
-$atlas      = $this->atlas;
-$map        = $this->map;
-$type       = $this->party->Type();
-$visibility = $atlas->getVisibility($region);
+$region        = $this->variables[0];
+$atlas         = $this->atlas;
+$map           = $this->map;
+$type          = $this->party->Type();
+$visibility    = $atlas->getVisibility($region);
+$qualification = null;
 if ($visibility === Visibility::WithUnit) {
-	$people        = $this->census->getPeople($region);
-	$qualification = $this->qualificationStatistics(Subject::Qualification, $people->getFirst());
+	if ($type === Type::Player) {
+		$people        = $this->census->getPeople($region);
+		$qualification = $this->qualificationStatistics(Subject::Qualification, $people->getFirst());
+	}
 }
 $estate = View::sortedEstate($region);
 $fleet = View::sortedFleet($region);
@@ -94,7 +97,7 @@ $fleet = View::sortedFleet($region);
 			<?= $this->template('vessel/farsight', $vessel) ?>
 		<?php endforeach ?>
 		<?= $this->template('apparitions/with-unit', $region) ?>
-	<?php elseif ($visibility === Visibility::Travelled): ?>
+	<?php elseif ($visibility === Visibility::Travelled && $type === Type::Player): ?>
 		<div class="container-fluid">
 			<div class="row">
 				<div class="col-12 col-lg-6 ps-0">
@@ -135,7 +138,7 @@ $fleet = View::sortedFleet($region);
 			<?= $this->template('vessel/travelled', $vessel) ?>
 		<?php endforeach ?>
 		<?= $this->template('apparitions/travelled', $region) ?>
-	<?php else: ?>
+	<?php elseif ($type === Type::Player): ?>
 		<h4 id="<?= id($region) ?>">
 			<?= $region->Name() ?>
 			<span class="badge text-bg-light"><?= $map->getCoordinates($region) ?></span>
