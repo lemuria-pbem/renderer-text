@@ -134,6 +134,34 @@ class Text extends View
 	}
 
 	/**
+	 * @return array<TextNumber>
+	 */
+	public function racesStatistics(Party $party): array {
+		$statistics = [];
+		$units      = $this->statistics(Subject::RaceUnits, $party);
+		if ($units) {
+			foreach ($units as $class => $number) {
+				$name                 = $this->translate($class);
+				$statistics[$class][] = new TextNumber($number, $name . '-Einheiten');
+			}
+		}
+		$people = $this->statistics(Subject::RacePeople, $party);
+		if ($people) {
+			foreach ($people as $class => $number) {
+				$name                 = $this->translate($class);
+				$statistics[$class][] = new TextNumber($number, $name . '-Personen');
+			}
+		}
+		$races = [];
+		foreach ($statistics as $numbers) {
+			foreach ($numbers as $number) {
+				$races[] = $number;
+			}
+		}
+		return $races;
+	}
+
+	/**
 	 * @return array<string, TextNumber>
 	 */
 	public function materialPoolStatistics(Subject $subject, Party $party): array {

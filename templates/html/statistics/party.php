@@ -3,7 +3,6 @@ declare (strict_types = 1);
 
 use Lemuria\Engine\Fantasya\Statistics\Subject;
 use Lemuria\Lemuria;
-use Lemuria\Model\Fantasya\Navigable;
 use Lemuria\Renderer\Text\Model\World\SortedAtlas;
 use Lemuria\Renderer\Text\View\Html;
 
@@ -15,6 +14,7 @@ $round = Lemuria::Calendar()->Round();
 
 $units     = $this->numberStatistics(Subject::Units, $party);
 $people    = $this->numberStatistics(Subject::People, $party);
+$races     = $this->raceStatistics($party);
 $education = $this->numberStatistics(Subject::Education, $party);
 $expenses  = $this->numberStatistics(Subject::Expenses, $party);
 $pool      = $this->materialPoolStatistics(Subject::MaterialPool, $party);
@@ -54,6 +54,15 @@ $experts   = $this->expertsStatistics(Subject::Experts, $party);
 				<td><?= $expenses->value ?></td>
 				<td class="less-is-good"><?= $expenses->change ?></td>
 			</tr>
+			<?php foreach ($races as $numbers): ?>
+				<?php foreach ($numbers as $what => $race): ?>
+					<tr class="<?= $race->movement ?>">
+						<th scope="row"><?= $this->translate($race->class) ?>-<?= $what ?></th>
+						<td><?= $race->value ?></td>
+						<td class="more-is-good"><?= $race->change ?></td>
+					</tr>
+				<?php endforeach ?>
+			<?php endforeach ?>
 			<tr class="table-light">
 				<td colspan="3">
 					<?= $this->template('statistics/experts', $experts, 4) ?>
@@ -99,6 +108,15 @@ $experts   = $this->expertsStatistics(Subject::Experts, $party);
 			<td><?= $expenses->value ?></td>
 			<td class="<?= $expenses->movement ?> less-is-good"><?= $expenses->change ?></td>
 		</tr>
+		<?php foreach ($races as $numbers): ?>
+			<tr>
+			<?php foreach ($numbers as $what => $race): ?>
+				<th scope="row"><?= $this->translate($race->class) ?>-<?= $what ?></th>
+				<td><?= $race->value ?></td>
+				<td class="more-is-good"<?= count($numbers) === 1 ? ' colspan="4"' : '' ?>><?= $race->change ?></td>
+			<?php endforeach ?>
+			</tr>
+		<?php endforeach ?>
 		<tr class="table-light">
 			<td colspan="6">
 				<?= $this->template('statistics/experts', $experts, 6) ?>
@@ -147,6 +165,15 @@ $experts   = $this->expertsStatistics(Subject::Experts, $party);
 			<td><?= $expenses->value ?></td>
 			<td class="<?= $expenses->movement ?> less-is-good" colspan="7"><?= $expenses->change ?></td>
 		</tr>
+		<?php foreach ($races as $numbers): ?>
+			<tr>
+				<?php foreach ($numbers as $what => $race): ?>
+					<th scope="row"><?= $this->translate($race->class) ?>-<?= $what ?></th>
+					<td><?= $race->value ?></td>
+					<td class="more-is-good" <?= count($numbers) === 1 ? 'colspan="7"' : '' ?><?= count($numbers) > 1 && $what === 'Personen' ? 'colspan="4"' : '' ?>><?= $race->change ?></td>
+				<?php endforeach ?>
+			</tr>
+		<?php endforeach ?>
 		<tr class="table-light">
 			<td colspan="9">
 				<?= $this->template('statistics/experts', $experts, 8) ?>
@@ -196,6 +223,15 @@ $experts   = $this->expertsStatistics(Subject::Experts, $party);
 			<td><?= $expenses->value ?></td>
 			<td class="<?= $expenses->movement ?> less-is-good"><?= $expenses->change ?></td>
 		</tr>
+		<?php foreach ($races as $numbers): ?>
+			<tr>
+				<?php foreach ($numbers as $what => $race): ?>
+					<th scope="row"><?= $this->translate($race->class) ?>-<?= $what ?></th>
+					<td><?= $race->value ?></td>
+					<td class="more-is-good" <?= count($numbers) === 1 ? 'colspan="11"' : '' ?><?= count($numbers) > 1 && $what === 'Personen' ? 'colspan="7"' : '' ?>><?= $race->change ?></td>
+				<?php endforeach ?>
+			</tr>
+		<?php endforeach ?>
 		<tr class="table-light">
 			<td colspan="12">
 				<?= $this->template('statistics/experts', $experts, 10) ?>

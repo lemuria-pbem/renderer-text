@@ -22,6 +22,7 @@ $header    = (string)new TableRow('Deine Partei', 'Runde ' . number($round), 'Ve
 $underline = str_pad('-------------------------------', mb_strlen(trim($header)), '-') . PHP_EOL;
 $units     = $this->numberStatistics(Subject::Units, $party, 'Anzahl Einheiten');
 $people    = $this->numberStatistics(Subject::People, $party, 'Anzahl Personen');
+$races     = $this->racesStatistics($party);
 $education = $this->numberStatistics(Subject::Education, $party, 'Gesamte Erfahrungspunkte');
 $expenses  = $this->numberStatistics(Subject::Expenses, $party, 'Gesamte Ausgaben');
 $experts   = $this->expertsStatistics(Subject::Experts, $party);
@@ -48,6 +49,9 @@ Dein Volk zählt <?= $this->number($census->count(), $party->Race()) ?> in <?= $
 <?= $underline ?>
 <?= $units ?>
 <?= $people ?>
+<?php foreach ($races as $number): ?>
+<?= $number ?>
+<?php endforeach ?>
 <?= $education ?>
 <?= $expenses ?>
 <?= $underline ?>

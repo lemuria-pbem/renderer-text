@@ -169,6 +169,26 @@ class Html extends View
 	}
 
 	/**
+	 * @return array<string, array<string, HtmlCommodity>>
+	 */
+	public function raceStatistics(Party $party): array {
+		$statistics = [];
+		$units      = $this->statistics(Subject::RaceUnits, $party);
+		if ($units) {
+			foreach ($units as $class => $number) {
+				$statistics[$class]['Einheiten'] = new HtmlCommodity($number, $class);
+			}
+		}
+		$people = $this->statistics(Subject::RacePeople, $party);
+		if ($people) {
+			foreach ($people as $class => $number) {
+				$statistics[$class]['Personen'] = new HtmlCommodity($number, $class);
+			}
+		}
+		return $statistics;
+	}
+
+	/**
 	 * @return array<HtmlCommodity>
 	 */
 	public function animalStatistics(Subject $subject, Region $region): array {
