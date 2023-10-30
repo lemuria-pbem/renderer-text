@@ -56,6 +56,7 @@ use Lemuria\Renderer\Text\Model\TravelLog;
 use Lemuria\Singleton;
 use Lemuria\Statistics;
 use Lemuria\Statistics\Data;
+use Lemuria\Statistics\Data\Number;
 use Lemuria\Statistics\Fantasya\PartyEntityRecord;
 use Lemuria\Statistics\Record;
 use Lemuria\Version\Module;
@@ -557,8 +558,8 @@ abstract class View
 	public function statistics(Subject $subject, Identifiable $entity): ?Data {
 		$record = match ($subject) {
 			Subject::Experts, Subject::Joblessness, Subject::Prosperity,
-			Subject::Talents, Subject::Workplaces                        => new Record($subject->name, $entity),
-			default                                                      => new PartyEntityRecord($subject->name, $entity),
+			Subject::Talents, Subject::Workplaces, Subject::TransportUsed => new Record($subject->name, $entity),
+			default                                                       => new PartyEntityRecord($subject->name, $entity),
 		};
 		$key = $record->Key();
 		if (isset($this->statisticsCache[$key])) {
@@ -639,6 +640,14 @@ abstract class View
 			$this->created = time();
 		}
 		return $this->created;
+	}
+
+	protected function capacityLoad(Identifiable $identifiable): string {
+		$load = $this->statistics(Subject::TransportUsed, $identifiable);
+		if ($load instanceof Number) {
+			return ' (' . (int)round(100.0 * $load->value) . '% genutzt)';
+		}
+		return '';
 	}
 
 	abstract protected function generateContent(string $template): string;

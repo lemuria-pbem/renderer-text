@@ -32,17 +32,23 @@ if ($isOwn):
 		endif;
 	endforeach;
 	ksort($fleet);
+	$total = ($capacity > 0 ? 'insgesamt ' : '') . number($capacity / 100) . ' GE';
+	if (count($fleet) > 1):
+		$total .= ' ' . $this->capacityLoad($realm);
+	endif;
 endif;
 
 ?>
 <?php if ($isOwn): ?>
 
-Transportkapazität: <?= ($capacity > 0 ? 'insgesamt ' : '') . number($capacity / 100) ?> GE
+Transportkapazität: <?= $total ?>
+
 <?php foreach ($fleet as $id => $wagoner): ?>
 <?php if ($wagoners[$id] === Transport::NO_RIDING): ?>
 <?= $wagoner->Unit() ?> (<?= number($wagoner->Maximum() / 100) ?> GE): Reittalent zu niedrig
 <?php else: ?>
-<?= $wagoner->Unit() ?>: <?= number($wagoner->Maximum() / 100) ?> GE
+<?= $wagoner->Unit() ?>: <?= number($wagoner->Maximum() / 100) ?> GE<?= $this->capacityLoad($wagoner->Unit()) ?>
+
 <?php endif ?>
 <?php endforeach ?>
 <?php endif ?>

@@ -36,7 +36,12 @@ endif;
 
 ?>
 <?php if ($isOwn): ?>
-	<h5>Transportkapazität: <?= number($capacity / 100) ?> GE</h5>
+	<h5>
+		Transportkapazität: <?= number($capacity / 100) ?> GE
+		<?php if (count($fleet) > 1): ?>
+			<?= $this->capacityLoad($realm) ?>
+		<?php endif ?>
+	</h5>
 
 	<?php if (!empty($fleet)): ?>
 		<ul>
@@ -45,7 +50,7 @@ endif;
 					<?php if ($wagoners[$id] === Transport::NO_RIDING): ?>
 						<?= $wagoner->Unit() ?>: <s><?= number($wagoner->Maximum() / 100) ?> GE</s> (Reittalent zu niedrig)
 					<?php else: ?>
-						<?= $wagoner->Unit() ?>: <?= number($wagoner->Maximum() / 100) ?> GE
+						<?= $wagoner->Unit() ?>: <?= number($wagoner->Maximum() / 100) ?> GE<?= $this->capacityLoad($wagoner->Unit()) ?>
 					<?php endif ?>
 				</li>
 			<?php endforeach ?>

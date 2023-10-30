@@ -2,7 +2,6 @@
 declare(strict_types = 1);
 namespace Lemuria\Renderer\Text\View;
 
-use Lemuria\Renderer\Text\Engine\SectionFilter;
 use function Lemuria\getClass;
 use Lemuria\Engine\Fantasya\Combat\BattleLog;
 use Lemuria\Engine\Fantasya\Statistics\Subject;
@@ -19,6 +18,7 @@ use Lemuria\Model\Fantasya\Unicum;
 use Lemuria\Model\Fantasya\Unit;
 use Lemuria\Renderer\PathFactory;
 use Lemuria\Renderer\Text\BattleLogWriter;
+use Lemuria\Renderer\Text\Engine\SectionFilter;
 use Lemuria\Renderer\Text\FileWriter;
 use Lemuria\Renderer\Text\HerbalBookWriter;
 use Lemuria\Renderer\Text\SpellBookWriter;
