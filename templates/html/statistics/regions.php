@@ -32,7 +32,11 @@ $experts   = $this->expertsStatistics(Subject::Experts, $party);
 				<tbody>
 					<?php $r = 0; foreach ($atlas as $region): ?>
 						<?php if (!($region->Landscape() instanceof Navigable)): ?>
-							<?= $this->template('statistics/region', $region, 1, $r++) ?>
+							<?php if ($atlas->isEmptyRegion($region)): ?>
+								<?= $this->template('statistics/empty-region', $region, 1, $r++) ?>
+							<?php else: ?>
+								<?= $this->template('statistics/region', $region, 1, $r++) ?>
+							<?php endif ?>
 						<?php endif ?>
 					<?php endforeach ?>
 				</tbody>
@@ -49,7 +53,11 @@ $experts   = $this->expertsStatistics(Subject::Experts, $party);
 				<tbody>
 				<?php $r = 0; foreach ($atlas as $region): ?>
 					<?php if (!($region->Landscape() instanceof Navigable)): ?>
-						<?= $this->template('statistics/region', $region, 2, $r++) ?>
+						<?php if ($atlas->isEmptyRegion($region)): ?>
+							<?= $this->template('statistics/empty-region', $region, 2, $r++) ?>
+						<?php else: ?>
+							<?= $this->template('statistics/region', $region, 2, $r++) ?>
+						<?php endif ?>
 					<?php endif ?>
 				<?php endforeach ?>
 				</tbody>
@@ -66,7 +74,11 @@ $experts   = $this->expertsStatistics(Subject::Experts, $party);
 				<tbody>
 				<?php $r = 0; foreach ($atlas as $region): ?>
 					<?php if (!($region->Landscape() instanceof Navigable)): ?>
-						<?= $this->template('statistics/region', $region, 3, $r++) ?>
+						<?php if ($atlas->isEmptyRegion($region)): ?>
+							<?= $this->template('statistics/empty-region', $region, 3, $r++) ?>
+						<?php else: ?>
+							<?= $this->template('statistics/region', $region, 3, $r++) ?>
+						<?php endif ?>
 					<?php endif ?>
 				<?php endforeach ?>
 				</tbody>
@@ -83,7 +95,11 @@ $experts   = $this->expertsStatistics(Subject::Experts, $party);
 				<tbody>
 				<?php $r = 0; foreach ($atlas as $region): ?>
 					<?php if (!($region->Landscape() instanceof Navigable)): ?>
-						<?= $this->template('statistics/region', $region, 4, $r++) ?>
+						<?php if ($atlas->isEmptyRegion($region)): ?>
+							<?= $this->template('statistics/empty-region', $region, 4, $r++) ?>
+						<?php else: ?>
+							<?= $this->template('statistics/region', $region, 4, $r++) ?>
+						<?php endif ?>
 					<?php endif ?>
 				<?php endforeach ?>
 				</tbody>

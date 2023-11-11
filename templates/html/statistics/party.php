@@ -3,13 +3,11 @@ declare (strict_types = 1);
 
 use Lemuria\Engine\Fantasya\Statistics\Subject;
 use Lemuria\Lemuria;
-use Lemuria\Renderer\Text\Model\World\SortedAtlas;
 use Lemuria\Renderer\Text\View\Html;
 
 /** @var Html $this */
 
 $party = $this->party;
-$atlas = new SortedAtlas($this->census);
 $round = Lemuria::Calendar()->Round();
 
 $units     = $this->numberStatistics(Subject::Units, $party);
