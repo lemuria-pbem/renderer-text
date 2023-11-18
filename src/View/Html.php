@@ -3,12 +3,14 @@ declare(strict_types = 1);
 namespace Lemuria\Renderer\Text\View;
 
 use function Lemuria\getClass;
+use function Lemuria\number;
 use Lemuria\Engine\Fantasya\Combat\BattleLog;
 use Lemuria\Engine\Fantasya\Statistics\Subject;
 use Lemuria\Engine\Message;
 use Lemuria\Engine\Message\Result;
 use Lemuria\Identifiable;
 use Lemuria\Model\Fantasya\Commodity\Silver;
+use Lemuria\Model\Fantasya\Herb;
 use Lemuria\Model\Fantasya\Luxuries;
 use Lemuria\Model\Fantasya\Party;
 use Lemuria\Model\Fantasya\Region;
@@ -309,6 +311,35 @@ class Html extends View
 		}
 		ksort($statistics);
 		return array_values($statistics);
+	}
+
+	/**
+	 * @return array<string, string>
+	 */
+	public function quotas(Region $region): array {
+		$list   = [];
+		$quotas = $this->party->Regulation()->getQuotas($region);
+		if ($quotas?->count() > 0) {
+			foreach ($quotas as $quota) {
+				$commodity   = $quota->Commodity();
+				$item        = $commodity instanceof Herb ? $this->get('kind.Herb') : $this->translateSingleton($commodity);
+				$threshold   = $quota->Threshold();
+				$list[$item] = is_float($threshold) ? (int)(100 * $threshold) . ' %' : number($threshold);
+			}
+		}
+		return $list;
+	}
+
+	public function quotasTitle(Region $region): ?string {
+		$quotas = $this->quotas($region);
+		if (empty($quotas)) {
+			return null;
+		}
+		$list = [];
+		foreach ($quotas as $item => $threshold) {
+			$list[] = $item . ' ' . $threshold;
+		}
+		return implode(', ', $list);
 	}
 
 	protected function battleLogPath(BattleLog $battleLog): string {

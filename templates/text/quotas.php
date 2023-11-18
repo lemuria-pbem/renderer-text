@@ -26,3 +26,6 @@ if ($quotas?->count() > 0) {
 <?php if (!empty($list)): ?>
  Grenzen: <?= implode(', ', $list) ?>
 .<?php endif ?>
+<?php if (isset($this->variables[1])): ?>
+
+<?php endif ?>

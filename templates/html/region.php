@@ -88,6 +88,11 @@ $fleet = View::sortedFleet($region);
 					</h4>
 					<?= $this->template('region/with-unit', $region) ?>
 				</div>
+				<?php if ($type === Type::Player && $this->party->Regulation()->getQuotas($region)?->count()): ?>
+					<div class="col-12 col-lg-6 col-xl-4 p-0 ps-lg-3">
+						<?= $this->template('quotas', $region) ?>
+					</div>
+				<?php endif ?>
 			</div>
 		</div>
 		<?php foreach ($estate as $construction): ?>
@@ -113,6 +118,7 @@ $fleet = View::sortedFleet($region);
 					<?php if (count($this->messages($region))): ?>
 						<h5>Ereignisse</h5>
 						<?= $this->template('report/region', $region) ?>
+						<?= $this->template('quotas', $region) ?>
 					<?php endif ?>
 				</div>
 			</div>
@@ -125,25 +131,68 @@ $fleet = View::sortedFleet($region);
 		<?php endforeach ?>
 		<?= $this->template('apparitions/travelled', $region) ?>
 	<?php elseif ($visibility === Visibility::Lighthouse): ?>
-		<h4 id="<?= id($region) ?>">
-			<?= $region->Name() ?>
-			<span class="badge text-bg-light"><?= $map->getCoordinates($region) ?></span>
-			<span class="badge text-bg-secondary font-monospace"><?= $region->Id() ?></span>
-		</h4>
-		<?= $this->template('region/from-lighthouse', $region) ?>
-		<?php foreach ($estate as $construction): ?>
-			<?= $this->template('construction/travelled', $construction) ?>
-		<?php endforeach ?>
-		<?php foreach ($fleet as $vessel): ?>
-			<?= $this->template('vessel/travelled', $vessel) ?>
-		<?php endforeach ?>
-		<?= $this->template('apparitions/travelled', $region) ?>
+		<?php if ($this->party->Regulation()->getQuotas($region)?->count()): ?>
+			<div class="container-fluid">
+				<div class="row">
+					<div class="col-12 col-lg-6 col-xl-8 ps-0 pe-lg-3">
+						<h4 id="<?= id($region) ?>">
+							<?= $region->Name() ?>
+							<span class="badge text-bg-light"><?= $map->getCoordinates($region) ?></span>
+							<span class="badge text-bg-secondary font-monospace"><?= $region->Id() ?></span>
+						</h4>
+						<?= $this->template('region/from-lighthouse', $region) ?>
+						<?php foreach ($estate as $construction): ?>
+							<?= $this->template('construction/travelled', $construction) ?>
+						<?php endforeach ?>
+						<?php foreach ($fleet as $vessel): ?>
+							<?= $this->template('vessel/travelled', $vessel) ?>
+						<?php endforeach ?>
+						<?= $this->template('apparitions/travelled', $region) ?>
+					</div>
+					<div class="col-12 col-lg-6 col-xl-4 ps-lg-3 pe-0">
+						<?= $this->template('quotas', $region) ?>
+					</div>
+				</div>
+			</div>
+		<?php else: ?>
+			<h4 id="<?= id($region) ?>">
+				<?= $region->Name() ?>
+				<span class="badge text-bg-light"><?= $map->getCoordinates($region) ?></span>
+				<span class="badge text-bg-secondary font-monospace"><?= $region->Id() ?></span>
+			</h4>
+			<?= $this->template('region/from-lighthouse', $region) ?>
+			<?php foreach ($estate as $construction): ?>
+				<?= $this->template('construction/travelled', $construction) ?>
+			<?php endforeach ?>
+			<?php foreach ($fleet as $vessel): ?>
+				<?= $this->template('vessel/travelled', $vessel) ?>
+			<?php endforeach ?>
+			<?= $this->template('apparitions/travelled', $region) ?>
+		<?php endif ?>
 	<?php elseif ($type === Type::Player): ?>
-		<h4 id="<?= id($region) ?>">
-			<?= $region->Name() ?>
-			<span class="badge text-bg-light"><?= $map->getCoordinates($region) ?></span>
-			<span class="badge text-bg-secondary font-monospace"><?= $region->Id() ?></span>
-		</h4>
-		<?= $this->template('region/neighbour', $region) ?>
+		<?php if ($this->party->Regulation()->getQuotas($region)?->count()): ?>
+			<div class="container-fluid">
+				<div class="row">
+					<div class="col-12 col-lg-6 col-xl-8 ps-0 pe-lg-3">
+						<h4 id="<?= id($region) ?>">
+							<?= $region->Name() ?>
+							<span class="badge text-bg-light"><?= $map->getCoordinates($region) ?></span>
+							<span class="badge text-bg-secondary font-monospace"><?= $region->Id() ?></span>
+						</h4>
+						<?= $this->template('region/neighbour', $region) ?>
+					</div>
+					<div class="col-12 col-lg-6 col-xl-4 ps-lg-3 pe-0">
+						<?= $this->template('quotas', $region) ?>
+					</div>
+				</div>
+			</div>
+		<?php else: ?>
+			<h4 id="<?= id($region) ?>">
+				<?= $region->Name() ?>
+				<span class="badge text-bg-light"><?= $map->getCoordinates($region) ?></span>
+				<span class="badge text-bg-secondary font-monospace"><?= $region->Id() ?></span>
+			</h4>
+			<?= $this->template('region/neighbour', $region) ?>
+		<?php endif ?>
 	<?php endif ?>
 </article>

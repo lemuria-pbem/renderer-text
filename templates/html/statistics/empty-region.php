@@ -10,6 +10,7 @@ use Lemuria\Renderer\Text\View\Html;
 
 /** @var Region $region */
 $region = $this->variables[0];
+$quotas = $this->quotasTitle($region);
 $cols   = max(1, min(4, $this->variables[1]));
 $prefix = match ($cols) {
 	2       => 'md-stat-',
@@ -42,11 +43,15 @@ $luxuries       = $this->marketStatistics(Subject::Market, $region);
 <?php if ($cols <= 1): ?>
 	<tr class="region<?= $realm . $stripe ?>">
 		<th scope="rowgroup" colspan="3">
-			&nbsp;<a href="#<?= id($region) ?>" title="zur Region" class="text-body">⮞</a>
-			<?php if ($realmId): ?>
-				<span class="badge text-bg-light font-monospace"><?= $realmId ?></span>
+			<a href="#<?= id($region) ?>" title="zur Region">
+				<?php if ($realmId): ?>
+					<span class="badge text-bg-light font-monospace"><?= $realmId ?></span>
+				<?php endif ?>
+				<span><?= $this->translate($region->Landscape()) ?> <?= $region->Name() ?></span>
+			</a>
+			<?php if ($quotas): ?>
+				<span title="Grenzen: <?= $quotas ?>">&nbsp;🛠️</span>
 			<?php endif ?>
-			<span><?= $this->translate($region->Landscape()) ?> <?= $region->Name() ?></span>
 		</th>
 	</tr>
 	<tr class="<?= $population->movement ?> <?= $class . $stripe ?>">
@@ -140,11 +145,15 @@ $luxuries       = $this->marketStatistics(Subject::Market, $region);
 <?php elseif ($cols === 2): ?>
 	<tr class="region<?= $realm . $stripe ?>">
 		<th scope="rowgroup" colspan="3">
-			&nbsp;<a href="#<?= id($region) ?>" title="zur Region" class="text-body">⮞</a>
-			<?php if ($realmId): ?>
-				<span class="badge text-bg-light font-monospace"><?= $realmId ?></span>
+			<a href="#<?= id($region) ?>" title="zur Region">
+				<?php if ($realmId): ?>
+					<span class="badge text-bg-light font-monospace"><?= $realmId ?></span>
+				<?php endif ?>
+				<span><?= $this->translate($region->Landscape()) ?> <?= $region->Name() ?></span>
+			</a>
+			<?php if ($quotas): ?>
+				<span title="Grenzen: <?= $quotas ?>">&nbsp;🛠️</span>
 			<?php endif ?>
-			<span><?= $this->translate($region->Landscape()) ?> <?= $region->Name() ?></span>
 		</th>
 		<th scope="row">Bevölkerung</th>
 		<td><?= $population->value ?></td>
@@ -236,11 +245,15 @@ $luxuries       = $this->marketStatistics(Subject::Market, $region);
 <?php elseif ($cols === 3): ?>
 	<tr class="region<?= $realm . $stripe ?>">
 		<th scope="rowgroup" colspan="3">
-			&nbsp;<a href="#<?= id($region) ?>" title="zur Region" class="text-body">⮞</a>
-			<?php if ($realmId): ?>
-				<span class="badge text-bg-light font-monospace"><?= $realmId ?></span>
+			<a href="#<?= id($region) ?>" title="zur Region">
+				<?php if ($realmId): ?>
+					<span class="badge text-bg-light font-monospace"><?= $realmId ?></span>
+				<?php endif ?>
+				<span><?= $this->translate($region->Landscape()) ?> <?= $region->Name() ?></span>
+			</a>
+			<?php if ($quotas): ?>
+				<span title="Grenzen: <?= $quotas ?>">&nbsp;🛠️</span>
 			<?php endif ?>
-			<span><?= $this->translate($region->Landscape()) ?> <?= $region->Name() ?></span>
 		</th>
 		<th scope="row">Bevölkerung</th>
 		<td><?= $population->value ?></td>
@@ -342,6 +355,9 @@ $luxuries       = $this->marketStatistics(Subject::Market, $region);
 				<?php endif ?>
 				<span><?= $this->translate($region->Landscape()) ?> <?= $region->Name() ?></span>
 			</a>
+			<?php if ($quotas): ?>
+				<span title="Grenzen: <?= $quotas ?>">&nbsp;🛠️</span>
+			<?php endif ?>
 		</th>
 		<th scope="row">Bevölkerung</th>
 		<td><?= $population->value ?></td>

@@ -21,7 +21,7 @@ $neighbours = $this->neighbours($region);
 <?php if ($landscape instanceof Ocean && $name === 'Ozean' || $landscape instanceof Lake && $name === 'See'): ?>
 >> <?= $region ?> <?= $map->getCoordinates($region) ?>.
 <?php else: ?>
->> <?= $region ?> <?= $map->getCoordinates($region) ?>, <?= $this->translate($landscape) ?>.
+>> <?= $region ?> <?= $map->getCoordinates($region) ?>, <?= $this->translate($landscape) ?>.<?= $this->template('quotas', $region, true) ?>
 <?php endif ?>
 
 <?= ucfirst(implode(', ', $neighbours)) ?>
