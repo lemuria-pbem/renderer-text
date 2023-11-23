@@ -19,14 +19,20 @@ class BattleLogWriter extends AbstractWriter
 	use GrammarTrait;
 	use VersionTrait;
 
-	protected final const START_SECTION = [
+	/**
+	 * @type array<string, true>
+	 */
+	protected final const array START_SECTION = [
 		'BattleBeginsMessage'      => true, 'BattleEndsMessage'       => true,
 		'AttackerSideMessage'      => true, 'DefenderSideMessage'     => true,
 		'TacticsRoundMessage'      => true, 'NoTacticsRoundMessage'   => true, 'CombatRoundMessage' => true,
 		'BattleEndedInDrawMessage' => true, 'BattleExhaustionMessage' => true
 	];
 
-	protected final const CENTER_MESSAGE = [
+	/**
+	 * @type array<string, true>
+	 */
+	protected final const array CENTER_MESSAGE = [
 		'TacticsRoundMessage' => true, 'CombatRoundMessage' => true, 'BattleEndsMessage' => true
 	];
 

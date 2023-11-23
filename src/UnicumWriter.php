@@ -16,7 +16,7 @@ use Lemuria\Model\Fantasya\Unicum;
 
 class UnicumWriter extends AbstractWriter
 {
-	protected final const NAMESPACE = 'Lemuria\\Renderer\\Text\\Composition\\';
+	protected final const string NAMESPACE = 'Lemuria\\Renderer\\Text\\Composition\\';
 
 	protected PartyUnica $context;
 

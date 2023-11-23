@@ -72,9 +72,12 @@ function p3(int $i, string $bp = 'md'): string {
 
 class Html extends View
 {
-	protected const BADGE_UNDEFINED = 'dark';
+	protected const string BADGE_UNDEFINED = 'dark';
 
-	protected const BADGE = [
+	/**
+	 * @type array<string, string>
+	 */
+	protected const array BADGE = [
 		Result::Debug->value   => 'light',
 		Result::Error->value   => 'danger',
 		Result::Event->value   => 'info',
@@ -82,9 +85,12 @@ class Html extends View
 		Result::Success->value => 'success'
 	];
 
-	protected const LEVEL_UNDEFINED = 'U';
+	protected const string LEVEL_UNDEFINED = 'U';
 
-	protected const LEVEL = [
+	/**
+	 * @type array<string, string>
+	 */
+	protected const array LEVEL = [
 		Result::Debug->value => 'D', Result::Error->value => 'F', Result::Event->value => 'E', Result::Failure->value => 'W', Result::Success->value => 'M'
 	];
 

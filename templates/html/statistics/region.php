@@ -1,4 +1,4 @@
-<?php /** @noinspection PhpPossiblePolymorphicInvocationInspection */
+<?php
 declare (strict_types = 1);
 
 use function Lemuria\Renderer\Text\View\id;

@@ -79,9 +79,15 @@ abstract class View
 	use GrammarTrait;
 	use RealmTrait;
 
-	protected final const BATTLE_ROW = ['Fliehen', 'Nicht', 'Defensiv', 'Hinten', 'Vorsichtig', 'Vorne', 'Aggressiv'];
+	/**
+	 * @type array<string>
+	 */
+	protected final const array BATTLE_ROW = ['Fliehen', 'Nicht', 'Defensiv', 'Hinten', 'Vorsichtig', 'Vorne', 'Aggressiv'];
 
-	protected final const QUANTITY_FACTOR = [
+	/**
+	 * @type array<string, int>
+	 */
+	protected final const array QUANTITY_FACTOR = [
 		'Silver' => 100
 	];
 

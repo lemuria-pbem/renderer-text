@@ -4,15 +4,15 @@ namespace Lemuria\Renderer\Text;
 
 interface Wrapper
 {
-	public final const CREATED = '%CREATED%';
+	public final const string CREATED = '%CREATED%';
 
-	public final const MOVE = '%MOVE%';
+	public final const string MOVE = '%MOVE%';
 
-	public final const REPORT ='%WRAPPED_REPORT%';
+	public final const string REPORT ='%WRAPPED_REPORT%';
 
-	public final const PARTY = '%PARTY%';
+	public final const string PARTY = '%PARTY%';
 
-	public final const VERSION = '%VERSION%';
+	public final const string VERSION = '%VERSION%';
 
 	public function wrap(string $report): string;
 }

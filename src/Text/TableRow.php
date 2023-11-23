@@ -4,11 +4,11 @@ namespace Lemuria\Renderer\Text\Text;
 
 class TableRow implements \Stringable
 {
-	private const LENGTH = 11;
+	private const int LENGTH = 11;
 
-	private const MAX_NAME_LENGTH = 25;
+	private const int MAX_NAME_LENGTH = 25;
 
-	private const SEPARATION = 3;
+	private const int SEPARATION = 3;
 
 	public string $value;
 

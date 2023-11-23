@@ -20,7 +20,7 @@ class OrderWriter extends AbstractWriter
 	use GrammarTrait;
 	use VersionTrait;
 
-	protected final const SEPARATOR_LENGTH = 78;
+	protected final const int SEPARATOR_LENGTH = 78;
 
 	public function __construct(PathFactory $pathFactory) {
 		parent::__construct($pathFactory);

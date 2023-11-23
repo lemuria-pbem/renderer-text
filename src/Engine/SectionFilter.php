@@ -11,13 +11,16 @@ use Lemuria\Engine\Fantasya\Message\Unit\RecreateHealthMessage;
 
 class SectionFilter
 {
-	protected const LAYABOUT = 'filter-layabout';
+	protected const string LAYABOUT = 'filter-layabout';
 
-	protected const ABOARD = 'filter-aboard';
+	protected const string ABOARD = 'filter-aboard';
 
-	protected const RECREATE = 'filter-recreate';
+	protected const string RECREATE = 'filter-recreate';
 
-	protected const FILTER = [
+	/**
+	 * @type array<string, string>
+	 */
+	protected const array FILTER = [
 		LayaboutMessage::class     => self::LAYABOUT,
 		LearnReducedMessage::class => self::ABOARD, LearnVesselMessage::class      => self::ABOARD,
 		RecreateAuraMessage::class => self::RECREATE, RecreateHealthMessage::class => self::RECREATE
