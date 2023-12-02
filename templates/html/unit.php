@@ -10,7 +10,7 @@ use Lemuria\Renderer\Text\View\Html;
 
 /** @var Unit $unit */
 $unit   = $this->variables[0];
-$trades = $this->variables[1];
+$trades = $this->variables[1] ?? null;
 $party  = $unit->Party();
 
 ?>

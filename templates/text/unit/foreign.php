@@ -15,7 +15,7 @@ use Lemuria\Renderer\Text\View\Text;
 /** @var Unit $unit */
 $unit    = $this->variables[0];
 /** @var Trades|null $trades */
-$trades  = $this->variables[1];
+$trades  = $this->variables[1] ?? null;
 $census  = $this->census;
 $prefix  = $unit->Construction() || $unit->Vessel() ? '   * ' : '  -- ';
 $foreign = $census->getParty($unit);

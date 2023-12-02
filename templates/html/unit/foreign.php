@@ -14,7 +14,7 @@ use Lemuria\Renderer\Text\View\Html;
 /** @var Unit $unit */
 $unit = $this->variables[0];
 /** @var Trades|null $trades */
-$trades       = $this->variables[1];
+$trades       = $this->variables[1] ?? null;
 $merchant     = $trades && $trades->HasMarket() ? 'merchant-' . $unit->Id() : null;
 $census       = $this->census;
 $foreign      = $census->getParty($unit);
