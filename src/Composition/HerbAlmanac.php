@@ -24,7 +24,7 @@ final class HerbAlmanac extends AbstractComposition
 
 	private function getAlmanac(): Almanac {
 		/** @var Almanac $almanac */
-		$almanac = $this->composition;
+		$almanac = $this->unicum->Composition();
 		return $almanac;
 	}
 }

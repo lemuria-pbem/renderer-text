@@ -7,9 +7,9 @@ use function Lemuria\Renderer\Text\View\hr;
 use function Lemuria\Renderer\Text\View\underline;
 use function Lemuria\Renderer\Text\View\wrap;
 use Lemuria\Engine\Fantasya\Factory\Model\CompositionDetails;
+use Lemuria\Engine\Fantasya\Factory\PartyUnica;
 use Lemuria\Exception\LemuriaException;
 use Lemuria\Id;
-use Lemuria\Model\Fantasya\Composition as CompositionModel;
 use Lemuria\Model\Fantasya\Exception\JsonException;
 use Lemuria\Model\Fantasya\Practice;
 use Lemuria\Model\Fantasya\Unicum;
@@ -17,6 +17,8 @@ use Lemuria\Model\Fantasya\Unicum;
 class UnicumWriter extends AbstractWriter
 {
 	protected final const NAMESPACE = 'Lemuria\\Renderer\\Text\\Composition\\';
+
+	protected PartyUnica $context;
 
 	/**
 	 * @throws JsonException
@@ -27,6 +29,11 @@ class UnicumWriter extends AbstractWriter
 		if (!file_put_contents($path, $this->generate($unicum))) {
 			throw new \RuntimeException('Could not create unicum information.');
 		}
+		return $this;
+	}
+
+	public function setContext(PartyUnica $context): static {
+		$this->context = $context;
 		return $this;
 	}
 
@@ -81,17 +88,18 @@ class UnicumWriter extends AbstractWriter
 			$output .= $details->DestroyCommand() . PHP_EOL;
 		}
 
-		$output .= $this->getContent($composition);
+		$output .= $this->getContent($unicum);
 		return $output;
 	}
 
-	protected function getContent(CompositionModel $model): string {
-		$class       = getClass($model);
-		$renderer    = self::NAMESPACE . $class;
+	protected function getContent(Unicum $unicum): string {
+		$model    = $unicum->Composition();
+		$class    = getClass($model);
+		$renderer = self::NAMESPACE . $class;
 		try {
-			$composition = new $renderer($model);
+			$composition = new $renderer($unicum);
 			if ($composition instanceof Composition) {
-				return $composition->getContent();
+				return $composition->setContext($this->context)->getContent();
 			}
 			throw new LemuriaException('Composition ' . $class . ' is not supported yet.');
 		} catch (\Error $e) {

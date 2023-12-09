@@ -6,15 +6,15 @@ use function Lemuria\number;
 use function Lemuria\Renderer\Text\View\hr;
 use Lemuria\Engine\Fantasya\Message\Casus;
 use Lemuria\Engine\Fantasya\Factory\GrammarTrait;
-use Lemuria\Model\Fantasya\Composition;
 use Lemuria\Model\Fantasya\Composition\Carcass as CarcassModel;
+use Lemuria\Model\Fantasya\Unicum;
 
 final class Carcass extends AbstractComposition
 {
 	use GrammarTrait;
 
-	public function __construct(Composition $composition) {
-		parent::__construct($composition);
+	public function __construct(Unicum $unicum) {
+		parent::__construct($unicum);
 		$this->initDictionary();
 	}
 
@@ -23,7 +23,7 @@ final class Carcass extends AbstractComposition
 		$animal   = $this->combineGrammar($carcass->Creature(), 'ein', Casus::Genitive);
 		$content = PHP_EOL . hr() . $this->noContent('Es scheint sich um den Kadaver ' . $animal . ' zu handeln.');
 
-		$loot = $this->getCarcass()->Inventory();
+		$loot = $this->context->getInventory($this->unicum);
 		if ($loot->isEmpty()) {
 			return $content . $this->noContent('Die Untersuchung dieses Kadavers hat nichts besonderes ergeben.');
 		}
@@ -38,7 +38,7 @@ final class Carcass extends AbstractComposition
 
 	private function getCarcass(): CarcassModel {
 		/** @var CarcassModel $carcass */
-		$carcass = $this->composition;
+		$carcass = $this->unicum->Composition();
 		return $carcass;
 	}
 }

@@ -28,7 +28,7 @@ final class Scroll extends AbstractComposition
 
 	private function getScroll(): ScrollModel {
 		/** @var ScrollModel $scroll */
-		$scroll = $this->composition;
+		$scroll = $this->unicum->Composition();
 		return $scroll;
 	}
 }

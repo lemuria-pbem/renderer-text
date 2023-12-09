@@ -5,12 +5,20 @@ namespace Lemuria\Renderer\Text\Composition;
 use function Lemuria\Renderer\Text\View\center;
 use function Lemuria\Renderer\Text\View\hr;
 use function Lemuria\Renderer\Text\View\wrap;
-use Lemuria\Model\Fantasya\Composition as CompositionModel;
+use Lemuria\Engine\Fantasya\Factory\PartyUnica;
+use Lemuria\Model\Fantasya\Unicum;
 use Lemuria\Renderer\Text\Composition;
 
 abstract class AbstractComposition implements Composition
 {
-	public function __construct(protected CompositionModel $composition) {
+	protected PartyUnica $context;
+
+	public function __construct(protected Unicum $unicum) {
+	}
+
+	public function setContext(PartyUnica $context): static {
+		$this->context = $context;
+		return $this;
 	}
 
 	protected function createContentHeader(string $content = null): string {
