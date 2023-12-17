@@ -28,7 +28,7 @@ foreach ($intelligence->getGuards() as $guard):
 endforeach;
 $resources = [];
 if ($isGuarding):
-	foreach (new Observables($unit->Inventory()) as $quantity):
+	foreach ($this->observables($unit) as $quantity):
 		$resources[] = $this->number($quantity->Count(), $quantity->Commodity(), Casus::Dative);
 	endforeach;
 	$n = count($resources);

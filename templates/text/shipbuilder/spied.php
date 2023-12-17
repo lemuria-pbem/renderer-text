@@ -27,7 +27,7 @@ foreach ($unit->Knowledge() as $ability):
 endforeach;
 $inventory = [];
 $payload   = 0;
-foreach ($unit->Inventory() as $quantity):
+foreach ($this->inventory($unit) as $quantity):
 	$inventory[] = $this->number($quantity->Count(), $quantity->Commodity());
 	$payload += $quantity->Weight();
 endforeach;

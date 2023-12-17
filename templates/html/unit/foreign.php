@@ -30,7 +30,7 @@ endforeach;
 $resources = [];
 if ($isGuarding || $unitIsGuard):
 	$casus = $unitIsGuard ? Casus::Accusative : Casus::Dative;
-	foreach (new Observables($unit->Inventory()) as $quantity):
+	foreach ($this->observables($unit) as $quantity):
 		$resources[] = $this->number($quantity->Count(), $quantity->Commodity(), $casus);
 	endforeach;
 	$n = count($resources);

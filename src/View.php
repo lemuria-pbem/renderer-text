@@ -2,6 +2,8 @@
 declare (strict_types = 1);
 namespace Lemuria\Renderer\Text;
 
+use Lemuria\Engine\Fantasya\Factory\Model\Observables;
+use Lemuria\Model\Fantasya\Resources;
 use function Lemuria\getClass;
 use function Lemuria\number as formatNumber;
 use Lemuria\Engine\Fantasya\Census;
@@ -327,6 +329,14 @@ abstract class View
 			$count += $unit->Size();
 		}
 		return $count;
+	}
+
+	public function inventory(Unit $unit): Resources {
+		return $unit->Inventory()->sort();
+	}
+
+	public function observables(Unit $unit): Observables {
+		return new Observables($this->inventory($unit));
 	}
 
 	/**

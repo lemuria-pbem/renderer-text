@@ -12,7 +12,7 @@ $unit   = $this->variables[0];
 $prefix = $unit->Construction() || $unit->Vessel() ? '   * ' : '  -- ';
 
 $inventory = [];
-foreach ($unit->Inventory() as $quantity):
+foreach ($this->inventory($unit) as $quantity):
 	$inventory[] = $this->quantity($quantity, $unit);
 endforeach;
 $n = count($inventory);

@@ -16,14 +16,14 @@ $foreign   = $census->getParty($unit);
 $disguised = $unit->Disguise();
 $calculus  = new Calculus($unit);
 $talents   = [];
-foreach ($unit->Knowledge() as $ability/* @var Ability $ability */):
+foreach ($unit->Knowledge() as $ability):
 	$experience = $ability->Experience();
 	$ability    = $calculus->knowledge($ability->Talent());
 	$talents[]  = $this->get('talent', $ability->Talent()) . ' ' . $ability->Level() . ' (' . Ability::getLevel($experience) . '/' . $this->number($experience) . ')';
 endforeach;
 $inventory = [];
 $payload   = 0;
-foreach ($unit->Inventory() as $quantity/* @var Quantity $quantity */):
+foreach ($this->inventory($unit) as $quantity):
 	$inventory[] = $this->number($quantity->Count(), $quantity->Commodity());
 	$payload     += $quantity->Weight();
 endforeach;
