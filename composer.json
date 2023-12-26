@@ -19,6 +19,7 @@
 		"lemuria-pbem/engine-fantasya": "~1.5.0|dev-feature/NPC",
 		"lemuria-pbem/lemuria": "~1.5.0|dev-feature/NPC",
 		"lemuria-pbem/model-fantasya": "~1.5.0|dev-feature/NPC",
+		"lemuria-pbem/scenario-fantasya": "~1.5.0|dev-feature/NPC",
 		"lemuria-pbem/statistics-fantasya": "~1.5.0|dev-feature/NPC"
 	},
 	"repositories": [
@@ -33,6 +34,10 @@
 		{
 			"type": "vcs",
 			"url": "git@github.com:lemuria-pbem/model-fantasya.git"
+		},
+		{
+			"type": "vcs",
+			"url": "git@github.com:lemuria-pbem/scenario-fantasya.git"
 		},
 		{
 			"type": "vcs",

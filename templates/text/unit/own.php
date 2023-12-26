@@ -5,11 +5,11 @@ use function Lemuria\getClass;
 use function Lemuria\Renderer\Text\View\center;
 use function Lemuria\Renderer\Text\View\description;
 use Lemuria\Engine\Fantasya\Calculus;
-use Lemuria\Engine\Fantasya\Factory\Model\Orders;
 use Lemuria\Engine\Fantasya\Factory\Model\Trades;
 use Lemuria\Engine\Fantasya\Statistics\Subject;
 use Lemuria\Model\Fantasya\Ability;
 use Lemuria\Model\Fantasya\Unit;
+use Lemuria\Renderer\Text\Model\Orders;
 use Lemuria\Renderer\Text\View\Text;
 
 /** @var Text $this */

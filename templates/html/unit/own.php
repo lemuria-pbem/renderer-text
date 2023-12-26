@@ -4,11 +4,11 @@ declare (strict_types = 1);
 use function Lemuria\getClass;
 use function Lemuria\Renderer\Text\View\id;
 use Lemuria\Engine\Fantasya\Calculus;
-use Lemuria\Engine\Fantasya\Factory\Model\Orders;
 use Lemuria\Engine\Fantasya\Factory\Model\Trades;
 use Lemuria\Engine\Fantasya\Statistics\Subject;
 use Lemuria\Model\Fantasya\Market\Sales;
 use Lemuria\Model\Fantasya\Unit;
+use Lemuria\Renderer\Text\Model\Orders;
 use Lemuria\Renderer\Text\View\Html;
 
 /** @var Html $this */
@@ -178,6 +178,9 @@ endif;
 	<ol id="<?= id($unit, 'orders') ?>" class="small collapse mb-2">
 		<?php foreach ($orders->orders as $order): ?>
 			<li><?= $order ?></li>
+		<?php endforeach ?>
+		<?php foreach ($orders->acts as $act): ?>
+			<li><?= $act ?></li>
 		<?php endforeach ?>
 	</ol>
 <?php endif ?>
