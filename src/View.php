@@ -433,7 +433,7 @@ abstract class View
 	}
 
 	public function battleRow(Unit $unit): string {
-		return $this->dictionary->get('battleRow.' . $unit->BattleRow()->value, $unit->Size() > 1 ? 1 : 0);
+		return $this->dictionary->get('battleRow.' . $unit->BattleRow()->value);
 	}
 
 	public function health(Unit $unit): string {
