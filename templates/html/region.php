@@ -102,7 +102,7 @@ $fleet = View::sortedFleet($region);
 			<?= $this->template('vessel/farsight', $vessel) ?>
 		<?php endforeach ?>
 		<?= $this->template('apparitions/with-unit', $region) ?>
-	<?php elseif ($visibility === Visibility::Travelled && $type === Type::Player): ?>
+	<?php elseif ($visibility === Visibility::Travelled && $type !== Type::Monster): ?>
 		<div class="container-fluid">
 			<div class="row">
 				<div class="col-12 col-lg-6 ps-0">
