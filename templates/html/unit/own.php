@@ -6,6 +6,7 @@ use function Lemuria\Renderer\Text\View\id;
 use Lemuria\Engine\Fantasya\Calculus;
 use Lemuria\Engine\Fantasya\Factory\Model\Trades;
 use Lemuria\Engine\Fantasya\Statistics\Subject;
+use Lemuria\Model\Fantasya\Market\Deals;
 use Lemuria\Model\Fantasya\Market\Sales;
 use Lemuria\Model\Fantasya\Unit;
 use Lemuria\Renderer\Text\Model\Orders;
@@ -85,6 +86,11 @@ if ($battleSpells):
 	endif;
 endif;
 
+$deals = null;
+if (!$trades):
+	$deals = new Deals($unit);
+endif;
+
 ?>
 <h6>
 	<?= $unit->Name() ?> <span class="badge text-bg-primary font-monospace"><?= $unit->Id() ?></span>
@@ -158,6 +164,24 @@ endif;
 		</p>
 		<p>Wir haben aktuell nichts anzubieten.</p>
 	</div>
+<?php elseif ($deals?->count()): ?>
+<div class="market">
+	<p class="h7">
+		<a data-bs-toggle="collapse" href="#<?= $merchant ?>" role="button" aria-expanded="true" aria-controls="market">Handelsangebote</a>
+	</p>
+	<ol class="collapse" id="<?= $merchant ?>">
+		<?php foreach ($deals->Trades() as $trade): ?>
+			<li>
+				<?= $this->template('trade/own', $trade, Sales::AVAILABLE) ?>
+			</li>
+		<?php endforeach ?>
+		<?php foreach ($deals->Unsatisfiable() as $trade): ?>
+			<li>
+				<?= $this->template('trade/own', $trade, Sales::UNSATISFIABLE) ?>
+			</li>
+		<?php endforeach ?>
+	</ol>
+</div>
 <?php endif ?>
 <?php if (!empty($orders->comments)): ?>
 	<p class="h7">Notizen:</p>

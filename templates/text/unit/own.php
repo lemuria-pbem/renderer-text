@@ -8,6 +8,7 @@ use Lemuria\Engine\Fantasya\Calculus;
 use Lemuria\Engine\Fantasya\Factory\Model\Trades;
 use Lemuria\Engine\Fantasya\Statistics\Subject;
 use Lemuria\Model\Fantasya\Ability;
+use Lemuria\Model\Fantasya\Market\Deals;
 use Lemuria\Model\Fantasya\Unit;
 use Lemuria\Renderer\Text\Model\Orders;
 use Lemuria\Renderer\Text\View\Text;
@@ -85,6 +86,11 @@ if ($battleSpells):
 	endif;
 endif;
 
+$deals = null;
+if (!$trades):
+	$deals = new Deals($unit);
+endif;
+
 ?>
 <?= $prefix . $unit ?>, <?= $this->number($unit->Size(), $unit->Race()) ?>
 <?php if ($aura): ?>, Aura <?= $aura->Aura() ?>/<?= $aura->Maximum() ?><?php endif ?>
@@ -103,7 +109,7 @@ Hat <?= empty($inventory) ? 'nichts' : implode(', ', $inventory) ?>
 <?php if (!empty($spells)): ?>Eingesetzte Kampfzauber: <?= implode(', ', $spells) ?>
 .
 <?php endif ?>
-<?php if ($trades && $trades->HasMarket() && $trades->count() > 0): ?>
+<?php if ($trades && $trades->HasMarket() && $trades->count()): ?>
 
 <?= center('Aktuelle Marktangebote') ?>
 
@@ -136,6 +142,18 @@ nicht vorrätig: <?= $this->template('trade/own', $trade) ?>
 <?= center('Aktuelle Marktangebote') ?>
 
 Wir haben aktuell nichts anzubieten.
+<?php elseif ($deals?->count()): ?>
+
+<?= center('Handelsangebote') ?>
+
+<?php foreach ($deals->Trades() as $trade): ?>
+<?= $this->template('trade/own', $trade) ?>
+
+<?php endforeach ?>
+<?php foreach ($deals->Unsatisfiable() as $trade): ?>
+nicht vorrätig: <?= $this->template('trade/own', $trade) ?>
+
+<?php endforeach ?>
 <?php endif ?>
 <?php if (!empty($orders->comments)): ?>
 

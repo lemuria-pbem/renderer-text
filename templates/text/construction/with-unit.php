@@ -14,6 +14,7 @@ use Lemuria\Renderer\Text\View\Text;
 /** @var Construction $construction */
 $construction = $this->variables[0];
 $building     = $construction->Building();
+$isMarket     = $building === 'market';
 $inhabitants  = $this->people($construction);
 $people       = $inhabitants === 1 ? 'Bewohner' : 'Bewohnern';
 $treasury     = $construction->Treasury();
@@ -39,5 +40,5 @@ $additional   = $this->building($trades, $construction);
 <?php endif ?>
 <?= $this->template('report', $construction) ?>
 <?php foreach ($construction->Inhabitants() as $unit): ?>
-<?= $this->template('unit', $unit, $trades->forUnit($unit)) ?>
+<?= $this->template('unit', $unit, $isMarket ? $trades->forUnit($unit) : null) ?>
 <?php endforeach ?>

@@ -45,7 +45,7 @@ $fleet      = View::sortedFleet($region);
 <?= $this->template('vessel/foreign', $vessel) ?>
 <?php endforeach ?>
 <?= $this->template('apparitions/with-unit', $region) ?>
-<?php elseif ($visibility === Visibility::Travelled && $type === Type::Player): ?>
+<?php elseif ($visibility === Visibility::Travelled && $type !== Type::Monster): ?>
 <?= $this->template('region/with-unit', $region, true) ?>
 <?= $this->template('report', $region) ?>
 <?php foreach ($estate as $construction): ?>

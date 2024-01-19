@@ -1,10 +1,10 @@
 <?php
 declare (strict_types = 1);
 
-use Lemuria\Engine\Fantasya\Factory\Model\Observables;
 use Lemuria\Engine\Fantasya\Factory\Model\Trades;
 use Lemuria\Engine\Fantasya\Message\Casus;
 use Lemuria\Model\Fantasya\Intelligence;
+use Lemuria\Model\Fantasya\Market\Deals;
 use Lemuria\Model\Fantasya\Party\Type;
 use Lemuria\Model\Fantasya\Unit;
 use Lemuria\Renderer\Text\View\Html;
@@ -15,7 +15,7 @@ use Lemuria\Renderer\Text\View\Html;
 $unit = $this->variables[0];
 /** @var Trades|null $trades */
 $trades       = $this->variables[1] ?? null;
-$merchant     = $trades && $trades->HasMarket() ? 'merchant-' . $unit->Id() : null;
+$merchant     = 'merchant-' . $unit->Id();
 $census       = $this->census;
 $foreign      = $census->getParty($unit);
 $intelligence = new Intelligence($unit->Region());
@@ -40,6 +40,12 @@ if ($isGuarding || $unitIsGuard):
 	endif;
 endif;
 $unitClass = $this->party->Type() === Type::Monster && $unit->Party()->Type() !== Type::Monster ? 'danger' : 'primary';
+
+$deals = null;
+if (!$trades):
+	$deals = new Deals($unit);
+	$deals = $deals->Trades();
+endif;
 
 ?>
 <h6>
@@ -78,4 +84,17 @@ $unitClass = $this->party->Type() === Type::Monster && $unit->Party()->Type() !=
 			<p>Dieser Händler hat gerade nichts anzubieten.</p>
 		<?php endif ?>
 	</div>
+<?php elseif ($deals?->count()): ?>
+<div class="market">
+	<p class="h7">
+		<a data-bs-toggle="collapse" href="#<?= $merchant ?>" role="button" aria-expanded="true" aria-controls="market">Handelsangebote</a>
+	</p>
+	<ol class="collapse" id="<?= $merchant ?>">
+		<?php foreach ($deals as $trade): ?>
+			<li class="active">
+				<?= $this->template('trade/foreign', $trade) ?>
+			</li>
+		<?php endforeach ?>
+	</ol>
+</div>
 <?php endif ?>

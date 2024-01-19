@@ -18,7 +18,8 @@ $m            = count($this->messages($construction));
 $h            = $treasury->isEmpty() ? 0 : 1;
 $trades       = new Trades($construction);
 $building     = $this->building($trades, $construction);
-$columns      = 1 + ($m > 0 || $h ? 1 : 0) + ($building === 'market' ? 1 : 0);
+$isMarket     = $building === 'market';
+$columns      = 1 + ($m > 0 || $h ? 1 : 0) + ($isMarket ? 1 : 0);
 
 ?>
 <?php if ($columns === 1): ?>
@@ -70,7 +71,7 @@ $columns      = 1 + ($m > 0 || $h ? 1 : 0) + ($building === 'market' ? 1 : 0);
 		<div class="row">
 		<?php foreach ($unitsInside as $unit): ?>
 			<div class="col-12 col-md-6 col-xl-4 <?= p3(++$i) ?>">
-				<?= $this->template('unit', $unit, $trades->forUnit($unit)) ?>
+				<?= $this->template('unit', $unit, $isMarket ? $trades->forUnit($unit) : null) ?>
 			</div>
 		<?php endforeach ?>
 		</div>
