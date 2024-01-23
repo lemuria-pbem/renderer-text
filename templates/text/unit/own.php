@@ -8,6 +8,7 @@ use Lemuria\Engine\Fantasya\Calculus;
 use Lemuria\Engine\Fantasya\Factory\Model\Trades;
 use Lemuria\Engine\Fantasya\Statistics\Subject;
 use Lemuria\Model\Fantasya\Ability;
+use Lemuria\Model\Fantasya\Extension\Valuables;
 use Lemuria\Model\Fantasya\Market\Deals;
 use Lemuria\Model\Fantasya\Unit;
 use Lemuria\Renderer\Text\Model\Orders;
@@ -90,6 +91,8 @@ $deals = null;
 if (!$trades):
 	$deals = new Deals($unit);
 endif;
+/** @var Valuables|null $valuables */
+$valuables = $unit->Extensions()?->offsetExists(Valuables::class) ? $unit->Extensions()->offsetGet(Valuables::class) : null;
 
 ?>
 <?= $prefix . $unit ?>, <?= $this->number($unit->Size(), $unit->Race()) ?>
@@ -109,7 +112,7 @@ Hat <?= empty($inventory) ? 'nichts' : implode(', ', $inventory) ?>
 <?php if (!empty($spells)): ?>Eingesetzte Kampfzauber: <?= implode(', ', $spells) ?>
 .
 <?php endif ?>
-<?php if ($trades && $trades->HasMarket() && $trades->count()): ?>
+<?php if ($trades && $trades->HasMarket() && ($trades->count() || $valuables?->count())): ?>
 
 <?= center('Aktuelle Marktangebote') ?>
 
@@ -125,7 +128,13 @@ nicht vorrätig: <?= $this->template('trade/own', $trade) ?>
 Handel untersagt: <?= $this->template('trade/own', $trade) ?>
 
 <?php endforeach ?>
-<?php elseif ($trades && $trades->count() > 0): ?>
+<?php if ($valuables): ?>
+<?php foreach ($valuables as $unicum): ?>
+<?= $this->template('valuable/own', $unicum, $valuables->getPrice($unicum)) ?>
+
+<?php endforeach ?>
+<?php endif ?>
+<?php elseif ($trades && ($trades->count() || $valuables?->count())): ?>
 
 <?= center('Angebote für den Markthandel') ?>
 
@@ -137,12 +146,18 @@ Handel untersagt: <?= $this->template('trade/own', $trade) ?>
 nicht vorrätig: <?= $this->template('trade/own', $trade) ?>
 
 <?php endforeach ?>
-<?php elseif ($trades && $trades->HasMarket()): ?>
+<?php if ($valuables): ?>
+<?php foreach ($valuables as $unicum): ?>
+<?= $this->template('valuable/own', $unicum, $valuables->getPrice($unicum)) ?>
+
+<?php endforeach ?>
+<?php endif ?>
+<?php elseif ($trades && $trades->HasMarket() && !$valuables?->count()): ?>
 
 <?= center('Aktuelle Marktangebote') ?>
 
 Wir haben aktuell nichts anzubieten.
-<?php elseif ($deals?->count()): ?>
+<?php elseif ($deals?->count() || $valuables?->count()): ?>
 
 <?= center('Handelsangebote') ?>
 
@@ -154,6 +169,12 @@ Wir haben aktuell nichts anzubieten.
 nicht vorrätig: <?= $this->template('trade/own', $trade) ?>
 
 <?php endforeach ?>
+<?php if ($valuables): ?>
+<?php foreach ($valuables as $unicum): ?>
+<?= $this->template('valuable/own', $unicum, $valuables->getPrice($unicum)) ?>
+
+<?php endforeach ?>
+<?php endif ?>
 <?php endif ?>
 <?php if (!empty($orders->comments)): ?>
 

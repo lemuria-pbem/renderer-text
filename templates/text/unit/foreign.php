@@ -5,6 +5,7 @@ use function Lemuria\Renderer\Text\View\center;
 use function Lemuria\Renderer\Text\View\description;
 use Lemuria\Engine\Fantasya\Factory\Model\Trades;
 use Lemuria\Engine\Fantasya\Message\Casus;
+use Lemuria\Model\Fantasya\Extension\Valuables;
 use Lemuria\Model\Fantasya\Intelligence;
 use Lemuria\Model\Fantasya\Market\Deals;
 use Lemuria\Model\Fantasya\Unit;
@@ -48,6 +49,8 @@ $deals = null;
 if (!$trades):
 	$deals = new Deals($unit);
 endif;
+/** @var Valuables|null $valuables */
+$valuables = $unit->Extensions()?->offsetExists(Valuables::class) ? $unit->Extensions()->offsetGet(Valuables::class) : null;
 
 ?>
 <?= $prefix . $unit ?> von <?= $foreign ?>, <?= $this->number($unit->Size(), $unit->Race()) ?>
@@ -65,15 +68,21 @@ Reist mit <?= implode(', ', $resources) ?>.
 
 <?= center('Marktangebote') ?>
 
-<?php if (count($trades->Available()) > 0): ?>
+<?php if (count($trades->Available()) || $valuables?->count()): ?>
 <?php foreach ($trades->Available() as $trade): ?>
 <?= $this->template('trade/foreign', $trade) ?>
 
 <?php endforeach ?>
+<?php if ($valuables): ?>
+<?php foreach ($valuables as $unicum): ?>
+<?= $this->template('valuable/foreign', $unicum, $valuables->getPrice($unicum)) ?>
+
+<?php endforeach ?>
+<?php endif ?>
 <?php else: ?>
 Dieser Händler hat gerade nichts anzubieten.
 <?php endif ?>
-<?php elseif ($deals?->count()): ?>
+<?php elseif ($deals?->count() || $valuables?->count()): ?>
 
 <?= center('Handelsangebote') ?>
 
@@ -81,4 +90,10 @@ Dieser Händler hat gerade nichts anzubieten.
 <?= $this->template('trade/foreign', $trade) ?>
 
 <?php endforeach ?>
+<?php if ($valuables): ?>
+<?php foreach ($valuables as $unicum): ?>
+<?= $this->template('valuable/foreign', $unicum, $valuables->getPrice($unicum)) ?>
+
+<?php endforeach ?>
+<?php endif ?>
 <?php endif ?>

@@ -247,6 +247,17 @@ abstract class View
 		};
 	}
 
+	public function valuable(Deal $price, $isOwn = false): string {
+		if ($isOwn) {
+			if ($price->IsVariable()) {
+				return formatNumber($price->Minimum()) . '–' . $this->number($price->Maximum(), $price->Commodity());
+			}
+			return $this->number($price->Amount(), $price->Commodity());
+		} else {
+			return $this->number($price->Maximum(), $price->Commodity());
+		}
+	}
+
 	/**
 	 * Get an Item from a set.
 	 */

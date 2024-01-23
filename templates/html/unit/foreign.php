@@ -3,6 +3,7 @@ declare (strict_types = 1);
 
 use Lemuria\Engine\Fantasya\Factory\Model\Trades;
 use Lemuria\Engine\Fantasya\Message\Casus;
+use Lemuria\Model\Fantasya\Extension\Valuables;
 use Lemuria\Model\Fantasya\Intelligence;
 use Lemuria\Model\Fantasya\Market\Deals;
 use Lemuria\Model\Fantasya\Party\Type;
@@ -46,6 +47,8 @@ if (!$trades):
 	$deals = new Deals($unit);
 	$deals = $deals->Trades();
 endif;
+/** @var Valuables|null $valuables */
+$valuables = $unit->Extensions()?->offsetExists(Valuables::class) ? $unit->Extensions()->offsetGet(Valuables::class) : null;
 
 ?>
 <h6>
@@ -72,19 +75,26 @@ endif;
 		<p class="h7">
 			<a data-bs-toggle="collapse" href="#<?= $merchant ?>" role="button" aria-expanded="true" aria-controls="market">Marktangebote</a>
 		</p>
-		<?php if (count($trades->Available()) > 0): ?>
-		<ol class="collapse" id="<?= $merchant ?>">
-			<?php foreach ($trades->Available() as $trade): ?>
-				<li class="active">
-					<?= $this->template('trade/foreign', $trade) ?>
-				</li>
-			<?php endforeach ?>
-		</ol>
+		<?php if (count($trades->Available()) || $valuables?->count()): ?>
+			<ol class="collapse" id="<?= $merchant ?>">
+				<?php foreach ($trades->Available() as $trade): ?>
+					<li class="active">
+						<?= $this->template('trade/foreign', $trade) ?>
+					</li>
+				<?php endforeach ?>
+				<?php if ($valuables): ?>
+					<?php foreach ($valuables as $unicum): ?>
+						<li>
+							<?= $this->template('valuable/foreign', $unicum, $valuables->getPrice($unicum)) ?>
+						</li>
+					<?php endforeach ?>
+				<?php endif ?>
+			</ol>
 		<?php else: ?>
 			<p>Dieser Händler hat gerade nichts anzubieten.</p>
 		<?php endif ?>
 	</div>
-<?php elseif ($deals?->count()): ?>
+<?php elseif ($deals?->count() || $valuables?->count()): ?>
 <div class="market">
 	<p class="h7">
 		<a data-bs-toggle="collapse" href="#<?= $merchant ?>" role="button" aria-expanded="true" aria-controls="market">Handelsangebote</a>
@@ -95,6 +105,13 @@ endif;
 				<?= $this->template('trade/foreign', $trade) ?>
 			</li>
 		<?php endforeach ?>
+		<?php if ($valuables): ?>
+			<?php foreach ($valuables as $unicum): ?>
+				<li>
+					<?= $this->template('valuable/foreign', $unicum, $valuables->getPrice($unicum)) ?>
+				</li>
+			<?php endforeach ?>
+		<?php endif ?>
 	</ol>
 </div>
 <?php endif ?>

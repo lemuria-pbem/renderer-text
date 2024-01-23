@@ -6,6 +6,7 @@ use function Lemuria\Renderer\Text\View\id;
 use Lemuria\Engine\Fantasya\Calculus;
 use Lemuria\Engine\Fantasya\Factory\Model\Trades;
 use Lemuria\Engine\Fantasya\Statistics\Subject;
+use Lemuria\Model\Fantasya\Extension\Valuables;
 use Lemuria\Model\Fantasya\Market\Deals;
 use Lemuria\Model\Fantasya\Market\Sales;
 use Lemuria\Model\Fantasya\Unit;
@@ -90,6 +91,8 @@ $deals = null;
 if (!$trades):
 	$deals = new Deals($unit);
 endif;
+/** @var Valuables|null $valuables */
+$valuables = $unit->Extensions()?->offsetExists(Valuables::class) ? $unit->Extensions()->offsetGet(Valuables::class) : null;
 
 ?>
 <h6>
@@ -116,7 +119,7 @@ endif;
 		Eingesetzte Kampfzauber: <?= implode(', ', $spells) ?>.
 	<?php endif ?>
 </p>
-<?php if ($trades && $trades->HasMarket() && $trades->count() > 0): ?>
+<?php if ($trades && $trades->HasMarket() && ($trades->count() || $valuables?->count())): ?>
 	<div class="market">
 		<p class="h7">
 			<a data-bs-toggle="collapse" href="#<?= $merchant ?>" role="button" aria-expanded="true" aria-controls="market">Aktuelle Marktangebote</a>
@@ -137,9 +140,16 @@ endif;
 					<?= $this->template('trade/own', $trade, Sales::FORBIDDEN) ?>
 				</li>
 			<?php endforeach ?>
+			<?php if ($valuables): ?>
+				<?php foreach ($valuables as $unicum): ?>
+					<li>
+						<?= $this->template('valuable/own', $unicum, $valuables->getPrice($unicum)) ?>
+					</li>
+				<?php endforeach ?>
+			<?php endif ?>
 		</ol>
 	</div>
-<?php elseif ($trades && $trades->count() > 0): ?>
+<?php elseif ($trades && ($trades->count() || $valuables?->count())): ?>
 	<div class="market">
 		<p class="h7">
 			<a data-bs-toggle="collapse" href="#<?= $merchant ?>" role="button" aria-expanded="true" aria-controls="market">Angebote für den Markthandel</a>
@@ -155,16 +165,23 @@ endif;
 					<?= $this->template('trade/own', $trade, Sales::UNSATISFIABLE) ?>
 				</li>
 			<?php endforeach ?>
+			<?php if ($valuables): ?>
+				<?php foreach ($valuables as $unicum): ?>
+					<li>
+						<?= $this->template('valuable/own', $unicum, $valuables->getPrice($unicum)) ?>
+					</li>
+				<?php endforeach ?>
+			<?php endif ?>
 		</ol>
 	</div>
-<?php elseif ($trades && $trades->HasMarket()): ?>
+<?php elseif ($trades && $trades->HasMarket() && !$valuables?->count()): ?>
 	<div class="market">
 		<p class="h7">
 			<a data-bs-toggle="collapse" href="#<?= $merchant ?>" role="button" aria-expanded="true" aria-controls="market">Aktuelle Marktangebote</a>
 		</p>
 		<p>Wir haben aktuell nichts anzubieten.</p>
 	</div>
-<?php elseif ($deals?->count()): ?>
+<?php elseif ($deals?->count() || $valuables?->count()): ?>
 <div class="market">
 	<p class="h7">
 		<a data-bs-toggle="collapse" href="#<?= $merchant ?>" role="button" aria-expanded="true" aria-controls="market">Handelsangebote</a>
@@ -180,6 +197,13 @@ endif;
 				<?= $this->template('trade/own', $trade, Sales::UNSATISFIABLE) ?>
 			</li>
 		<?php endforeach ?>
+		<?php if ($valuables): ?>
+			<?php foreach ($valuables as $unicum): ?>
+				<li>
+					<?= $this->template('valuable/own', $unicum, $valuables->getPrice($unicum)) ?>
+				</li>
+			<?php endforeach ?>
+		<?php endif ?>
 	</ol>
 </div>
 <?php endif ?>
