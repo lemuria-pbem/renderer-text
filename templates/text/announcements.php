@@ -15,7 +15,7 @@ $announcements = $this->announcements();
 
 <?= hr() ?>
 
-<?= center('Botschaften') ?>
+<?= center('Nachrichten und Botschaften') ?>
 <?php foreach ($announcements as $announcement): ?>
 
 <?php if ($announcement->From()): ?>

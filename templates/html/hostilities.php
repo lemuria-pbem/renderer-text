@@ -33,13 +33,11 @@ endforeach;
 
 ?>
 <?php if (!empty($hostilities)): ?>
-	<div class="col-12 p-0">
-		<h3>Kampfberichte</h3>
+	<h3>Kampfberichte</h3>
 
-		<?php foreach ($hostilities as $key => $participants): ?>
-			In <a href="#<?= id($locations[$key]) ?>"><?= $names[$key] ?></a> gab es einen Kampf zwischen den Parteien <?= $participants ?>.
-			<a href="<?= $links[$i] ?>" target="battle-<?= $i++ ?>">Kampfbericht anzeigen</a>
-			<br>
-		<?php endforeach ?>
-	</div>
+	<?php foreach ($hostilities as $key => $participants): ?>
+		In <a href="#<?= id($locations[$key]) ?>"><?= $names[$key] ?></a> gab es einen Kampf zwischen den Parteien <?= $participants ?>.
+		<a href="<?= $links[$i] ?>" target="battle-<?= $i++ ?>">Kampfbericht anzeigen</a>
+		<br>
+	<?php endforeach ?>
 <?php endif ?>

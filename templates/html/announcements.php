@@ -9,18 +9,16 @@ $announcements = $this->announcements();
 
 ?>
 <?php if ($announcements): ?>
-	<div class="col-12 p-0">
-		<h3>Botschaften</h3>
+	<h3>Nachrichten und Botschaften</h3>
 
-		<?php foreach ($announcements as $announcement): ?>
-			<div class="announcement">
-				<?php if ($announcement->From()): ?>
-					<span class="sender">Von: <strong><?= $announcement->Sender() ?></strong></span>&nbsp;<span class="badge text-bg-primary font-monospace"><?= $announcement->From() ?></span>&nbsp;·&nbsp;<span class="recipient">An: <strong><?= $announcement->Recipient() ?></strong></span>&nbsp;<span class="badge text-bg-primary font-monospace"><?= $announcement->To() ?></span>
-				<?php else: ?>
-					<span class="sender">Von: <strong><?= $announcement->Sender() ?></strong></span>&nbsp;·&nbsp;<span class="recipient">An: <strong><?= $announcement->Recipient() ?></strong></span>&nbsp;<span class="badge text-bg-primary font-monospace"><?= $announcement->To() ?></span>
-				<?php endif ?>
-				<blockquote>„<?= $announcement->Message() ?>“</blockquote>
-			</div>
-		<?php endforeach ?>
-	</div>
+	<?php foreach ($announcements as $announcement): ?>
+		<div class="announcement">
+			<?php if ($announcement->From()): ?>
+				<span class="sender">Von: <strong><?= $announcement->Sender() ?></strong></span>&nbsp;<span class="badge text-bg-primary font-monospace"><?= $announcement->From() ?></span>&nbsp;·&nbsp;<span class="recipient">An: <strong><?= $announcement->Recipient() ?></strong></span>&nbsp;<span class="badge text-bg-primary font-monospace"><?= $announcement->To() ?></span>
+			<?php else: ?>
+				<span class="sender">Von: <strong><?= $announcement->Sender() ?></strong></span>&nbsp;·&nbsp;<span class="recipient">An: <strong><?= $announcement->Recipient() ?></strong></span>&nbsp;<span class="badge text-bg-primary font-monospace"><?= $announcement->To() ?></span>
+			<?php endif ?>
+			<blockquote>„<?= $announcement->Message() ?>“</blockquote>
+		</div>
+	<?php endforeach ?>
 <?php endif ?>
