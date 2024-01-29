@@ -28,16 +28,16 @@ $month     = $this->get('calendar.month', $calendar->Month() - 1);
 
 
 <?php if ($isPlayer): ?>
-<?= $this->template('statistics/player') ?>
+<?= $this->template('header/player') ?>
 <?php else: ?>
-<?= $this->template('statistics/other') ?>
+<?= $this->template('header/other') ?>
 <?php endif ?>
+<?= $this->template('announcements') ?>
 
 <?= hr() ?>
 
 <?= center('Ereignisse') ?>
 <?= $this->template('report', $party) ?>
-<?= $this->template('announcements') ?>
 <?= $this->template('hostilities') ?>
 
 <?php if ($isPlayer): ?>
@@ -45,6 +45,7 @@ $month     = $this->get('calendar.month', $calendar->Month() - 1);
 
 <?= center('Alle bekannten Völker') ?>
 <?= $this->wrappedTemplate('acquaintances', $party) ?>
+<?= $this->template('statistics/player') ?>
 <?php endif ?>
 <?php foreach ($travelLog as $continent => $atlas): ?>
 <?php if ($atlas->count() > 0): ?>

@@ -9,7 +9,7 @@ $announcements = $this->announcements();
 
 ?>
 <?php if ($announcements): ?>
-	<h3>Nachrichten und Botschaften</h3>
+	<h3>Nachrichten, Gerüchte und Botschaften</h3>
 
 	<?php foreach ($announcements as $announcement): ?>
 		<div class="announcement">

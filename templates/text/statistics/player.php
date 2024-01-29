@@ -4,8 +4,6 @@ declare (strict_types = 1);
 use function Lemuria\number;
 use function Lemuria\Renderer\Text\View\center;
 use function Lemuria\Renderer\Text\View\hr;
-use function Lemuria\Renderer\Text\View\line;
-use function Lemuria\Renderer\Text\View\wrap;
 use Lemuria\Engine\Fantasya\Statistics\Subject;
 use Lemuria\Lemuria;
 use Lemuria\Renderer\Text\Text\TableRow;
@@ -29,18 +27,6 @@ $experts   = $this->expertsStatistics(Subject::Experts, $party);
 $pool      = $this->materialPoolStatistics(Subject::MaterialPool, $party);
 
 ?>
-Dein Volk: <?= $party->Name() ?> [<?= $party->Id() ?>]
-
-<?= line($party->Description()) ?>
-
-<?= line($banner) ?>
-
-Dein Volk zählt <?= $this->number($census->count(), $party->Race()) ?> in <?= $this->number($party->People()->count()) ?> Einheiten.
-<?= wrap('Deine Einheiten sammeln ' . $this->loot() . '.') ?>
-<?= wrap('Vorgaben für neue Einheiten: ' . implode(', ', $this->presettings()) . '.') ?>
-<?= wrap('Vorgaben für neue Handelsangebote: ' . ($party->Presettings()->IsRepeat() ? 'WIEDERHOLEN' : 'WIEDERHOLEN Nicht') . '.') ?>
-<?= wrap('Vorgabe für Kundschafter/Kapitäne: ' . $this->dictionary->get('presetting.exploring', $this->party->Presettings()->Exploring()->name) . '.') ?>
-
 <?= hr() ?>
 
 <?= center('Statistik') ?>
