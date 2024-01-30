@@ -41,6 +41,7 @@ $month     = $this->get('calendar.month', $calendar->Month() - 1);
 <?= $this->template('hostilities') ?>
 
 <?php if ($isPlayer): ?>
+<?= $this->template('quests') ?>
 <?= hr() ?>
 
 <?= center('Alle bekannten Völker') ?>

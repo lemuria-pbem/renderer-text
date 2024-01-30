@@ -2,8 +2,6 @@
 declare (strict_types = 1);
 namespace Lemuria\Renderer\Text;
 
-use Lemuria\Engine\Fantasya\Factory\Model\Observables;
-use Lemuria\Model\Fantasya\Resources;
 use function Lemuria\getClass;
 use function Lemuria\number as formatNumber;
 use Lemuria\Engine\Fantasya\Census;
@@ -14,6 +12,7 @@ use Lemuria\Engine\Fantasya\Effect\ShipbuildingEffect;
 use Lemuria\Engine\Fantasya\Effect\SpyEffect;
 use Lemuria\Engine\Fantasya\Effect\Unmaintained;
 use Lemuria\Engine\Fantasya\Factory\GrammarTrait;
+use Lemuria\Engine\Fantasya\Factory\Model\Observables;
 use Lemuria\Engine\Fantasya\Factory\Model\Trades;
 use Lemuria\Engine\Fantasya\Factory\Model\TravelAtlas;
 use Lemuria\Engine\Fantasya\Factory\Model\Visibility;
@@ -49,6 +48,8 @@ use Lemuria\Model\Fantasya\Party;
 use Lemuria\Model\Fantasya\Party\Type;
 use Lemuria\Model\Fantasya\Region;
 use Lemuria\Model\Fantasya\Relation;
+use Lemuria\Model\Fantasya\Resources;
+use Lemuria\Model\Fantasya\Scenario\Quest;
 use Lemuria\Model\Fantasya\Unicum;
 use Lemuria\Model\Fantasya\Unit;
 use Lemuria\Model\Fantasya\Vessel;
@@ -640,6 +641,15 @@ abstract class View
 		$infrastructure = $this->calculateInfrastructure($region);
 		$wage           = new Wage($infrastructure);
 		return $wage->getWage();
+	}
+
+	public function controller(Quest $quest): string {
+		$controller = getClass($quest->Controller());
+		$fileName   = match ($controller) {
+			'SellUnicum' => 'sell-unicum',
+			default      => 'other'
+		};
+		return 'quest/' . $fileName;
 	}
 
 	/**

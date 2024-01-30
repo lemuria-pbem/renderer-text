@@ -37,6 +37,7 @@ $people = $this->numberStatistics(Subject::People, $party);
 			<?= $this->template('party-links') ?>
 			<?= $this->template('announcements') ?>
 			<?= $this->template('hostilities') ?>
+			<?= $this->template('quests') ?>
 		</div>
 		<div class="col-12 col-lg-6 p-0 ps-lg-3">
 			<h3 id="party-report">Ereignisse</h3>
