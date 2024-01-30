@@ -43,6 +43,10 @@ use Lemuria\Renderer\Text\View\Html;
 						<strong>Kräutervorkommen anzeigen</strong> aufrufen
 					</li>
 					<li>
+						<span class="font-monospace">N</span>
+						<strong>Nachrichten, Gerüchte und Botschaften</strong> aufrufen
+					</li>
+					<li>
 						<span class="font-monospace">R</span>
 						<strong>Regionsstatistik</strong> aufrufen
 					</li>
