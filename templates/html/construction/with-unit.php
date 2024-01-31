@@ -19,7 +19,7 @@ $h            = $treasury->isEmpty() ? 0 : 1;
 $trades       = new Trades($construction);
 $building     = $this->building($trades, $construction);
 $isMarket     = $building === 'market';
-$columns      = 1 + ($m > 0 || $h ? 1 : 0) + ($isMarket ? 1 : 0);
+$columns      = 1 + ($m > 0 || $h ? 1 : 0) + ($building ? 1 : 0);
 
 ?>
 <?php if ($columns === 1): ?>
@@ -50,7 +50,7 @@ $columns      = 1 + ($m > 0 || $h ? 1 : 0) + ($isMarket ? 1 : 0);
 					<?= $this->template('construction/part/description', $construction) ?>
 				</div>
 				<div class="col-12 col-md-6 col-xl-4 p-0 ps-md-3 pe-xl-3 pt-md-5">
-					<?= $this->template('construction/building/market', $construction) ?>
+					<?= $this->template('construction/building/' . $building, $construction) ?>
 				</div>
 				<div class="col-12 col-md-6 col-xl-4 p-0 pe-md-4 ps-xl-3 pe-xl-0 pt-xl-5">
 					<?php if ($h): ?>
