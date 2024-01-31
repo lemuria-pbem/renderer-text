@@ -43,7 +43,7 @@ endif;
 $unitClass = $this->party->Type() === Type::Monster && $unit->Party()->Type() !== Type::Monster ? 'danger' : 'primary';
 
 $deals = null;
-if (!$trades):
+if (!$trades && $this->isVisited($unit)):
 	$deals = new Deals($unit);
 	$deals = $deals->Trades();
 endif;
@@ -100,11 +100,13 @@ $valuables = $unit->Extensions()?->offsetExists(Valuables::class) ? $unit->Exten
 		<a data-bs-toggle="collapse" href="#<?= $merchant ?>" role="button" aria-expanded="true" aria-controls="market">Handelsangebote</a>
 	</p>
 	<ol class="collapse" id="<?= $merchant ?>">
+		<?php if ($deals): ?>
 		<?php foreach ($deals as $trade): ?>
 			<li class="active">
 				<?= $this->template('trade/foreign', $trade) ?>
 			</li>
 		<?php endforeach ?>
+		<?php endif ?>
 		<?php if ($valuables): ?>
 			<?php foreach ($valuables as $unicum): ?>
 				<li>

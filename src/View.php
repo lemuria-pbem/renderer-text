@@ -2,6 +2,7 @@
 declare (strict_types = 1);
 namespace Lemuria\Renderer\Text;
 
+use Lemuria\Engine\Fantasya\Effect\VisitEffect;
 use function Lemuria\getClass;
 use function Lemuria\number as formatNumber;
 use Lemuria\Engine\Fantasya\Census;
@@ -633,6 +634,15 @@ abstract class View
 		if ($unit->Construction()) {
 			$effect = new ShipbuildingEffect(State::getInstance());
 			return (bool)Lemuria::Score()->find($effect->setUnit($unit));
+		}
+		return false;
+	}
+
+	public function isVisited(Unit $unit): bool {
+		$effect   = new VisitEffect(State::getInstance());
+		$existing = Lemuria::Score()->find($effect->setUnit($unit));
+		if ($existing instanceof VisitEffect) {
+			return $existing->Everybody() || $existing->Parties()->has($this->party->Id());
 		}
 		return false;
 	}

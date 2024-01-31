@@ -46,7 +46,7 @@ if ($isGuarding || $unitIsGuard):
 endif;
 
 $deals = null;
-if (!$trades):
+if (!$trades && $this->isVisited($unit)):
 	$deals = new Deals($unit);
 endif;
 /** @var Valuables|null $valuables */
@@ -86,10 +86,12 @@ Dieser Händler hat gerade nichts anzubieten.
 
 <?= center('Handelsangebote') ?>
 
+<?php if ($deals): ?>
 <?php foreach ($deals->Trades() as $trade): ?>
 <?= $this->template('trade/foreign', $trade) ?>
 
 <?php endforeach ?>
+<?php endif ?>
 <?php if ($valuables): ?>
 <?php foreach ($valuables as $unicum): ?>
 <?= $this->template('valuable/foreign', $unicum, $valuables->getPrice($unicum)) ?>
