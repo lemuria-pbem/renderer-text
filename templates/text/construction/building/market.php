@@ -24,6 +24,7 @@ foreach ($tradeables as $commodity /** @var Commodity $commodity */) {
 
 ?>
 <?php if ($isMaintained): ?>
+
 <?= center('Marktordnung') ?>
 
 <?php if ($fee instanceof Quantity): ?>

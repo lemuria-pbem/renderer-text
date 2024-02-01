@@ -39,6 +39,9 @@ $travelLog = $this->travelLog;
 									<nav id="nav-<?= id($region) ?>" class="nav nav-pills flex-column">
 										<?php foreach (View::sortedEstate($region) as $construction): ?>
 											<a class="construction <?= strtolower(getClass($construction->Building())) ?> nav-link ml-3 py-0" href="#<?= id($construction) ?>"><?= $construction->Name() ?></a>
+											<?php foreach (View::sortedFleet($construction) as $vessel): ?>
+												<a class="vessel nav-link ml-3 py-0" href="#<?= id($vessel) ?>"><?= $vessel->Name() ?></a>
+											<?php endforeach ?>
 										<?php endforeach ?>
 										<?php foreach (View::sortedFleet($region) as $vessel): ?>
 											<a class="vessel nav-link ml-3 py-0" href="#<?= id($vessel) ?>"><?= $vessel->Name() ?></a>

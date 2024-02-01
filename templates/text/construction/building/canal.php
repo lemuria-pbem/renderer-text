@@ -16,6 +16,7 @@ $feeExtension = $construction->Extensions()->offsetGet(Fee::class);
 $fee          = $feeExtension->Fee();
 
 ?>
+
 <?php if ($isMaintained): ?>
 <?php if ($fee instanceof Quantity): ?>
 Die Nutzungsgebühr beträgt <?= $this->resource($fee) ?>.

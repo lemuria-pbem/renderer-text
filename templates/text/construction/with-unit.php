@@ -7,6 +7,7 @@ use Lemuria\Engine\Fantasya\Factory\Model\Trades;
 use Lemuria\Model\Fantasya\Building\Port;
 use Lemuria\Model\Fantasya\Construction;
 use Lemuria\Renderer\Text\Model\PortSpace;
+use Lemuria\Renderer\Text\View;
 use Lemuria\Renderer\Text\View\Text;
 
 /** @var Text $this */
@@ -20,6 +21,7 @@ $people       = $inhabitants === 1 ? 'Bewohner' : 'Bewohnern';
 $treasury     = $construction->Treasury();
 $trades       = new Trades($construction);
 $additional   = $this->building($trades, $construction);
+$fleet        = View::sortedFleet($construction);
 
 ?>
 
@@ -32,13 +34,14 @@ $additional   = $this->building($trades, $construction);
 <?php endif ?>
 <?php if (!$treasury->isEmpty()): ?><?= $this->template('treasury/region', $treasury) ?><?php endif ?>
 <?php if ($additional === 'market'): ?>
-
 <?= $this->template('construction/building/market', $construction, $trades) ?>
 <?php elseif ($additional): ?>
-
 <?= $this->template('construction/building/' . $additional, $construction) ?>
 <?php endif ?>
 <?= $this->template('report', $construction) ?>
 <?php foreach ($construction->Inhabitants() as $unit): ?>
 <?= $this->template('unit', $unit, $isMarket ? $trades->forUnit($unit) : null) ?>
+<?php endforeach ?>
+<?php foreach ($fleet as $vessel): ?>
+<?= $this->template('vessel/with-unit', $vessel) ?>
 <?php endforeach ?>

@@ -4,6 +4,7 @@ declare (strict_types = 1);
 use function Lemuria\Renderer\Text\View\id;
 use Lemuria\Engine\Fantasya\Command\Trespass\Enter;
 use Lemuria\Model\Fantasya\Construction;
+use Lemuria\Renderer\Text\View;
 use Lemuria\Renderer\Text\View\Html;
 
 /** @var Html $this */
@@ -13,6 +14,7 @@ $construction = $this->variables[0];
 $building     = $construction->Building();
 $canEnter     = !in_array($building::class, Enter::FORBIDDEN);
 $owner        = $construction->Inhabitants()->Owner()?->Party();
+$fleet        = View::sortedFleet($construction);
 
 ?>
 <div class="container-fluid">
@@ -36,3 +38,9 @@ $owner        = $construction->Inhabitants()->Owner()?->Party();
 		</div>
 	</div>
 </div>
+
+<?php foreach ($fleet as $vessel): ?>
+	<?php if (!$this->hasTravelled($vessel)): ?>
+		<?= $this->template('vessel/travelled', $vessel) ?>
+	<?php endif ?>
+<?php endforeach ?>

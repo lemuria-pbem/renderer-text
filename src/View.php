@@ -2,7 +2,9 @@
 declare (strict_types = 1);
 namespace Lemuria\Renderer\Text;
 
-use Lemuria\Engine\Fantasya\Effect\VisitEffect;
+use Lemuria\Engine\Fantasya\Effect\TravelEffect;
+use Lemuria\Model\Fantasya\Building\Dockyard;
+use Lemuria\Model\Fantasya\Building\Port;
 use function Lemuria\getClass;
 use function Lemuria\number as formatNumber;
 use Lemuria\Engine\Fantasya\Census;
@@ -12,9 +14,9 @@ use Lemuria\Engine\Fantasya\Effect\Hunger;
 use Lemuria\Engine\Fantasya\Effect\ShipbuildingEffect;
 use Lemuria\Engine\Fantasya\Effect\SpyEffect;
 use Lemuria\Engine\Fantasya\Effect\Unmaintained;
+use Lemuria\Engine\Fantasya\Effect\VisitEffect;
 use Lemuria\Engine\Fantasya\Factory\GrammarTrait;
 use Lemuria\Engine\Fantasya\Factory\Model\Observables;
-use Lemuria\Engine\Fantasya\Factory\Model\Trades;
 use Lemuria\Engine\Fantasya\Factory\Model\TravelAtlas;
 use Lemuria\Engine\Fantasya\Factory\Model\Visibility;
 use Lemuria\Engine\Fantasya\Factory\Model\Wage;
@@ -29,8 +31,6 @@ use Lemuria\Engine\Message\Filter;
 use Lemuria\Identifiable;
 use Lemuria\ItemSet;
 use Lemuria\Lemuria;
-use Lemuria\Model\Fantasya\Building\Canal;
-use Lemuria\Model\Fantasya\Building\Port;
 use Lemuria\Model\Fantasya\Commodity;
 use Lemuria\Model\Fantasya\Composition;
 use Lemuria\Model\Fantasya\Composition\Carcass;
@@ -55,6 +55,7 @@ use Lemuria\Model\Fantasya\Unicum;
 use Lemuria\Model\Fantasya\Unit;
 use Lemuria\Model\Fantasya\Vessel;
 use Lemuria\Model\Fantasya\World\PartyMap;
+use Lemuria\Model\World\Direction;
 use Lemuria\Renderer\Text\Engine\Announcement;
 use Lemuria\Renderer\Text\Model\TravelLog;
 use Lemuria\Singleton;
@@ -124,8 +125,48 @@ abstract class View
 		return $estate->sort();
 	}
 
-	public static function sortedFleet(Region $region): Fleet {
-		$fleet = clone $region->Fleet();
+	public static function sortedFleet(Construction|Region $place): Fleet {
+		if ($place instanceof Construction) {
+			return match ($place->Building()::class) {
+				Dockyard::class => self::sortedDockyardFleet($place),
+				Port::class     => self::sortedPortFleet($place),
+				default         => new Fleet()
+			};
+		} else {
+			$fleet = new Fleet();
+			foreach ($place->Fleet() as $vessel) {
+				if ($vessel->Port()) {
+					continue;
+				}
+				foreach ($vessel->Passengers() as $unit) {
+					if ($unit->Construction()?->Building() instanceof Dockyard) {
+						continue 2;
+					}
+				}
+				$fleet->add($vessel);
+			}
+		}
+		return $fleet->sort();
+	}
+
+	public static function sortedPortFleet(Construction $port): Fleet {
+		$fleet = new Fleet();
+		foreach ($port->Region()->Fleet() as $vessel) {
+			if ($vessel->Port() === $port) {
+				$fleet->add($vessel);
+			}
+		}
+		return $fleet->sort();
+	}
+
+	public static function sortedDockyardFleet(Construction $dockyard): Fleet {
+		$fleet = new Fleet();
+		foreach ($dockyard->Inhabitants() as $unit) {
+			$vessel = $unit->Vessel();
+			if ($vessel && !$fleet->has($vessel->Id()) && $vessel->Anchor() === Direction::IN_DOCK) {
+				$fleet->add($vessel);
+			}
+		}
 		return $fleet->sort();
 	}
 
@@ -156,7 +197,14 @@ abstract class View
 		return $this->translateSingleton($singleton, $index, $casus);
 	}
 
-	public function toAndString(array $list): string {
+	public function toAndString(\Iterator|array $list): string {
+		$items = [];
+		if ($list instanceof \Iterator) {
+			foreach ($list as $item) {
+				$items[] = $item;
+			}
+			$list = $items;
+		}
 		if (empty($list)) {
 			return '';
 		}
@@ -614,17 +662,6 @@ abstract class View
 		return $statistics;
 	}
 
-	public function building(Trades $trades, Construction $construction): ?string {
-		if ($trades->HasMarket()) {
-			return 'market';
-		}
-		return match ($construction->Building()::class) {
-			Canal::class => 'canal',
-			Port::class  => 'port',
-			default      => null
-		};
-	}
-
 	public function isMaintained(Construction $construction): bool {
 		$effect = new Unmaintained(State::getInstance());
 		return !Lemuria::Score()->find($effect->setConstruction($construction));
@@ -643,6 +680,17 @@ abstract class View
 		$existing = Lemuria::Score()->find($effect->setUnit($unit));
 		if ($existing instanceof VisitEffect) {
 			return $existing->Everybody() || $existing->Parties()->has($this->party->Id());
+		}
+		return false;
+	}
+
+	public function hasTravelled(Unit|Vessel $subject): bool {
+		$unit = $subject instanceof Vessel ? $subject->Passengers()->Owner() : $subject;
+		if ($unit) {
+			$effect = new TravelEffect(State::getInstance());
+			if (Lemuria::Score()->find($effect->setUnit($unit))) {
+				return true;
+			}
 		}
 		return false;
 	}

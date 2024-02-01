@@ -4,6 +4,7 @@ declare (strict_types = 1);
 use function Lemuria\Renderer\Text\View\p3;
 use Lemuria\Engine\Fantasya\Factory\Model\Trades;
 use Lemuria\Model\Fantasya\Construction;
+use Lemuria\Renderer\Text\View;
 use Lemuria\Renderer\Text\View\Html;
 use Lemuria\SortMode;
 
@@ -17,13 +18,18 @@ $i            = 0;
 $m            = count($this->messages($construction));
 $h            = $treasury->isEmpty() ? 0 : 1;
 $trades       = new Trades($construction);
-$building     = $this->building($trades, $construction);
+$additional   = $this->building($trades, $construction, Html::LEFT);
+$building     = $this->building($trades, $construction, Html::RIGHT);
 $isMarket     = $building === 'market';
 $columns      = 1 + ($m > 0 || $h ? 1 : 0) + ($building ? 1 : 0);
+$fleet        = View::sortedFleet($construction);
 
 ?>
 <?php if ($columns === 1): ?>
 	<?= $this->template('construction/part/description', $construction) ?>
+	<?php if ($additional): ?>
+		<?= $this->template('construction/additional/' . $additional, $construction) ?>
+	<?php endif ?>
 <?php else: ?>
 	<div class="container-fluid">
 		<div class="row">
@@ -31,6 +37,9 @@ $columns      = 1 + ($m > 0 || $h ? 1 : 0) + ($building ? 1 : 0);
 			if ($columns === 2): ?>
 				<div class="col-12 col-md-6 p-0 pe-md-3">
 					<?= $this->template('construction/part/description', $construction) ?>
+					<?php if ($additional): ?>
+						<?= $this->template('construction/additional/' . $additional, $construction) ?>
+					<?php endif ?>
 				</div>
 				<div class="col-12 col-md-6 p-0 ps-md-3 pt-md-5">
 					<?php if ($building): ?>
@@ -48,6 +57,9 @@ $columns      = 1 + ($m > 0 || $h ? 1 : 0) + ($building ? 1 : 0);
 			<?php else: ?>
 				<div class="col-12 col-md-6 col-xl-4 p-0 pe-md-3">
 					<?= $this->template('construction/part/description', $construction) ?>
+					<?php if ($additional): ?>
+						<?= $this->template('construction/additional/' . $additional, $construction) ?>
+					<?php endif ?>
 				</div>
 				<div class="col-12 col-md-6 col-xl-4 p-0 ps-md-3 pe-xl-3 pt-md-5">
 					<?= $this->template('construction/building/' . $building, $construction) ?>
@@ -77,3 +89,7 @@ $columns      = 1 + ($m > 0 || $h ? 1 : 0) + ($building ? 1 : 0);
 		</div>
 	</div>
 <?php endif ?>
+
+<?php foreach ($fleet as $vessel): ?>
+	<?= $this->template('vessel/with-unit', $vessel) ?>
+<?php endforeach ?>

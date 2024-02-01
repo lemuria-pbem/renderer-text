@@ -42,7 +42,9 @@ $fleet      = View::sortedFleet($region);
 <?= $this->template('construction/foreign', $construction) ?>
 <?php endforeach ?>
 <?php foreach ($fleet as $vessel): ?>
+<?php if (!$this->hasTravelled($vessel)): ?>
 <?= $this->template('vessel/foreign', $vessel) ?>
+<?php endif ?>
 <?php endforeach ?>
 <?= $this->template('apparitions/with-unit', $region) ?>
 <?php elseif ($visibility === Visibility::Travelled && $type !== Type::Monster): ?>
@@ -52,7 +54,9 @@ $fleet      = View::sortedFleet($region);
 <?= $this->template('construction/travelled', $construction) ?>
 <?php endforeach ?>
 <?php foreach ($fleet as $vessel): ?>
+<?php if (!$this->hasTravelled($vessel)): ?>
 <?= $this->template('vessel/travelled', $vessel) ?>
+<?php endif ?>
 <?php endforeach ?>
 <?= $this->template('apparitions/travelled', $region) ?>
 <?php elseif ($visibility === Visibility::Lighthouse): ?>

@@ -6,6 +6,7 @@ use function Lemuria\Renderer\Text\View\line;
 use Lemuria\Model\Fantasya\Building\Port;
 use Lemuria\Model\Fantasya\Construction;
 use Lemuria\Renderer\Text\Model\PortSpace;
+use Lemuria\Renderer\Text\View;
 use Lemuria\Renderer\Text\View\Text;
 
 /** @var Text $this */
@@ -14,6 +15,7 @@ use Lemuria\Renderer\Text\View\Text;
 $construction = $this->variables[0];
 $building     = $construction->Building();
 $owner        = $construction->Inhabitants()->Owner()?->Party();
+$fleet        = View::sortedFleet($construction);
 
 ?>
 
@@ -24,3 +26,8 @@ $owner        = $construction->Inhabitants()->Owner()?->Party();
 <?php else: ?>
 .<?= line(description($construction)) ?>
 <?php endif ?>
+<?php foreach ($fleet as $vessel): ?>
+<?php if (!$this->hasTravelled($vessel)): ?>
+<?= $this->template('vessel/travelled', $vessel) ?>
+<?php endif ?>
+<?php endforeach ?>

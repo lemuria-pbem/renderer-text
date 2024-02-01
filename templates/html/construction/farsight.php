@@ -3,6 +3,7 @@ declare (strict_types = 1);
 
 use function Lemuria\Renderer\Text\View\p3;
 use Lemuria\Model\Fantasya\Construction;
+use Lemuria\Renderer\Text\View;
 use Lemuria\Renderer\Text\View\Html;
 use Lemuria\SortMode;
 
@@ -13,6 +14,7 @@ $construction = $this->variables[0];
 $treasury     = $construction->Treasury();
 $unitsInside  = $construction->Inhabitants()->sort(SortMode::ByParty, $this->party);
 $i            = 0;
+$fleet        = View::sortedFleet($construction);
 
 ?>
 <?php if ($treasury->isEmpty()): ?>
@@ -41,3 +43,9 @@ $i            = 0;
 		</div>
 	</div>
 <?php endif ?>
+
+<?php foreach ($fleet as $vessel): ?>
+	<?php if (!$this->hasTravelled($vessel)): ?>
+		<?= $this->template('vessel/farsight', $vessel) ?>
+	<?php endif ?>
+<?php endforeach ?>

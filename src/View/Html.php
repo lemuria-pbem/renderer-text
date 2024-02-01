@@ -5,11 +5,16 @@ namespace Lemuria\Renderer\Text\View;
 use function Lemuria\getClass;
 use function Lemuria\number;
 use Lemuria\Engine\Fantasya\Combat\BattleLog;
+use Lemuria\Engine\Fantasya\Factory\Model\Trades;
 use Lemuria\Engine\Fantasya\Statistics\Subject;
 use Lemuria\Engine\Message;
 use Lemuria\Engine\Message\Result;
 use Lemuria\Identifiable;
+use Lemuria\Model\Fantasya\Building\Canal;
+use Lemuria\Model\Fantasya\Building\Dockyard;
+use Lemuria\Model\Fantasya\Building\Port;
 use Lemuria\Model\Fantasya\Commodity\Silver;
+use Lemuria\Model\Fantasya\Construction;
 use Lemuria\Model\Fantasya\Herb;
 use Lemuria\Model\Fantasya\Luxuries;
 use Lemuria\Model\Fantasya\Party;
@@ -72,6 +77,10 @@ function p3(int $i, string $bp = 'md'): string {
 
 class Html extends View
 {
+	public final const int LEFT = 0;
+
+	public final const int RIGHT = 1;
+
 	protected const string BADGE_UNDEFINED = 'dark';
 
 	/**
@@ -317,6 +326,24 @@ class Html extends View
 		}
 		ksort($statistics);
 		return array_values($statistics);
+	}
+
+	public function building(Trades $trades, Construction $construction, int $side): ?string {
+		if ($side === self::LEFT) {
+			return match ($construction->Building()::class) {
+				Dockyard::class => 'dockyard',
+				Port::class     => 'port',
+				default         => null
+			};
+		}
+		if ($trades->HasMarket()) {
+			return 'market';
+		}
+		return match ($construction->Building()::class) {
+			Canal::class    => 'canal',
+			Port::class     => 'port',
+			default         => null
+		};
 	}
 
 	/**

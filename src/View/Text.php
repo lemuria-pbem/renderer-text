@@ -3,11 +3,16 @@ declare(strict_types = 1);
 namespace Lemuria\Renderer\Text\View;
 
 use function Lemuria\endsWith;
+use Lemuria\Engine\Fantasya\Factory\Model\Trades;
 use Lemuria\Engine\Fantasya\Statistics\Subject;
 use Lemuria\Entity;
 use Lemuria\Engine\Message;
 use Lemuria\Identifiable;
 use Lemuria\Lemuria;
+use Lemuria\Model\Fantasya\Building\Canal;
+use Lemuria\Model\Fantasya\Building\Dockyard;
+use Lemuria\Model\Fantasya\Building\Port;
+use Lemuria\Model\Fantasya\Construction;
 use Lemuria\Model\Fantasya\Party;
 use Lemuria\Model\Fantasya\Resources;
 use Lemuria\Model\Fantasya\Unit;
@@ -216,6 +221,18 @@ class Text extends View
 		}
 		ksort($statistics);
 		return $statistics;
+	}
+
+	public function building(Trades $trades, Construction $construction): ?string {
+		if ($trades->HasMarket()) {
+			return 'market';
+		}
+		return match ($construction->Building()::class) {
+			Canal::class    => 'canal',
+			Dockyard::class => 'dockyard',
+			Port::class     => 'port',
+			default         => null
+		};
 	}
 
 	/**
