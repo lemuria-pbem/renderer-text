@@ -22,6 +22,8 @@ $banner = $party->Banner() ? 'Parteibanner: ' . linkEmail($party->Banner()) : '(
 			<p><?= $banner ?></p>
 
 			<p>Die Partei besteht aus insgesamt <?= $this->number($count) ?> Individuen in <?= $this->number($party->People()->count()) ?> Einheiten.</p>
+
+			<?= $this->template('hostilities', $party) ?>
 		</div>
 		<div class="col-12 col-lg-6 p-0 ps-lg-3">
 			<h3>Ereignisse</h3>
@@ -30,7 +32,6 @@ $banner = $party->Banner() ? 'Parteibanner: ' . linkEmail($party->Banner()) : '(
 
 			<?= $this->template('header/messages-button') ?>
 		</div>
-		<?= $this->template('hostilities', $party) ?>
 	</div>
 </div>
 
