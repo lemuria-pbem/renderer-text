@@ -31,7 +31,7 @@ foreach ($statistics->Talents() as $name => $talent) {
 	foreach ($matrix->Regions() as $id => $levels) {
 		/** @var Region $region */
 		$region = $atlas[$id];
-		$line   = ['<a href="" data-region="' . $region->Id()->Id() . '" data-bs-dismiss="modal">' . $region->Name() . '</a>'];
+		$line   = ['<a href="" data-region="' . $region->Id() . '" data-bs-dismiss="modal">' . $region->Name() . '</a>'];
 		foreach ($levels as $value) {
 			$line[] = $value->count > 0 ? '<a href="" data-unit="' . $value->unit->Id() . '" data-bs-dismiss="modal">' . number($value->count) . '</a>' : '';
 		}
