@@ -17,11 +17,17 @@ $size       = $ship->Captain();
 $passengers = $this->people($vessel);
 $people     = $passengers === 1 ? 'Passagier' : 'Passagieren';
 $treasury   = $vessel->Treasury();
+$isOwn      = $vessel->Passengers()->Owner()?->Party() === $this->party;
 
 ?>
 
+<?php if ($isOwn): ?>
   >> <?= $vessel ?>, <?= $this->translate($ship) ?> mit <?= $this->number($passengers) ?> <?= $people ?>, Zustand <?= $this->number((int)round(100.0 * $vessel->Completion())) ?>%, <?php if ($vessel->Space() < 0): ?>überladen mit<?php else: ?>freier Platz<?php endif ?> <?= $this->number((int)ceil(abs($vessel->Space()) / 100)) ?>
  GE. Kapitän ist <?= count($vessel->Passengers()) ? $vessel->Passengers()->Owner() : 'niemand' ?>
+<?php else: ?>
+  >> <?= $vessel ?>, <?= $this->translate($ship) ?> mit <?= $this->number($passengers) ?> <?= $people ?>, Zustand <?= $this->number((int)round(100.0 * $vessel->Completion())) ?>
+%. Kapitän ist <?= count($vessel->Passengers()) ? $vessel->Passengers()->Owner() : 'niemand' ?>
+<?php endif ?>
 <?php if (!($vessel->Region()->Landscape() instanceof Navigable)): ?>
 <?php if ($vessel->Anchor() === Direction::None): ?>
 <?php if ($vessel->Port()): ?>

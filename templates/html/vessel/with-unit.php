@@ -21,12 +21,17 @@ $treasury   = $vessel->Treasury();
 
 $unitsInside = $vessel->Passengers()->sort(SortMode::ByParty, $this->party);
 $captain     = $unitsInside->Owner();
+$isOwn       = $captain?->Party() === $this->party;
 $i           = 0;
 
 ?>
 <h5 id="<?= id($vessel) ?>"><?= $vessel->Name() ?> <span class="badge text-bg-info font-monospace"><?= $vessel->Id() ?></span></h5>
 <p>
-	<?= $this->translate($ship) ?> mit <?= $this->number($passengers) ?> <?= $people ?>, Zustand <?= $this->number((int)round(100.0 * $vessel->Completion())) ?>%, <?php if ($vessel->Space() < 0): ?>überladen mit<?php else: ?>freier Platz<?php endif ?> <?= $this->number((int)ceil(abs($vessel->Space()) / 100)) ?> GE.
+	<?php if ($isOwn): ?>
+		<?= $this->translate($ship) ?> mit <?= $this->number($passengers) ?> <?= $people ?>, Zustand <?= $this->number((int)round(100.0 * $vessel->Completion())) ?>%, <?php if ($vessel->Space() < 0): ?>überladen mit<?php else: ?>freier Platz<?php endif ?> <?= $this->number((int)ceil(abs($vessel->Space()) / 100)) ?> GE.
+	<?php else: ?>
+		<?= $this->translate($ship) ?> mit <?= $this->number($passengers) ?> <?= $people ?>, Zustand <?= $this->number((int)round(100.0 * $vessel->Completion())) ?>%.
+	<?php endif ?>
 	Kapitän ist
 	<?php if (count($unitsInside)): ?>
 		<?= $captain->Name() ?> <span class="badge text-bg-primary font-monospace"><?= $captain->Id() ?></span>.
