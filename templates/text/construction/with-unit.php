@@ -4,6 +4,7 @@ declare (strict_types = 1);
 use function Lemuria\Renderer\Text\View\description;
 use function Lemuria\Renderer\Text\View\line;
 use Lemuria\Engine\Fantasya\Factory\Model\Trades;
+use Lemuria\Model\Fantasya\Building\Market;
 use Lemuria\Model\Fantasya\Building\Port;
 use Lemuria\Model\Fantasya\Construction;
 use Lemuria\Renderer\Text\Model\PortSpace;
@@ -15,7 +16,7 @@ use Lemuria\Renderer\Text\View\Text;
 /** @var Construction $construction */
 $construction = $this->variables[0];
 $building     = $construction->Building();
-$isMarket     = $building === 'market';
+$isMarket     = $building instanceof Market;
 $inhabitants  = $this->people($construction);
 $people       = $inhabitants === 1 ? 'Bewohner' : 'Bewohnern';
 $treasury     = $construction->Treasury();
