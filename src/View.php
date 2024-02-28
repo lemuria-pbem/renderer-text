@@ -704,8 +704,9 @@ abstract class View
 	public function controller(Quest $quest): string {
 		$controller = getClass($quest->Controller());
 		$fileName   = match ($controller) {
-			'SellUnicum' => 'sell-unicum',
-			default      => 'other'
+			'DemandPassage' => 'demand-passage',
+			'SellUnicum'    => 'sell-unicum',
+			default         => 'other'
 		};
 		return 'quest/' . $fileName;
 	}
