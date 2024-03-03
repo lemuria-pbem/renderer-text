@@ -38,7 +38,7 @@ declare (strict_types = 1);
 		<li>
 			<a class="dropdown-item" href="#" data-option="filter-recreate">
 				<span></span>
-				Regenerierung
+				Regeneration
 			</a>
 		</li>
 		<li>
