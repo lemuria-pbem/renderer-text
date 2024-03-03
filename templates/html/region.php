@@ -47,7 +47,7 @@ $fleet = View::sortedFleet($region);
 						<?= $this->template('report/region', $region) ?>
 					<?php endif ?>
 				</div>
-				<?php if ($type === Type::Player): ?>
+				<?php if ($type !== Type::Monster): ?>
 					<div class="col-12 col-xl-4 p-0 ps-xl-3 pe-xl-0">
 						<?= $this->template('material-pool', $region) ?>
 						<?= $this->template('quotas', $region) ?>
@@ -88,7 +88,7 @@ $fleet = View::sortedFleet($region);
 					</h4>
 					<?= $this->template('region/with-unit', $region) ?>
 				</div>
-				<?php if ($type === Type::Player && $this->party->Regulation()->getQuotas($region)?->count()): ?>
+				<?php if ($type !== Type::Monster && $this->party->Regulation()->getQuotas($region)?->count()): ?>
 					<div class="col-12 col-lg-6 col-xl-4 p-0 ps-lg-3">
 						<?= $this->template('quotas', $region) ?>
 					</div>
@@ -173,7 +173,7 @@ $fleet = View::sortedFleet($region);
 			<?php endforeach ?>
 			<?= $this->template('apparitions/travelled', $region) ?>
 		<?php endif ?>
-	<?php elseif ($type === Type::Player): ?>
+	<?php elseif ($type !== Type::Monster): ?>
 		<?php if ($this->party->Regulation()->getQuotas($region)?->count()): ?>
 			<div class="container-fluid">
 				<div class="row">
