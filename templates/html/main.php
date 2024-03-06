@@ -10,7 +10,7 @@ use Lemuria\Renderer\Text\View\Html;
 /** @var Html $this */
 
 $party     = $this->party;
-$isPlayer  = $party->Type() === Type::Player;
+$isPlayer  = $party->Type() !== Type::Monster;
 $travelLog = $this->travelLog;
 $calendar  = Lemuria::Calendar();
 $season    = $this->get('calendar.season', $calendar->Season()->value - 1);

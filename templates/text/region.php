@@ -24,7 +24,7 @@ $fleet      = View::sortedFleet($region);
 
 <?= $this->template('statistics/region', $region) ?>
 
-<?php if ($type === Type::Player): ?>
+<?php if ($type !== Type::Monster): ?>
 <?= $this->template('material-pool', $region) ?>
 <?= $this->template('transport-capacity', $region) ?>
 <?php endif ?>

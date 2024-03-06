@@ -12,7 +12,7 @@ use Lemuria\Renderer\Text\View\Text;
 /** @var Text $this */
 
 $party     = $this->party;
-$isPlayer  = $party->Type() === Type::Player;
+$isPlayer  = $party->Type() !== Type::Monster;
 $banner    = $this->party->Banner() ? 'Unser Banner: ' . $this->party->Banner() : '(kein Banner gesetzt)';
 $travelLog = $this->travelLog;
 $calendar  = Lemuria::Calendar();

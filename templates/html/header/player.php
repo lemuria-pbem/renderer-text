@@ -4,14 +4,16 @@ declare (strict_types = 1);
 use function Lemuria\Renderer\Text\View\linkEmail;
 use Lemuria\Engine\Fantasya\Statistics\Subject;
 use Lemuria\Lemuria;
+use Lemuria\Model\Fantasya\Party\Type;
 use Lemuria\Renderer\Text\View\Html;
 
 /** @var Html $this */
 
-$party  = $this->party;
-$census = $this->census;
-$banner = $party->Banner() ? 'Unser Banner: ' . linkEmail($party->Banner()) : '(kein Banner gesetzt)';
-$round  = Lemuria::Calendar()->Round();
+$party    = $this->party;
+$isPlayer = $party->Type() === Type::Player;
+$census   = $this->census;
+$banner   = $party->Banner() ? 'Unser Banner: ' . linkEmail($party->Banner()) : '(kein Banner gesetzt)';
+$round    = Lemuria::Calendar()->Round();
 
 $units  = $this->numberStatistics(Subject::Units, $party);
 $people = $this->numberStatistics(Subject::People, $party);
@@ -37,7 +39,9 @@ $people = $this->numberStatistics(Subject::People, $party);
 			<?= $this->template('party-links') ?>
 			<?= $this->template('announcements') ?>
 			<?= $this->template('hostilities') ?>
-			<?= $this->template('quests') ?>
+			<?php if ($isPlayer): ?>
+				<?= $this->template('quests') ?>
+			<?php endif ?>
 		</div>
 		<div class="col-12 col-lg-6 p-0 ps-lg-3">
 			<h3 id="party-report">Ereignisse</h3>
@@ -53,4 +57,6 @@ $people = $this->numberStatistics(Subject::People, $party);
 
 <?= $this->template('statistics/party') ?>
 <?= $this->template('statistics/regions') ?>
-<?= $this->template('statistics/talents') ?>
+<?php if ($isPlayer): ?>
+	<?= $this->template('statistics/talents') ?>
+<?php endif ?>
