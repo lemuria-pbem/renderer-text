@@ -29,8 +29,13 @@ $people = $this->numberStatistics(Subject::People, $party);
 			<p><?= $banner ?></p>
 
 			<p>
-				Dein Volk zählt <?= $this->number($census->count(), $party->Race()) ?> in <?= $this->number($party->People()->count()) ?> Einheiten.<br>
-				Deine Einheiten sammeln <?= $this->loot() ?>.<br>
+				<?php if ($isPlayer): ?>
+					Dein Volk zählt <?= $this->number($census->count(), $party->Race()) ?> in <?= $this->number($party->People()->count()) ?> Einheiten.<br>
+					Deine Einheiten sammeln <?= $this->loot() ?>.<br>
+				<?php else: ?>
+					<?= $this->number($census->count()) ?> Personen in <?= $this->number($party->People()->count()) ?> Einheiten.<br>
+					Die Einheiten sammeln <?= $this->loot() ?>.<br>
+				<?php endif ?>
 				Vorgaben für neue Einheiten: <?= implode(', ', $this->presettings()) ?>.<br>
 				Vorgaben für neue Handelsangebote: <?= $this->party->Presettings()->IsRepeat() ? 'WIEDERHOLEN' : 'WIEDERHOLEN Nicht' ?>.<br>
 				Vorgabe für Kundschafter/Kapitäne: <?= $this->dictionary->get('presetting.exploring', $this->party->Presettings()->Exploring()->name) ?>.
