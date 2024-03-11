@@ -20,6 +20,8 @@ class Announcement
 
 	private string $message;
 
+	private string $linkAnchor;
+
 	public function From(): ?string {
 		return $this->from;
 	}
@@ -40,6 +42,10 @@ class Announcement
 		return $this->message;
 	}
 
+	public function LinkAnchor(): string {
+		return $this->linkAnchor;
+	}
+
 	public function __construct(LemuriaMessage $message, Dictionary $dictionary) {
 		$type = $message->MessageType();
 		if ($type instanceof AnnouncementInterface) {
@@ -54,9 +60,11 @@ class Announcement
 				$this->sender = $dictionary->get('domain.' . Domain::Party->name) . ' ' . $this->setFrom($type->Sender());
 			}
 			if ($domain === Domain::Unit) {
-				$this->recipient = $this->setTo($type->Recipient());
+				$this->recipient  = $this->setTo($type->Recipient());
+				$this->linkAnchor = '#unit-';
 			} else {
-				$this->recipient = $dictionary->get('domain.' . $domain->name) . ' ' . $this->setTo($type->Recipient());
+				$this->recipient  = $dictionary->get('domain.' . $domain->name) . ' ' . $this->setTo($type->Recipient());
+				$this->linkAnchor = $domain === Domain::Location ? '#location-' : '#unit-';
 			}
 			$this->message = $type->Message();
 			return $this;

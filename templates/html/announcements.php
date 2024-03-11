@@ -14,9 +14,9 @@ $announcements = $this->announcements();
 	<?php foreach ($announcements as $announcement): ?>
 		<div class="announcement">
 			<?php if ($announcement->From()): ?>
-				Von: <a href="#unit-<?= $announcement->From() ?>"><?= $announcement->Sender() ?></a>&nbsp;<span class="badge text-bg-primary font-monospace"><a href="#unit-<?= $announcement->From() ?>"><?= $announcement->From() ?></a></span>&nbsp;·&nbsp;An: <a href="#unit-<?= $announcement->To() ?>"><?= $announcement->Recipient() ?></a>&nbsp;<span class="badge text-bg-primary font-monospace"><a href="#unit-<?= $announcement->To() ?>"><?= $announcement->To() ?></a></span>
+				Von: <a href="#unit-<?= $announcement->From() ?>"><?= $announcement->Sender() ?></a>&nbsp;<span class="badge text-bg-primary font-monospace"><a href="#unit-<?= $announcement->From() ?>"><?= $announcement->From() ?></a></span>&nbsp;·&nbsp;An: <a href="<?= $announcement->LinkAnchor() . $announcement->To() ?>"><?= $announcement->Recipient() ?></a>&nbsp;<span class="badge text-bg-primary font-monospace"><a href="<?= $announcement->LinkAnchor() . $announcement->To() ?>"><?= $announcement->To() ?></a></span>
 			<?php else: ?>
-				Von: <strong><?= $announcement->Sender() ?></strong>&nbsp;·&nbsp;An: <a href="#unit-<?= $announcement->To() ?>"><?= $announcement->Recipient() ?></a>&nbsp;<span class="badge text-bg-primary font-monospace"><a href="#unit-<?= $announcement->To() ?>"><?= $announcement->To() ?></a></span>
+				Von: <strong><?= $announcement->Sender() ?></strong>&nbsp;·&nbsp;An: <a href="<?= $announcement->LinkAnchor() . $announcement->To() ?>"><?= $announcement->Recipient() ?></a>&nbsp;<span class="badge text-bg-primary font-monospace"><a href="<?= $announcement->LinkAnchor() . $announcement->To() ?>"><?= $announcement->To() ?></a></span>
 			<?php endif ?>
 			<blockquote>„<?= $announcement->Message() ?>“</blockquote>
 		</div>
