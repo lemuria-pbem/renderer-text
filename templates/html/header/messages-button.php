@@ -18,6 +18,12 @@ declare (strict_types = 1);
 			</a>
 		</li>
 		<li>
+			<a class="dropdown-item" href="#" data-option="filter-announce">
+				<span></span>
+				Botschaften
+			</a>
+		</li>
+		<li>
 			<a class="dropdown-item" href="#" data-option="filter-layabout">
 				<span></span>
 				Faulenzen
