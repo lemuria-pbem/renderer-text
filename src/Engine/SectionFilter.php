@@ -2,6 +2,7 @@
 declare(strict_types = 1);
 namespace Lemuria\Renderer\Text\Engine;
 
+use function Lemuria\getClass;
 use Lemuria\Engine\Fantasya\Message\LemuriaMessage;
 use Lemuria\Engine\Fantasya\Message\Unit\LayaboutMessage;
 use Lemuria\Engine\Fantasya\Message\Unit\LearnReducedMessage;
@@ -31,8 +32,21 @@ class SectionFilter
 		VisitMessage::class        => self::ANNOUNCE, VisitRumorMessage::class     => self::ANNOUNCE
 	];
 
-	public function getSection(LemuriaMessage $message): ?string {
+	/**
+	 * @type array<string, string>
+	 */
+	protected const array PREFIXES = [
+		'Announcement' => self::ANNOUNCE
+	];
+
+	public function getSection(LemuriaMessage $message, ?string $default = null): ?string {
 		$type = $message->MessageType()::class;
-		return self::FILTER[$type] ?? null;
+		$name = getClass($type);
+		foreach (self::PREFIXES as $prefix => $filter) {
+			if (str_starts_with($name, $prefix)) {
+				return $filter;
+			}
+		}
+		return self::FILTER[$type] ?? $default;
 	}
 }

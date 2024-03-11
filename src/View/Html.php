@@ -135,7 +135,8 @@ class Html extends View
 	 * Render a report message with section class.
 	 */
 	public function messageWithSection(Message $message): string {
-		$section = strtolower($message->Section()->name);
+		$name    = strtolower($message->Section()->name);
+		$section = $this->sectionFilter->getSection($message, $name);
 		return $this->createMessageWithSection($message, $section);
 	}
 
