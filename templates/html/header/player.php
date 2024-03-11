@@ -41,7 +41,9 @@ $people = $this->numberStatistics(Subject::People, $party);
 				Vorgabe für Kundschafter/Kapitäne: <?= $this->dictionary->get('presetting.exploring', $this->party->Presettings()->Exploring()->name) ?>.
 			</p>
 
-			<?= $this->template('party-links') ?>
+			<?php if ($isPlayer): ?>
+				<?= $this->template('party-links') ?>
+			<?php endif ?>
 			<?= $this->template('announcements') ?>
 			<?= $this->template('hostilities') ?>
 			<?php if ($isPlayer): ?>
