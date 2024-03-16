@@ -9,7 +9,7 @@ use Lemuria\Scenario\Fantasya\Quest\Controller\DemandPassage;
 
 /** @var Quest $quest */
 $quest = $this->variables[0];
-$unit  = $quest->Unit();
+$unit  = $quest->Owner();
 /** @var DemandPassage $controller */
 $controller = $quest->Controller()->setPayload($quest);
 $start      = $unit->Region();

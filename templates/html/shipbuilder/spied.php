@@ -3,7 +3,6 @@ declare (strict_types = 1);
 
 use Lemuria\Engine\Fantasya\Calculus;
 use Lemuria\Model\Fantasya\Ability;
-use Lemuria\Model\Fantasya\Quantity;
 use Lemuria\Model\Fantasya\Unit;
 use Lemuria\Renderer\Text\View\Html;
 

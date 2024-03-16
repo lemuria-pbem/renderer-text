@@ -1,7 +1,6 @@
 <?php
 declare (strict_types = 1);
 
-use Lemuria\Engine\Fantasya\Factory\Model\Observables;
 use Lemuria\Engine\Fantasya\Message\Casus;
 use Lemuria\Model\Fantasya\Intelligence;
 use Lemuria\Model\Fantasya\Unit;

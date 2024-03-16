@@ -8,7 +8,7 @@ use Lemuria\Model\Fantasya\Scenario\Quest;
 
 /** @var Quest $quest */
 $quest = $this->variables[0];
-$unit  = $quest->Unit();
+$unit  = $quest->Owner();
 
 ?>
 [<?= $quest->Id() ?>] Auftrag von <?= $unit ?>

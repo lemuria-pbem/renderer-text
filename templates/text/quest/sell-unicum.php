@@ -9,7 +9,7 @@ use Lemuria\Scenario\Fantasya\Quest\Controller\SellUnicum;
 
 /** @var Quest $quest */
 $quest = $this->variables[0];
-$unit  = $quest->Unit();
+$unit  = $quest->Owner();
 /** @var SellUnicum $controller */
 $controller  = $quest->Controller()->setPayload($quest);
 $unicum      = $controller->Unicum();
