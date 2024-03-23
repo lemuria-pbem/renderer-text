@@ -30,7 +30,7 @@ declare (strict_types = 1);
 			</a>
 		</li>
 		<li>
-			<a class="dropdown-item" href="#" data-option="battle">
+			<a class="dropdown-item" href="#" data-option="filter-combat">
 				<span></span>
 				Kämpfe
 			</a>

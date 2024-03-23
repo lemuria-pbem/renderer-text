@@ -2,6 +2,11 @@
 declare(strict_types = 1);
 namespace Lemuria\Renderer\Text\Engine;
 
+use Lemuria\Engine\Fantasya\Message\Region\AttackBattleMessage;
+use Lemuria\Engine\Fantasya\Message\Unit\AttackBoardAfterCombatMessage;
+use Lemuria\Engine\Fantasya\Message\Unit\AttackEnterAfterCombatMessage;
+use Lemuria\Engine\Fantasya\Message\Unit\AttackLeaveConstructionCombatMessage;
+use Lemuria\Engine\Fantasya\Message\Unit\AttackLeaveVesselCombatMessage;
 use function Lemuria\getClass;
 use Lemuria\Engine\Fantasya\Message\LemuriaMessage;
 use Lemuria\Engine\Fantasya\Message\Unit\LayaboutMessage;
@@ -22,13 +27,22 @@ class SectionFilter
 
 	protected const string ANNOUNCE = 'filter-announce';
 
+	protected const string COMBAT = 'filter-combat';
+
 	/**
 	 * @type array<string, string>
 	 */
 	protected const array FILTER = [
+		AttackBattleMessage::class                  => self::COMBAT,
+		AttackEnterAfterCombatMessage::class        => self::COMBAT, AttackBoardAfterCombatMessage::class  => self::COMBAT,
+		AttackLeaveConstructionCombatMessage::class => self::COMBAT, AttackLeaveVesselCombatMessage::class => self::COMBAT,
+
 		LayaboutMessage::class     => self::LAYABOUT,
+
 		LearnReducedMessage::class => self::ABOARD, LearnVesselMessage::class      => self::ABOARD,
+
 		RecreateAuraMessage::class => self::RECREATE, RecreateHealthMessage::class => self::RECREATE,
+
 		VisitMessage::class        => self::ANNOUNCE, VisitRumorMessage::class     => self::ANNOUNCE
 	];
 
