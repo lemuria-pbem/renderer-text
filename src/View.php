@@ -5,6 +5,7 @@ namespace Lemuria\Renderer\Text;
 use Lemuria\Engine\Fantasya\Effect\TravelEffect;
 use Lemuria\Model\Fantasya\Building\Dockyard;
 use Lemuria\Model\Fantasya\Building\Port;
+use Lemuria\Model\Fantasya\Navigable;
 use function Lemuria\getClass;
 use function Lemuria\number as formatNumber;
 use Lemuria\Engine\Fantasya\Census;
@@ -366,25 +367,27 @@ abstract class View
 	 * Get a neighbour description.
 	 */
 	public function neighbour(Region $region = null, bool $hasRoad = false): string {
+		$id        = (string)$region->Id();
+		$name      = $region->Name();
 		$landscape = $region->Landscape();
+
+		if ($landscape instanceof Navigable) {
+			if ($name === $this->translateSingleton($landscape)) {
+				$article = $landscape instanceof Lake ? 'ein' : 'das';
+				return $this->combineGrammar($landscape, $article, Casus::Nominative);
+			}
+			return 'der ' . $name;
+		}
+
 		if ($hasRoad) {
 			$text = $this->combineGrammar($landscape, 'zum', Casus::Dative);
 		} else {
-			$article = $landscape instanceof Lake ? 'ein' : 'das';
-			$text    = $this->combineGrammar($landscape, $article, Casus::Nominative);
+			$text = $this->combineGrammar($landscape, 'das', Casus::Nominative);
 		}
-
-		$id          = (string)$region->Id();
-		$defaultName = $this->translateSingleton($landscape) . ' ' . $id;
-		$name        = $region->Name();
-		if ($name === $defaultName) {
+		if ($name === $this->translateSingleton($landscape) . ' ' . $id) {
 			$text .= ' ' . $id;
 		} elseif ($name) {
-			$isOcean = $landscape instanceof Ocean && $name === 'Ozean';
-			$isLake  = $landscape instanceof Lake && $name === 'See';
-			if (!$isOcean && !$isLake) {
-				$text .= ' ' . $name;
-			}
+			$text .= ' ' . $name;
 		}
 		return $text;
 	}
