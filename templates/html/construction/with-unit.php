@@ -33,8 +33,7 @@ $fleet        = View::sortedFleet($construction);
 <?php else: ?>
 	<div class="container-fluid">
 		<div class="row">
-			<?php /** @noinspection PhpConditionAlreadyCheckedInspection */
-			if ($columns === 2): ?>
+			<?php if ($columns === 2): ?>
 				<div class="col-12 col-md-6 p-0 pe-md-3">
 					<?= $this->template('construction/part/description', $construction) ?>
 					<?php if ($additional): ?>
@@ -44,14 +43,13 @@ $fleet        = View::sortedFleet($construction);
 				<div class="col-12 col-md-6 p-0 ps-md-3 pt-md-5">
 					<?php if ($building): ?>
 						<?= $this->template('construction/building/' . $building, $construction) ?>
-					<?php else: ?>
-						<?php if ($h): ?>
-							<?= $this->template('treasury/construction', $treasury) ?>
-						<?php endif ?>
-						<?php if ($m > 0): ?>
-							<h6>Ereignisse</h6>
-							<?= $this->template('report/default', $construction) ?>
-						<?php endif ?>
+					<?php endif ?>
+					<?php if ($h): ?>
+						<?= $this->template('treasury/construction', $treasury) ?>
+					<?php endif ?>
+					<?php if ($m > 0): ?>
+						<h6>Ereignisse</h6>
+						<?= $this->template('report/default', $construction) ?>
 					<?php endif ?>
 				</div>
 			<?php else: ?>
