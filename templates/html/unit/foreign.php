@@ -1,11 +1,11 @@
 <?php
 declare (strict_types = 1);
 
+use Lemuria\Engine\Fantasya\Factory\Model\Deals;
 use Lemuria\Engine\Fantasya\Factory\Model\Trades;
 use Lemuria\Engine\Fantasya\Message\Casus;
 use Lemuria\Model\Fantasya\Extension\Valuables;
 use Lemuria\Model\Fantasya\Intelligence;
-use Lemuria\Model\Fantasya\Market\Deals;
 use Lemuria\Model\Fantasya\Party\Type;
 use Lemuria\Model\Fantasya\Unit;
 use Lemuria\Renderer\Text\View\Html;
@@ -45,7 +45,7 @@ $unitClass = $this->party->Type() === Type::Monster && $unit->Party()->Type() !=
 $deals = null;
 if (!$trades && $this->isVisited($unit)):
 	$deals = new Deals($unit);
-	$deals = $deals->Trades();
+	$deals = $deals->count() ? $deals->sort()->Trades() : $deals->Trades();
 endif;
 /** @var Valuables|null $valuables */
 $valuables = $unit->Extensions()?->offsetExists(Valuables::class) ? $unit->Extensions()->offsetGet(Valuables::class) : null;
@@ -77,7 +77,7 @@ $valuables = $unit->Extensions()?->offsetExists(Valuables::class) ? $unit->Exten
 		</p>
 		<?php if (count($trades->Available()) || $valuables?->count()): ?>
 			<ol class="collapse" id="<?= $merchant ?>">
-				<?php foreach ($trades->Available() as $trade): ?>
+				<?php foreach ($trades->sort()->Available() as $trade): ?>
 					<li class="active">
 						<?= $this->template('trade/foreign', $trade) ?>
 					</li>
@@ -101,7 +101,7 @@ $valuables = $unit->Extensions()?->offsetExists(Valuables::class) ? $unit->Exten
 	</p>
 	<ol class="collapse" id="<?= $merchant ?>">
 		<?php if ($deals): ?>
-		<?php foreach ($deals as $trade): ?>
+		<?php foreach ($deals->sort() as $trade): ?>
 			<li class="active">
 				<?= $this->template('trade/foreign', $trade) ?>
 			</li>

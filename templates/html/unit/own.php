@@ -4,10 +4,10 @@ declare (strict_types = 1);
 use function Lemuria\getClass;
 use function Lemuria\Renderer\Text\View\id;
 use Lemuria\Engine\Fantasya\Calculus;
+use Lemuria\Engine\Fantasya\Factory\Model\Deals;
 use Lemuria\Engine\Fantasya\Factory\Model\Trades;
 use Lemuria\Engine\Fantasya\Statistics\Subject;
 use Lemuria\Model\Fantasya\Extension\Valuables;
-use Lemuria\Model\Fantasya\Market\Deals;
 use Lemuria\Model\Fantasya\Market\Sales;
 use Lemuria\Model\Fantasya\Unit;
 use Lemuria\Renderer\Text\Model\Orders;
@@ -125,7 +125,7 @@ $valuables = $unit->Extensions()?->offsetExists(Valuables::class) ? $unit->Exten
 			<a data-bs-toggle="collapse" href="#<?= $merchant ?>" role="button" aria-expanded="true" aria-controls="market">Aktuelle Marktangebote</a>
 		</p>
 		<ol class="collapse" id="<?= $merchant ?>">
-			<?php foreach ($trades->Available() as $trade): ?>
+			<?php foreach ($trades->sort()->Available() as $trade): ?>
 				<li>
 					<?= $this->template('trade/own', $trade, Sales::AVAILABLE) ?>
 				</li>
@@ -155,7 +155,7 @@ $valuables = $unit->Extensions()?->offsetExists(Valuables::class) ? $unit->Exten
 			<a data-bs-toggle="collapse" href="#<?= $merchant ?>" role="button" aria-expanded="true" aria-controls="market">Angebote für den Markthandel</a>
 		</p>
 		<ol class="collapse" id="<?= $merchant ?>">
-			<?php foreach ($trades->Available() as $trade): ?>
+			<?php foreach ($trades->sort()->Available() as $trade): ?>
 				<li>
 					<?= $this->template('trade/own', $trade, Sales::AVAILABLE) ?>
 				</li>
@@ -187,7 +187,7 @@ $valuables = $unit->Extensions()?->offsetExists(Valuables::class) ? $unit->Exten
 		<a data-bs-toggle="collapse" href="#<?= $merchant ?>" role="button" aria-expanded="true" aria-controls="market">Handelsangebote</a>
 	</p>
 	<ol class="collapse" id="<?= $merchant ?>">
-		<?php foreach ($deals->Trades() as $trade): ?>
+		<?php foreach ($deals->sort()->Trades() as $trade): ?>
 			<li>
 				<?= $this->template('trade/own', $trade, Sales::AVAILABLE) ?>
 			</li>
