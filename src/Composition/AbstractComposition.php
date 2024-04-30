@@ -21,7 +21,7 @@ abstract class AbstractComposition implements Composition
 		return $this;
 	}
 
-	protected function createContentHeader(string $content = null): string {
+	protected function createContentHeader(?string $content = null): string {
 		$header = PHP_EOL . hr() . PHP_EOL . center('Inhalt') . PHP_EOL;
 		return $content ? $header . wrap($content) : $header;
 	}

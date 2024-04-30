@@ -190,7 +190,7 @@ abstract class View
 		return Lemuria::FeatureFlag()->IsDevelopment();
 	}
 
-	public function get(string $keyPath, $index = null): string {
+	public function get(string $keyPath, Singleton|\BackedEnum|string|int|null $index = null): string {
 		return $this->dictionary->get($keyPath, $index);
 	}
 
@@ -366,7 +366,7 @@ abstract class View
 	/**
 	 * Get a neighbour description.
 	 */
-	public function neighbour(Region $region = null, bool $hasRoad = false): string {
+	public function neighbour(?Region $region = null, bool $hasRoad = false): string {
 		$id        = (string)$region->Id();
 		$name      = $region->Name();
 		$landscape = $region->Landscape();
