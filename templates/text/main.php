@@ -36,14 +36,16 @@ $month     = $this->get('calendar.month', $calendar->Month() - 1);
 
 <?= hr() ?>
 
+<?php if ($isPlayer): ?>
+<?= $this->template('quests') ?>
+<?= hr() ?>
+<?php endif ?>
+
 <?= center('Ereignisse') ?>
 <?= $this->template('report', $party) ?>
 <?= $this->template('hostilities') ?>
 
 <?php if ($isPlayer): ?>
-<?= $this->template('quests') ?>
-<?= hr() ?>
-
 <?= center('Alle bekannten Völker') ?>
 <?= $this->wrappedTemplate('acquaintances', $party) ?>
 <?= $this->template('statistics/player') ?>

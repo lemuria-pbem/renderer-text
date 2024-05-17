@@ -708,6 +708,7 @@ abstract class View
 		$controller = getClass($quest->Controller());
 		$fileName   = match ($controller) {
 			'DemandPassage' => 'demand-passage',
+			'Instructor'    => 'instructor',
 			'SellUnicum'    => 'sell-unicum',
 			default         => 'other'
 		};
