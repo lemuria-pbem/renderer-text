@@ -8,8 +8,9 @@ use Lemuria\Scenario\Fantasya\Quest\Controller\Instructor;
 /** @var Text $this */
 
 /** @var Quest $quest */
-$quest = $this->variables[0];
-$unit  = $quest->Owner();
+$quest  = $this->variables[0];
+$person = $this->variables[1];
+$unit   = $quest->Owner();
 /** @var Instructor $controller */
 $controller = $quest->Controller()->setPayload($quest);
 $knowledge  = $controller->Knowledge();
@@ -22,4 +23,4 @@ endforeach;
 [<?= $quest->Id() ?>] Lehrer - von <?= $unit ?>
 
 <?= $unit->Name() ?> kann uns in <?= $this->toAndString($talents) ?> lehren.
-
+<?= $this->template('quest/quest-assigned-to', $quest, $person) ?>

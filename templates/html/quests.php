@@ -8,7 +8,8 @@ use Lemuria\Model\Fantasya\Scenario\Quest;
 /** @var Html $this */
 
 $extensions = $this->party->Extensions();
-$quests     = $extensions[QuestsWithPerson::class] ?? [];
+/** @var QuestsWithPerson $quests */
+$quests = $extensions[QuestsWithPerson::class] ?? [];
 
 ?>
 <?php if (!empty($quests)): ?>
@@ -18,7 +19,7 @@ $quests     = $extensions[QuestsWithPerson::class] ?? [];
 		<?php foreach ($quests as $quest /** @var Quest $quest */): ?>
 			<p>
 				<span class="badge text-bg-quest font-monospace"><?= $quest->Id() ?></span>
-				<?= $this->template($this->controller($quest), $quest) ?>
+				<?= $this->template($this->controller($quest), $quest, $quests->getPerson($quest)) ?>
 			</p>
 		<?php endforeach ?>
 	</div>
