@@ -34,7 +34,7 @@ foreach ($intelligence->getGuards() as $guard):
 endforeach;
 $resources = [];
 if ($isGuarding || $unitIsGuard):
-	$casus = $unitIsGuard ? Casus::Accusative : Casus::Dative;
+	$casus = $unitIsGuard ? Casus::Adjective : Casus::Dative;
 	foreach ($this->observables($unit) as $quantity):
 		$resources[] = $this->number($quantity->Count(), $quantity->Commodity(), $casus);
 	endforeach;
