@@ -6,6 +6,7 @@ use function Lemuria\Renderer\Text\View\description;
 use Lemuria\Engine\Fantasya\Calculus;
 use Lemuria\Engine\Fantasya\Factory\Model\Trades;
 use Lemuria\Model\Fantasya\Ability;
+use Lemuria\Model\Fantasya\Transport;
 use Lemuria\Model\Fantasya\Unit;
 use Lemuria\Renderer\Text\View\Text;
 
@@ -31,9 +32,15 @@ foreach ($unit->Knowledge() as $ability):
 endforeach;
 $inventory = [];
 $payload   = 0;
+$transport = 0;
 foreach ($this->inventory($unit) as $quantity):
-	$inventory[] = $this->number($quantity->Count(), $quantity->Commodity());
-	$payload += $quantity->Weight();
+	$commodity   = $quantity->Commodity();
+	$inventory[] = $this->number($quantity->Count(), $commodity);
+	if ($commodity instanceof Transport):
+		$transport += $quantity->Weight();
+	else:
+		$payload += $quantity->Weight();
+	endif;
 endforeach;
 $n = count($inventory);
 if ($n > 1):
@@ -41,7 +48,7 @@ if ($n > 1):
 	unset($inventory[$n - 1]);
 endif;
 $weight = (int)ceil($payload / 100);
-$total  = (int)ceil(($payload + $unit->Size() * $unit->Race()->Weight()) / 100);
+$total  = (int)ceil(($payload + $transport + $unit->Size() * $unit->Race()->Weight()) / 100);
 
 ?>
 <?= $prefix . $unit ?> von <?= $foreign ?>, <?= $this->number($unit->Size(), $unit->Race()) ?>

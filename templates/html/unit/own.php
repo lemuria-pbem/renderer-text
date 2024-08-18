@@ -9,6 +9,7 @@ use Lemuria\Engine\Fantasya\Factory\Model\Trades;
 use Lemuria\Engine\Fantasya\Statistics\Subject;
 use Lemuria\Model\Fantasya\Extension\Valuables;
 use Lemuria\Model\Fantasya\Market\Sales;
+use Lemuria\Model\Fantasya\Transport;
 use Lemuria\Model\Fantasya\Unit;
 use Lemuria\Renderer\Text\Model\Orders;
 use Lemuria\Renderer\Text\View\Html;
@@ -29,6 +30,7 @@ $hitpoints = $calculus->hitpoints();
 $health    = (int)floor($unit->Health() * $hitpoints);
 $mark      = $this->healthMark($unit);
 $payload   = 0;
+$transport = 0;
 $orders    = new Orders($unit);
 
 $talents    = [];
@@ -56,8 +58,13 @@ endforeach;
 
 $inventory = [];
 foreach ($this->inventory($unit) as $quantity):
-	$inventory[] = $this->number($quantity->Count(), $quantity->Commodity());
-	$payload    += $quantity->Weight();
+	$commodity   = $quantity->Commodity();
+	$inventory[] = $this->number($quantity->Count(), $commodity);
+	if ($commodity instanceof Transport):
+		$transport += $quantity->Weight();
+	else:
+		$payload += $quantity->Weight();
+	endif;
 endforeach;
 $n = count($inventory);
 if ($n > 1):
@@ -71,7 +78,7 @@ foreach ($treasury as $unicum):
 endforeach;
 
 $weight  = (int)ceil($payload / 100);
-$total   = (int)ceil(($payload + $unit->Size() * $unit->Race()->Weight()) / 100);
+$total   = (int)ceil(($payload + $transport + $unit->Size() * $unit->Race()->Weight()) / 100);
 $payload = $calculus->payload() / 100;
 
 $spells       = [];
