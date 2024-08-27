@@ -122,7 +122,7 @@ endif;
 				<?php foreach ($numbers as $what => $race): ?>
 					<th scope="row"><?= $this->translate($race->class) ?>-<?= $what ?></th>
 					<td><?= $race->value ?></td>
-					<td class="more-is-good"<?= count($numbers) === 1 ? ' colspan="4"' : '' ?>><?= $race->change ?></td>
+					<td class="<?= $race->movement ?> more-is-good"<?= count($numbers) === 1 ? ' colspan="4"' : '' ?>><?= $race->change ?></td>
 				<?php endforeach ?>
 				</tr>
 			<?php endforeach ?>
@@ -167,7 +167,7 @@ endif;
 					<td class="<?= $units->movement ?> more-is-good"><?= $units->change ?></td>
 					<th scope="row">Anzahl Personen</th>
 					<td><?= $people->value ?></td>
-					<td class="<?= $units->movement ?> more-is-good"><?= $people->change ?></td>
+					<td class="<?= $people->movement ?> more-is-good"><?= $people->change ?></td>
 					<th scope="row">Gesamte Erfahrungspunkte</th>
 					<td><?= $education->value ?></td>
 					<td class="<?= $education->movement ?> more-is-good"><?= $education->change ?></td>
@@ -184,7 +184,7 @@ endif;
 					<td class="<?= $units->movement ?> more-is-good"><?= $units->change ?></td>
 					<th scope="row">Anzahl Personen</th>
 					<td><?= $people->value ?></td>
-					<td class="<?= $units->movement ?> more-is-good" colspan="4"><?= $people->change ?></td>
+					<td class="<?= $people->movement ?> more-is-good" colspan="4"><?= $people->change ?></td>
 				</tr>
 			<?php endif ?>
 			<?php foreach ($races as $numbers): ?>
@@ -192,7 +192,7 @@ endif;
 					<?php foreach ($numbers as $what => $race): ?>
 						<th scope="row"><?= $this->translate($race->class) ?>-<?= $what ?></th>
 						<td><?= $race->value ?></td>
-						<td class="more-is-good" <?= count($numbers) === 1 ? 'colspan="7"' : '' ?><?= count($numbers) > 1 && $what === 'Personen' ? 'colspan="4"' : '' ?>><?= $race->change ?></td>
+						<td class="<?= $race->movement ?> more-is-good" <?= count($numbers) === 1 ? 'colspan="7"' : '' ?><?= count($numbers) > 1 && $what === 'Personen' ? 'colspan="4"' : '' ?>><?= $race->change ?></td>
 					<?php endforeach ?>
 				</tr>
 			<?php endforeach ?>
@@ -240,7 +240,7 @@ endif;
 					<td class="<?= $units->movement ?> more-is-good"><?= $units->change ?></td>
 					<th scope="row">Anzahl Personen</th>
 					<td><?= $people->value ?></td>
-					<td class="<?= $units->movement ?> more-is-good"><?= $people->change ?></td>
+					<td class="<?= $people->movement ?> more-is-good"><?= $people->change ?></td>
 					<th scope="row">Gesamte Erfahrungspunkte</th>
 					<td><?= $education->value ?></td>
 					<td class="<?= $education->movement ?> more-is-good"><?= $education->change ?></td>
@@ -255,7 +255,7 @@ endif;
 					<td class="<?= $units->movement ?> more-is-good"><?= $units->change ?></td>
 					<th scope="row">Anzahl Personen</th>
 					<td><?= $people->value ?></td>
-					<td class="<?= $units->movement ?> more-is-good" colspan="7"><?= $people->change ?></td>
+					<td class="<?= $people->movement ?> more-is-good" colspan="7"><?= $people->change ?></td>
 				</tr>
 			<?php endif ?>
 			<?php foreach ($races as $numbers): ?>
@@ -263,7 +263,7 @@ endif;
 					<?php foreach ($numbers as $what => $race): ?>
 						<th scope="row"><?= $this->translate($race->class) ?>-<?= $what ?></th>
 						<td><?= $race->value ?></td>
-						<td class="more-is-good" <?= count($numbers) === 1 ? 'colspan="11"' : '' ?><?= count($numbers) > 1 && $what === 'Personen' ? 'colspan="7"' : '' ?>><?= $race->change ?></td>
+						<td class="<?= $race->movement ?> more-is-good" <?= count($numbers) === 1 ? 'colspan="11"' : '' ?><?= count($numbers) > 1 && $what === 'Personen' ? 'colspan="7"' : '' ?>><?= $race->change ?></td>
 					<?php endforeach ?>
 				</tr>
 			<?php endforeach ?>

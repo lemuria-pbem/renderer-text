@@ -74,7 +74,7 @@ $races  = $this->raceStatistics($party);
 			<?php foreach ($numbers as $what => $race): ?>
 				<th scope="row"><?= $this->translate($race->class) ?>-<?= $what ?></th>
 				<td><?= $race->value ?></td>
-				<td class="more-is-good"<?= count($numbers) === 1 ? ' colspan="4"' : '' ?>><?= $race->change ?></td>
+				<td class="<?= $race->movement ?> more-is-good"<?= count($numbers) === 1 ? ' colspan="4"' : '' ?>><?= $race->change ?></td>
 			<?php endforeach ?>
 			</tr>
 		<?php endforeach ?>
@@ -104,14 +104,14 @@ $races  = $this->raceStatistics($party);
 			<td class="<?= $units->movement ?> more-is-good"><?= $units->change ?></td>
 			<th scope="row">Anzahl Personen</th>
 			<td><?= $people->value ?></td>
-			<td class="<?= $units->movement ?> more-is-good" colspan="4"><?= $people->change ?></td>
+			<td class="<?= $people->movement ?> more-is-good" colspan="4"><?= $people->change ?></td>
 		</tr>
 		<?php foreach ($races as $numbers): ?>
 			<tr>
 				<?php foreach ($numbers as $what => $race): ?>
 					<th scope="row"><?= $this->translate($race->class) ?>-<?= $what ?></th>
 					<td><?= $race->value ?></td>
-					<td class="more-is-good" <?= count($numbers) === 1 ? 'colspan="7"' : '' ?><?= count($numbers) > 1 && $what === 'Personen' ? 'colspan="4"' : '' ?>><?= $race->change ?></td>
+					<td class="<?= $race->movement ?> more-is-good" <?= count($numbers) === 1 ? 'colspan="7"' : '' ?><?= count($numbers) > 1 && $what === 'Personen' ? 'colspan="4"' : '' ?>><?= $race->change ?></td>
 				<?php endforeach ?>
 			</tr>
 		<?php endforeach ?>
@@ -144,14 +144,14 @@ $races  = $this->raceStatistics($party);
 			<td class="<?= $units->movement ?> more-is-good"><?= $units->change ?></td>
 			<th scope="row">Anzahl Personen</th>
 			<td><?= $people->value ?></td>
-			<td class="<?= $units->movement ?> more-is-good" colspan="7"><?= $people->change ?></td>
+			<td class="<?= $people->movement ?> more-is-good" colspan="7"><?= $people->change ?></td>
 		</tr>
 		<?php foreach ($races as $numbers): ?>
 			<tr>
 				<?php foreach ($numbers as $what => $race): ?>
 					<th scope="row"><?= $this->translate($race->class) ?>-<?= $what ?></th>
 					<td><?= $race->value ?></td>
-					<td class="more-is-good" <?= count($numbers) === 1 ? 'colspan="11"' : '' ?><?= count($numbers) > 1 && $what === 'Personen' ? 'colspan="7"' : '' ?>><?= $race->change ?></td>
+					<td class="<?= $race->movement ?> more-is-good" <?= count($numbers) === 1 ? 'colspan="11"' : '' ?><?= count($numbers) > 1 && $what === 'Personen' ? 'colspan="7"' : '' ?>><?= $race->change ?></td>
 				<?php endforeach ?>
 			</tr>
 		<?php endforeach ?>
