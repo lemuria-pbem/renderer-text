@@ -29,4 +29,4 @@ $weight = (int)ceil(($weight + max(0, $payload)) / 100);
 ?>
 <strong>Schiffspassage gesucht</strong> von <a href="#unit-<?= $unit->Id() ?>"><?= $unit->Name() ?></a>&nbsp;<span class="badge text-bg-primary font-monospace"><a href="#unit-<?= $unit->Id() ?>"><?= $unit->Id() ?></a></span>
 <br>
-<?= $unit->Name() ?> (Gewicht <?= $weight ?> GE) bietet uns <strong><?= $this->toAndString($payment) ?></strong> für eine Überfahrt von <?= $start->Name() ?> nach <?= $destination->Name() ?>. <span class="badge text-bg-primary font-monospace"><?= $destination->Id() ?></span>.
+<?= $unit->Name() ?> (Gewicht <?= $weight ?> GE) bietet uns <strong><?= $this->toAndString($payment) ?></strong> für eine Überfahrt von <?= $start->Name() ?> nach <?= $destination->Name() ?>.
