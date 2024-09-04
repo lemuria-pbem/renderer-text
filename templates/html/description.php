@@ -13,6 +13,6 @@ $description = $entity->Description();
 ?>
 <?php if ($description): ?>
 	<mark>
-		<q><?= $entity->Description() ?></q>
+		<q><?= nl2br($entity->Description()) ?></q>
 	</mark>
 <?php endif ?>
