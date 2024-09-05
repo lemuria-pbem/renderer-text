@@ -6,6 +6,7 @@ use function Lemuria\number;
 use function Lemuria\Renderer\Text\View\description;
 use function Lemuria\Renderer\Text\View\line;
 use Lemuria\Engine\Fantasya\Availability;
+use Lemuria\Engine\Fantasya\Message\Casus;
 use Lemuria\Model\Fantasya\Building\Site;
 use Lemuria\Model\Fantasya\Commodity\Camel;
 use Lemuria\Model\Fantasya\Commodity\Elephant;
@@ -66,7 +67,7 @@ $griffin = null;
 if ($gr):
 	$griffin = $this->item(Griffin::class, $resources);
 	if ($egg):
-		$griffin .= ' mit ' . $this->item(Griffinegg::class, $resources);
+		$griffin .= ' mit ' . $this->number($egg, Griffinegg::class, Casus::Dative);
 	endif;
 endif;
 
