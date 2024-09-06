@@ -13,7 +13,7 @@ $extensions = $this->party->Extensions();
 $quests = $extensions[QuestsWithPerson::class] ?? [];
 
 ?>
-<?php if (!empty($quests)): ?>
+<?php if ($quests && !$quests->isEmpty()): ?>
 <?= center('Aufträge') ?>
 
 <?php foreach ($quests as $quest /** @var Quest $quest */): ?>

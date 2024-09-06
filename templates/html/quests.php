@@ -12,7 +12,7 @@ $extensions = $this->party->Extensions();
 $quests = $extensions[QuestsWithPerson::class] ?? [];
 
 ?>
-<?php if (!empty($quests)): ?>
+<?php if ($quests && !$quests->isEmpty()): ?>
 	<h3 id="quests" title="Taste: Q">Aufträge</h3>
 
 	<div class="quests">
