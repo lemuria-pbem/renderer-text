@@ -14,13 +14,14 @@ use Lemuria\Renderer\Text\View\Text;
 /** @var Construction $construction */
 $construction = $this->variables[0];
 $building     = $construction->Building();
-$owner        = $construction->Inhabitants()->Owner()?->Party();
+$owner        = $construction->Inhabitants()->Owner();
+$party        = $owner ? $this->census->getParty($owner) : null;
 $fleet        = View::sortedFleet($construction);
 
 ?>
 
   >> <?= $construction ?>, <?= $this->translate($building) ?> der Größe <?= $this->number($construction->Size()) ?>
- . Besitzer ist <?= $owner ? 'die Partei ' . $owner : 'niemand' ?>
+. Besitzer ist <?= $owner ? ($party ? 'die Partei ' . $party : 'eine unbekannte Partei') : 'niemand' ?>
 <?php if ($building instanceof Port): ?>
 . <?= new PortSpace($construction) ?><?= line(description($construction)) ?>
 <?php else: ?>

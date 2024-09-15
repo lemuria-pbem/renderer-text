@@ -14,12 +14,13 @@ use Lemuria\Renderer\Text\View\Text;
 $vessel  = $this->variables[0];
 $ship    = $vessel->Ship();
 $size    = $ship->Captain();
-$captain = $vessel->Passengers()->Owner()?->Party();
+$captain = $vessel->Passengers()->Owner();
+$foreign = $captain ? $this->census->getParty($captain) : null;
 
 ?>
 
   >> <?= $vessel ?>, <?= $this->translate($ship) ?>, Zustand <?= $this->number((int)round(100.0 * $vessel->Completion())) ?>
-%. Kapitän ist <?= $captain ? 'die Partei ' . $captain : 'niemand' ?>
+%. Kapitän ist <?= $captain ? ($foreign ? 'die Partei ' . $foreign . '.' : 'eine unbekannte Partei.') : 'niemand.' ?>
 <?php if (!($vessel->Region()->Landscape() instanceof Navigable)): ?>
 <?php if ($vessel->Anchor() === Direction::None): ?>
 <?php if ($vessel->Port()): ?>

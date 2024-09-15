@@ -13,7 +13,8 @@ use Lemuria\Renderer\Text\View\Html;
 $construction = $this->variables[0];
 $building     = $construction->Building();
 $canEnter     = !in_array($building::class, Enter::FORBIDDEN);
-$owner        = $construction->Inhabitants()->Owner()?->Party();
+$owner        = $construction->Inhabitants()->Owner();
+$party        = $owner ? $this->census->getParty($owner) : null;
 $fleet        = View::sortedFleet($construction);
 
 ?>
@@ -28,7 +29,11 @@ $fleet        = View::sortedFleet($construction);
 				<?= $this->translate($building) ?> der Größe <?= $this->number($construction->Size()) ?>.
 				<?php if ($canEnter): ?>
 					<?php if ($owner): ?>
-						Besitzer ist die Partei <?= $owner->Name() ?> <span class="badge text-bg-primary font-monospace"><?= $owner->Id() ?></span>.
+						<?php if ($party): ?>
+							Besitzer ist die Partei <?= $party->Name() ?> <span class="badge text-bg-primary font-monospace"><?= $party->Id() ?></span>.
+						<?php else: ?>
+							Besitzer ist eine unbekannte Partei.
+						<?php endif ?>
 					<?php else: ?>
 						Besitzer ist niemand.
 					<?php endif ?>

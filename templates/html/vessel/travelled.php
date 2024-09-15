@@ -13,7 +13,8 @@ use Lemuria\Renderer\Text\View\Html;
 $vessel  = $this->variables[0];
 $ship    = $vessel->Ship();
 $size    = $ship->Captain();
-$captain = $vessel->Passengers()->Owner()?->Party();
+$captain = $vessel->Passengers()->Owner();
+$foreign = $captain ? $this->census->getParty($captain) : null;
 
 ?>
 <div class="container-fluid">
@@ -24,7 +25,11 @@ $captain = $vessel->Passengers()->Owner()?->Party();
 				<?= $this->translate($ship) ?>, Zustand <?= $this->number((int)round(100.0 * $vessel->Completion())) ?>%.
 				Kapitän ist
 				<?php if ($captain): ?>
-					die Partei <?= $captain->Name() ?> <span class="badge text-bg-primary font-monospace"><?= $captain->Id() ?></span>.
+					<?php if ($foreign): ?>
+						die Partei <?= $foreign->Name() ?> <span class="badge text-bg-primary font-monospace"><?= $foreign->Id() ?></span>.
+					<?php else: ?>
+						eine unbekannte Partei.
+					<?php endif ?>
 				<?php else: ?>
 					niemand.
 				<?php endif ?>
