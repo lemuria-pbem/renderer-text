@@ -3,6 +3,8 @@ declare(strict_types = 1);
 namespace Lemuria\Renderer\Text;
 
 use function Lemuria\mbStrPad;
+use Lemuria\Dispatcher\Attribute\Emit;
+use Lemuria\Dispatcher\Event\Renderer\Written;
 use Lemuria\Engine\Fantasya\Census;
 use Lemuria\Engine\Fantasya\Factory\GrammarTrait;
 use Lemuria\Id;
@@ -27,12 +29,14 @@ class OrderWriter extends AbstractWriter
 		$this->initDictionary();
 	}
 
+	#[Emit(Written::class)]
 	public function render(Id $entity): static {
 		$party = Party::get($entity);
 		$path  = $this->pathFactory->getPath($this, $party);
 		if (!file_put_contents($path, $this->generate($party))) {
 			throw new \RuntimeException('Could not create template.');
 		}
+		Lemuria::Dispatcher()->dispatch(new Written($this, $entity, $path));
 		return $this;
 	}
 

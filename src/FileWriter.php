@@ -2,9 +2,12 @@
 declare(strict_types = 1);
 namespace Lemuria\Renderer\Text;
 
+use Lemuria\Dispatcher\Attribute\Emit;
+use Lemuria\Dispatcher\Event\Renderer\Written;
 use Lemuria\Engine\Message\Filter;
 use Lemuria\Engine\Message\Filter\NullFilter;
 use Lemuria\Id;
+use Lemuria\Lemuria;
 use Lemuria\Model\Fantasya\Party;
 use Lemuria\Renderer\PathFactory;
 
@@ -49,6 +52,7 @@ abstract class FileWriter extends AbstractWriter
 		return $this->view;
 	}
 
+	#[Emit(Written::class)]
 	public function render(Id $entity): static {
 		$this->party = Party::get($entity);
 		$this->view  = $this->createView();
@@ -62,6 +66,7 @@ abstract class FileWriter extends AbstractWriter
 		if (!file_put_contents($path, $report)) {
 			throw new \RuntimeException('Could not create report.');
 		}
+		Lemuria::Dispatcher()->dispatch(new Written($this, $entity, $path));
 
 		return $this;
 	}

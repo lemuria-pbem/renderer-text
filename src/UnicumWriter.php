@@ -6,10 +6,13 @@ use function Lemuria\getClass;
 use function Lemuria\Renderer\Text\View\hr;
 use function Lemuria\Renderer\Text\View\underline;
 use function Lemuria\Renderer\Text\View\wrap;
+use Lemuria\Dispatcher\Attribute\Emit;
+use Lemuria\Dispatcher\Event\Renderer\Written;
 use Lemuria\Engine\Fantasya\Factory\Model\CompositionDetails;
 use Lemuria\Engine\Fantasya\Factory\PartyUnica;
 use Lemuria\Exception\LemuriaException;
 use Lemuria\Id;
+use Lemuria\Lemuria;
 use Lemuria\Model\Fantasya\Exception\JsonException;
 use Lemuria\Model\Fantasya\Practice;
 use Lemuria\Model\Fantasya\Unicum;
@@ -23,12 +26,14 @@ class UnicumWriter extends AbstractWriter
 	/**
 	 * @throws JsonException
 	 */
+	#[Emit(Written::class)]
 	public function render(Id $entity): static {
 		$unicum = Unicum::get($entity);
 		$path   = $this->pathFactory->getPath($this, $unicum);
 		if (!file_put_contents($path, $this->generate($unicum))) {
 			throw new \RuntimeException('Could not create unicum information.');
 		}
+		Lemuria::Dispatcher()->dispatch(new Written($this, $entity, $path));
 		return $this;
 	}
 

@@ -3,9 +3,12 @@ declare(strict_types = 1);
 namespace Lemuria\Renderer\Text;
 
 use function Lemuria\Renderer\Text\View\wrap;
+use Lemuria\Dispatcher\Attribute\Emit;
+use Lemuria\Dispatcher\Event\Renderer\Written;
 use Lemuria\Engine\Fantasya\Factory\Model\SpellDetails;
 use Lemuria\Engine\Fantasya\Factory\SpellParser;
 use Lemuria\Id;
+use Lemuria\Lemuria;
 use Lemuria\Model\Fantasya\Exception\JsonException;
 use Lemuria\Model\Fantasya\Party;
 use Lemuria\Model\Fantasya\Spell;
@@ -18,12 +21,14 @@ class SpellBookWriter extends AbstractWriter
 	/**
 	 * @throws JsonException
 	 */
+	#[Emit(Written::class)]
 	public function render(Id $entity): static {
 		$party = Party::get($entity);
 		$path  = $this->pathFactory->getPath($this, $party);
 		if (!file_put_contents($path, $this->generate($party))) {
 			throw new \RuntimeException('Could not create spell book.');
 		}
+		Lemuria::Dispatcher()->dispatch(new Written($this, $entity, $path));
 		return $this;
 	}
 

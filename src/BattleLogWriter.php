@@ -5,6 +5,8 @@ namespace Lemuria\Renderer\Text;
 use function Lemuria\getClass;
 use function Lemuria\Renderer\Text\View\center;
 use function Lemuria\Renderer\Text\View\wrap;
+use Lemuria\Dispatcher\Attribute\Emit;
+use Lemuria\Dispatcher\Event\Renderer\Written;
 use Lemuria\Engine\Combat\Battle;
 use Lemuria\Engine\Fantasya\Combat\Log\Message;
 use Lemuria\Engine\Fantasya\Factory\GrammarTrait;
@@ -41,7 +43,9 @@ class BattleLogWriter extends AbstractWriter
 		$this->initDictionary();
 	}
 
+	#[Emit(Written::class, 'The event is emitted for every battle log of the given party.')]
 	public function render(Id $entity): static {
+		$dispatcher = Lemuria::Dispatcher();
 		foreach (Lemuria::Hostilities()->findFor(Party::get($entity)) as $battleLog) {
 			if ($battleLog->count()) {
 				/** @var Region $region */
@@ -50,6 +54,7 @@ class BattleLogWriter extends AbstractWriter
 				if (!file_put_contents($path, $this->generate($battleLog, $region))) {
 					throw new \RuntimeException('Could not create battle log.');
 				}
+				$dispatcher->dispatch(new Written($this, $entity, $path));
 			}
 		}
 		return $this;
